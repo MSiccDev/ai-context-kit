@@ -920,8 +920,8 @@ These examples illustrate predictable transitions, explicit confirmations, and c
 
 The core model defined in this specification provides a structured, deterministic foundation for context-aware AI collaboration. However, additional enhancements may be optionally introduced to improve usability, adaptability, and automation. These enhancements must remain optional and should never compromise explicitness, transparency, or user control.
 
-### 10.1 Session Persistence as a File
-Sessions may be saved to a structured file (e.g., JSON or Markdown with frontmatter) that captures active session state and key context. This enables deterministic restores across tools, supports portability, and improves auditability. Persistence should be optional and always user-approved.
+### 10.1 Session Persistence & Checkpointing
+Sessions may be saved to a structured file (e.g., JSON or Markdown with frontmatter) that captures active session state and key context. This enables deterministic restores across tools, supports portability, and improves auditability. Checkpoints define when and how snapshots are created, restored, and reconciled. Persistence and checkpointing should be optional and always user-approved.
 
 ### 10.2 Context Compression Handling
 For long sessions, the assistant may propose a compressed summary that preserves active state, constraints, key decisions, open tasks, and file references. Compression should be explicit, user-confirmed, and reversible.
@@ -961,13 +961,10 @@ Near release checkpoints, the assistant may propose transitions to Review or QA 
 If the project moves through well-defined phases (e.g., MVP -> development -> testing -> maintenance), default profiles may adapt with user approval.
 Example: "This project has moved to testing. Change default Phase to Review and Role to QA Reviewer?"
 
-### 10.10 Context Checkpointing and Recovery
-The assistant may store validated snapshots of session state for quick return after breaks or across platforms. Checkpoints must be user-approved.
-
-### 10.11 Multi-User Collaboration Extension (Future Model Support)
+### 10.10 Multi-User Collaboration Extension (Future Model Support)
 In multi-user environments, different team members may require different role-focused interactions within the same project. Future implementations could support switching contextual interpretations depending on user identity or prompt attribution.
 
-### 10.12 UI and Tooling Integration
+### 10.11 UI and Tooling Integration
 Future implementations could include:
 - Visual dashboards showing current session context
 - Quick toggles for role or phase changes
