@@ -184,6 +184,22 @@ If paths must change, update the specification and README first, then adjust pro
 - The AI will maintain state across your work session
 
 ---
+### Linking Instructions Across Repositories (macOS)
+
+If you manage your instruction files centrally in this repository, you can link them into a project repo using symlinks.
+
+Example:
+```bash
+mkdir -p /path/to/your-project/.github/instructions
+ln -s /path/to/your-instructions/projects/your_project.instructions.md \
+      /path/to/your-project/.github/instructions/your_project.instructions.md
+ln -s /path/to/your-instructions/projects/your_project.validation.md \
+      /path/to/your-project/.github/instructions/your_project.validation.md
+```
+
+Use absolute paths to keep the links stable.
+
+---
 
 ## Loading Context in Different AI Platforms
 
