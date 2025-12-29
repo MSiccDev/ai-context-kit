@@ -428,4 +428,4 @@ Build on prior context without requiring re-explanation of background or prefere
 
 ---
 
-© 2025 – MSiccDev Software Development – User Context Instructions Validator
+© 2025 – AI Context Kit contributors

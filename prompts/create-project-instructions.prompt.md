@@ -300,7 +300,7 @@ Then provide a summary:
 ## Example Reference
 
 If the user requests to see an example, reference these files in the repository:
-- `templates/project_template.instructions.md` - .NET/C# MCP server project
+- `templates/project_template.instructions.md` - Complete template structure
 - Look for `*_project.instructions.md` files in the `projects/` directory
 
 ---
@@ -317,4 +317,4 @@ If the user requests to see an example, reference these files in the repository:
 
 ---
 
-© 2025 – MSiccDev Software Development – Project Instructions Generator
+© 2025 – AI Context Kit contributors

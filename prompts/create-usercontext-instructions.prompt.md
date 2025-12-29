@@ -14,7 +14,7 @@ Generate a complete personal user context instruction file (`.instructions.md`) 
 
 **Prerequisites:**
 - User wants to create a personal user context for AI collaboration
-- Repository follows the workspace-context system structure
+- Repository follows the AI Context Kit system structure
 - User is willing to share professional information (privacy-conscious approach)
 
 **Target Output:**
@@ -31,7 +31,7 @@ Gather personal and professional details through systematic discovery phases. Re
 
 **Context Variables:**
 - Reference existing examples in workspace via codebase search
-- Check templates in `templates/usercontext_template.instructions.md` for structure
+- If `templates/usercontext_template.instructions.md` is missing, ask the user to paste or link the template
 - Respect user's privacy preferences throughout the interview
 
 **Privacy Guidelines:**
@@ -429,9 +429,10 @@ This file is portable across all LLM providers:
 
 ## Example Reference
 
-If the user requests to see an example, reference these files in the repository:
+If the user requests to see an example, reference these files in the repository (if present):
 - `templates/usercontext_template.instructions.md` - Complete template structure
 - Look for other `*_usercontext.instructions.md` files in the workspace
+If these files are missing, ask the user to paste or link an example.
 
 ---
 
@@ -519,4 +520,4 @@ Use these as reference points during the interview to help users articulate thei
 
 ---
 
-© 2025 – MSiccDev Software Development – User Context Instructions Generator
+© 2025 – AI Context Kit contributors
