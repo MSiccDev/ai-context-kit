@@ -497,4 +497,4 @@ Write the following structured validation report to the validation summary file:
 
 ---
 
-© 2025 – MSiccDev Software Development – Project Instructions Validator
+© 2025 – AI Context Kit contributors
