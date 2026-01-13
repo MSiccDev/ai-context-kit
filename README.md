@@ -1,17 +1,3 @@
-## Status: Archived
-
-This repository is archived and no longer actively maintained.
-
-It served as an early exploration of AI workspace context management.
-Current work focuses on:
-- AGENTS.md for project-level agent instructions
-- Agent Skills for reusable procedural knowledge
-- Personal, evolving workflows documented on https://msicc.net
-
-This repo remains public as a historical reference.
-
----
-
 # AI Context Kit
 
 > **Author:** Marco Siccardi (MSiccDev Software Development)  
