@@ -1,9 +1,23 @@
+## Status: Archived
+
+This repository is archived and no longer actively maintained.
+
+It served as an early exploration of AI workspace context management.
+Current work focuses on:
+- AGENTS.md for project-level agent instructions
+- Agent Skills for reusable procedural knowledge
+- Personal, evolving workflows documented on https://msicc.net
+
+This repo remains public as a historical reference.
+
+---
+
 # AI Context Kit
 
 > **Author:** Marco Siccardi (MSiccDev Software Development)  
 > **Purpose:** A structured instruction framework for maintaining consistent, context-aware AI collaboration across different LLM providers, projects, and development phases.
 
----
+
 
 ## Overview
 
@@ -182,6 +196,22 @@ If paths must change, update the specification and README first, then adjust pro
 - Load your user context instructions as the base context
 - Add the relevant project instructions on top
 - The AI will maintain state across your work session
+
+---
+### Linking Instructions Across Repositories (macOS)
+
+If you manage your instruction files centrally in this repository, you can link them into a project repo using symlinks.
+
+Example:
+```bash
+mkdir -p /path/to/your-project/.github/instructions
+ln -s /path/to/your-instructions/projects/your_project.instructions.md \
+      /path/to/your-project/.github/instructions/your_project.instructions.md
+ln -s /path/to/your-instructions/projects/your_project.validation.md \
+      /path/to/your-project/.github/instructions/your_project.validation.md
+```
+
+Use absolute paths to keep the links stable.
 
 ---
 
