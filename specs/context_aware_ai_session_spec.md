@@ -98,6 +98,11 @@ This specification defines how AI assistants should:
 3. Adapt behavior based on session state changes
 4. Respond to user prompts/queries within that context
 
+### Bootstrap Entrypoint Note (AGENTS.md)
+Repositories may provide a root `AGENTS.md` file as a concise bootstrap entrypoint for agent behavior and navigation.  
+When present, `AGENTS.md` should embed operational essentials and link to deeper references (spec, templates, prompts, and samples) rather than duplicating full normative content.  
+This specification remains authoritative for model definitions and rules.
+
 ---
 
 ## 2. Core Principles
