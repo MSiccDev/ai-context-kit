@@ -9,6 +9,12 @@
 
 This repository provides a **comprehensive AI instruction and workspace configuration system** designed to enable consistent, context-aware AI collaboration across multiple projects and platforms.
 
+## Primary Agent Entrypoint
+
+- Root `AGENTS.md` is the primary operational entrypoint for agents in this repository.
+- `specs/context_aware_ai_session_spec.md` remains the normative source of truth for the full session model.
+- `plans/` contains planning prompts as plain Markdown files usable in any environment.
+
 ### The Evolution
 
 What began as a way to extract and reuse prompts across AI providers has evolved into a sophisticated **instruction-based architecture** for AI collaboration:
@@ -34,8 +40,14 @@ All components work seamlessly across different LLM environments (Anthropic Clau
 ```
 ai-context-kit/
 │
+├── AGENTS.md                                        # Primary agent entrypoint for this repository
 ├── README.md                                         # This file
 ├── LICENSE.md                                        # MIT License file
+│
+├── plans/                                            # Planning prompts (plain Markdown)
+│   ├── *.prompt.md                                   # Open/executed plan files
+│   ├── README.md                                     # Plan lifecycle policy
+│   └── plan-status.sh                                # Open/executed plan detector
 │
 ├── projects/
 │   └── project1_project.instructions.md              # Example project-specific instructions
@@ -43,8 +55,10 @@ ai-context-kit/
 ├── prompts/                                          # Provider-agnostic prompt files
 │   ├── create-usercontext-instructions.prompt.md     # Generate user context instruction files
 │   ├── create-project-instructions.prompt.md         # Generate project instruction files
+│   ├── create-agents-md.prompt.md                    # Generate AGENTS.md files
 │   ├── validate-usercontext-instructions.prompt.md   # Validate user context files
-│   └── validate-project-instructions.prompt.md       # Validate project files
+│   ├── validate-project-instructions.prompt.md       # Validate project files
+│   └── validate-agents-md.prompt.md                  # Validate AGENTS.md files
 │
 ├── specs/
 │   └── context_aware_ai_session_spec.md              # Specification for AI session management
@@ -134,10 +148,14 @@ This repository relies on **stable, predictable file paths** so that instruction
 
 The following paths are considered **canonical**:
 
+- `AGENTS.md`
+  - Primary agent entrypoint (repo-specific operational contract)
 - `templates/`
   - Canonical instruction templates (spec v1.2)
 - `prompts/`
   - Instruction creation and validation prompts
+- `plans/`
+  - Planning prompts and plan lifecycle/status utilities
 - `specs/context_aware_ai_session_spec.md`
   - Authoritative specification (v1.2+)
 - `projects/`

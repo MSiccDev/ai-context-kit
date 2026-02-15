@@ -1,3 +1,10 @@
+---
+description: "Step-by-step (committable) plan to adopt root AGENTS.md as the primary repo entrypoint while preserving spec v1.2 behavior."
+status: executed
+executed_at: 2026-02-15
+execution_ref: codex/adopt-agents-md-standard
+---
+
 # Task: Adopt AGENTS.md standard (committable refactor)
 
 You are Codex in VS Code working in the `ai-context-kit` repository.
@@ -55,7 +62,7 @@ At minimum, fully read:
 - `templates/*`
 - `prompts/*`
 - `projects/*`, `usercontexts/*`
-- `.github/prompts/*` (planning prompts)
+- `plans/*` (planning prompts)
 
 Confirm (write down for yourself, not committed):
 - sources of truth + precedence (spec vs templates vs prompts vs samples)
@@ -89,7 +96,7 @@ Add:
 Root `AGENTS.md` is done when it is repo-only, scannable, and includes:
 - purpose + instructions vs prompts
 - truth sources + precedence (spec/templates/prompts/samples)
-- repo map (`specs/`, `templates/`, `prompts/`, `projects/`, `usercontexts/`, `.github/prompts/`)
+- repo map (`specs/`, `templates/`, `prompts/`, `projects/`, `usercontexts/`, `plans/`)
 - scoping/precedence policy for nested `AGENTS.md` (subtree scope; closest wins; ask on conflict)
 - session-state summary + “no silent transitions” + persistence
 - ambiguity rule (ask before switching assumptions/state)
@@ -142,7 +149,7 @@ Mirror existing validators: 5 phases, /100 scoring, report format; validate comp
 ### Commit 5 — Update README (minimal)
 Update:
 - `README.md`
-Add: `AGENTS.md` is primary entrypoint; spec remains authoritative; `.github/prompts/` contains planning prompts (plain Markdown usable anywhere).
+Add: `AGENTS.md` is primary entrypoint; spec remains authoritative; `plans/` contains planning prompts (plain Markdown usable anywhere).
 
 ### Commit 6 — Optional spec note
 Optional update:
