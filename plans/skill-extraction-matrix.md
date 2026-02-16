@@ -22,5 +22,6 @@ Track extraction status, source traceability, and validation readiness for skill
 ## Coverage Check
 - Priority A skills: 6
 - Priority B skills: 2
-- Total planned skills: 8
+- Total skills tracked: 8
+- Planned skills: 0
 - Total validated skills: 8
