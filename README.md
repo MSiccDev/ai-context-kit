@@ -164,6 +164,16 @@ This repository includes a foundation for reusable **Agent Skills** authoring an
 2. Validate the skill using `prompts/validate-skill.prompt.md`.
 3. Keep skill instructions concise and move larger detail to skill-local references.
 
+### Extracted Skills
+- `skills/create-usercontext-instructions/`
+- `skills/create-project-instructions/`
+- `skills/create-agents-md/`
+- `skills/validate-usercontext-instructions/`
+- `skills/validate-project-instructions/`
+- `skills/validate-agents-md/`
+- `skills/plan-lifecycle-management/`
+- `skills/repository-drift-control/`
+
 ### Neutrality And Safety
 - Skills must remain provider-neutral and runtime-portable.
 - Use relative paths for skill-local references.

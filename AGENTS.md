@@ -115,5 +115,6 @@ When `specs/context_aware_ai_session_spec.md` changes, audit and update all impa
   - [`prompts/validate-usercontext-instructions.prompt.md`](prompts/validate-usercontext-instructions.prompt.md)
   - [`prompts/validate-project-instructions.prompt.md`](prompts/validate-project-instructions.prompt.md)
   - [`prompts/validate-skill.prompt.md`](prompts/validate-skill.prompt.md)
+- Extracted skills index: [`skills/README.md`](skills/README.md)
 - Sample project instructions: [`projects/ai_context_kit_project.instructions.md`](projects/ai_context_kit_project.instructions.md)
 - Sample user context instructions: [`usercontexts/sample_usercontext.instructions.md`](usercontexts/sample_usercontext.instructions.md)
