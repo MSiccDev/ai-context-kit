@@ -1,6 +1,5 @@
 ---
 description: 'Validate user context instruction files for spec v1.2 compliance, completeness, and quality'
-agent: 'agent'
 ---
 
 # Validate User Context Instructions File
@@ -173,7 +172,7 @@ Execute validation in five phases:
 
 **Portability:**
 - [ ] No provider-specific syntax or limitations
-- [ ] Works across Claude, GPT, Gemini, Mistral, LM Studio, Ollama
+- [ ] Works across hosted and local LLM environments
 - [ ] Self-contained (doesn't rely on external files to be meaningful)
 
 **Completeness for Context-Aware Collaboration:**

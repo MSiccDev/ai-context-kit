@@ -989,7 +989,7 @@ By defining a formal session state composed of User Context, Project, Role, Phas
 
 Real-world scenarios illustrate how the assistant behaves when transitioning across stages such as planning, implementation, debugging, and review, while future enhancements highlight paths toward smarter inference, multi-role perspectives, context checkpointing, and lifecycle-aware automation.
 
-This model is domain-agnostic, implementation-neutral, and compatible with a wide range of environments—from chat-based assistants to IDE copilots, MCP-driven agent systems, and specialized domain workflows. It provides a stable foundation for designing AI systems that support deeper, context-rich collaborations without sacrificing clarity or control.
+This model is domain-agnostic, implementation-neutral, and compatible with a wide range of environments—from chat-based assistants to IDE assistant extensions, MCP-driven agent systems, and specialized domain workflows. It provides a stable foundation for designing AI systems that support deeper, context-rich collaborations without sacrificing clarity or control.
 
 By adopting this specification, developers and AI system designers can create assistants that think within the user's working world, not in isolation from it—supporting authenticity, predictability, efficiency, and long-term trust.
 

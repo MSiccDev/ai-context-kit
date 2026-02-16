@@ -50,8 +50,8 @@ Optional:
 ### Tools & Tooling
 - Rider
 - Xcode
-- GitHub
-- GitHub Actions
+- Git-based hosting
+- CI workflow automation
 
 ### Architecture & Methodologies
 - Clean Architecture
@@ -319,7 +319,7 @@ When replying:
 ### Notes
 
 This file is designed for:
-- **Anthropic Claude**, **Mistral**, **Gemini**, **LM Studio**, **Ollama**, or any **custom LLM deployment**
+- Hosted assistants, local runtimes, and custom LLM deployments
 - Paste the **User Context instructions** into the *System / Context* field  
 - Or import the **JSON** block into tools that support structured user context data  
 

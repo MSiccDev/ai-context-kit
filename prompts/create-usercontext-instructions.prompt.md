@@ -1,7 +1,5 @@
 ---
-description: 'Generate personal user context instruction files for context-aware AI collaboration across all LLM providers (Claude, GPT, Gemini, Mistral, LM Studio, Ollama)'
-agent: 'agent'
-tools: ['search/codebase', 'edit/editFiles']
+description: 'Generate personal user context instruction files for context-aware AI collaboration across hosted and local LLM environments'
 ---
 
 # Generate User Context Instructions File
@@ -22,7 +20,7 @@ Generate a complete personal user context instruction file (`.instructions.md`) 
 - Follows YAML frontmatter requirements (applyTo, description)
 - Contains 15 required sections covering identity, skills, preferences, and constraints
 - Privacy-conscious with support for placeholders and anonymization
-- Portable across Claude, GPT, Gemini, Mistral, LM Studio, and Ollama
+- Portable across hosted and local LLM environments
 
 ## Inputs
 
@@ -417,12 +415,10 @@ Then provide a summary:
 
 **Using This User Context:**
 This file is portable across all LLM providers:
-- GitHub Copilot: Load via `.github/instructions/` or workspace root
-- Claude: Reference in project context or system prompts
-- ChatGPT: Upload as a file or paste into Custom Instructions
-- Gemini: Include in context window
-- LM Studio: Load as system prompt
-- Ollama: Use in modelfile SYSTEM directive
+- IDE assistant integrations: Load via the workspace instruction path expected by the target platform
+- Web/chat assistants: Upload as a file or paste into custom/system instructions
+- Local runtimes: Load as a system prompt or instruction preset
+- API/tooling workflows: Inject user + project instructions at conversation initialization
 ```
 
 ---

@@ -10,9 +10,9 @@ This repository distinguishes:
 ## Source Of Truth And Precedence
 Use this order when files differ:
 1. **Specification (authoritative):** `specs/context_aware_ai_session_spec.md`
-2. **Templates (canonical structures):** `templates/*.instructions.md`
+2. **Templates (canonical structures):** `templates/*.instructions.md` and `templates/skill_template/SKILL.md`
 3. **Prompts (operational workflows):** `prompts/*.prompt.md`
-4. **Samples (illustrative examples):** `projects/*.instructions.md`, `usercontexts/*.instructions.md`, and related `*.validation.md`
+4. **Samples and skills (illustrative/operational artifacts):** `projects/*.instructions.md`, `usercontexts/*.instructions.md`, related `*.validation.md`, and `skills/`
 
 ## Repository Map
 | Path | Purpose |
@@ -22,6 +22,7 @@ Use this order when files differ:
 | `prompts/` | Create/validate prompt workflows for instruction files |
 | `projects/` | Project-level instruction examples and validation reports |
 | `usercontexts/` | User-context instruction examples and validation reports |
+| `skills/` | Skill instances (`SKILL.md` folders) and skill-local resources |
 | `plans/` | Planning prompts used to execute repository refactors |
 
 ## Plan Lifecycle Policy
@@ -87,7 +88,7 @@ Alias policy:
 
 ## Formatting And Path Stability Rules
 - Do not use decorative icons or emojis in headings.
-- Keep canonical paths stable: `specs/`, `templates/`, `prompts/`, `projects/`, `usercontexts/`.
+- Keep canonical paths stable: `specs/`, `templates/`, `prompts/`, `projects/`, `usercontexts/`, `skills/`.
 - Use relative repository paths for cross-references.
 - Keep language provider-agnostic.
 
@@ -95,6 +96,7 @@ Alias policy:
 When `specs/context_aware_ai_session_spec.md` changes, audit and update all impacted artifacts:
 - `templates/`
 - `prompts/`
+- `skills/`
 - sample files in `projects/` and `usercontexts/`
 - `README.md`
 - `AGENTS.md`
@@ -104,11 +106,14 @@ When `specs/context_aware_ai_session_spec.md` changes, audit and update all impa
 - Project operational defaults: [`projects/ai_context_kit_project.instructions.md`](projects/ai_context_kit_project.instructions.md)
 - User context template: [`templates/usercontext_template.instructions.md`](templates/usercontext_template.instructions.md)
 - Project template: [`templates/project_template.instructions.md`](templates/project_template.instructions.md)
+- Skill template: [`templates/skill_template/SKILL.md`](templates/skill_template/SKILL.md)
 - Create prompts:
   - [`prompts/create-usercontext-instructions.prompt.md`](prompts/create-usercontext-instructions.prompt.md)
   - [`prompts/create-project-instructions.prompt.md`](prompts/create-project-instructions.prompt.md)
+  - [`prompts/create-skill.prompt.md`](prompts/create-skill.prompt.md)
 - Validate prompts:
   - [`prompts/validate-usercontext-instructions.prompt.md`](prompts/validate-usercontext-instructions.prompt.md)
   - [`prompts/validate-project-instructions.prompt.md`](prompts/validate-project-instructions.prompt.md)
+  - [`prompts/validate-skill.prompt.md`](prompts/validate-skill.prompt.md)
 - Sample project instructions: [`projects/ai_context_kit_project.instructions.md`](projects/ai_context_kit_project.instructions.md)
 - Sample user context instructions: [`usercontexts/sample_usercontext.instructions.md`](usercontexts/sample_usercontext.instructions.md)

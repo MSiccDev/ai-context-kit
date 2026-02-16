@@ -1,6 +1,5 @@
 ---
 description: 'Validate project instruction files for spec v1.2 compliance, completeness, and quality'
-agent: 'agent'
 ---
 
 # Validate Project Instructions File

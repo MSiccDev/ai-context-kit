@@ -1,7 +1,5 @@
 ---
 description: 'Generate spec-compliant project instruction files for context-aware AI collaboration following the Context-Aware AI Session Flow Specification v1.2'
-agent: 'agent'
-tools: ['search/codebase', 'edit/editFiles']
 ---
 
 # Generate Project Instructions File

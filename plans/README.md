@@ -2,7 +2,7 @@
 
 ## Scope
 - All planning prompts and execution plans live in `plans/`.
-- Do not store plans under `.github/` or other directories.
+- Do not store plans outside `plans/`.
 
 ## Plan File Format
 Every `plans/*.prompt.md` file must start with YAML frontmatter.

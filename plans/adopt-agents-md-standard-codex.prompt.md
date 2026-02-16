@@ -15,7 +15,7 @@ Adopt root `AGENTS.md` as the primary agent entrypoint for THIS repo, without lo
 ## Constraints
 - Root `AGENTS.md` is repo-only (not a generic template).
 - Do not delete/rename existing folders/files.
-- Provider-agnostic (no Copilot-only behavior).
+- Provider-agnostic (no provider-specific behavior).
 - Do not copy the full spec into `AGENTS.md`; embed essentials + link to deeper refs via relative paths.
 - Keep canonical paths stable (`templates/`, `prompts/`, `specs/`, `projects/`, `usercontexts/`).
 
