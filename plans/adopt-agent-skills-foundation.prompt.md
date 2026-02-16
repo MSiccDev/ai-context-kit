@@ -1,6 +1,8 @@
 ---
 description: "Step-by-step (committable) plan to adopt Agent Skills foundation in AI Context Kit while preserving repository governance and neutrality."
-status: open
+status: executed
+executed_at: 2026-02-16
+execution_ref: codex/adopt-agent-skills-foundation
 ---
 
 # Task: Adopt Agent Skills foundation (phase 1 only)
