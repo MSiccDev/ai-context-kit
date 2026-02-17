@@ -1,6 +1,8 @@
 ---
 description: "Step-by-step (committable) plan to shift workflow authority from prompts to skills and reduce duplication/redundancy."
-status: open
+status: executed
+executed_at: 2026-02-17
+execution_ref: codex/adopt-skill-first-workflow-authority
 ---
 
 # Task: Adopt skill-first workflow authority (phase 3)

@@ -9,7 +9,7 @@ This repository distinguishes:
 
 ## Source Of Truth And Precedence
 Use this order when files differ:
-1. **Specification (authoritative):** `specs/context_aware_ai_session_spec.md`
+1. **Specification (authoritative, v1.3.0):** `specs/context_aware_ai_session_spec.md`
 2. **Templates (canonical structures):** `templates/*.instructions.md` and `templates/skill_template/SKILL.md`
 3. **Skills (canonical operational workflows):** `skills/*/SKILL.md` and skill-local references
 4. **Prompts (compatibility wrappers):** `prompts/*.prompt.md` (must defer detailed logic to skills)
@@ -103,7 +103,7 @@ When `specs/context_aware_ai_session_spec.md` changes, audit and update all impa
 - `AGENTS.md`
 
 ## Key References
-- Specification: [`specs/context_aware_ai_session_spec.md`](specs/context_aware_ai_session_spec.md)
+- Specification (v1.3.0): [`specs/context_aware_ai_session_spec.md`](specs/context_aware_ai_session_spec.md)
 - Project operational defaults: [`projects/ai_context_kit_project.instructions.md`](projects/ai_context_kit_project.instructions.md)
 - User context template: [`templates/usercontext_template.instructions.md`](templates/usercontext_template.instructions.md)
 - Project template: [`templates/project_template.instructions.md`](templates/project_template.instructions.md)

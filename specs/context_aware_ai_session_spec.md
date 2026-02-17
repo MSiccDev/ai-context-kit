@@ -1,20 +1,20 @@
 ---
-version: 1.2.0
+version: 1.3.0
 context_type: specification
 document_type: technical_specification
 created: 2025-10-20
-last_updated: 2025-12-23
+last_updated: 2026-02-17
 status: active
 intended_audience: AI-assisted developers, system designers, prompt engineers, LLM-based tooling architects
 license: Open for adaptation and refinement
 ---
 
-# Context-Aware AI Session Flow Specification (v1.2)
+# Context-Aware AI Session Flow Specification (v1.3)
 
 ## Specification Metadata
-- **Version:** 1.2.0 (Clarified instruction-based architecture and terminology)
+- **Version:** 1.3.0 (Adds skill-first workflow authority and prompt-wrapper discipline)
 - **Created:** October 2025
-- **Last Updated:** December 23, 2025
+- **Last Updated:** February 17, 2026
 - **Intended Audience:** AI-assisted developers, system designers, prompt engineers, LLM-based tooling architects
 - **Applicability:** Contextual AI assistants used in multi-step, developer-focused or project-based workflows
 - **License / Usage Note:** Open for adaptation and refinement in AI workflow tooling, documentation, and instructional materials
@@ -32,7 +32,8 @@ This specification introduces a structured, deterministic **instruction-based se
 This specification distinguishes between:
 
 - **Instructions** – Persistent context and guidelines (user context instructions, project instructions) that define WHO the user is, WHAT they're working on, and HOW the AI should behave
-- **Prompts/Queries** – Day-to-day requests the user makes within that instructed environment
+- **Skills** – Canonical operational workflow instructions (create/validate/governance) stored as reusable skill artifacts
+- **Prompts/Queries** – Day-to-day requests the user makes within that instructed environment; prompt files may also serve as compatibility wrappers
 - **Session State** – The active combination of instruction layers and dynamic context that governs AI behavior
 
 The document outlines how instruction-based context should be:
@@ -59,7 +60,7 @@ By implementing this specification, an AI assistant transitions from being a tra
 
 ---
 
-## 1.1 Conceptual Framework: Instructions vs. Prompts
+## 1.1 Conceptual Framework: Instructions, Skills, and Prompts
 
 This specification is built on a critical distinction:
 
@@ -78,11 +79,23 @@ This specification is built on a critical distinction:
 - Create deterministic, consistent AI behavior
 - Enable portable AI workspace configurations across providers
 
+### Skills (Operational Workflow Authority)
+**What they are:**
+- Reusable workflow instructions (for example create/validate/governance flows)
+- Canonical operational logic for task execution and quality enforcement
+- Stored as skill artifacts (for example `skills/*/SKILL.md` plus skill-local references)
+
+**Purpose:**
+- Centralize detailed workflow logic
+- Reduce duplicated logic across prompt files
+- Keep workflow behavior stable and auditable
+
 ### Prompts/Queries (Transactional Requests)
 **What they are:**
 - Day-to-day questions and tasks the user asks within the instructed environment
 - Consumable and specific to immediate needs
 - What users traditionally think of as "prompts"
+- Prompt files may be retained as compatibility wrappers that dispatch to canonical skills
 
 **Examples:**
 - "Create a new authentication endpoint"
@@ -90,17 +103,19 @@ This specification is built on a critical distinction:
 - "Review this code for security issues"
 
 ### The Relationship
-Instructions create the **environment** in which prompts are interpreted. The same prompt ("create an API endpoint") will result in different outputs depending on the active instruction set (tech stack, architecture patterns, coding style preferences, etc.).
+Instructions create the **environment** in which requests are interpreted. Skills provide canonical **workflow behavior** for operational tasks, and prompts express user intent or provide compatibility entrypoints. The same prompt ("create an API endpoint") will result in different outputs depending on the active instruction set (tech stack, architecture patterns, coding style preferences, etc.) and the applicable skill workflow rules.
 
 This specification defines how AI assistants should:
 1. Load and layer instruction sets (persona + project)
-2. Maintain that instructed state persistently
-3. Adapt behavior based on session state changes
-4. Respond to user prompts/queries within that context
+2. Apply canonical skill workflows where operational logic is defined
+3. Maintain that instructed state persistently
+4. Adapt behavior based on session state changes
+5. Respond to user prompts/queries within that context
 
 ### Bootstrap Entrypoint Note (AGENTS.md)
 Repositories may provide a root `AGENTS.md` file as a concise bootstrap entrypoint for agent behavior and navigation.  
-When present, `AGENTS.md` should embed operational essentials and link to deeper references (spec, templates, prompts, and samples) rather than duplicating full normative content.  
+When present, `AGENTS.md` should embed operational essentials and link to deeper references (spec, templates, skills, prompts, and samples) rather than duplicating full normative content.  
+When a repository adopts skill-first workflow authority, `AGENTS.md` should make that precedence explicit and describe prompts as compatibility wrappers.  
 This specification remains authoritative for model definitions and rules.
 
 ---
@@ -802,14 +817,16 @@ user_context_file: ../name_surname_usercontext.instructions.md
 
 ### 8.8.4 File Path Conventions
 
-To keep cross-references stable across templates, prompts, validators, and documentation, repositories using this specification should adopt **predictable, canonical paths**.
+To keep cross-references stable across templates, skills, prompts, validators, and documentation, repositories using this specification should adopt **predictable, canonical paths**.
 
 Recommended canonical paths:
 
 - `templates/`
   - Canonical instruction templates (user context + project instructions)
+- `skills/`
+  - Canonical workflow skill artifacts (`SKILL.md` folders plus skill-local references)
 - `prompts/`
-  - Instruction creation and validation prompts
+  - Prompt/query artifacts and compatibility wrappers that delegate workflow detail to skills
 - `specs/context_aware_ai_session_spec.md`
   - Authoritative specification document
 - `projects/`
@@ -822,11 +839,20 @@ Recommended canonical paths:
 - Do not rename or move these directories without updating:
   - README references
   - specification cross-references
-  - creation and validation prompts
+  - canonical skill references and prompt wrappers
 - Instruction files should reference the specification by **relative path**, not URL
-- Validators and generators may assume these paths by convention
+- Validators, generators, and skill dispatchers may assume these paths by convention
 
-If paths must change, update the specification and README first, then adjust prompts and validators accordingly.
+If paths must change, update the specification and README first, then adjust skills, prompts, and validators accordingly.
+
+### 8.8.5 Workflow Authority and Wrapper Discipline
+
+For repositories that define reusable operational workflows:
+
+- Detailed workflow logic for create/validate/governance tasks **MUST** be canonicalized in skills.
+- Prompt workflow files **MAY** remain for compatibility, but they **MUST** be thin wrappers that defer detailed checklists, scoring rubrics, and report schemas to skills.
+- Prompt wrappers **MUST NOT** reintroduce full authoritative logic already defined in skills.
+- When workflow behavior changes, skill artifacts **MUST** be updated first; prompt wrappers are updated only as compatibility entrypoints.
 
 ---
 
