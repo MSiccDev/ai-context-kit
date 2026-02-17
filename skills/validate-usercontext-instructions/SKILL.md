@@ -22,22 +22,27 @@ Validate user-context instruction files and produce deterministic reports with i
 - Validation strictness expectations (if any).
 
 ## Workflow
-1. Validate YAML frontmatter and supported attributes.
-2. Verify all required user-context sections and heading structure.
-3. Evaluate content completeness, formatting quality, and constraints.
-4. Evaluate portability and instruction-based architecture compliance.
-5. Generate structured report with phase status and score.
+1. Run validation phases from `references/phase-checks.md`.
+2. Generate report using `references/report-contract.md`.
+3. Apply deterministic scoring from `references/scoring.md`.
+4. Classify findings into critical/warning/enhancement buckets.
+5. Produce implementation-ready recommendations.
 
 ## Output Expectations
 - A markdown validation report with phase-by-phase findings.
 - Overall PASS/WARN/FAIL state and numeric score.
 - Actionable fixes for critical and warning issues.
 - Migration guidance when relevant.
+- Report schema follows `references/report-contract.md`.
+- Scoring and grade bands follow `references/scoring.md`.
 
 ## Resources
-- Primary source: `../../prompts/validate-usercontext-instructions.prompt.md`
+- Phase checks: `references/phase-checks.md`
+- Report contract: `references/report-contract.md`
+- Scoring model: `references/scoring.md`
 - Example target: `../../usercontexts/sample_usercontext.instructions.md`
 - Example report: `../../usercontexts/sample_usercontext.validation.md`
+- Source traceability: `references/source-mapping.md`
 
 ## Constraints And Safety
 - Preserve privacy boundaries in findings and examples.

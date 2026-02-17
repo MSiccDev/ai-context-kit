@@ -22,22 +22,27 @@ Validate project instruction files with deterministic checks for frontmatter, re
 - Any strictness preferences for warnings vs required fixes.
 
 ## Workflow
-1. Validate frontmatter attributes and naming rules.
-2. Verify all required sections and ordering.
-3. Validate session-state model and command reference completeness.
-4. Validate role definitions and project-specific task patterns.
-5. Evaluate content quality and generate scored report.
+1. Run validation phases from `references/phase-checks.md`.
+2. Generate report using `references/report-contract.md`.
+3. Apply deterministic scoring from `references/scoring.md`.
+4. Classify findings into critical/warning/enhancement buckets.
+5. Produce project-specific remediation guidance.
 
 ## Output Expectations
 - Structured markdown report with five validation phases.
 - Clear status for critical issues vs warnings.
 - Numeric score and grading band.
 - Concrete example fixes for major gaps.
+- Report schema follows `references/report-contract.md`.
+- Scoring and grade bands follow `references/scoring.md`.
 
 ## Resources
-- Primary source: `../../prompts/validate-project-instructions.prompt.md`
+- Phase checks: `references/phase-checks.md`
+- Report contract: `references/report-contract.md`
+- Scoring model: `references/scoring.md`
 - Example target: `../../projects/ai_context_kit_project.instructions.md`
 - Example report: `../../projects/ai_context_kit_project.validation.md`
+- Source traceability: `references/source-mapping.md`
 
 ## Constraints And Safety
 - Keep findings specific and actionable.

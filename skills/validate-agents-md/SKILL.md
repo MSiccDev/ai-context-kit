@@ -22,21 +22,26 @@ Validate `AGENTS.md` files to ensure they are concise, operationally complete, a
 - Policy expectations for session-state and command namespace.
 
 ## Workflow
-1. Validate core file presence and structural readability.
-2. Check operational contract elements (state model, transitions, ambiguity, commands, defaults).
-3. Evaluate clarity/actionability and conciseness.
-4. Validate neutrality and portability.
-5. Validate link integrity and repository path alignment; generate scored report.
+1. Run validation phases from `references/phase-checks.md`.
+2. Generate report using `references/report-contract.md`.
+3. Apply deterministic scoring from `references/scoring.md`.
+4. Classify findings into critical/warning/enhancement buckets.
+5. Provide concrete fixes for operational contract gaps.
 
 ## Output Expectations
 - Structured markdown report with five validation phases.
 - Compliance score and pass band.
 - Explicit list of critical issues, warnings, and enhancements.
 - Example fixes for common structural and policy failures.
+- Report schema follows `references/report-contract.md`.
+- Scoring and grade bands follow `references/scoring.md`.
 
 ## Resources
-- Primary source: `../../prompts/validate-agents-md.prompt.md`
+- Phase checks: `references/phase-checks.md`
+- Report contract: `references/report-contract.md`
+- Scoring model: `references/scoring.md`
 - Example target: `../../AGENTS.md`
+- Source traceability: `references/source-mapping.md`
 
 ## Constraints And Safety
 - Keep findings deterministic and repository-specific.
