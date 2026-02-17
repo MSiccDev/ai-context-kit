@@ -2,13 +2,13 @@
 
 **File:** skills/validate-usercontext-instructions/SKILL.md
 **Skill:** validate-usercontext-instructions
-**Validated:** 2026-02-16
+**Validated:** 2026-02-17
 
 ---
 
 ## Overall Status: ✅ PASS
 
-**Compliance Score:** 96/100
+**Compliance Score:** 98/100
 
 ---
 
@@ -16,8 +16,8 @@
 **Status:** ✅ PASS
 
 ### Findings:
-- SKILL.md exists in expected directory.
-- Frontmatter contains required fields and valid syntax.
+- SKILL.md exists with valid frontmatter.
+- Required fields are present and syntactically valid.
 
 ### Recommendations:
 - None.
@@ -28,9 +28,7 @@
 **Status:** ✅ PASS
 
 ### Findings:
-- name matches folder and satisfies slug constraints.
-- description clearly states capability and use criteria.
-- Optional metadata fields are valid.
+- `name` parity and description quality are valid.
 
 ---
 
@@ -38,8 +36,8 @@
 **Status:** ✅ PASS
 
 ### Findings:
-- Skill includes operational sections (purpose, usage, inputs, workflow, output, resources, safety).
-- Instructions are actionable and scoped.
+- Full phase checks, report contract, and scoring model are referenced canonically.
+- Severity classification guidance is explicit.
 
 ---
 
@@ -47,8 +45,8 @@
 **Status:** ✅ PASS
 
 ### Findings:
-- Skill-local references use relative paths.
-- Safety expectations and boundaries are explicit.
+- All skill-local references are relative and resolvable.
+- Privacy-sensitive handling is explicit.
 
 ---
 
@@ -56,17 +54,15 @@
 **Status:** ✅ PASS
 
 ### Findings:
-- Language is provider-neutral and runtime-portable.
-- No provider-specific lock-in wording detected.
+- Provider-neutral and runtime-portable wording preserved.
 
 ---
 
 ## Summary
 
 ### Strengths:
-- Deterministic workflow guidance.
-- Clean mapping to source artifacts.
-- Good alignment with repository skill template.
+- Validator skill is now self-sufficient with deterministic outputs.
+- Prompt-level rubric duplication is removed.
 
 ### Critical Issues (Must Fix):
 - None.
@@ -75,7 +71,7 @@
 - None.
 
 ### Enhancements (Optional):
-- Consider adding edge-case handling for sparse but valid profiles.
+- Add optional lint helper for metadata JSON checks.
 
 ---
 
@@ -85,7 +81,7 @@
 1. None.
 
 ### Suggested Improvements:
-1. Periodically re-validate after source prompt updates.
+1. Revalidate when scoring policy changes.
 
 ---
 

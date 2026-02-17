@@ -2,13 +2,13 @@
 
 **File:** skills/create-agents-md/SKILL.md
 **Skill:** create-agents-md
-**Validated:** 2026-02-16
+**Validated:** 2026-02-17
 
 ---
 
 ## Overall Status: ✅ PASS
 
-**Compliance Score:** 95/100
+**Compliance Score:** 97/100
 
 ---
 
@@ -16,8 +16,8 @@
 **Status:** ✅ PASS
 
 ### Findings:
-- SKILL.md exists in expected directory.
-- Frontmatter contains required fields and valid syntax.
+- SKILL.md exists with valid frontmatter.
+- Required fields are present and syntactically valid.
 
 ### Recommendations:
 - None.
@@ -28,9 +28,8 @@
 **Status:** ✅ PASS
 
 ### Findings:
-- name matches folder and satisfies slug constraints.
-- description clearly states capability and use criteria.
-- Optional metadata fields are valid.
+- `name` matches folder and naming constraints.
+- Description is clear and trigger-appropriate.
 
 ---
 
@@ -38,8 +37,8 @@
 **Status:** ✅ PASS
 
 ### Findings:
-- Skill includes operational sections (purpose, usage, inputs, workflow, output, resources, safety).
-- Instructions are actionable and scoped.
+- Discovery and required-element contracts are explicit in references.
+- Output and quality gates are deterministic.
 
 ---
 
@@ -47,8 +46,8 @@
 **Status:** ✅ PASS
 
 ### Findings:
-- Skill-local references use relative paths.
-- Safety expectations and boundaries are explicit.
+- Relative references resolve.
+- Anti-duplication and path-stability constraints are explicit.
 
 ---
 
@@ -56,17 +55,16 @@
 **Status:** ✅ PASS
 
 ### Findings:
-- Language is provider-neutral and runtime-portable.
-- No provider-specific lock-in wording detected.
+- Provider-neutral wording preserved.
+- Guidance remains portable across runtimes.
 
 ---
 
 ## Summary
 
 ### Strengths:
-- Deterministic workflow guidance.
-- Clean mapping to source artifacts.
-- Good alignment with repository skill template.
+- Skill now encapsulates canonical AGENTS generation controls.
+- Wrapper prompts can remain thin without quality loss.
 
 ### Critical Issues (Must Fix):
 - None.
@@ -75,7 +73,7 @@
 - None.
 
 ### Enhancements (Optional):
-- Consider adding one minimal and one full AGENTS output pattern.
+- Add optional link-check automation guidance.
 
 ---
 
@@ -85,7 +83,7 @@
 1. None.
 
 ### Suggested Improvements:
-1. Periodically re-validate after source prompt updates.
+1. Revalidate after major governance updates.
 
 ---
 

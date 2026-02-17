@@ -25,3 +25,7 @@ Track extraction status, source traceability, and validation readiness for skill
 - Total skills tracked: 8
 - Planned skills: 0
 - Total validated skills: 8
+
+## Authority Check
+- Workflow authority model: `skill-first`
+- Prompt role: compatibility wrappers only

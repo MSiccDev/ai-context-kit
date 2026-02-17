@@ -1,14 +1,14 @@
 # Skill Validation Report
 
-**File:** skills/create-project-instructions/SKILL.md
-**Skill:** create-project-instructions
+**File:** skills/create-skill/SKILL.md
+**Skill:** create-skill
 **Validated:** 2026-02-17
 
 ---
 
 ## Overall Status: ✅ PASS
 
-**Compliance Score:** 98/100
+**Compliance Score:** 97/100
 
 ---
 
@@ -28,8 +28,7 @@
 **Status:** ✅ PASS
 
 ### Findings:
-- `name` matches folder and naming constraints.
-- Description is clear and trigger-appropriate.
+- `name` parity and description quality are valid.
 
 ---
 
@@ -37,8 +36,8 @@
 **Status:** ✅ PASS
 
 ### Findings:
-- Discovery/schema/command/role/output/checklist references are integrated.
-- Workflow is deterministic and actionable.
+- Discovery, schema, safety, output, and checklist guidance are canonicalized in references.
+- Workflow is deterministic and implementation-ready.
 
 ---
 
@@ -46,8 +45,8 @@
 **Status:** ✅ PASS
 
 ### Findings:
-- Relative references resolve.
-- Output quality gates include section/session/command completeness.
+- All references are relative and resolvable.
+- Safety policy and allowed-tools posture are explicit.
 
 ---
 
@@ -55,16 +54,15 @@
 **Status:** ✅ PASS
 
 ### Findings:
-- Provider-neutral wording preserved.
-- Runtime portability remains intact.
+- Provider-neutral and runtime-portable wording preserved.
 
 ---
 
 ## Summary
 
 ### Strengths:
-- Skill now owns canonical generation logic with explicit templates/checklists.
-- Prompt dependency reduced to traceability only.
+- Skill creation workflow is now canonicalized as a first-class skill.
+- Prompt dependency reduced to wrapper-level compatibility.
 
 ### Critical Issues (Must Fix):
 - None.
@@ -73,7 +71,7 @@
 - None.
 
 ### Enhancements (Optional):
-- Add additional domain-specific role examples.
+- Add examples for specialized skill categories.
 
 ---
 
@@ -83,7 +81,7 @@
 1. None.
 
 ### Suggested Improvements:
-1. Revalidate when section schema changes.
+1. Revalidate when template constraints evolve.
 
 ---
 
