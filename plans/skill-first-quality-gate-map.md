@@ -110,8 +110,8 @@ Track 1:1 parity between prompt-era quality rules and their canonical skill-era 
 | `validate-skill` | `vs-006` | `report` | `Validation report file creation/overwrite behavior is deterministic` | `prompts/validate-skill.prompt.md` | `### Step 1: Create/Overwrite Validation Summary File` | `skills/validate-skill/references/report-contract.md` | `rule-to-rule mapping review` | `mapped` | `-` | `-` | `Prompt currently authoritative` |
 | `validate-skill` | `vs-007` | `report` | `Validation report schema is complete and stable` | `prompts/validate-skill.prompt.md` | `### Step 2: Generate Report` | `skills/validate-skill/references/report-contract.md` | `rule-to-rule mapping review` | `mapped` | `-` | `-` | `Prompt currently authoritative` |
 | `validate-skill` | `vs-008` | `scoring` | `Scoring model and grading bands are deterministic` | `prompts/validate-skill.prompt.md` | `## Scoring System` | `skills/validate-skill/references/scoring.md` | `rule-to-rule mapping review` | `mapped` | `-` | `-` | `Prompt currently authoritative` |
-| `all-prompt-wrappers` | `wr-001` | `wrapper-thinness` | `Wrapper prompts remain concise and non-authoritative` | `prompts/*.prompt.md` | `n/a (migration policy gate)` | `skills/*/SKILL.md` | `wrapper-size + content scope review` | `unmapped` | `-` | `-` | `Gate becomes active at Commit 6` |
-| `all-prompt-wrappers` | `wr-002` | `wrapper-thinness` | `No reintroduction of full checklists/rubrics in wrappers` | `prompts/*.prompt.md` | `n/a (migration policy gate)` | `skills/*/references/*` | `manual parity review` | `unmapped` | `-` | `-` | `Blocking gate before parity sign-off` |
+| `all-prompt-wrappers` | `wr-001` | `wrapper-thinness` | `Wrapper prompts remain concise and non-authoritative` | `prompts/*.prompt.md` | `n/a (migration policy gate)` | `skills/*/SKILL.md` | `wrapper-size + content scope review` | `mapped` | `-` | `-` | `Gate becomes active at Commit 6` |
+| `all-prompt-wrappers` | `wr-002` | `wrapper-thinness` | `No reintroduction of full checklists/rubrics in wrappers` | `prompts/*.prompt.md` | `n/a (migration policy gate)` | `skills/*/references/*` | `manual parity review` | `mapped` | `-` | `-` | `Blocking gate before parity sign-off` |
 
 ## Blocking Checklist
 - [ ] No required rule remains `unmapped`.
@@ -122,8 +122,8 @@ Track 1:1 parity between prompt-era quality rules and their canonical skill-era 
 ## Coverage Check
 - Workflows covered: `8`
 - Rules listed: `81`
-- Initial `mapped`: `79`
-- Initial `unmapped`: `2`
+- Initial `mapped`: `81`
+- Initial `unmapped`: `0`
 
 ## Reviewer Sign-Off
 - Owner:
