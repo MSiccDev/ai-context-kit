@@ -79,7 +79,7 @@ Validation:
 
 ### Commit 1 - Cleanup inventory and decision matrix
 Add:
-- `plans/repo-cleanup-candidate-matrix.md`
+- temporary cleanup candidate matrix used during execution (removed after completion)
 
 Matrix requirements:
 - One row per candidate cleanup item.
