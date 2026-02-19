@@ -1,6 +1,8 @@
 ---
 description: "Step-by-step (committable) plan to transition project-context authority from project instruction files to root AGENTS.md."
-status: open
+status: executed
+executed_at: 2026-02-19
+execution_ref: codex/transition-project-context-to-agents
 ---
 
 # Task: Transition Project Context Into AGENTS.md (Platform-Agnostic)

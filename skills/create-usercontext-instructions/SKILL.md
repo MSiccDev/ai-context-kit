@@ -44,7 +44,6 @@ Generate a complete user-context instruction file with required sections, privac
 - Quality checklist: `references/quality-checklist.md`
 - Structure baseline: `../../templates/usercontext_template.instructions.md`
 - Example reference: `../../usercontexts/sample_usercontext.instructions.md`
-- Source traceability: `references/source-mapping.md`
 
 ## Constraints And Safety
 - Keep provider-neutral wording.

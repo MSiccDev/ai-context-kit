@@ -13,7 +13,7 @@ Use this order when files differ:
 2. **Templates (canonical structures):** `templates/*.instructions.md` and `templates/skill_template/SKILL.md`
 3. **Skills (canonical operational workflows):** `skills/*/SKILL.md` and skill-local references
 4. **Prompts (compatibility wrappers):** `prompts/*.prompt.md` (must defer detailed logic to skills)
-5. **Samples and validation artifacts (illustrative records):** `projects/*.instructions.md`, `usercontexts/*.instructions.md`, related `*.validation.md`
+5. **Samples and validation artifacts (illustrative records):** `usercontexts/*.instructions.md`, related `*.validation.md`
 
 ## Repository Map
 | Path | Purpose |
@@ -22,7 +22,6 @@ Use this order when files differ:
 | `templates/` | Canonical instruction templates aligned to the spec |
 | `skills/` | Canonical workflow skills (`SKILL.md` folders) and skill-local resources |
 | `prompts/` | Compatibility wrappers that route workflows to canonical skills |
-| `projects/` | Project-level instruction examples and validation reports |
 | `usercontexts/` | User-context instruction examples and validation reports |
 | `plans/` | Planning prompts used to execute repository refactors |
 
@@ -59,7 +58,7 @@ Active session state includes:
 - If assumptions, state, or intent are ambiguous, ask clarifying questions before acting.
 
 ### Default State For This Repo
-Defaults align with `projects/ai_context_kit_project.instructions.md`.
+Defaults are defined directly in this `AGENTS.md` to keep project context self-contained and AGENTS-first.
 
 | Element | Default Value |
 | --- | --- |
@@ -87,9 +86,102 @@ Alias policy:
 - Namespaced `/ack.*` commands are the default.
 - Unprefixed aliases are allowed only when no command conflict exists.
 
+## Repository Project Context
+### Overview
+**AI Context Kit** is a template repository for building instruction-based AI collaboration across providers.
+
+- Current status / phase: **Active Development**
+- Primary objectives:
+  - Maintain spec-aligned templates and skills
+  - Provide clear, portable AGENTS-first guidance
+  - Keep repository structure stable for tooling
+
+### Role Definitions
+| Role | When To Use | Assistant Behavior | Typical Outputs |
+| --- | --- | --- | --- |
+| `Architect` | Defining structure, spec alignment, repository direction | Emphasize clarity, constraints, and tradeoffs | Plans, governance changes, architecture decisions |
+| `Prompt Engineer` | Refining create/validate wrappers and instruction workflows | Optimize flow, quality gates, and determinism | Prompt wrappers, workflow rules, validation criteria |
+| `Technical Writer` | Improving docs, onboarding, and migration clarity | Prioritize readability, consistency, and usability | README/AGENTS/template updates |
+| `Reviewer` | Verifying quality, regressions, and policy compliance | Surface gaps and actionable remediations | Findings, fixes, acceptance notes |
+
+### Tech Stack
+- Languages: Markdown, shell scripts
+- Runtime/tooling: provider-agnostic instruction workflows
+- Architecture: specification + templates + skills + wrappers
+- Validation: skill-based validation workflows and reports
+
+### Current Objectives
+- Keep templates and skills aligned with spec `v1.3.0`.
+- Complete AGENTS-first project-context transition.
+- Preserve deterministic behavior and path stability.
+- Reduce duplication and migration noise.
+
+### Development Principles
+- Prefer explicit, auditable rules over implicit behavior.
+- Keep changes incremental and reviewable.
+- Preserve provider neutrality and runtime portability.
+- Avoid silent context shifts and undocumented conventions.
+
+### Repository Context
+- Default branch: `main`
+- Key paths:
+  - `specs/`
+  - `templates/`
+  - `skills/`
+  - `prompts/`
+  - `usercontexts/`
+  - `plans/`
+
+### Working Together
+**Architect**
+- "Align this change with spec and AGENTS precedence."
+- "Propose a migration path with clear review gates."
+
+**Prompt Engineer**
+- "Keep wrappers thin and move logic into skills."
+- "Preserve quality gates while reducing duplication."
+
+**Technical Writer**
+- "Rewrite this section for AGENTS-first onboarding."
+- "Make platform-agnostic guidance clearer."
+
+**Reviewer**
+- "Check for regressions and stale references."
+- "List blocking findings before merge."
+
+### Key Components
+- Specification: `specs/context_aware_ai_session_spec.md`
+- Templates: `templates/`
+- Skills: `skills/`
+- Prompt wrappers: `prompts/`
+- User context samples: `usercontexts/`
+- Planning lifecycle: `plans/`
+
+### Testing Strategy
+- Validate structural/quality changes using canonical validation skills.
+- Re-run affected validation reports after workflow/guidance changes.
+- Verify references with repository-wide path scans.
+
+### Documentation Standards
+- Markdown-first documentation.
+- Relative repository paths for cross-references.
+- No decorative emojis/icons in headings.
+- Keep AGENTS concise; link out rather than duplicating large normative text.
+
+### Testing Commands
+```bash
+./plans/plan-status.sh
+rg -n "<pattern>" AGENTS.md README.md skills prompts templates specs usercontexts plans
+```
+
+### Future Roadmap
+- Complete AGENTS-only project-context transition.
+- Continue reducing legacy prompt-era artifacts.
+- Strengthen skill validation and drift-control automation.
+
 ## Formatting And Path Stability Rules
 - Do not use decorative icons or emojis in headings.
-- Keep canonical paths stable: `specs/`, `templates/`, `prompts/`, `projects/`, `usercontexts/`, `skills/`.
+- Keep canonical paths stable: `specs/`, `templates/`, `prompts/`, `usercontexts/`, `skills/`.
 - Use relative repository paths for cross-references.
 - Keep language provider-agnostic.
 
@@ -98,15 +190,14 @@ When `specs/context_aware_ai_session_spec.md` changes, audit and update all impa
 - `templates/`
 - `skills/`
 - `prompts/` wrappers (keep thin; do not duplicate full workflow logic)
-- sample files in `projects/` and `usercontexts/`
+- sample files in `usercontexts/`
 - `README.md`
 - `AGENTS.md`
 
 ## Key References
 - Specification (v1.3.0): [`specs/context_aware_ai_session_spec.md`](specs/context_aware_ai_session_spec.md)
-- Project operational defaults: [`projects/ai_context_kit_project.instructions.md`](projects/ai_context_kit_project.instructions.md)
+- Project operational defaults: this root `AGENTS.md` (Default State For This Repo)
 - User context template: [`templates/usercontext_template.instructions.md`](templates/usercontext_template.instructions.md)
-- Project template: [`templates/project_template.instructions.md`](templates/project_template.instructions.md)
 - Skill template: [`templates/skill_template/SKILL.md`](templates/skill_template/SKILL.md)
 - Create prompts:
   - [`prompts/create-usercontext-instructions.prompt.md`](prompts/create-usercontext-instructions.prompt.md)
@@ -117,5 +208,4 @@ When `specs/context_aware_ai_session_spec.md` changes, audit and update all impa
   - [`prompts/validate-project-instructions.prompt.md`](prompts/validate-project-instructions.prompt.md)
   - [`prompts/validate-skill.prompt.md`](prompts/validate-skill.prompt.md)
 - Extracted skills index: [`skills/README.md`](skills/README.md)
-- Sample project instructions: [`projects/ai_context_kit_project.instructions.md`](projects/ai_context_kit_project.instructions.md)
 - Sample user context instructions: [`usercontexts/sample_usercontext.instructions.md`](usercontexts/sample_usercontext.instructions.md)

@@ -14,16 +14,17 @@ This repository distinguishes:
 Use this order when files differ:
 1. **Specification (authoritative):** `<path to spec>`
 2. **Templates (canonical structures):** `<path(s) to templates>`
-3. **Prompts (operational workflows):** `<path(s) to create/validate prompts>`
-4. **Samples (illustrative examples):** `<path(s) to sample instructions and validations>`
+3. **Skills (canonical operational workflows):** `<path(s) to skills>`
+4. **Prompts (compatibility wrappers):** `<path(s) to create/validate wrappers>`
+5. **Samples (illustrative examples):** `<path(s) to sample instructions and validations>`
 
 ## Repository Map
 | Path | Purpose |
 | --- | --- |
 | `specs/` | Normative specification and terminology |
 | `templates/` | Canonical templates |
+| `skills/` | Canonical workflow skills |
 | `prompts/` | Creation and validation workflows |
-| `projects/` | Project-level instruction examples |
 | `usercontexts/` | User-context instruction examples |
 | `<additional path>` | `<purpose>` |
 
@@ -81,11 +82,76 @@ Alias policy:
 - Namespaced commands are default.
 - Unprefixed aliases are allowed only when no conflict exists.
 
-## Standards, Tools, And Tests
-- Primary standards: `<style guide / architecture / quality bar>`
-- Build command: `<build command>`
-- Test command: `<test command>`
-- Run command: `<run command>`
+## Repository Project Context
+### Overview
+`<Project Name>` is a `<short project description>`.
+
+Current status/phase: `<phase>`
+
+### Role Definitions
+| Role | When To Use | Assistant Behavior | Typical Outputs |
+| --- | --- | --- | --- |
+| `<Role 1>` | `<when to use>` | `<behavior>` | `<outputs>` |
+| `<Role 2>` | `<when to use>` | `<behavior>` | `<outputs>` |
+| `<Role 3>` | `<when to use>` | `<behavior>` | `<outputs>` |
+
+### Tech Stack
+- Languages: `<language list>`
+- Frameworks/runtime: `<framework/runtime list>`
+- Tooling: `<build/test/tooling>`
+
+### Current Objectives
+- `<objective 1>`
+- `<objective 2>`
+- `<objective 3>`
+
+### Development Principles
+- `<principle 1>`
+- `<principle 2>`
+- `<principle 3>`
+
+### Repository Context
+- Default branch: `<branch>`
+- Key paths:
+  - `<path 1>`
+  - `<path 2>`
+  - `<path 3>`
+
+### Working Together
+- `<collaboration rule 1>`
+- `<collaboration rule 2>`
+
+### Key Components
+- `<component 1>`: `<purpose>`
+- `<component 2>`: `<purpose>`
+- `<component 3>`: `<purpose>`
+
+### Testing Strategy
+- Levels: `<unit/integration/e2e>`
+- Scope expectations: `<coverage/critical paths>`
+- Validation approach: `<manual/automated checks>`
+
+### Documentation Standards
+- Primary format: `<markdown/docs format>`
+- Required artifacts: `<readme/runbooks/adr/etc>`
+- Update expectations: `<when/how docs are updated>`
+
+### Testing Commands
+```bash
+# Build
+<build command>
+
+# Test
+<test command>
+
+# Run (if applicable)
+<run command>
+```
+
+### Future Roadmap
+- `<next milestone>`
+- `<planned improvement>`
+- `<known gap>`
 
 ## Formatting And Path Stability Rules
 - Do not use decorative icons or emojis in headings.
@@ -96,8 +162,9 @@ Alias policy:
 ## Update And Drift-Control Rule
 When the specification changes, audit and update all impacted artifacts:
 - `templates/`
+- `skills/`
 - `prompts/`
-- sample files (`projects/`, `usercontexts/`)
+- sample files (`usercontexts/`)
 - `README.md`
 - `AGENTS.md` files
 

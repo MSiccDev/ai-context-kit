@@ -38,7 +38,6 @@ Validate `SKILL.md` files with deterministic checks and produce structured valid
 - Report contract: `references/report-contract.md`
 - Scoring model: `references/scoring.md`
 - Skill template: `../../templates/skill_template/SKILL.md`
-- Source traceability: `references/source-mapping.md`
 
 ## Constraints And Safety
 - Keep findings deterministic and concise.

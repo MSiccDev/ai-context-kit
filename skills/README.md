@@ -15,16 +15,18 @@ This directory is the canonical location for repository skill instances.
 - `create-usercontext-instructions`
 - `create-project-instructions`
 - `create-agents-md`
+- `create-skill`
 - `validate-usercontext-instructions`
 - `validate-project-instructions`
 - `validate-agents-md`
+- `validate-skill`
 - `plan-lifecycle-management`
 - `repository-drift-control`
 
 Each extracted skill includes:
 - `SKILL.md`
-- `references/source-mapping.md`
 - `SKILL.validation.md`
+- `references/` resources as needed by the workflow
 
 ## Naming Rules
 - Skill directory names must match the `name` field in each `SKILL.md`.

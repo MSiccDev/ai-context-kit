@@ -41,7 +41,6 @@ Validate `AGENTS.md` files to ensure they are concise, operationally complete, a
 - Report contract: `references/report-contract.md`
 - Scoring model: `references/scoring.md`
 - Example target: `../../AGENTS.md`
-- Source traceability: `references/source-mapping.md`
 
 ## Constraints And Safety
 - Keep findings deterministic and repository-specific.

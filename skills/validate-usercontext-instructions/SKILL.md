@@ -42,7 +42,6 @@ Validate user-context instruction files and produce deterministic reports with i
 - Scoring model: `references/scoring.md`
 - Example target: `../../usercontexts/sample_usercontext.instructions.md`
 - Example report: `../../usercontexts/sample_usercontext.validation.md`
-- Source traceability: `references/source-mapping.md`
 
 ## Constraints And Safety
 - Preserve privacy boundaries in findings and examples.

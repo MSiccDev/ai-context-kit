@@ -43,7 +43,6 @@ Generate a complete root `AGENTS.md` file that acts as an operational entrypoint
 - Quality checklist: `references/quality-checklist.md`
 - Canonical template: `../../templates/AGENTS_template.md`
 - Repository example: `../../AGENTS.md`
-- Source traceability: `references/source-mapping.md`
 
 ## Constraints And Safety
 - Do not duplicate full normative specs in AGENTS.

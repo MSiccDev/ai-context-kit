@@ -1,17 +1,17 @@
 ---
-description: 'Compatibility wrapper for validating project instruction files using canonical validator skill.'
+description: 'Compatibility wrapper for validating project-context AGENTS.md files using canonical validator skill.'
 ---
 
-# Validate Project Instructions (Wrapper)
+# Validate Project Context AGENTS (Wrapper)
 
 ## Mission
-Validate project instruction files by delegating validation logic to the canonical skill.
+Validate project-context `AGENTS.md` files by delegating validation logic to the canonical skill.
 
 ## Canonical Skill
 - `skills/validate-project-instructions/SKILL.md`
 
 ## Required Inputs
-- Target `*_project.instructions.md` file
+- Target `AGENTS.md` file
 - Expected section/session-state/role model
 - Validation strictness preferences (if any)
 

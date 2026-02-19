@@ -2,34 +2,37 @@
 
 Execute these phases in order.
 
-## Phase 1: YAML Frontmatter Validation
+## Phase 1: File Structure And Core Sections Validation
 Check:
-- valid YAML frontmatter
-- required attributes: `name`, `description`, `applyTo`
-- naming constraints on `name`
-- no unsupported attributes
+- target is an `AGENTS.md` file
+- required AGENTS core sections exist
+- heading order and structure are coherent
 
-## Phase 2: Required Sections Validation
-Check:
-- all 17 required sections exist
-- section order and heading levels are correct
-- no placeholder-only sections
-
-## Phase 3: Session State Model Validation
+## Phase 2: Session-State And Command Policy Validation
 Check:
 - Default Session State includes all 6 required elements
 - Command Reference includes all required namespaced commands
 
-## Phase 4: Role Definitions Validation
+## Phase 3: Repository Project Context Validation
 Check:
 - at least 3 roles
 - role table has complete columns
-- each role has 3-5 project-specific example task patterns
-- transition examples include natural language and command forms
+- all required project-context subsections exist:
+  Overview, Role Definitions, Tech Stack, Current Objectives, Development Principles,
+  Repository Context, Working Together, Key Components, Testing Strategy,
+  Documentation Standards, Testing Commands, Future Roadmap
+- project objectives and principles are explicit
+- repository context and key components are explicit
 
-## Phase 5: Content Completeness And Quality Validation
-Check completeness for:
-- prerequisites/overview/tech stack/objectives/principles
-- repository context/working together/key components
-- testing strategy/documentation standards/testing commands
-- related files/future roadmap
+## Phase 4: Reference Integrity And Safety Validation
+Check:
+- cross-references are relative and resolvable
+- no dependency on removed project instruction samples
+- no core required project-context sections are missing
+- provider-neutral wording is preserved
+
+## Phase 5: Clarity And Operational Quality Validation
+Check:
+- instructions are concise and actionable
+- no duplicated normative/spec-heavy content
+- role/task guidance is implementation-ready

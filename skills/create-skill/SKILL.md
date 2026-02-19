@@ -44,7 +44,6 @@ Generate complete `SKILL.md` artifacts for one skill folder, with explicit const
 - Output contract: `references/output-format.md`
 - Quality checklist: `references/quality-checklist.md`
 - Skill template: `../../templates/skill_template/SKILL.md`
-- Source traceability: `references/source-mapping.md`
 
 ## Constraints And Safety
 - Keep skill instructions concise and execution-oriented.
