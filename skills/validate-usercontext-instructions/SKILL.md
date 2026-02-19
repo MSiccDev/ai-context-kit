@@ -14,7 +14,7 @@ Validate user-context instruction files and produce deterministic reports with i
 ## When To Use
 - Use this skill to validate `*_usercontext.instructions.md` files.
 - Use this skill before publishing or reusing a user-context file.
-- Do not use this skill for project instructions or AGENTS files.
+- Do not use this skill for project `AGENTS.md` (project context) files.
 
 ## Required Inputs
 - Target file path.

@@ -31,7 +31,7 @@ This specification introduces a structured, deterministic **instruction-based se
 
 This specification distinguishes between:
 
-- **Instructions** – Persistent context and guidelines (user context instructions, project instructions) that define WHO the user is, WHAT they're working on, and HOW the AI should behave
+- **Instructions** – Persistent context and guidelines (user context instructions, project AGENTS context) that define WHO the user is, WHAT they're working on, and HOW the AI should behave
 - **Skills** – Canonical operational workflow instructions (create/validate/governance) stored as reusable skill artifacts
 - **Prompts/Queries** – Day-to-day requests the user makes within that instructed environment; prompt files may also serve as compatibility wrappers
 - **Session State** – The active combination of instruction layers and dynamic context that governs AI behavior
@@ -66,13 +66,13 @@ This specification is built on a critical distinction:
 
 ### Instructions (Persistent Context)
 **What they are:**
-- Structured files (user context instructions, project instructions) that define persistent working context
+- Structured files (user context instructions, project AGENTS context) that define persistent working context
 - Loaded once and remain active throughout a session
 - Define WHO the user is, WHAT they're working on, and HOW the AI should behave
 
 **Examples:**
 - Personal user context instructions: Professional background, skills, preferences, working style
-- Project instructions: Tech stack, architecture, roles, phases, constraints
+- Project AGENTS context: Tech stack, architecture, roles, phases, constraints
 
 **Purpose:**
 - Eliminate repetitive context-setting
@@ -152,7 +152,7 @@ A session consists of structured context elements that determine how the assista
 | **Output Style** | Defines verbosity and formatting style of responses. | Yes | Yes | "Step-by-step reasoning", "Minimal code only", "Annotated solution" |
 | **Tone** | The communication voice or attitude used by the assistant. Can depend on Role & Phase or be manually overridden. | Yes | Yes | "Analytical", "Direct", "Encouraging", "Neutral" |
 | **Interaction Mode** | Defines how proactive or directive the assistant should be. | Optional* | Yes | "Advisory Mode", "Pair-programming Mode", "Driver Mode" |
-* **Note:** Interaction Mode is optional in the abstract session model, but **project instruction files should define a default Interaction Mode** to keep collaboration deterministic and to avoid ambiguity about how proactive the assistant should be at the start of a project session.
+* **Note:** Interaction Mode is optional in the abstract session model, but **project `AGENTS.md` files (project context) should define a default Interaction Mode** to keep collaboration deterministic and to avoid ambiguity about how proactive the assistant should be at the start of a project session.
 
 ---
 
@@ -641,7 +641,7 @@ To avoid ambiguity, projects must define a **command namespace** prefix that uni
 - `/ack.phase implementation`
 
 **Guidelines:**
-- The namespace must be documented in project instructions
+- The namespace must be documented in project AGENTS context
 - Provide unprefixed aliases only if explicitly documented
 - When both prefixed and unprefixed commands exist, prefixed commands take priority
 
@@ -740,7 +740,7 @@ Project defaults streamline initialization and reinforce workflow consistency wh
 
 ## 8.8 Documentation Formatting Guidelines
 
-To maintain professional clarity and reduce visual noise in instruction files (user context instructions, project instructions, specification documents), the following formatting guidelines are recommended:
+To maintain professional clarity and reduce visual noise in instruction files (user context instructions, project AGENTS context, specification documents), the following formatting guidelines are recommended:
 
 ### 8.8.1 No Decorative Icons or Emojis
 
@@ -778,16 +778,15 @@ To maintain professional clarity and reduce visual noise in instruction files (u
 
 ### 8.8.3 YAML Frontmatter for Metadata
 
-All context files should begin with YAML frontmatter. The expected fields depend on the file type:
+Context files that use `*.instructions.md` should begin with YAML frontmatter. The expected fields depend on the file type.
+`AGENTS.md` files are typically plain Markdown and do not require YAML frontmatter.
 
-#### Instruction Files (User Context, Project Instructions)
+#### Instruction Files (`*.instructions.md`)
 
 Instruction files should use a **minimal, portable frontmatter** that is stable across tooling:
 
 - `description`
 - `applyTo: "**/*"`
-
-Project instruction files may additionally include a stable identifier such as `name` (a lowercase slug), if used by tooling. Avoid adding speculative metadata fields that validators or loaders do not recognize.
 
 #### Specification / Reference Documents
 

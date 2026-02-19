@@ -264,7 +264,7 @@ Use absolute paths to keep the links stable.
 
 | Platform | Method |
 |----------|---------|
-| **Anthropic Claude Projects** | Paste user context and project AGENTS context into **Project Instructions** and/or add to project knowledge |
+| **Anthropic Claude Projects** | Paste user context and project AGENTS context into **project-level context settings** and/or add to project knowledge |
 | **GitHub Copilot (VS Code/IDE)** | Create `.github/instructions/copilot-instructions.md`; Copilot reads it automatically |
 | **LM Studio / Ollama** | Save `.instructions.md` files as system prompts or instruction presets |
 | **OpenAI ChatGPT** | Paste into **Custom Instructions** (user context) and upload `AGENTS.md` as project context |

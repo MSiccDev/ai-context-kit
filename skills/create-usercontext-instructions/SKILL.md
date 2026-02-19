@@ -14,7 +14,7 @@ Generate a complete user-context instruction file with required sections, privac
 ## When To Use
 - Use this skill when the task is to create or regenerate a `*_usercontext.instructions.md` file.
 - Use this skill when user context must be gathered through structured phases.
-- Do not use this skill for project instruction files or AGENTS files.
+- Do not use this skill for project `AGENTS.md` (project context) files.
 
 ## Required Inputs
 - Target identity label and role/title.
