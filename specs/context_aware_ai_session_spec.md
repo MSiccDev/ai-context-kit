@@ -822,15 +822,17 @@ To keep cross-references stable across templates, skills, prompts, validators, a
 Recommended canonical paths:
 
 - `templates/`
-  - Canonical instruction templates (user context + project instructions)
+  - Canonical instruction templates (user context + AGENTS template)
 - `skills/`
   - Canonical workflow skill artifacts (`SKILL.md` folders plus skill-local references)
 - `prompts/`
   - Prompt/query artifacts and compatibility wrappers that delegate workflow detail to skills
 - `specs/context_aware_ai_session_spec.md`
   - Authoritative specification document
-- `projects/`
-  - Project-specific instruction files
+- Root `AGENTS.md`
+  - Canonical project-level operational context for the repository
+- `usercontexts/`
+  - User-context instruction files and related validation artifacts
 - Root `README.md`
   - Human-facing entry point and workflow documentation
 
