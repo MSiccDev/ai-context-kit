@@ -14,16 +14,17 @@ This repository distinguishes:
 Use this order when files differ:
 1. **Specification (authoritative):** `<path to spec>`
 2. **Templates (canonical structures):** `<path(s) to templates>`
-3. **Prompts (operational workflows):** `<path(s) to create/validate prompts>`
-4. **Samples (illustrative examples):** `<path(s) to sample instructions and validations>`
+3. **Skills (canonical operational workflows):** `<path(s) to skills>`
+4. **Prompts (compatibility wrappers):** `<path(s) to create/validate wrappers>`
+5. **Samples (illustrative examples):** `<path(s) to sample instructions and validations>`
 
 ## Repository Map
 | Path | Purpose |
 | --- | --- |
 | `specs/` | Normative specification and terminology |
 | `templates/` | Canonical templates |
+| `skills/` | Canonical workflow skills |
 | `prompts/` | Creation and validation workflows |
-| `projects/` | Project-level instruction examples |
 | `usercontexts/` | User-context instruction examples |
 | `<additional path>` | `<purpose>` |
 
@@ -96,8 +97,9 @@ Alias policy:
 ## Update And Drift-Control Rule
 When the specification changes, audit and update all impacted artifacts:
 - `templates/`
+- `skills/`
 - `prompts/`
-- sample files (`projects/`, `usercontexts/`)
+- sample files (`usercontexts/`)
 - `README.md`
 - `AGENTS.md` files
 

@@ -1,20 +1,20 @@
 ---
 name: "create-project-instructions"
-description: "Create complete project instruction files using phased discovery, required section coverage, and session-state modeling."
+description: "Create project-context AGENTS.md files using phased discovery, required operational sections, and session-state modeling."
 metadata:
   source_prompt: "prompts/create-project-instructions.prompt.md"
   workflow_type: "generation"
 ---
 
-# Create Project Instructions
+# Create Project Context AGENTS
 
 ## Purpose
-Generate complete project instruction files with required sections, role definitions, command namespace controls, and validation-ready structure.
+Generate project-context `AGENTS.md` files with required sections, role definitions, command namespace controls, and validation-ready structure.
 
 ## When To Use
-- Use this skill when the task is to create or regenerate a `*_project.instructions.md` file.
+- Use this skill when the task is to create or regenerate project-context `AGENTS.md`.
 - Use this skill when project context must include role/phase/style defaults.
-- Do not use this skill for user-context or AGENTS-specific generation.
+- Do not use this skill for user-context instruction generation.
 
 ## Required Inputs
 - Project name, description, and current phase.
@@ -32,8 +32,9 @@ Generate complete project instruction files with required sections, role definit
 5. Validate completeness using `references/quality-checklist.md` before final output.
 
 ## Output Expectations
-- One complete project instruction file with all required sections.
+- One complete `AGENTS.md` file with all required project-context sections.
 - Session-state and command-reference elements are fully populated.
+- Core project-context required-section completeness is enforced through AGENTS structure.
 - Role definitions and examples are project-specific and actionable.
 - Output remains provider-neutral.
 - Output contract and summary format follow `references/output-format.md`.
@@ -45,8 +46,8 @@ Generate complete project instruction files with required sections, role definit
 - Role templates: `references/role-template.md`
 - Output contract: `references/output-format.md`
 - Quality checklist: `references/quality-checklist.md`
-- Structure baseline: `../../templates/project_template.instructions.md`
-- Example reference: `../../projects/ai_context_kit_project.instructions.md`
+- Structure baseline: `../../templates/AGENTS_template.md`
+- Example reference: `../../AGENTS.md`
 
 ## Constraints And Safety
 - Keep recommendations tied to project scope.

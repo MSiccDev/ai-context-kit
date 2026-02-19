@@ -20,14 +20,14 @@ This repository provides a **comprehensive AI instruction and workspace configur
 What began as a way to extract and reuse prompts across AI providers has evolved into a sophisticated **instruction-based architecture** for AI collaboration:
 
 - **Not just prompts** – These are persistent instruction sets that define working context
-- **Layered architecture** – Personal user context + project-specific instructions create complete AI workspace configurations
+- **Layered architecture** – Personal user context + project `AGENTS.md` context create complete AI workspace configurations
 - **Provider-agnostic** – Works seamlessly across different LLM environments
 
 ### The System
 
 This framework consists of:
 - **Personal user context instructions** – Your professional identity, skills, preferences, and working style
-- **Project-specific instructions** – Scope, tech stack, roles, objectives, and guidelines per project
+- **Project AGENTS context** – Scope, tech stack, roles, objectives, and operational guidance per project
 - **Session specification** – How AI assistants should maintain and adapt context during work sessions
 - **Templates** – For creating new instruction sets quickly and consistently
 
@@ -49,16 +49,13 @@ ai-context-kit/
 │   ├── README.md                                     # Plan lifecycle policy
 │   └── plan-status.sh                                # Open/executed plan detector
 │
-├── projects/
-│   └── project1_project.instructions.md              # Example project-specific instructions
-│
 ├── prompts/                                          # Compatibility prompt wrappers
 │   ├── create-usercontext-instructions.prompt.md     # Generate user context instruction files
-│   ├── create-project-instructions.prompt.md         # Generate project instruction files
+│   ├── create-project-instructions.prompt.md         # Generate project-context AGENTS.md files
 │   ├── create-agents-md.prompt.md                    # Generate AGENTS.md files
 │   ├── create-skill.prompt.md                        # Generate skill files
 │   ├── validate-usercontext-instructions.prompt.md   # Validate user context files
-│   ├── validate-project-instructions.prompt.md       # Validate project files
+│   ├── validate-project-instructions.prompt.md       # Validate project-context AGENTS.md files
 │   ├── validate-agents-md.prompt.md                  # Validate AGENTS.md files
 │   └── validate-skill.prompt.md                      # Validate skill files
 │
@@ -67,7 +64,7 @@ ai-context-kit/
 │
 ├── templates/
 │  ├── usercontext_template.instructions.md           # Canonical v1.3 user context template (authoritative)
-│  ├── project_template.instructions.md               # Canonical v1.3 project template (authoritative)
+│  ├── AGENTS_template.md                             # Canonical AGENTS template (authoritative)
 │  └── skill_template/SKILL.md                        # Canonical skill template
 │
 └── skills/
@@ -101,7 +98,7 @@ It also provides a **skill-first workflow system** for creating and validating t
 The templates located in `/templates` are the **single authoritative source** for instruction structure:
 
 - `templates/usercontext_template.instructions.md`
-- `templates/project_template.instructions.md`
+- `templates/AGENTS_template.md`
 
 These templates are:
 - Fully aligned with the **Context-Aware AI Session Flow Specification v1.3**
@@ -121,15 +118,15 @@ Your foundational AI context that includes:
 
 **Purpose:** Serves as the base instruction layer that AI assistants load first to understand who you are and how you work globally.
 
-### 2. **Project Instructions**
-Project-specific instruction sets that define:
+### 2. **Project AGENTS Context**
+Project-level AGENTS context defines:
 - Project scope and objectives
 - Technology stack and architecture
 - Recommended AI roles (Architect, Developer, Designer, etc.)
 - Default work phases (Planning, Implementation, Debugging, Review)
 - Project-specific constraints and guidelines
 
-**Purpose:** Provides focused, project-specific instructions that layer on top of your user context to create complete working context.
+**Purpose:** Provides focused, project-specific operational context layered on top of user context.
 
 ### 3. **Session State Model**
 A structured approach to AI collaboration that manages context dynamically:
@@ -205,8 +202,6 @@ The following paths are considered **canonical**:
   - Planning prompts and plan lifecycle/status utilities
 - `specs/context_aware_ai_session_spec.md`
   - Authoritative specification (v1.3+)
-- `projects/`
-  - Project-specific instruction files
 - Root `README.md`
   - Human-facing entry point and workflow documentation
 
@@ -229,14 +224,14 @@ If paths must change, update the specification and README first, then adjust ski
    - **Manual (canonical):** Copy `templates/usercontext_template.instructions.md` (spec v1.3), fill in your details, and save as `yourname_usercontext.instructions.md`
    - **AI-Assisted (skill-first):** Use `skills/create-usercontext-instructions/SKILL.md` (or `prompts/create-usercontext-instructions.prompt.md` as compatibility wrapper)
 
-2. **Create Project Instructions:**
-   - **Manual (canonical):** Copy `templates/project_template.instructions.md` (spec v1.3) and define your project
-   - **AI-Assisted (skill-first):** Use `skills/create-project-instructions/SKILL.md` (or `prompts/create-project-instructions.prompt.md` as compatibility wrapper)
-   - Save in `projects/` folder with descriptive names (e.g., `projectname_project.instructions.md`)
+2. **Create Project Context (AGENTS.md):**
+   - **Manual (canonical):** Copy `templates/AGENTS_template.md` and define your project context
+   - **AI-Assisted (skill-first):** Use `skills/create-agents-md/SKILL.md` (or `skills/create-project-instructions/SKILL.md` compatibility alias)
+   - Save as `AGENTS.md` in your project root (or scoped nested `AGENTS.md` where needed)
 
-3. **Validate Your Instructions (Optional but Recommended):**
+3. **Validate Your Context Artifacts (Optional but Recommended):**
    - Use `skills/validate-usercontext-instructions/SKILL.md` to check your user context file
-   - Use `skills/validate-project-instructions/SKILL.md` to check your project files
+   - Use `skills/validate-agents-md/SKILL.md` to check your project `AGENTS.md`
    - Prompt wrappers in `prompts/` remain available as compatibility entrypoints
    - Validation creates a `.validation.md` report with scoring and recommendations
 
@@ -246,21 +241,19 @@ If paths must change, update the specification and README first, then adjust ski
 ### For Returning Users
 
 - Load your user context instructions as the base context
-- Add the relevant project instructions on top
+- Add the relevant project `AGENTS.md` context on top
 - The AI will maintain state across your work session
 
 ---
 ### Linking Instructions Across Repositories (macOS)
 
-If you manage your instruction files centrally in this repository, you can link them into a project repo using symlinks.
+If you manage your context files centrally in this repository, you can link them into a project repo using symlinks.
 
 Example:
 ```bash
 mkdir -p /path/to/your-project/.github/instructions
-ln -s /path/to/your-instructions/projects/your_project.instructions.md \
-      /path/to/your-project/.github/instructions/your_project.instructions.md
-ln -s /path/to/your-instructions/projects/your_project.validation.md \
-      /path/to/your-project/.github/instructions/your_project.validation.md
+ln -s /path/to/your-instructions/AGENTS.md \
+      /path/to/your-project/AGENTS.md
 ```
 
 Use absolute paths to keep the links stable.
@@ -271,12 +264,12 @@ Use absolute paths to keep the links stable.
 
 | Platform | Method |
 |----------|---------|
-| **Anthropic Claude Projects** | Paste user context + project instructions into **Project Instructions** and/or add to **Project Knowledge** |
+| **Anthropic Claude Projects** | Paste user context and project AGENTS context into **Project Instructions** and/or add to project knowledge |
 | **GitHub Copilot (VS Code/IDE)** | Create `.github/instructions/copilot-instructions.md`; Copilot reads it automatically |
 | **LM Studio / Ollama** | Save `.instructions.md` files as system prompts or instruction presets |
-| **OpenAI ChatGPT** | Paste into **Custom Instructions** (user context) and upload project instructions as file |
+| **OpenAI ChatGPT** | Paste into **Custom Instructions** (user context) and upload `AGENTS.md` as project context |
 | **Gemini** | Paste into chat or use a system instruction (Gemini API / AI Studio) |
-| **Local scripts / APIs** | Concatenate user context + project instructions when initializing conversations |
+| **Local scripts / APIs** | Concatenate user context + `AGENTS.md` project context when initializing conversations |
 | **IDE integrations** | Reference `.instructions.md` files in config or load via custom extensions |
 
 
@@ -315,9 +308,9 @@ Key sections to customize:
 - Preferred working style
 - Current focus areas
 
-### Creating Project Instructions
+### Creating Project AGENTS Context
 
-Each project instruction set should define:
+Each project `AGENTS.md` should define:
 - Project description and tech stack
 - Supported AI roles for this project
 - Default role and phase
@@ -367,12 +360,13 @@ Validation workflows create persistent `.validation.md` files alongside your ins
 ## Conventions
 
 - **File format:** UTF-8 Markdown
-  - `.instructions.md` for both user context and project files (persistent context and guidelines)
+  - `.instructions.md` for user context files
+  - `AGENTS.md` for project-level operational context
   - Actual prompts/queries are what you ask the AI day-to-day within this instructed environment
-- **Naming:** lowercase with underscores (e.g., `yourname_usercontext.instructions.md`, `projectname_project.instructions.md`)
+- **Naming:** lowercase with underscores for user contexts (e.g., `yourname_usercontext.instructions.md`)
 - **Structure:** Consistent headings and sections across all files
 - **Languages:** Technical content in English; adapt as needed
-- **Versioning:** Update user context when skills/preferences evolve; update project instructions when phases change
+- **Versioning:** Update user context when skills/preferences evolve; update project `AGENTS.md` when phases/objectives change
 - **Discoverability:** Semantic file extensions help AI tools identify and load the appropriate instructions automatically
 
 - **Canonical structure:** The templates in `/templates` define the only supported instruction structure for spec v1.3
@@ -420,8 +414,8 @@ This is a **GitHub template repository**. Here's how to use it:
    - Start with `templates/usercontext_template.instructions.md`
    - Fill in your professional details, skills, and preferences
    - Save as `yourname_usercontext.instructions.md` in the root
-   - Create project instructions from `templates/project_template.instructions.md`
-   - Save in `projects/` folder
+   - Create project context from `templates/AGENTS_template.md`
+   - Save as `AGENTS.md` in your project root
 
 3. **Keep It Updated:**
    - Update your usercontext as your skills evolve
@@ -479,7 +473,7 @@ git merge template/main --allow-unrelated-histories
 - ✅ Specification documents in `specs/`
 - ✅ README improvements
 - ❌ Your personal `*_usercontext.instructions.md`
-- ❌ Your project files in `projects/`
+- ❌ Your project `AGENTS.md`
 
 ### Contributing Back
 

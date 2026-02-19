@@ -1,23 +1,23 @@
 ---
 name: "validate-project-instructions"
-description: "Validate project instruction files for required sections, session-state model completeness, role quality, and scoring compliance."
+description: "Validate project-context AGENTS.md files for required sections, session-state model completeness, role quality, and scoring compliance."
 metadata:
   source_prompt: "prompts/validate-project-instructions.prompt.md"
   workflow_type: "validation"
 ---
 
-# Validate Project Instructions
+# Validate Project Context AGENTS
 
 ## Purpose
-Validate project instruction files with deterministic checks for frontmatter, required sections, session-state controls, and role definitions.
+Validate project-context `AGENTS.md` files with deterministic checks for required sections, session-state controls, role definitions, and core required-section completeness.
 
 ## When To Use
-- Use this skill to validate `*_project.instructions.md` files.
+- Use this skill to validate project-context `AGENTS.md` files.
 - Use this skill when reviewing project context quality prior to active use.
-- Do not use this skill for user-context or AGENTS validation.
+- Do not use this skill for user-context instruction validation.
 
 ## Required Inputs
-- Target project instruction file path.
+- Target project-context `AGENTS.md` path.
 - Expected section model and command reference expectations.
 - Any strictness preferences for warnings vs required fixes.
 
@@ -40,8 +40,7 @@ Validate project instruction files with deterministic checks for frontmatter, re
 - Phase checks: `references/phase-checks.md`
 - Report contract: `references/report-contract.md`
 - Scoring model: `references/scoring.md`
-- Example target: `../../projects/ai_context_kit_project.instructions.md`
-- Example report: `../../projects/ai_context_kit_project.validation.md`
+- Example target: `../../AGENTS.md`
 
 ## Constraints And Safety
 - Keep findings specific and actionable.

@@ -1,11 +1,11 @@
 ---
-description: 'Compatibility wrapper for creating project instruction files using canonical skill workflow.'
+description: 'Compatibility wrapper for creating project-context AGENTS.md files using canonical skill workflow.'
 ---
 
-# Create Project Instructions (Wrapper)
+# Create Project Context AGENTS (Wrapper)
 
 ## Mission
-Create a complete project instruction file by delegating workflow logic to the canonical skill.
+Create a complete project-context `AGENTS.md` artifact by delegating workflow logic to the canonical skill.
 
 ## Canonical Skill
 - `skills/create-project-instructions/SKILL.md`
@@ -27,7 +27,7 @@ Create a complete project instruction file by delegating workflow logic to the c
    - `skills/create-project-instructions/references/quality-checklist.md`
 
 ## Output Intent
-- Produce one complete `*_project.instructions.md` artifact.
+- Produce one complete `AGENTS.md` artifact.
 - Include concise completion summary and assumptions.
 
 ## Wrapper Policy
