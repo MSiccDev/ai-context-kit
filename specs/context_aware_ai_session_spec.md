@@ -1,20 +1,20 @@
 ---
-version: 1.3.0
+version: 1.3.1
 context_type: specification
 document_type: technical_specification
 created: 2025-10-20
-last_updated: 2026-02-17
+last_updated: 2026-02-20
 status: active
 intended_audience: AI-assisted developers, system designers, prompt engineers, LLM-based tooling architects
 license: Open for adaptation and refinement
 ---
 
-# Context-Aware AI Session Flow Specification (v1.3)
+# Context-Aware AI Session Flow Specification (v1.3.1)
 
 ## Specification Metadata
-- **Version:** 1.3.0 (Adds skill-first workflow authority and prompt-wrapper discipline)
+- **Version:** 1.3.1 (Adds repository-level governance alignment for AGENTS precedence, command surface, and drift-control contracts)
 - **Created:** October 2025
-- **Last Updated:** February 17, 2026
+- **Last Updated:** February 20, 2026
 - **Intended Audience:** AI-assisted developers, system designers, prompt engineers, LLM-based tooling architects
 - **Applicability:** Contextual AI assistants used in multi-step, developer-focused or project-based workflows
 - **License / Usage Note:** Open for adaptation and refinement in AI workflow tooling, documentation, and instructional materials
@@ -33,7 +33,7 @@ This specification distinguishes between:
 
 - **Instructions** – Persistent context and guidelines (user context instructions, project AGENTS context) that define WHO the user is, WHAT they're working on, and HOW the AI should behave
 - **Skills** – Canonical operational workflow instructions (create/validate/governance) stored as reusable skill artifacts
-- **Prompts/Queries** – Day-to-day requests the user makes within that instructed environment; prompt files may also serve as compatibility wrappers
+- **Prompts/Queries** – Day-to-day requests the user makes within that instructed environment; prompt files may also serve as composition entrypoints
 - **Session State** – The active combination of instruction layers and dynamic context that governs AI behavior
 
 The document outlines how instruction-based context should be:
@@ -95,7 +95,7 @@ This specification is built on a critical distinction:
 - Day-to-day questions and tasks the user asks within the instructed environment
 - Consumable and specific to immediate needs
 - What users traditionally think of as "prompts"
-- Prompt files may be retained as compatibility wrappers that dispatch to canonical skills
+- Prompt files may be retained as composition entrypoints that dispatch to canonical skills
 
 **Examples:**
 - "Create a new authentication endpoint"
@@ -112,11 +112,30 @@ This specification defines how AI assistants should:
 4. Adapt behavior based on session state changes
 5. Respond to user prompts/queries within that context
 
-### Bootstrap Entrypoint Note (AGENTS.md)
-Repositories may provide a root `AGENTS.md` file as a concise bootstrap entrypoint for agent behavior and navigation.  
-When present, `AGENTS.md` should embed operational essentials and link to deeper references (spec, templates, skills, prompts, and samples) rather than duplicating full normative content.  
-When a repository adopts skill-first workflow authority, `AGENTS.md` should make that precedence explicit and describe prompts as compatibility wrappers.  
+### Normative Artifact Precedence
+
+When guidance conflicts across repository artifacts, the assistant should apply this precedence order:
+
+1. Specification (authoritative model and normative rules)
+2. Templates (canonical artifact structures)
+3. Skills (canonical operational workflows)
+4. Prompts (composition entrypoints)
+5. Samples and validation artifacts (illustrative examples)
+
+### Bootstrap Entrypoint Guidance (AGENTS.md)
+Repositories that use project-scoped operational context **SHOULD** provide a root `AGENTS.md` file as a concise bootstrap entrypoint for agent behavior and navigation.  
+When present, assistants **SHOULD** treat root `AGENTS.md` as the primary repository operational entrypoint and then follow its references to deeper artifacts (spec, templates, skills, prompts, and samples).  
+`AGENTS.md` should embed operational essentials and link to deeper references rather than duplicating full normative content.  
+When a repository adopts skill-first workflow authority, `AGENTS.md` should make that precedence explicit and describe prompts as composition entrypoints.  
 This specification remains authoritative for model definitions and rules.
+
+#### AGENTS Scope and Precedence
+
+When multiple `AGENTS.md` files exist in a repository:
+- An `AGENTS.md` file applies to its own directory and all descendant paths.
+- If more than one `AGENTS.md` applies to a target file/path, the closest (deepest) `AGENTS.md` in that subtree takes precedence for that target.
+- Root `AGENTS.md` should define global repository policy; nested `AGENTS.md` files should only refine behavior for their scoped subtree.
+- If applicable `AGENTS.md` files conflict and precedence does not resolve intent, the assistant should request clarification before proceeding.
 
 ---
 
@@ -422,7 +441,7 @@ This section defines when and how session state elements (Project, Role, Phase, 
 ### 6.1 General Transition Principles
 
 Any session element may be updated during a session.  
-Transitions may be triggered explicitly by user command or implicitly by context shifts.  
+Context shifts may trigger transition suggestions, but transition application should require explicit user confirmation.  
 The assistant must confirm transitions when intent is not fully clear.  
 Significant transitions should be followed by a brief state summary.  
 Transitions should not reset unrelated state elements.
@@ -431,14 +450,14 @@ Transitions should not reset unrelated state elements.
 
 ### 6.2 Valid Transition Triggers
 
-| State Element | Explicit Trigger Example | Implicit Trigger Example | Requires Confirmation? |
+| State Element | Explicit Trigger Example | Implicit Trigger Example | Requires Confirmation When Inferred? |
 |---------------|--------------------------|---------------------------|------------------------|
 | **Project** | "Switch to the dashboard project." | User tasks clearly reference a different codebase | Always |
-| **Role / Mode** | "Switch to Architect Mode." | Request changes from code writing to system reasoning | Recommended |
-| **Phase** | "We are now in implementation." | Continuous coding after planning | Recommended |
-| **Output Style** | "From now on, minimal code only." | Repeated requests to skip explanations | Unless conflicts arise |
-| **Tone** | "Be more concise." | Rarely inferred; typically user-driven | If explicit |
-| **Interaction Mode** | "Let's pair-program this." | Ambiguous unless explicitly stated | If unclear |
+| **Role / Mode** | "Switch to Architect Mode." | Request changes from code writing to system reasoning | Yes |
+| **Phase** | "We are now in implementation." | Continuous coding after planning | Yes |
+| **Output Style** | "From now on, minimal code only." | Repeated requests to skip explanations | Yes |
+| **Tone** | "Be more concise." | Rarely inferred; typically user-driven | Yes |
+| **Interaction Mode** | "Let's pair-program this." | Ambiguous unless explicitly stated | Yes |
 
 ---
 
@@ -569,10 +588,12 @@ If unclear, the assistant must ask clarifying questions rather than assume a tra
 ### 7.2 Structured Command Interface (Explicit Control Layer)
 
 A compact command syntax allows direct manipulation of session elements. This is especially useful for experienced users or when integrated into IDE tooling and UI-driven interfaces.
+Repositories may implement a subset or superset of these commands; the core table below defines the minimum common namespaced surface for explicit state control.
+
+Core command surface:
 
 | Command | Parameters | Description |
 |---------|------------|-------------|
-| `/tag.project [name]` | Project name or label | Switches the active project |
 | `/tag.mode [role]` | e.g., architect, developer, reviewer | Changes assistant role |
 | `/tag.phase [name]` | planning / implementation / debugging / review | Updates work phase |
 | `/tag.style [name]` | step-by-step / minimal / annotated | Sets verbosity and formatting |
@@ -581,8 +602,17 @@ A compact command syntax allows direct manipulation of session elements. This is
 | `/tag.context` | — | Displays current session state |
 | `/tag.reset` | — | Clears session state (except user context) |
 
+Project switching remains supported through natural-language controls; command-based project switching is an optional repository extension.
+
+Optional command extensions (repository-specific):
+
+| Command | Parameters | Description |
+|---------|------------|-------------|
+| `/tag.project [name]` | Project name or label | Switches the active project when explicit project command routing is enabled |
+| `/tag.help` | — | Lists available namespaced commands when a help command is implemented |
+
 Commands may be combined if unambiguous:
-/tag.project backend-api /tag.mode developer /tag.phase implementation
+/tag.mode developer /tag.phase implementation
 
 ---
 
@@ -591,8 +621,8 @@ Commands may be combined if unambiguous:
 If a command is valid and complete, the assistant executes it and provides a confirmation summary.  
 If information is missing, the assistant prompts for clarification:
 
-/tag.project
-Assistant: "Please specify a project name."
+/tag.mode
+Assistant: "Please specify a role."
 
 If a conflict arises, clarification is required:
 /tag.mode architect /tag.phase implementation
@@ -617,7 +647,7 @@ Assistant: "'blazingfast' is not a recognized style. Available: step-by-step, mi
 ### 7.5 Discoverability and Support
 
 Users should be able to ask for available commands by saying:  
-"What commands can I use?" or /tag.help
+"What commands can I use?" (and, when implemented, `/tag.help`)
 
 The assistant may reference structured commands as tips when users repeatedly perform similar transitions:
 "You can also switch mode quickly by using: /tag.mode developer"
@@ -821,11 +851,11 @@ To keep cross-references stable across templates, skills, prompts, validators, a
 Recommended canonical paths:
 
 - `templates/`
-  - Canonical instruction templates (user context + AGENTS template)
+  - Canonical templates (instruction templates plus skill templates)
 - `skills/`
   - Canonical workflow skill artifacts (`SKILL.md` folders plus skill-local references)
 - `prompts/`
-  - Prompt/query artifacts and compatibility wrappers that delegate workflow detail to skills
+  - Prompt/query artifacts and composition entrypoints that delegate workflow detail to skills
 - `specs/context_aware_ai_session_spec.md`
   - Authoritative specification document
 - Root `AGENTS.md`
@@ -835,25 +865,77 @@ Recommended canonical paths:
 - Root `README.md`
   - Human-facing entry point and workflow documentation
 
+Repositories may define additional, repository-specific directories beyond this canonical set; such directories are implementation-local unless explicitly elevated into repository policy.
+
 #### Path Stability Rules
 
 - Do not rename or move these directories without updating:
   - README references
   - specification cross-references
-  - canonical skill references and prompt wrappers
+  - AGENTS/project operational references
+  - canonical skill references and prompt composition entrypoints
 - Instruction files should reference the specification by **relative path**, not URL
 - Validators, generators, and skill dispatchers may assume these paths by convention
 
-If paths must change, update the specification and README first, then adjust skills, prompts, and validators accordingly.
+If paths must change, update the specification and README first, then adjust AGENTS/project operational references, skills, prompts, validators, and sample artifacts accordingly.
 
-### 8.8.5 Workflow Authority and Wrapper Discipline
+### 8.8.5 Workflow Authority and Entrypoint Discipline
 
 For repositories that define reusable operational workflows:
 
 - Detailed workflow logic for create/validate/governance tasks **MUST** be canonicalized in skills.
-- Prompt workflow files **MAY** remain for compatibility, but they **MUST** be thin wrappers that defer detailed checklists, scoring rubrics, and report schemas to skills.
-- Prompt wrappers **MUST NOT** reintroduce full authoritative logic already defined in skills.
-- When workflow behavior changes, skill artifacts **MUST** be updated first; prompt wrappers are updated only as compatibility entrypoints.
+- Prompt workflow files **MAY** remain as composition entrypoints, but they **MUST** be thin entrypoints that defer detailed checklists, scoring rubrics, and report schemas to skills.
+- Prompt composition entrypoints **MUST NOT** reintroduce full authoritative logic already defined in skills.
+- When workflow behavior changes, skill artifacts **MUST** be updated first; prompt composition entrypoints are updated only as composition entrypoints.
+
+### 8.8.6 Skill Integration Contract (Repository Level)
+
+For repositories that implement skill-first workflows:
+
+- The repository should keep canonical operational workflows under `skills/`.
+- This specification does **not** define full `SKILL.md` schema details; use the repository’s skill template/skill standard for artifact-level rules.
+- Repository governance should define how skill validation evidence is stored (for example colocated validation reports) when deterministic auditability is required.
+
+### 8.8.7 Validation Artifact Naming (Repository Policy)
+
+When repositories generate validation reports for instruction artifacts, they should adopt stable naming conventions so tooling can locate reports deterministically.
+
+- For `AGENTS.md` targets, repositories may use `AGENTS.validation.md`.
+- For `SKILL.md` targets, repositories may use `SKILL.validation.md`.
+- For generic instruction targets, repositories may use `[original-name].validation.md`.
+- The exact convention should be documented in repository governance files and applied consistently.
+
+### 8.8.8 Drift-Control Trigger Policy
+
+Drift-control updates should be triggered by any authoritative guidance change, not only path migrations.
+
+- When a repository changes authoritative session-model or governance guidance, maintainers should audit dependent artifacts for consistency.
+- Dependency audits should include, at minimum:
+  - templates
+  - canonical skills and skill-local references
+  - prompt composition entrypoints
+  - sample instruction artifacts and validation reports
+  - repository-facing operational docs (for example `README.md` and `AGENTS.md`)
+- Repositories should apply related updates in a coordinated change set to avoid partial drift across the instruction stack.
+
+### 8.8.9 Prompt Composition Entrypoint Minimum Contract (Repository Level)
+
+When repositories retain prompt files as composition entrypoints:
+
+- Entrypoints should remain concise and non-authoritative.
+- Each entrypoint should reference the canonical skill artifact that owns workflow logic.
+- Entrypoints should avoid duplicating detailed scoring/checklist/report schemas that are already defined in skills.
+- Entrypoint metadata should stay minimal and stable (for example concise description/frontmatter fields required by repository policy).
+- If entrypoint and skill guidance diverge, skill guidance should be treated as the operational source of truth.
+
+### 8.8.10 Workflow Family Mapping (Repository Level)
+
+Skill-first repositories should keep workflow coverage explicit by grouping canonical skills into clear operational families.
+
+- Creation workflows: generate or regenerate instruction artifacts.
+- Validation workflows: evaluate instruction artifacts and produce deterministic findings.
+- Governance workflows: coordinate repository-level policy, lifecycle, and drift-control tasks.
+- Repositories should publish and maintain a current skill inventory (for example in `skills/README.md`) so entrypoints and operators can route tasks to canonical workflows reliably.
 
 ---
 

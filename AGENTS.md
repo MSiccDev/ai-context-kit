@@ -9,7 +9,7 @@ This repository distinguishes:
 
 ## Source Of Truth And Precedence
 Use this order when files differ:
-1. **Specification (authoritative, v1.3.0):** `specs/context_aware_ai_session_spec.md`
+1. **Specification (authoritative, v1.3.1):** `specs/context_aware_ai_session_spec.md`
 2. **Templates (canonical structures):** `templates/*.instructions.md` and `templates/skill_template/SKILL.md`
 3. **Skills (canonical operational workflows):** `skills/*/SKILL.md` and skill-local references
 4. **Prompts (compatibility wrappers):** `prompts/*.prompt.md` (must defer detailed logic to skills)
@@ -111,7 +111,7 @@ Alias policy:
 - Validation: skill-based validation workflows and reports
 
 ### Current Objectives
-- Keep templates and skills aligned with spec `v1.3.0`.
+- Keep templates and skills aligned with spec `v1.3.1`.
 - Complete AGENTS-first project-context transition.
 - Preserve deterministic behavior and path stability.
 - Reduce duplication and migration noise.
@@ -195,7 +195,7 @@ When `specs/context_aware_ai_session_spec.md` changes, audit and update all impa
 - `AGENTS.md`
 
 ## Key References
-- Specification (v1.3.0): [`specs/context_aware_ai_session_spec.md`](specs/context_aware_ai_session_spec.md)
+- Specification (v1.3.1): [`specs/context_aware_ai_session_spec.md`](specs/context_aware_ai_session_spec.md)
 - Project operational defaults: this root `AGENTS.md` (Default State For This Repo)
 - User context template: [`templates/usercontext_template.instructions.md`](templates/usercontext_template.instructions.md)
 - Skill template: [`templates/skill_template/SKILL.md`](templates/skill_template/SKILL.md)

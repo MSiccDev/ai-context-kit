@@ -7,7 +7,7 @@ applyTo: "**/*"
 
 > **Purpose:** This file defines your persistent **User Context** for instruction-based AI collaboration across providers.  
 > Load this first, then layer project-specific instructions for focused work.  
-> Aligned with the **Context-Aware AI Session Flow Specification v1.3**.
+> Aligned with the **Context-Aware AI Session Flow Specification v1.3.1**.
 
 You are an AI assistant working with **[Your Name]**, a [location]-based [profession/role].
 
@@ -300,4 +300,4 @@ This file is designed for:
 
 ---
 
-© [Year] [Your Name] – Personal User Context Instructions (Spec v1.3)
+© [Year] [Your Name] – Personal User Context Instructions (Spec v1.3.1)
