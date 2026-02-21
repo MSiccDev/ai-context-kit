@@ -334,7 +334,7 @@ The task aligns with the current context,
 No conflicts are detected,  
 -> The assistant may proceed without re-confirming context.
 
-However, the user may always issue the project’s namespaced context command (e.g., `/tag.context`) to request a recap.
+However, the user may always issue the project’s namespaced context command (e.g., `/namespace.context`) to request a recap.
 
 ---
 
@@ -397,7 +397,7 @@ Users should be able to specify a preferred summary style (full vs compact).
 
 Users should be able to explicitly request active context using natural language or commands.  
 Example triggers:
-"/tag.context"
+"/namespace.context"
 "What mode are we in?"
 "Remind me of our current phase."
 
@@ -594,13 +594,13 @@ Core command surface:
 
 | Command | Parameters | Description |
 |---------|------------|-------------|
-| `/tag.mode [role]` | e.g., architect, developer, reviewer | Changes assistant role |
-| `/tag.phase [name]` | planning / implementation / debugging / review | Updates work phase |
-| `/tag.style [name]` | step-by-step / minimal / annotated | Sets verbosity and formatting |
-| `/tag.tone [style]` | formal / direct / encouraging | Changes communication tone |
-| `/tag.interact [mode]` | advisory / pair / driver | Adjusts assistant initiative |
-| `/tag.context` | — | Displays current session state |
-| `/tag.reset` | — | Clears session state (except user context) |
+| `/namespace.mode [role]` | e.g., architect, developer, reviewer | Changes assistant role |
+| `/namespace.phase [name]` | planning / implementation / debugging / review | Updates work phase |
+| `/namespace.style [name]` | step-by-step / minimal / annotated | Sets verbosity and formatting |
+| `/namespace.tone [style]` | formal / direct / encouraging | Changes communication tone |
+| `/namespace.interact [mode]` | advisory / pair / driver | Adjusts assistant initiative |
+| `/namespace.context` | — | Displays current session state |
+| `/namespace.reset` | — | Clears session state (except user context) |
 
 Project switching remains supported through natural-language controls; command-based project switching is an optional repository extension.
 
@@ -608,11 +608,11 @@ Optional command extensions (repository-specific):
 
 | Command | Parameters | Description |
 |---------|------------|-------------|
-| `/tag.project [name]` | Project name or label | Switches the active project when explicit project command routing is enabled |
-| `/tag.help` | — | Lists available namespaced commands when a help command is implemented |
+| `/namespace.project [name]` | Project name or label | Switches the active project when explicit project command routing is enabled |
+| `/namespace.help` | — | Lists available namespaced commands when a help command is implemented |
 
 Commands may be combined if unambiguous:
-/tag.mode developer /tag.phase implementation
+/namespace.mode developer /namespace.phase implementation
 
 ---
 
@@ -621,15 +621,15 @@ Commands may be combined if unambiguous:
 If a command is valid and complete, the assistant executes it and provides a confirmation summary.  
 If information is missing, the assistant prompts for clarification:
 
-/tag.mode
+/namespace.mode
 Assistant: "Please specify a role."
 
 If a conflict arises, clarification is required:
-/tag.mode architect /tag.phase implementation
+/namespace.mode architect /namespace.phase implementation
 Assistant: "Architect Mode is typically used in Planning or Review. Continue using it with Implementation Phase?"
 
 If the command is malformed, the assistant should suggest available options:
-/tag.style blazingfast
+/namespace.style blazingfast
 Assistant: "'blazingfast' is not a recognized style. Available: step-by-step, minimal, annotated."
 
 ---
@@ -640,17 +640,17 @@ Assistant: "'blazingfast' is not a recognized style. Available: step-by-step, mi
 |------------|------------|--------------------|
 | Natural language | Most conversational or exploratory sessions | Assistant interprets intent |
 | Structured commands | Fast state changes, automation, or UI integrations | Assistant applies directly |
-| Mixed expressions | Allowed ("Switch to Developer Mode /tag.phase implementation") | Assistant parses both parts |
+| Mixed expressions | Allowed ("Switch to Developer Mode /namespace.phase implementation") | Assistant parses both parts |
 
 ---
 
 ### 7.5 Discoverability and Support
 
 Users should be able to ask for available commands by saying:  
-"What commands can I use?" (and, when implemented, `/tag.help`)
+"What commands can I use?" (and, when implemented, `/namespace.help`)
 
 The assistant may reference structured commands as tips when users repeatedly perform similar transitions:
-"You can also switch mode quickly by using: /tag.mode developer"
+"You can also switch mode quickly by using: /namespace.mode developer"
 
 If supported by UI, commands may be auto-completed (optional future enhancement).
 
@@ -663,7 +663,7 @@ To avoid ambiguity, projects must define a **command namespace** prefix that uni
 
 **Recommended pattern:**
 - Use a short, lowercase project tag as a prefix (3-6 characters)
-- Format: `/tag.command` (preferred) or `/tag-command` (fallback)
+- Format: `/namespace.command` (preferred) or `/namespace-command` (fallback)
 
 **Examples:**
 - `/ack.context` for AI Context Kit
