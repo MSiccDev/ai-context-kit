@@ -1,5 +1,5 @@
 ---
-description: 'Compatibility wrapper for validating user-context instruction files using canonical validator skill.'
+description: 'Composition wrapper for validating user-context instruction files using canonical validator skill.'
 ---
 
 # Validate User Context Instructions (Wrapper)

@@ -1,5 +1,5 @@
 ---
-description: 'Compatibility wrapper for validating project-context AGENTS.md files using canonical validator skill.'
+description: 'Composition wrapper for validating project-context AGENTS.md files using canonical validator skill.'
 ---
 
 # Validate Project Context AGENTS (Wrapper)

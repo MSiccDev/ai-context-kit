@@ -1,5 +1,5 @@
 ---
-description: 'Compatibility wrapper for validating AGENTS.md files using canonical validator skill.'
+description: 'Composition wrapper for validating AGENTS.md files using canonical validator skill.'
 ---
 
 # Validate AGENTS.md (Wrapper)

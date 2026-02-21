@@ -1,5 +1,5 @@
 ---
-description: 'Compatibility wrapper for creating project-context AGENTS.md files using canonical skill workflow.'
+description: 'Composition wrapper for creating project-context AGENTS.md files using canonical skill workflow.'
 ---
 
 # Create Project Context AGENTS (Wrapper)

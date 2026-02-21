@@ -1,5 +1,5 @@
 ---
-description: 'Compatibility wrapper for creating SKILL.md files using canonical create-skill workflow.'
+description: 'Composition wrapper for creating SKILL.md files using canonical create-skill workflow.'
 ---
 
 # Create Skill (Wrapper)

@@ -1,5 +1,5 @@
 ---
-description: 'Compatibility wrapper for creating user-context instruction files using canonical skill workflow.'
+description: 'Composition wrapper for creating user-context instruction files using canonical skill workflow.'
 ---
 
 # Create User Context Instructions (Wrapper)

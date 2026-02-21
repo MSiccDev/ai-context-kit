@@ -1,5 +1,5 @@
 ---
-description: 'Compatibility wrapper for creating AGENTS.md using canonical skill workflow.'
+description: 'Composition wrapper for creating AGENTS.md using canonical skill workflow.'
 ---
 
 # Create AGENTS.md (Wrapper)

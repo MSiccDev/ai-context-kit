@@ -1,5 +1,5 @@
 ---
-description: 'Compatibility wrapper for validating SKILL.md files using canonical validator skill.'
+description: 'Composition wrapper for validating SKILL.md files using canonical validator skill.'
 ---
 
 # Validate Skill (Wrapper)
