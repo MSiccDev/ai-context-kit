@@ -1,135 +1,111 @@
 # User Context Instruction Validation Report
 
 **File:** `usercontexts/sample_usercontext.instructions.md`
-**Validated:** 2025-12-23
-**Spec Version:** v1.2
+**Validated:** 2026-02-20
+**Spec Version:** v1.3.1
+**Validator:** `skills/validate-usercontext-instructions`
 
 ---
 
-## Overall Status: ✅ PASS
-
-**Compliance Score:** 94/100
+## Overall Status + Compliance Score
+- **Status:** PASS
+- **Compliance Score:** 98/100
 
 ---
 
 ## Phase 1: YAML Frontmatter
-**Status:** ✅ PASS
+**Status:** PASS
 
-### Issues Found:
-- None
+### Findings
+- Valid YAML frontmatter detected.
+- Required attributes `description` and `applyTo` are present.
+- No unsupported frontmatter attributes detected.
 
-### Recommendations:
-- None
+### Recommendations
+- None.
 
 ---
 
 ## Phase 2: Required Sections
-**Status:** ✅ PASS
+**Status:** PASS
 
-### Missing Sections:
-- None
+### Findings
+- All required sections are present and ordered consistently.
+- Heading levels are coherent and readable.
+- Sections are substantive and not placeholder-only.
 
-### Present Sections:
-- ✅ Professional Background
-- ✅ Technical Expertise
-- ✅ Current Projects
-- ✅ Professional Goals
-- ✅ Working Style
-- ✅ Format Preferences
-- ✅ Quality Standards
-- ✅ Documentation Preferences
-- ✅ Communication Style
-- ✅ Context Handling
-- ✅ Time & Schedule
-- ✅ Resource Constraints
-- ✅ Technical Constraints
-- ✅ Exclusions & Prohibitions
+### Recommendations
+- None.
 
 ---
 
 ## Phase 3: Content Completeness
-**Status:** ✅ PASS
+**Status:** PASS
 
-### Professional Background: ✅ Complete
-- Role, organization, location, focus, and ecosystem present.
+### Findings
+- Professional background includes role, organization, location/timezone, focus, and ecosystem.
+- Technical expertise includes languages, frameworks, tooling, architecture, and learning status.
+- Current projects include descriptions, stack/platform details, and status.
+- Professional goals and current focus are documented.
+- Working style, communication style, and constraints are complete and actionable.
 
-### Technical Expertise: ✅ Complete
-- Languages, frameworks, tools, architecture, and learning included.
-
-### Current Projects: ✅ Complete
-- Multiple projects with description, stack, platforms, and status.
-
-### Professional Goals: ✅ Complete
-- Short-term and long-term goals defined, plus current focus.
-
-### Working Style: ✅ Complete
-- Workflow and session defaults are clear.
-
-### Communication Style: ✅ Complete
-- Tone, explanation depth, terminology, and redundancy guidance present.
-
-### Constraints: ✅ Complete
-- Time, resource, technical, and privacy constraints documented.
+### Recommendations
+- None.
 
 ---
 
 ## Phase 4: Format & Quality
-**Status:** ✅ PASS
+**Status:** PASS
 
-### Markdown Formatting:
-- Clean headings, consistent lists, and structured sections.
+### Findings
+- Markdown structure is consistent and scannable.
+- Privacy boundaries are appropriate for a public sample artifact.
+- JSON metadata block is present and structurally valid.
 
-### Privacy & Placeholders:
-- Sanitized sample content appropriate for a public template repo.
-
-### JSON Metadata:
-- Valid JSON aligned with required sections.
-
----
-
-## Phase 5: Spec v1.2 Compliance
-**Status:** ✅ PASS
-
-### Instruction-Based Architecture:
-- Defines WHO, WHAT, and HOW for persistent collaboration.
-
-### Portability:
-- Provider-agnostic and self-contained.
-
-### Completeness:
-- Sufficient detail for context-aware collaboration.
+### Recommendations
+- None.
 
 ---
 
-## Summary
+## Phase 5: Spec Compliance
+**Status:** PASS
 
-### Strengths:
-- Full compliance with required section structure.
-- Clear .NET/Swift focus aligned with ecosystem.
-- JSON metadata mirrors the markdown content.
+### Findings
+- Instruction-based architecture is explicit (WHO/WHAT/HOW).
+- Provider-neutral and portable wording is preserved.
+- Content is complete for context-aware collaboration use.
+- Spec-version references are aligned to v1.3.1.
 
-### Critical Issues (Must Fix):
-- None
-
-### Warnings (Should Fix):
-- None
-
-### Enhancements (Optional):
-- Expand project list if additional samples are needed.
+### Recommendations
+- None.
 
 ---
 
-## Recommendations
+## Summary (Strengths/Critical/Warnings/Enhancements)
 
-### Immediate Actions:
-1. None required.
+### Strengths
+- Complete section coverage with clear operational guidance.
+- Strong technical profile and constraints coverage in both markdown and JSON metadata.
+- Stable formatting and high portability across tools.
 
-### Suggested Improvements:
-1. Optional: add one more project example for broader coverage.
+### Critical Issues (Must Fix)
+- None.
 
-### Migration Path (if upgrading from v1):
-1. Not applicable.
+### Warnings (Should Fix)
+- None.
+
+### Enhancements (Optional)
+- Consider adding one more project sample for broader scenario coverage.
 
 ---
 
-**Validation completed successfully.**
+## Recommendations (Immediate + Suggested + Migration Path when relevant)
+
+### Immediate
+1. No blocking changes required.
+
+### Suggested
+1. Re-run validation whenever the canonical usercontext template or spec version changes.
+
+### Migration Path (when relevant)
+1. Not applicable; artifact is aligned with spec v1.3.1.
