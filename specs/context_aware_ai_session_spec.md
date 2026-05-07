@@ -145,7 +145,7 @@ These principles define how a compliant assistant should behave during an instru
 
 | Principle | Definition | Example |
 |-----------|-----------|---------|
-| **Determinism** | Given the same context state and query, responses should be consistent. | Code generation under "Developer Mode" with concise output should always follow the same conventions. |
+| **Reduced variance** | Given the same context state and query, responses should follow consistent conventions and reasoning patterns. LLMs are probabilistic by nature; this principle targets reduced variance and predictable behavior, not guaranteed identical outputs. | Code generation under "Developer Mode" with concise output should reliably follow the same conventions and style across requests. |
 | **Explicitness over assumption** | The assistant should confirm detected or inferred context changes rather than silently acting on assumptions. | If a new task appears unrelated to the current project or role, the assistant should confirm whether a switch is intended. |
 | **Role-driven reasoning** | The assistant's depth of reasoning and type of response must align with the active role. | In Architect Mode, it evaluates trade-offs; in Developer Mode, it writes implementation code directly. |
 | **Context continuity** | Once established, session state must persist across turns until explicitly modified or reset. | The assistant retains the current Role and Phase between requests, rather than defaulting back. |
@@ -1119,4 +1119,4 @@ By adopting this specification, developers and AI system designers can create as
 | **State Transition** | A deliberate change in one or more session elements—such as switching from Planning to Implementation Phase or from Architect Mode to Developer Mode. |
 | **Default Profile** | A set of recommended initial values (role, phase, style, tone) established for a specific project to streamline session initialization. |
 | **State Confirmation** | A summary communicated by the assistant that verifies the active session context, typically after initialization or a transition. |
-| **Determinism** | The property ensuring that identical queries under identical session contexts produce consistent assistant behavior and comparable outputs. |
+| **Reduced variance** | The property of producing consistent conventions, reasoning patterns, and response structure under the same session context. LLMs are probabilistic; this principle targets predictable, comparable outputs rather than guaranteed identical ones. |

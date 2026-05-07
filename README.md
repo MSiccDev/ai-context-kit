@@ -268,7 +268,7 @@ You can modify session state dynamically using:
 
 ### Design Principles
 
-- **Determinism:** Same context + same query = consistent responses 
+- **Reduced variance:** Same context + same query = more predictable responses that follow consistent conventions and reasoning patterns
 - **Explicitness:** AI confirms context changes rather than assuming
 - **Continuity:** Session state persists across conversation turns
 - **Reversibility:** All context changes can be undone
