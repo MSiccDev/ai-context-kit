@@ -433,50 +433,38 @@ This is a **GitHub template repository**. Here's how to use it:
 
 ### Keeping Your Instance Up-to-Date
 
-When the template repository gets improvements, here's how to pull them into your instance:
+When the template repository gets improvements, check [CHANGELOG.md](CHANGELOG.md) to see what changed and which files are safe to update.
 
-**Option 1: Manual Updates (Recommended)**
+**Recommended approach — copy files manually:**
+1. Open [CHANGELOG.md](https://github.com/MSiccDev/ai-context-kit/blob/main/CHANGELOG.md) in the template repository
+2. Read what changed in the new version
+3. Copy the updated files listed under **Safe to update** into your instance
+4. Commit the changes
+
+**What to update:**
+- ✅ Template files in `templates/`
+- ✅ Specification documents in `specs/`
+- ✅ Skill updates and additions in `skills/`
+- ✅ README improvements
+- ✅ `CHANGELOG.md` itself
+
+**What to protect (never overwrite):**
+- ❌ Your personal `*_usercontext.instructions.md`
+- ❌ Your project `AGENTS.md`
+- ❌ Any custom skills you have created
+
+**Advanced: pull specific changes via git**
 ```bash
 # Add the template as a remote (one-time setup)
 git remote add template https://github.com/MSiccDev/ai-context-kit.git
-
-# Fetch template updates
 git fetch template
 
-# Review what changed in the template
-git log template/main
-
-# Cherry-pick specific improvements you want
-git cherry-pick <commit-hash>
-
-# Or merge specific files manually
-git checkout template/main -- README.md
+# Copy a specific file from the template
 git checkout template/main -- specs/context_aware_ai_session_spec.md
-git checkout template/main -- templates/
+
+# Or cherry-pick a specific commit
+git cherry-pick <commit-hash>
 ```
-
-**Option 2: Automated Merge (Use with Caution)**
-```bash
-# Merge all template changes
-git merge template/main --allow-unrelated-histories
-
-# Resolve conflicts (protect your personal files!)
-# Commit the merge
-```
-
-**Best Practice:**
-- Watch/star the template repository to get notified of updates
-- Review the CHANGELOG or commit history before updating
-- Only pull updates that add value to your workflow
-- **Always protect your personal instruction files** - never overwrite them
-
-**What to Update:**
-- ✅ Template files in `templates/`
-- ✅ Specification documents in `specs/`
-- ✅ README improvements  
-- ✅ Skill updates and additions in `skills/`
-- ❌ Your personal `*_usercontext.instructions.md`
-- ❌ Your project `AGENTS.md`
 
 ### Contributing Back
 
