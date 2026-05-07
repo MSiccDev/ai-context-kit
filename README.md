@@ -35,6 +35,28 @@ All components are designed to work across hosted and local LLM environments, en
 
 ---
 
+## See It In Action
+
+The same question, with and without AI Context Kit loaded:
+
+**Without AI Context Kit:**
+> User: "Help me add authentication to the app."
+>
+> AI: "Sure! What framework are you using? What kind of auth — OAuth, JWT, sessions? What's your backend stack?..."
+
+*The AI starts from scratch every session.*
+
+**With AI Context Kit loaded:**
+> User: "Help me add authentication to the app."
+>
+> AI: "Given your .NET MAUI frontend and ASP.NET Core backend, and the OAuth2 pattern you've already established in Atlas Notes, I'd extend that same flow here. Want me to scaffold the token refresh handler first, or start with the MAUI secure storage integration?"
+
+*The AI already knows your stack, your existing patterns, and your preferences.*
+
+The difference is not magic — it is reduced friction. The AI spends zero turns asking who you are, what you are building, or how you like to work. That adds up significantly across a full development session.
+
+---
+
 ## Repository Structure
 
 ```
@@ -262,14 +284,14 @@ If paths must change, update the specification and README first, then adjust ski
 
 ## Loading Context in Different AI Platforms
 
-| Platform | Method |
-|----------|---------|
-| **Anthropic Claude Projects** | Paste user context and project AGENTS context into **project-level context settings** and/or add to project knowledge |
-| **GitHub Copilot (VS Code/IDE, coding agent)** | Just keep `AGENTS.md` in your project root; Copilot reads it automatically. **Note:** Copilot Code Review does not yet support `AGENTS.md` — add a `.github/copilot-instructions.md` file as well if you need Code Review coverage |
-| **OpenAI ChatGPT** | Paste your user context into **Custom Instructions** and upload `AGENTS.md` as project context |
-| **OpenAI Codex** | Just keep `AGENTS.md` in your project root (or the folder where you need it); Codex reads it automatically |
-| **Local scripts / APIs** | Concatenate user context + `AGENTS.md` project context when initializing conversations |
-| **Other platforms** | Use the method that best fits the platform's context management capabilities (for example, project knowledge bases, system instructions, or initial prompt injection) |
+| Platform | Method | Limitations / Notes |
+|----------|---------|---------------------|
+| **Anthropic Claude Projects** | Add user context and `AGENTS.md` to project knowledge or project instructions | Large files compete with conversation history for context window space; keep files concise |
+| **GitHub Copilot (VS Code/IDE, coding agent)** | Keep `AGENTS.md` in your project root; Copilot reads it automatically | Copilot Code Review does not yet support `AGENTS.md` — add `.github/copilot-instructions.md` if you need Code Review coverage |
+| **OpenAI ChatGPT** | Paste user context into **Custom Instructions**; upload `AGENTS.md` as a file attachment | Custom Instructions has a ~1500 character limit — long user context files will be silently truncated; maintain a condensed version |
+| **OpenAI Codex** | Keep `AGENTS.md` in your project root; Codex reads it automatically | — |
+| **Local scripts / APIs** | Concatenate user context + `AGENTS.md` when initializing conversations | Context window management is your responsibility; monitor token usage for long sessions |
+| **Other platforms** | Use the platform's context management capabilities (project knowledge, system instructions, or initial prompt injection) | Method and limits vary; consult platform documentation |
 
 
 ## How It Works
@@ -353,6 +375,27 @@ Each project `AGENTS.md` should define:
 - Works across multiple LLM providers
 - Can be versioned and backed up
 - Shareable with team members (with appropriate redactions)
+
+---
+
+## Why This Over Alternatives?
+
+| Approach | What it gives you | What's missing |
+|----------|------------------|----------------|
+| Single `CLAUDE.md` / `.cursorrules` | Quick, zero-overhead context for one tool | No portability, no layering, no validation — one file per tool |
+| Handwritten system prompt | Full control over phrasing | Re-explained every session, not versionable, not portable |
+| Per-project `AGENTS.md` only | Project-specific agent behavior | No personal layer — AI still doesn't know who you are |
+| **AI Context Kit** | Layered (personal + project), portable across providers, versioned, validated, skill-reusable | More upfront setup |
+
+**When it pays off:**
+- You work across more than one project or AI platform
+- You want your personal preferences and stack knowledge to travel with you
+- You want a team-shareable, versionable AI workspace configuration
+- You want validated, spec-compliant artifacts rather than ad-hoc prompts
+
+**When simpler is better:**
+- You use a single tool on a single project and don't plan to change that
+- A one-file `.cursorrules` or `CLAUDE.md` already covers your needs
 
 ---
 
