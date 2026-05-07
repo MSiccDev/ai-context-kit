@@ -13,6 +13,7 @@ This repository provides a **comprehensive AGENTS-first context and workflow sys
 
 - Root `AGENTS.md` is the primary operational entrypoint for agents in this repository.
 - `specs/context_aware_ai_session_spec.md` is the normative source of truth for the full session model.
+- `docs/spec-rationale.md` is the companion document with background reasoning, extended examples, and future enhancement notes.
 
 ### The Evolution
 
