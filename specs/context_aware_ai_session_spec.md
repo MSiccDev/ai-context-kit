@@ -3,7 +3,7 @@ version: 1.3.1
 context_type: specification
 document_type: technical_specification
 created: 2025-10-20
-last_updated: 2026-05-07
+last_updated: 2026-05-08
 status: active
 intended_audience: AI-assisted developers, system designers, prompt engineers, LLM-based tooling architects
 license: Open for adaptation and refinement
@@ -104,6 +104,68 @@ Each element influences assistant behavior in this order:
 5. **Output Style** — structure and verbosity
 6. **Tone** — voice and personality
 7. **Interaction Mode** — initiative and collaboration pattern
+
+### 4.4 Cross-Session Persistence
+
+Cross-session persistence allows session state to be captured in a checkpoint artifact and restored in a future session.
+
+#### 4.4.1 Checkpoint Proposal Rules
+
+- The assistant may propose creating a checkpoint only when the user signals session end or explicitly requests one.
+- Checkpoints must never be created silently; user approval is required before writing.
+- Checkpoint artifacts must be stored outside the instruction layer and must not modify `AGENTS.md` or user context files.
+
+#### 4.4.2 Checkpoint Schema
+
+A checkpoint artifact must include the following fields:
+
+| Field | Description |
+|-------|-------------|
+| `project` | Active project name |
+| `role` | Active role at session end |
+| `phase` | Active phase at session end |
+| `output_style` | Active output style |
+| `tone` | Active tone |
+| `interaction_mode` | Active interaction mode |
+| `open_tasks` | In-progress tasks or confirmed next steps |
+| `key_decisions` | Material decisions made during the session |
+| `active_files` | File paths actively referenced |
+| `last_updated` | ISO 8601 timestamp of checkpoint creation |
+
+Additional fields are permitted. Sensitive data (credentials, private client content) must never be written to a checkpoint artifact.
+
+#### 4.4.3 Restore Rules
+
+- Checkpoint state is applied only when the artifact is explicitly provided at session start.
+- If checkpoint state conflicts with active instruction files, instruction files take precedence; the assistant must flag the conflict before proceeding.
+- The user must confirm the restored state before the assistant acts on it.
+
+### 4.5 Context Compression
+
+Context compression is a mechanism for managing context window pressure in long sessions.
+
+#### 4.5.1 Compression Proposal Rules
+
+- The assistant may propose compression when context window saturation is evident — for example, when early session content becomes inaccessible or when the provider signals that compression is occurring.
+- Compression must never be applied silently. The assistant must describe what will be retained and what will be dropped before the user confirms.
+- The user must confirm before compression is applied.
+
+#### 4.5.2 Compression Checkpoint Contents
+
+A compression checkpoint must preserve:
+
+- Full active session state (all §4.1 elements)
+- Active constraints from the instruction layer
+- Key decisions made during the session
+- Open and in-progress tasks
+- Active file references
+- A summary of what context was dropped
+
+#### 4.5.3 Reversibility
+
+- Before compression is applied, the assistant should offer to export the current uncompressed context summary to a checkpoint file.
+- A compression checkpoint may serve as a session restore point per §4.4.
+- The assistant must not imply that dropped context is recoverable after compression has been applied.
 
 ---
 

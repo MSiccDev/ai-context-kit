@@ -178,15 +178,104 @@ Assistant:
 
 ---
 
+## Cross-Session Persistence and Context Compression
+
+These features are defined normatively in §4.4 and §4.5 of the spec. This section provides examples and rationale.
+
+### Session Persistence: Example Checkpoint File
+
+A checkpoint artifact captures the full session state at end-of-session and can be loaded at the start of the next session. Markdown with frontmatter is recommended for human readability; JSON is acceptable for programmatic use.
+
+```markdown
+---
+checkpoint_version: "1.0"
+last_updated: "2026-05-08T21:30:00Z"
+project: "Fieldwork"
+role: "Developer"
+phase: "Implementation"
+output_style: "minimal"
+tone: "direct"
+interaction_mode: "pair"
+---
+
+## Open Tasks
+- Resolve CloudKit merge conflict in `SyncEngine.mergeRemoteRecord(_:)`
+- Add unit tests for `ConflictResolutionPolicy.lastWriterWins`
+
+## Key Decisions
+- Chose `lastWriterWins` over `serverWins` for field-data records; rationale: environmental consultants edit offline for days and their local data is authoritative
+- Deferred background sync to post-beta; focusing on foreground pull first
+
+## Active Files
+- `Sources/Fieldwork/Sync/SyncEngine.swift`
+- `Sources/Fieldwork/Sync/ConflictResolutionPolicy.swift`
+- `Tests/FieldworkTests/SyncEngineTests.swift`
+```
+
+**Restore flow:** At the start of the next session, the user provides the checkpoint file. The assistant reads it, summarizes the restored state, flags any conflicts with the current instruction files, and waits for confirmation before proceeding.
+
+### Session Persistence: Conflict Resolution Example
+
+If the checkpoint says `role: Architect` but `AGENTS.md` defaults to `role: Developer`, the assistant surfaces the conflict:
+
+```
+Checkpoint loaded. One conflict detected:
+
+  Checkpoint role: Architect
+  AGENTS.md default role: Developer
+
+Which should take precedence for this session?
+```
+
+The user resolves it explicitly. Instruction files win by default if the user does not respond.
+
+### Context Compression: When and Why
+
+Context compression becomes relevant when:
+- The provider auto-compresses earlier turns (visible when the assistant starts losing reference to earlier discussion)
+- The session has accumulated a large number of turns with many file references and decisions
+- The user is about to shift to a new sub-task and wants a clean slate that still preserves state
+
+Compression is not a shortcut. It must never silently discard constraints or decisions. The compression checkpoint is a structured summary — not freeform prose — so it can be used as a restore point.
+
+### Context Compression: Example Proposal Dialog
+
+```
+Context window is filling. I can compress earlier session content to
+free space while preserving what matters. Here is what I would retain:
+
+Session State:
+  Project: Fieldwork | Role: Developer | Phase: Implementation
+  Output Style: minimal | Tone: direct | Interaction Mode: pair
+
+Active Constraints (from AGENTS.md / user context):
+  - No SwiftData in production
+  - No third-party networking libraries
+  - Tests: business logic only
+
+Key Decisions:
+  - Using lastWriterWins conflict policy for field records
+  - Background sync deferred to post-beta
+
+Open Tasks:
+  - Resolve merge conflict in SyncEngine.mergeRemoteRecord(_:)
+  - Add ConflictResolutionPolicy unit tests
+
+Active Files:
+  - Sources/Fieldwork/Sync/SyncEngine.swift
+  - Sources/Fieldwork/Sync/ConflictResolutionPolicy.swift
+
+What will be dropped: earlier diagnostic exploration of CloudKit
+CKSubscription setup (resolved and no longer active).
+
+Save a checkpoint file before compressing? [yes / no / proceed without saving]
+```
+
+---
+
 ## Future Enhancements (Optional / Evolutionary)
 
 These enhancements are additive optimizations for future consideration. They must remain optional and should never compromise explicitness, transparency, or user control.
-
-### Session Persistence & Checkpointing
-Sessions may be saved to a structured file (JSON or Markdown with frontmatter) capturing active state and key context. Enables deterministic restores, portability, and auditability. Always user-approved.
-
-### Context Compression Handling
-For long sessions, the assistant may propose a compressed summary that preserves active state, constraints, key decisions, open tasks, and file references. Must be explicit, user-confirmed, and reversible.
 
 ### Automatic Phase Inference
 The assistant may observe repeated task patterns and suggest transitioning to a corresponding phase. Any inferred change must be confirmed before activation.
