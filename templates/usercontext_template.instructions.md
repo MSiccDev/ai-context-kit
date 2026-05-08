@@ -1,6 +1,7 @@
 ---
 description: Personal AI collaboration context for [Your Name] - [Primary Focus] ([Primary Ecosystem])
 applyTo: "**/*"
+spec_version: "1.3.1"
 ---
 
 # User Context – [Your Name] ([Your Role/Title])

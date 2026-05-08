@@ -1,3 +1,5 @@
+<!-- spec_version: 1.3.1 -->
+
 # AI Context Kit Agent Guide
 
 ## Purpose

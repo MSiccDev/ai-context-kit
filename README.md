@@ -13,6 +13,7 @@ This repository provides a **comprehensive AGENTS-first context and workflow sys
 
 - Root `AGENTS.md` is the primary operational entrypoint for agents in this repository.
 - `specs/context_aware_ai_session_spec.md` is the normative source of truth for the full session model.
+- `docs/spec-rationale.md` is the companion document with background reasoning, extended examples, and future enhancement notes.
 
 ### The Evolution
 
@@ -32,6 +33,28 @@ This framework consists of:
 - **Templates in `templates/`** – Canonical artifact structures aligned to the spec
 
 All components are designed to work across hosted and local LLM environments, ensuring that every AI assistant understands your background, working style, and project context without repeated explanations. Results may vary by platform, so you may need to adjust your context files accordingly.
+
+---
+
+## See It In Action
+
+The same question, with and without AI Context Kit loaded:
+
+**Without AI Context Kit:**
+> User: "Help me add authentication to the app."
+>
+> AI: "Sure! What framework are you using? What kind of auth — OAuth, JWT, sessions? What's your backend stack?..."
+
+*The AI starts from scratch every session.*
+
+**With AI Context Kit loaded:**
+> User: "Help me add authentication to the app."
+>
+> AI: "Given your SwiftUI codebase and the TCA architecture you're migrating to, I'd model this as a new `AuthenticationFeature` reducer rather than adding it to an existing one. Want me to scaffold the reducer and effect first, or start with the SwiftUI view bindings?"
+
+*The AI already knows your stack, your existing patterns, and your preferences.*
+
+The difference is not magic — it is reduced friction. The AI spends zero turns asking who you are, what you are building, or how you like to work. That adds up significantly across a full development session.
 
 ---
 
@@ -174,6 +197,8 @@ Operational workflow authority is skill-first:
 2. Keep detailed operational logic in skills; use prompts as composition wrappers only.
 3. Always validate skills and keep `SKILL.validation.md` current.
 
+> **Validation scope:** Validation scores reflect structural compliance with the spec format as assessed by an AI model against a structured scoring rubric intended to be applied consistently. They do not guarantee real-world session effectiveness or consistent LLM behavior across providers. Treat scores as a structural checklist result, not a quality certification.
+
 ### Available Skills
 - `skills/create-usercontext-instructions/`
 - `skills/create-project-instructions/`
@@ -260,14 +285,14 @@ If paths must change, update the specification and README first, then adjust ski
 
 ## Loading Context in Different AI Platforms
 
-| Platform | Method |
-|----------|---------|
-| **Anthropic Claude Projects** | Paste user context and project AGENTS context into **project-level context settings** and/or add to project knowledge |
-| **GitHub Copilot (VS Code/IDE)** | Just keep `AGENTS.md` in your project root (or the folder where you need it); Copilot reads it automatically |
-| **OpenAI ChatGPT** | Paste your user context into **Custom Instructions** and upload `AGENTS.md` as project context |
-| **OpenAI Codex** | Just keep `AGENTS.md` in your project root (or the folder where you need it); Codex reads it automatically |
-| **Local scripts / APIs** | Concatenate user context + `AGENTS.md` project context when initializing conversations |
-| **Other platforms** | Use the method that best fits the platform's context management capabilities (for example, project knowledge bases, system instructions, or initial prompt injection) |
+| Platform | Method | Limitations / Notes |
+|----------|---------|---------------------|
+| **Anthropic Claude Projects** | Add user context and `AGENTS.md` to project knowledge or project instructions | Large files compete with conversation history for context window space; keep files concise |
+| **GitHub Copilot (VS Code/IDE, coding agent)** | Keep `AGENTS.md` in your project root; Copilot reads it automatically | Copilot Code Review does not yet support `AGENTS.md` — add `.github/copilot-instructions.md` if you need Code Review coverage |
+| **OpenAI ChatGPT** | Paste user context into **Custom Instructions**; upload `AGENTS.md` as a file attachment | Custom Instructions has a tight character limit — long user context files will be silently truncated; maintain a condensed version and consult current OpenAI documentation for the latest limit |
+| **OpenAI Codex** | Keep `AGENTS.md` in your project root; Codex reads it automatically | — |
+| **Local scripts / APIs** | Concatenate user context + `AGENTS.md` when initializing conversations | Context window management is your responsibility; monitor token usage for long sessions |
+| **Other platforms** | Use the platform's context management capabilities (project knowledge, system instructions, or initial prompt injection) | Method and limits vary; consult platform documentation |
 
 
 ## How It Works
@@ -354,6 +379,27 @@ Each project `AGENTS.md` should define:
 
 ---
 
+## Why This Over Alternatives?
+
+| Approach | What it gives you | What's missing |
+|----------|------------------|----------------|
+| Single `CLAUDE.md` / `.cursorrules` | Quick, zero-overhead context for one tool | No portability, no layering, no validation — one file per tool |
+| Handwritten system prompt | Full control over phrasing | Re-explained every session, not versionable, not portable |
+| Per-project `AGENTS.md` only | Project-specific agent behavior | No personal layer — AI still doesn't know who you are |
+| **AI Context Kit** | Layered (personal + project), portable across providers, versioned, validated, skill-reusable | More upfront setup |
+
+**When it pays off:**
+- You work across more than one project or AI platform
+- You want your personal preferences and stack knowledge to travel with you
+- You want a team-shareable, versionable AI workspace configuration
+- You want validated, spec-compliant artifacts rather than ad-hoc prompts
+
+**When simpler is better:**
+- You use a single tool on a single project and don't plan to change that
+- A one-file `.cursorrules` or `CLAUDE.md` already covers your needs
+
+---
+
 ## Getting Started with This Template Repository
 
 This is a **GitHub template repository**. Here's how to use it:
@@ -388,50 +434,38 @@ This is a **GitHub template repository**. Here's how to use it:
 
 ### Keeping Your Instance Up-to-Date
 
-When the template repository gets improvements, here's how to pull them into your instance:
+When the template repository gets improvements, check [CHANGELOG.md](CHANGELOG.md) to see what changed and which files are safe to update.
 
-**Option 1: Manual Updates (Recommended)**
+**Recommended approach — copy files manually:**
+1. Open `CHANGELOG.md` in the template repository (browse the upstream source or your local copy if already synced)
+2. Read what changed in the new version
+3. Copy the updated files listed under **Safe to update** into your instance
+4. Commit the changes
+
+**What to update:**
+- ✅ Template files in `templates/`
+- ✅ Specification documents in `specs/`
+- ✅ Skill updates and additions in `skills/`
+- ✅ README improvements
+- ✅ `CHANGELOG.md` itself
+
+**What to protect (never overwrite):**
+- ❌ Your personal `*_usercontext.instructions.md`
+- ❌ Your project `AGENTS.md`
+- ❌ Any custom skills you have created
+
+**Advanced: pull specific changes via git**
 ```bash
 # Add the template as a remote (one-time setup)
 git remote add template https://github.com/MSiccDev/ai-context-kit.git
-
-# Fetch template updates
 git fetch template
 
-# Review what changed in the template
-git log template/main
-
-# Cherry-pick specific improvements you want
-git cherry-pick <commit-hash>
-
-# Or merge specific files manually
-git checkout template/main -- README.md
+# Copy a specific file from the template
 git checkout template/main -- specs/context_aware_ai_session_spec.md
-git checkout template/main -- templates/
+
+# Or cherry-pick a specific commit
+git cherry-pick <commit-hash>
 ```
-
-**Option 2: Automated Merge (Use with Caution)**
-```bash
-# Merge all template changes
-git merge template/main --allow-unrelated-histories
-
-# Resolve conflicts (protect your personal files!)
-# Commit the merge
-```
-
-**Best Practice:**
-- Watch/star the template repository to get notified of updates
-- Review the CHANGELOG or commit history before updating
-- Only pull updates that add value to your workflow
-- **Always protect your personal instruction files** - never overwrite them
-
-**What to Update:**
-- ✅ Template files in `templates/`
-- ✅ Specification documents in `specs/`
-- ✅ README improvements  
-- ✅ Skill updates and additions in `skills/`
-- ❌ Your personal `*_usercontext.instructions.md`
-- ❌ Your project `AGENTS.md`
 
 ### Contributing Back
 

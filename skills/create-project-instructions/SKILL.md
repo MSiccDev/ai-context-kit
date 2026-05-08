@@ -33,7 +33,8 @@ Load or attach this file's contents into your AI session to activate the workflo
    - `references/command-template.md`
    - `references/role-template.md`
 4. Apply artifact/summary contract from `references/output-format.md`.
-5. Validate completeness using `references/quality-checklist.md` before final output.
+5. Stamp `<!-- spec_version: 1.3.1 -->` as an HTML comment at the top of the generated `AGENTS.md`.
+6. Validate completeness using `references/quality-checklist.md` before final output.
 
 ## Output Expectations
 - One complete `AGENTS.md` file with all required project-context sections.

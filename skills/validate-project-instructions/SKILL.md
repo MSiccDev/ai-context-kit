@@ -27,10 +27,11 @@ Load or attach this file's contents into your AI session to activate the workflo
 
 ## Workflow
 1. Run validation phases from `references/phase-checks.md`.
-2. Generate report using `references/report-contract.md`.
-3. Apply deterministic scoring from `references/scoring.md`.
-4. Classify findings into critical/warning/enhancement buckets.
-5. Produce project-specific remediation guidance.
+2. Check for `<!-- spec_version: ... -->` comment: flag as WARNING if absent (pre-existing files may predate this requirement); flag as WARNING if present but older than `1.3.1`.
+3. Generate report using `references/report-contract.md`.
+4. Apply deterministic scoring from `references/scoring.md`.
+5. Classify findings into critical/warning/enhancement buckets.
+6. Produce project-specific remediation guidance.
 
 ## Output Expectations
 - Structured markdown report with five validation phases.
