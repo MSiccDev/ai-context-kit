@@ -1,6 +1,8 @@
 ---
 name: "create-project-instructions"
 description: "Create project-context AGENTS.md files using phased discovery, required operational sections, and session-state modeling."
+version: "1.0.0"
+allowed-tools: Read, Write, Edit
 metadata:
   source_prompt: "prompts/create-project-instructions.prompt.md"
   workflow_type: "generation"

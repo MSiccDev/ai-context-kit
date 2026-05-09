@@ -1,6 +1,8 @@
 ---
 name: "validate-usercontext-instructions"
 description: "Validate user-context instruction files against schema, section completeness, quality checks, and scoring criteria."
+version: "1.0.0"
+allowed-tools: Read, Write
 metadata:
   source_prompt: "prompts/validate-usercontext-instructions.prompt.md"
   workflow_type: "validation"

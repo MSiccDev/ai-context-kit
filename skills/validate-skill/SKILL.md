@@ -1,6 +1,8 @@
 ---
 name: "validate-skill"
 description: "Validate SKILL.md artifacts for schema, quality, safety, portability, and scoring compliance."
+version: "1.0.0"
+allowed-tools: Read, Write
 metadata:
   source_prompt: "prompts/validate-skill.prompt.md"
   workflow_type: "validation"

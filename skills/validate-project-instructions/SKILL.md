@@ -1,6 +1,8 @@
 ---
 name: "validate-project-instructions"
 description: "Validate project-context AGENTS.md files for required sections, session-state model completeness, role quality, and scoring compliance."
+version: "1.0.0"
+allowed-tools: Read, Write
 metadata:
   source_prompt: "prompts/validate-project-instructions.prompt.md"
   workflow_type: "validation"

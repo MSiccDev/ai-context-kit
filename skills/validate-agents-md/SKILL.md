@@ -1,6 +1,8 @@
 ---
 name: "validate-agents-md"
 description: "Validate AGENTS.md files for structural completeness, operational contract coverage, neutrality, and repository alignment."
+version: "1.0.0"
+allowed-tools: Read, Write
 metadata:
   source_prompt: "prompts/validate-agents-md.prompt.md"
   workflow_type: "validation"

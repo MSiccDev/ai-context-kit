@@ -1,6 +1,8 @@
 ---
 name: "create-skill"
 description: "Create canonical SKILL.md artifacts with deterministic schema, workflow, safety, and quality checks."
+version: "1.0.0"
+allowed-tools: Read, Write, Edit
 metadata:
   source_prompt: "prompts/create-skill.prompt.md"
   workflow_type: "generation"

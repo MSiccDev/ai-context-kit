@@ -294,6 +294,51 @@ If paths must change, update the specification and README first, then adjust ski
 | **Local scripts / APIs** | Concatenate user context + `AGENTS.md` when initializing conversations | Context window management is your responsibility; monitor token usage for long sessions |
 | **Other platforms** | Use the platform's context management capabilities (project knowledge, system instructions, or initial prompt injection) | Method and limits vary; consult platform documentation |
 
+---
+
+## Installing as a Claude Code Plugin
+
+AI Context Kit is distributed as a native Claude Code plugin. Installing it gives you all 9 skills available directly in your Claude Code sessions without cloning or forking the repository.
+
+### Install
+
+```bash
+claude plugin install ai-context-kit@MSiccDev/ai-context-kit
+```
+
+This installs the plugin at user scope (`~/.claude/settings.json`). To install for a specific project only:
+
+```bash
+claude plugin install ai-context-kit@MSiccDev/ai-context-kit --scope project
+```
+
+### Test locally before installing
+
+```bash
+claude --plugin-dir ./path/to/ai-context-kit
+```
+
+### Available skills after installation
+
+| Skill | What it does |
+|-------|-------------|
+| `create-usercontext-instructions` | Generate a new user context file through structured discovery |
+| `create-agents-md` | Generate a root `AGENTS.md` for any repository |
+| `create-project-instructions` | Generate a project-context `AGENTS.md` with role/phase defaults |
+| `create-skill` | Generate a new canonical `SKILL.md` artifact |
+| `validate-usercontext-instructions` | Validate a user context file with scored report |
+| `validate-agents-md` | Validate a root `AGENTS.md` with scored report |
+| `validate-project-instructions` | Validate a project-context `AGENTS.md` with scored report |
+| `validate-skill` | Validate a `SKILL.md` artifact with scored report |
+| `repository-drift-control` | Check and enforce consistency across spec, templates, and docs |
+
+### Update
+
+```bash
+claude plugin update ai-context-kit
+```
+
+---
 
 ## How It Works
 
