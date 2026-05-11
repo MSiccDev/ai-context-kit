@@ -298,7 +298,7 @@ If paths must change, update the specification and README first, then adjust ski
 
 ## Installing as a Plugin (Claude Code and GitHub Copilot CLI)
 
-AI Context Kit is distributed as a plugin compatible with both Claude Code and GitHub Copilot CLI — they share the same plugin spec. Installing gives you all 9 skills without cloning or forking the repository.
+AI Context Kit is distributed as a plugin compatible with both Claude Code and GitHub Copilot CLI — they share the same plugin spec. Installing registers all 9 skills as namespaced slash commands in the plugin runtime, with no manual `SKILL.md` loading required.
 
 ### Claude Code
 
@@ -331,6 +331,8 @@ claude --plugin-dir ./path/to/ai-context-kit
 ```
 
 ### Invoking skills after installation
+
+> **Plugin runtime vs. manual invocation:** This section covers invocation when the plugin is installed via the plugin system (Claude Code or Copilot CLI). If you are using the repository directly (cloned or forked), see [Invoking Skills](#invoking-skills) above — that approach requires loading each `SKILL.md` manually into your session.
 
 Skills are namespaced to the plugin name. Inside a session:
 
