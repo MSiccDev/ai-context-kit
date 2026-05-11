@@ -13,10 +13,6 @@ When a new version is released:
 
 ## [Unreleased]
 
----
-
-## [1.5.0] - 2026-05-11
-
 ### Added
 - **Claude Code plugin** — `.claude-plugin/plugin.json` manifest makes the repo installable as a native Claude Code plugin; skills are auto-discovered from `skills/`
 - **GitHub Copilot CLI plugin** — `.claude-plugin/marketplace.json` turns the repo into a self-hosted marketplace, enabling `copilot plugin marketplace add MSiccDev/ai-context-kit` install flow (Claude Code and Copilot CLI share the same plugin spec)
