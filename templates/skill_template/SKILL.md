@@ -1,12 +1,13 @@
 ---
 name: "example-skill"
 description: "Briefly describe what this skill does and when it should be used."
+version: "1.0.0"
+allowed-tools: [Read]
 license: "Optional license identifier"
 compatibility: "Optional environment/runtime requirements."
 metadata:
   owner: "Optional owner"
   domain: "Optional domain"
-# allowed-tools: [] # Optional and experimental. Keep disabled by default.
 ---
 
 # Example Skill
@@ -55,6 +56,5 @@ Describe the capability this skill provides and the problem it solves.
 - 1-500 characters.
 - Use only for real environment constraints.
 - `metadata` (optional): map of string keys to string values.
-- `allowed-tools` (optional/experimental):
-- Parseable if present.
-- Keep disabled by default unless explicitly enabled by policy.
+- `version` (optional): semver string (e.g. `"1.0.0"`). Increment when skill behavior changes.
+- `allowed-tools` (optional): YAML flow list of tool names this skill may invoke (e.g. `[Read, Write, Edit]`).

@@ -1,6 +1,8 @@
 ---
 name: "create-skill"
 description: "Create canonical SKILL.md artifacts with deterministic schema, workflow, safety, and quality checks."
+version: "1.0.0"
+allowed-tools: [Read, Write, Edit]
 metadata:
   source_prompt: "prompts/create-skill.prompt.md"
   workflow_type: "generation"
@@ -15,6 +17,10 @@ Generate complete `SKILL.md` artifacts for one skill folder, with explicit const
 - Use this skill when creating a new skill folder under `skills/`.
 - Use this skill when regenerating a `SKILL.md` file to align with repository skill standards.
 - Do not use this skill for validating an existing skill.
+
+## How to Invoke
+
+Load or attach this file's contents into your AI session to activate the workflow (paste, upload, or reference with `#file:skills/create-skill/SKILL.md` in VS Code Copilot Chat). In Claude Projects, add it to project knowledge. See [Invoking Skills](../../README.md#invoking-skills) in the README for full platform guidance.
 
 ## Required Inputs
 - Skill slug (`name`) and target folder path.

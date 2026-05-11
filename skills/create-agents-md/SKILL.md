@@ -1,6 +1,8 @@
 ---
 name: "create-agents-md"
 description: "Create concise, repository-specific AGENTS.md files with operational contract, precedence rules, and drift-control guidance."
+version: "1.0.0"
+allowed-tools: [Read, Write, Edit]
 metadata:
   source_prompt: "prompts/create-agents-md.prompt.md"
   workflow_type: "generation"
@@ -16,6 +18,10 @@ Generate a complete root `AGENTS.md` file that acts as an operational entrypoint
 - Use this skill when repository map, precedence, and session controls must be documented concisely.
 - Do not use this skill for project/user instruction file generation.
 
+## How to Invoke
+
+Load or attach this file's contents into your AI session to activate the workflow (paste, upload, or reference with `#file:skills/create-agents-md/SKILL.md` in VS Code Copilot Chat). In Claude Projects, add it to project knowledge. See [Invoking Skills](../../README.md#invoking-skills) in the README for full platform guidance.
+
 ## Required Inputs
 - Repository purpose and canonical paths.
 - Source precedence and key references.
@@ -26,8 +32,9 @@ Generate a complete root `AGENTS.md` file that acts as an operational entrypoint
 1. Run seven-phase discovery using `references/discovery-phases.md`.
 2. Apply required element contract from `references/required-elements.md`.
 3. Generate artifact using `references/output-format.md`.
-4. Validate result against `references/quality-checklist.md`.
-5. Ensure links/paths remain relative and repository-accurate.
+4. Stamp `<!-- spec_version: 1.4.1 -->` as an HTML comment at the top of the generated `AGENTS.md`.
+5. Validate result against `references/quality-checklist.md`.
+6. Ensure links/paths remain relative and repository-accurate.
 
 ## Output Expectations
 - One complete root `AGENTS.md` file.

@@ -1,6 +1,8 @@
 ---
 name: "validate-skill"
 description: "Validate SKILL.md artifacts for schema, quality, safety, portability, and scoring compliance."
+version: "1.0.0"
+allowed-tools: [Read, Write]
 metadata:
   source_prompt: "prompts/validate-skill.prompt.md"
   workflow_type: "validation"
@@ -9,12 +11,16 @@ metadata:
 # Validate Skill
 
 ## Purpose
-Validate `SKILL.md` files with deterministic checks and produce structured validation reports.
+Validate `SKILL.md` files with structured checks and produce consistent validation reports based on a deterministic scoring rubric.
 
 ## When To Use
 - Use this skill when validating any `skills/<name>/SKILL.md` artifact.
 - Use this skill before accepting skill updates.
 - Do not use this skill to generate new skills.
+
+## How to Invoke
+
+Load or attach this file's contents into your AI session to activate the workflow (paste, upload, or reference with `#file:skills/validate-skill/SKILL.md` in VS Code Copilot Chat). In Claude Projects, add it to project knowledge. See [Invoking Skills](../../README.md#invoking-skills) in the README for full platform guidance.
 
 ## Required Inputs
 - Target skill folder path.
@@ -40,6 +46,6 @@ Validate `SKILL.md` files with deterministic checks and produce structured valid
 - Skill template: `../../templates/skill_template/SKILL.md`
 
 ## Constraints And Safety
-- Keep findings deterministic and concise.
+- Keep the scoring rubric deterministic; findings should be concise and repeatable.
 - Preserve provider neutrality.
 - Do not modify validated source files automatically.

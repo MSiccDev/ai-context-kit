@@ -13,6 +13,7 @@ This repository provides a **comprehensive AGENTS-first context and workflow sys
 
 - Root `AGENTS.md` is the primary operational entrypoint for agents in this repository.
 - `specs/context_aware_ai_session_spec.md` is the normative source of truth for the full session model.
+- `docs/spec-rationale.md` is the companion document with background reasoning, extended examples, and future enhancement notes.
 
 ### The Evolution
 
@@ -32,6 +33,28 @@ This framework consists of:
 - **Templates in `templates/`** – Canonical artifact structures aligned to the spec
 
 All components are designed to work across hosted and local LLM environments, ensuring that every AI assistant understands your background, working style, and project context without repeated explanations. Results may vary by platform, so you may need to adjust your context files accordingly.
+
+---
+
+## See It In Action
+
+The same question, with and without AI Context Kit loaded:
+
+**Without AI Context Kit:**
+> User: "Help me add authentication to the app."
+>
+> AI: "Sure! What framework are you using? What kind of auth — OAuth, JWT, sessions? What's your backend stack?..."
+
+*The AI starts from scratch every session.*
+
+**With AI Context Kit loaded:**
+> User: "Help me add authentication to the app."
+>
+> AI: "Given your SwiftUI codebase and the TCA architecture you're migrating to, I'd model this as a new `AuthenticationFeature` reducer rather than adding it to an existing one. Want me to scaffold the reducer and effect first, or start with the SwiftUI view bindings?"
+
+*The AI already knows your stack, your existing patterns, and your preferences.*
+
+The difference is not magic — it is reduced friction. The AI spends zero turns asking who you are, what you are building, or how you like to work. That adds up significantly across a full development session.
 
 ---
 
@@ -58,7 +81,7 @@ ai-context-kit/
 │   └── context_aware_ai_session_spec.md              # Specification for AI session management
 │
 ├── templates/
-│  ├── usercontext_template.instructions.md           # Canonical v1.3.1 user context template (authoritative)
+│  ├── usercontext_template.instructions.md           # Canonical v1.4.1 user context template (authoritative)
 │  ├── AGENTS_template.md                             # Canonical AGENTS template (authoritative)
 │  └── skill_template/SKILL.md                        # Canonical skill template
 │
@@ -91,7 +114,7 @@ ai-context-kit/
 
 ---
 
-## Canonical Authority (Spec v1.3.1)
+## Canonical Authority (Spec v1.4.1)
 
 When guidance differs across files, use this authority order:
 
@@ -174,6 +197,8 @@ Operational workflow authority is skill-first:
 2. Keep detailed operational logic in skills; use prompts as composition wrappers only.
 3. Always validate skills and keep `SKILL.validation.md` current.
 
+> **Validation scope:** Validation scores reflect structural compliance with the spec format as assessed by an AI model against a structured scoring rubric intended to be applied consistently. They do not guarantee real-world session effectiveness or consistent LLM behavior across providers. Treat scores as a structural checklist result, not a quality certification.
+
 ### Available Skills
 - `skills/create-usercontext-instructions/`
 - `skills/create-project-instructions/`
@@ -184,6 +209,21 @@ Operational workflow authority is skill-first:
 - `skills/repository-drift-control/`
 - `skills/create-skill/`
 - `skills/validate-skill/`
+
+### Invoking Skills
+
+Skills are invoked by loading the skill's `SKILL.md` content into your AI session. The method varies by platform:
+
+| Platform | How to invoke a skill |
+|----------|-----------------------|
+| **Claude Projects** | Add the `SKILL.md` file to project knowledge, or paste its content into the project instructions field |
+| **Claude (web)** | Paste the full `SKILL.md` content at the start of your conversation |
+| **VS Code Copilot Chat** | Type `#file:skills/<skill-name>/SKILL.md` in the chat input to reference the file inline |
+| **GitHub Copilot (coding agent)** | Reference or include the `SKILL.md` in your prompt file; the agent reads it as part of its context |
+| **ChatGPT** | Paste the content into the chat, or upload the `SKILL.md` as a file attachment |
+| **Local API** | Include the `SKILL.md` content in your system prompt when initializing a conversation |
+
+In repo-aware environments (VS Code Copilot Chat with `#file:` access, Claude Projects with full repository knowledge), skill reference files in `references/` subfolders are resolved automatically by the AI when following the workflow. In paste-based or upload-based environments (ChatGPT, local API), attach or include the relevant reference files alongside `SKILL.md` for full workflow coverage.
 
 ### Neutrality And Safety
 - Skills must remain provider-neutral and runtime-portable.
@@ -202,13 +242,13 @@ The following paths are considered **canonical**:
 - `AGENTS.md`
   - Primary agent entrypoint (repo-specific operational contract)
 - `templates/`
-  - Canonical instruction templates (spec v1.3.1)
+  - Canonical instruction templates (spec v1.4.1)
 - `skills/`
   - Canonical workflow skills (`SKILL.md`-based folders)
 - `prompts/`
   - Composition wrappers for instruction/skill workflows
 - `specs/context_aware_ai_session_spec.md`
-  - Authoritative specification (v1.3.1+)
+  - Authoritative specification (v1.4.1+)
 - Root `README.md`
   - Human-facing entry point and workflow documentation
 
@@ -245,15 +285,115 @@ If paths must change, update the specification and README first, then adjust ski
 
 ## Loading Context in Different AI Platforms
 
-| Platform | Method |
-|----------|---------|
-| **Anthropic Claude Projects** | Paste user context and project AGENTS context into **project-level context settings** and/or add to project knowledge |
-| **GitHub Copilot (VS Code/IDE)** | Just keep `AGENTS.md` in your project root (or the folder where you need it); Copilot reads it automatically |
-| **OpenAI ChatGPT** | Paste your user context into **Custom Instructions** and upload `AGENTS.md` as project context |
-| **OpenAI Codex** | Just keep `AGENTS.md` in your project root (or the folder where you need it); Codex reads it automatically |
-| **Local scripts / APIs** | Concatenate user context + `AGENTS.md` project context when initializing conversations |
-| **Other platforms** | Use the method that best fits the platform's context management capabilities (for example, project knowledge bases, system instructions, or initial prompt injection) |
+| Platform | Method | Limitations / Notes |
+|----------|---------|---------------------|
+| **Anthropic Claude Projects** | Add user context and `AGENTS.md` to project knowledge or project instructions | Large files compete with conversation history for context window space; keep files concise |
+| **GitHub Copilot (VS Code/IDE, coding agent)** | Keep `AGENTS.md` in your project root; Copilot reads it automatically | Copilot Code Review does not yet support `AGENTS.md` — add `.github/copilot-instructions.md` if you need Code Review coverage |
+| **OpenAI ChatGPT** | Paste user context into **Custom Instructions**; upload `AGENTS.md` as a file attachment | Custom Instructions has a tight character limit — long user context files will be silently truncated; maintain a condensed version and consult current OpenAI documentation for the latest limit |
+| **OpenAI Codex** | Keep `AGENTS.md` in your project root; Codex reads it automatically | — |
+| **Local scripts / APIs** | Concatenate user context + `AGENTS.md` when initializing conversations | Context window management is your responsibility; monitor token usage for long sessions |
+| **Other platforms** | Use the platform's context management capabilities (project knowledge, system instructions, or initial prompt injection) | Method and limits vary; consult platform documentation |
 
+---
+
+## Installing as a Plugin (Claude Code and GitHub Copilot CLI)
+
+AI Context Kit is distributed as a plugin compatible with both Claude Code and GitHub Copilot CLI — they share the same plugin spec. Installing registers all 9 skills as namespaced slash commands in the plugin runtime, with no manual `SKILL.md` loading required.
+
+### Claude Code
+
+Register the marketplace (one-time) and install:
+
+```bash
+claude plugin marketplace add MSiccDev/ai-context-kit
+claude plugin install ai-context-kit@ai-context-kit
+```
+
+To install for a specific project only (shared via `.claude/settings.json`):
+
+```bash
+claude plugin install ai-context-kit@ai-context-kit --scope project
+```
+
+### GitHub Copilot CLI
+
+The install commands are identical — the plugin spec is shared:
+
+```bash
+copilot plugin marketplace add MSiccDev/ai-context-kit
+copilot plugin install ai-context-kit@ai-context-kit
+```
+
+### Test locally before installing
+
+```bash
+claude --plugin-dir ./path/to/ai-context-kit
+```
+
+### Invoking skills after installation
+
+> **Plugin runtime vs. manual invocation:** This section covers invocation when the plugin is installed via the plugin system (Claude Code or Copilot CLI). If you are using the repository directly (cloned or forked), see [Invoking Skills](#invoking-skills) above — that approach requires loading each `SKILL.md` manually into your session.
+
+Skills are namespaced to the plugin name. Inside a session:
+
+```
+/ai-context-kit:create-usercontext-instructions
+/ai-context-kit:validate-agents-md
+```
+
+| Skill | What it does |
+|-------|-------------|
+| `create-usercontext-instructions` | Generate a new user context file through structured discovery |
+| `create-agents-md` | Generate a root `AGENTS.md` for any repository |
+| `create-project-instructions` | Generate a project-context `AGENTS.md` with role/phase defaults |
+| `create-skill` | Generate a new canonical `SKILL.md` artifact |
+| `validate-usercontext-instructions` | Validate a user context file with scored report |
+| `validate-agents-md` | Validate a root `AGENTS.md` with scored report |
+| `validate-project-instructions` | Validate a project-context `AGENTS.md` with scored report |
+| `validate-skill` | Validate a `SKILL.md` artifact with scored report |
+| `repository-drift-control` | Check and enforce consistency across spec, templates, and docs |
+
+### Update
+
+```bash
+claude plugin update ai-context-kit
+```
+
+---
+
+## Using with OpenAI Codex
+
+Codex auto-discovers skills from the `.agents/skills/` directory (scanned upward from the current working directory to the repo root). AI Context Kit ships a `.agents/skills/` directory whose entries are symlinks to the canonical `skills/` folder — no content duplication, single source of truth.
+
+Each skill also includes an `agents/openai.yaml` sidecar (`skills/<name>/agents/openai.yaml`) with UI metadata consumed by the Codex skill picker.
+
+### Auto-discovery (no install needed)
+
+If you clone this repo and run Codex from within it, all 9 skills are discovered automatically — no registration or import required.
+
+### Invoking skills in Codex
+
+Skills surface as chips in the Codex skill picker. You can also invoke them explicitly:
+
+```
+$create-usercontext-instructions
+$validate-agents-md
+$repository-drift-control
+```
+
+`repository-drift-control` requires explicit invocation (`allow_implicit_invocation: false`) since it is a governance action.
+
+### Using skills in your own project
+
+To make these skills available when working in a different project, add the skill path to your Codex configuration, or copy/symlink the `.agents/skills/` directory into your project root.
+
+> **Note for Windows users:** Git symlink support must be enabled **before** checkout — otherwise git materialises symlinks as plain text files. Enable it at clone time:
+> ```bash
+> git clone -c core.symlinks=true https://github.com/MSiccDev/ai-context-kit.git
+> ```
+> On Windows this also requires Developer Mode or elevated (Administrator) privileges. If you cannot enable symlinks, copy the `skills/` subdirectories into `.agents/skills/` manually as a fallback.
+
+---
 
 ## How It Works
 
@@ -268,7 +408,7 @@ You can modify session state dynamically using:
 
 ### Design Principles
 
-- **Determinism:** Same context + same query = consistent responses 
+- **Reduced variance:** Same context + same query = more predictable responses that follow consistent conventions and reasoning patterns. LLMs are probabilistic by nature; this means reduced variance, not guaranteed identical outputs.
 - **Explicitness:** AI confirms context changes rather than assuming
 - **Continuity:** Session state persists across conversation turns
 - **Reversibility:** All context changes can be undone
@@ -312,7 +452,7 @@ Each project `AGENTS.md` should define:
 - **Languages:** LLMs work best when instructions are in English, but you can include multilingual content in user context if needed (just be aware of potential comprehension issues)
 - **Versioning:** Update user context when skills/preferences evolve; update project `AGENTS.md` when phases/objectives change. Ideally, these should live in the same repository as your codebase once they are created.
 - **Discoverability:** Semantic file extensions help AI tools identify and load the appropriate instructions automatically
-- **Canonical structure:** The templates in `/templates` define the only supported artifact structures for spec v1.3.1
+- **Canonical structure:** The templates in `/templates` define the only supported artifact structures for spec v1.4.1
 
 ---
 
@@ -336,6 +476,27 @@ Each project `AGENTS.md` should define:
 - Works across multiple LLM providers
 - Can be versioned and backed up
 - Shareable with team members (with appropriate redactions)
+
+---
+
+## Why This Over Alternatives?
+
+| Approach | What it gives you | What's missing |
+|----------|------------------|----------------|
+| Single `CLAUDE.md` / `.cursorrules` | Quick, zero-overhead context for one tool | No portability, no layering, no validation — one file per tool |
+| Handwritten system prompt | Full control over phrasing | Re-explained every session, not versionable, not portable |
+| Per-project `AGENTS.md` only | Project-specific agent behavior | No personal layer — AI still doesn't know who you are |
+| **AI Context Kit** | Layered (personal + project), portable across providers, versioned, validated, skill-reusable | More upfront setup |
+
+**When it pays off:**
+- You work across more than one project or AI platform
+- You want your personal preferences and stack knowledge to travel with you
+- You want a team-shareable, versionable AI workspace configuration
+- You want validated, spec-compliant artifacts rather than ad-hoc prompts
+
+**When simpler is better:**
+- You use a single tool on a single project and don't plan to change that
+- A one-file `.cursorrules` or `CLAUDE.md` already covers your needs
 
 ---
 
@@ -373,50 +534,38 @@ This is a **GitHub template repository**. Here's how to use it:
 
 ### Keeping Your Instance Up-to-Date
 
-When the template repository gets improvements, here's how to pull them into your instance:
+When the template repository gets improvements, check [CHANGELOG.md](CHANGELOG.md) to see what changed and which files are safe to update.
 
-**Option 1: Manual Updates (Recommended)**
+**Recommended approach — copy files manually:**
+1. Open `CHANGELOG.md` in the template repository (browse the upstream source or your local copy if already synced)
+2. Read what changed in the new version
+3. Copy the updated files listed under **Safe to update** into your instance
+4. Commit the changes
+
+**What to update:**
+- ✅ Template files in `templates/`
+- ✅ Specification documents in `specs/`
+- ✅ Skill updates and additions in `skills/`
+- ✅ README improvements
+- ✅ `CHANGELOG.md` itself
+
+**What to protect (never overwrite):**
+- ❌ Your personal `*_usercontext.instructions.md`
+- ❌ Your project `AGENTS.md`
+- ❌ Any custom skills you have created
+
+**Advanced: pull specific changes via git**
 ```bash
 # Add the template as a remote (one-time setup)
 git remote add template https://github.com/MSiccDev/ai-context-kit.git
-
-# Fetch template updates
 git fetch template
 
-# Review what changed in the template
-git log template/main
-
-# Cherry-pick specific improvements you want
-git cherry-pick <commit-hash>
-
-# Or merge specific files manually
-git checkout template/main -- README.md
+# Copy a specific file from the template
 git checkout template/main -- specs/context_aware_ai_session_spec.md
-git checkout template/main -- templates/
+
+# Or cherry-pick a specific commit
+git cherry-pick <commit-hash>
 ```
-
-**Option 2: Automated Merge (Use with Caution)**
-```bash
-# Merge all template changes
-git merge template/main --allow-unrelated-histories
-
-# Resolve conflicts (protect your personal files!)
-# Commit the merge
-```
-
-**Best Practice:**
-- Watch/star the template repository to get notified of updates
-- Review the CHANGELOG or commit history before updating
-- Only pull updates that add value to your workflow
-- **Always protect your personal instruction files** - never overwrite them
-
-**What to Update:**
-- ✅ Template files in `templates/`
-- ✅ Specification documents in `specs/`
-- ✅ README improvements  
-- ✅ Skill updates and additions in `skills/`
-- ❌ Your personal `*_usercontext.instructions.md`
-- ❌ Your project `AGENTS.md`
 
 ### Contributing Back
 

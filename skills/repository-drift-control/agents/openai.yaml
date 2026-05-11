@@ -1,0 +1,7 @@
+interface:
+  display_name: "Repository Drift Control"
+  short_description: "Check spec, template, and doc alignment"
+  default_prompt: "Use repository-drift-control to check and enforce consistency across spec, templates, and docs"
+
+policy:
+  allow_implicit_invocation: false

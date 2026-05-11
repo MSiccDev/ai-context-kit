@@ -1,3 +1,5 @@
+<!-- spec_version: 1.4.1 -->
+
 # AGENTS.md Template
 
 ## Purpose

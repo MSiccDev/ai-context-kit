@@ -5,10 +5,11 @@
 - `description`
 
 ## Optional frontmatter
+- `version`
 - `license`
 - `compatibility`
 - `metadata`
-- `allowed-tools` (optional/experimental)
+- `allowed-tools`
 
 ## Constraint rules
 - `name`: 1-64 chars, lowercase alphanumeric + hyphen, no leading/trailing hyphen, no consecutive hyphens, matches folder name.

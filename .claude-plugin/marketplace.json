@@ -1,0 +1,29 @@
+{
+  "name": "ai-context-kit",
+  "description": "Context-aware AI collaboration skills for creating and validating user context, project AGENTS.md files, and skill artifacts across LLM providers.",
+  "owner": {
+    "name": "MSiccDev Software Development"
+  },
+  "plugins": [
+    {
+      "name": "ai-context-kit",
+      "source": {
+        "source": "github",
+        "repo": "MSiccDev/ai-context-kit"
+      },
+      "description": "Context-aware AI collaboration skills for creating and validating user context, project AGENTS.md files, and skill artifacts across LLM providers.",
+      "version": "1.4.1",
+      "license": "MIT",
+      "homepage": "https://github.com/MSiccDev/ai-context-kit",
+      "repository": "https://github.com/MSiccDev/ai-context-kit",
+      "keywords": [
+        "context",
+        "agents",
+        "skills",
+        "user-context",
+        "ai-collaboration",
+        "prompt-engineering"
+      ]
+    }
+  ]
+}

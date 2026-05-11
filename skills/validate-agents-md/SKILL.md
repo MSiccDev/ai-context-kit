@@ -1,6 +1,8 @@
 ---
 name: "validate-agents-md"
 description: "Validate AGENTS.md files for structural completeness, operational contract coverage, neutrality, and repository alignment."
+version: "1.0.0"
+allowed-tools: [Read, Write]
 metadata:
   source_prompt: "prompts/validate-agents-md.prompt.md"
   workflow_type: "validation"
@@ -16,6 +18,10 @@ Validate `AGENTS.md` files to ensure they are concise, operationally complete, a
 - Use this skill before accepting AGENTS policy changes.
 - Do not use this skill for user/project instruction validation.
 
+## How to Invoke
+
+Load or attach this file's contents into your AI session to activate the workflow (paste, upload, or reference with `#file:skills/validate-agents-md/SKILL.md` in VS Code Copilot Chat). In Claude Projects, add it to project knowledge. See [Invoking Skills](../../README.md#invoking-skills) in the README for full platform guidance.
+
 ## Required Inputs
 - Target `AGENTS.md` path.
 - Repository path context for link/path validation.
@@ -23,10 +29,11 @@ Validate `AGENTS.md` files to ensure they are concise, operationally complete, a
 
 ## Workflow
 1. Run validation phases from `references/phase-checks.md`.
-2. Generate report using `references/report-contract.md`.
-3. Apply deterministic scoring from `references/scoring.md`.
-4. Classify findings into critical/warning/enhancement buckets.
-5. Provide concrete fixes for operational contract gaps.
+2. Check for `<!-- spec_version: ... -->` comment: flag as WARNING if absent (pre-existing files may predate this requirement); flag as WARNING if present but older than `1.4.1`.
+3. Generate report using `references/report-contract.md`.
+4. Apply deterministic scoring from `references/scoring.md`.
+5. Classify findings into critical/warning/enhancement buckets.
+6. Provide concrete fixes for operational contract gaps.
 
 ## Output Expectations
 - Structured markdown report with five validation phases.
@@ -43,7 +50,7 @@ Validate `AGENTS.md` files to ensure they are concise, operationally complete, a
 - Example target: `../../AGENTS.md`
 
 ## Constraints And Safety
-- Keep findings deterministic and repository-specific.
+- Keep the scoring rubric deterministic; findings should be repository-specific and actionable.
 - Avoid over-prescriptive style-only feedback.
 - Preserve provider-neutral language.
 - Do not duplicate full normative specs when suggesting fixes.

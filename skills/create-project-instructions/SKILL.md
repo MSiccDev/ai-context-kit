@@ -1,6 +1,8 @@
 ---
 name: "create-project-instructions"
 description: "Create project-context AGENTS.md files using phased discovery, required operational sections, and session-state modeling."
+version: "1.0.0"
+allowed-tools: [Read, Write, Edit]
 metadata:
   source_prompt: "prompts/create-project-instructions.prompt.md"
   workflow_type: "generation"
@@ -16,6 +18,10 @@ Generate project-context `AGENTS.md` files with required sections, role definiti
 - Use this skill when project context must include role/phase/style defaults.
 - Do not use this skill for user-context instruction generation.
 
+## How to Invoke
+
+Load or attach this file's contents into your AI session to activate the workflow (paste, upload, or reference with `#file:skills/create-project-instructions/SKILL.md` in VS Code Copilot Chat). In Claude Projects, add it to project knowledge. See [Invoking Skills](../../README.md#invoking-skills) in the README for full platform guidance.
+
 ## Required Inputs
 - Project name, description, and current phase.
 - Tech stack, architecture, and repository structure.
@@ -29,7 +35,8 @@ Generate project-context `AGENTS.md` files with required sections, role definiti
    - `references/command-template.md`
    - `references/role-template.md`
 4. Apply artifact/summary contract from `references/output-format.md`.
-5. Validate completeness using `references/quality-checklist.md` before final output.
+5. Stamp `<!-- spec_version: 1.4.1 -->` as an HTML comment at the top of the generated `AGENTS.md`.
+6. Validate completeness using `references/quality-checklist.md` before final output.
 
 ## Output Expectations
 - One complete `AGENTS.md` file with all required project-context sections.

@@ -14,7 +14,7 @@ Check:
 - `name` format constraints
 - folder-name parity
 - `description` quality constraints
-- optional field constraints (`compatibility`, `metadata`, `allowed-tools`)
+- optional field constraints (`version`, `compatibility`, `metadata`, `allowed-tools`)
 
 ## Phase 3: Instruction Quality And Completeness
 Check:

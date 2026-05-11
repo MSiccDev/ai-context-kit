@@ -1,6 +1,8 @@
 ---
 name: "create-usercontext-instructions"
 description: "Create complete user-context instruction files using a structured discovery workflow and repository format rules."
+version: "1.0.0"
+allowed-tools: [Read, Write, Edit]
 metadata:
   source_prompt: "prompts/create-usercontext-instructions.prompt.md"
   workflow_type: "generation"
@@ -16,6 +18,10 @@ Generate a complete user-context instruction file with required sections, privac
 - Use this skill when user context must be gathered through structured phases.
 - Do not use this skill for project `AGENTS.md` (project context) files.
 
+## How to Invoke
+
+Load or attach this file's contents into your AI session to activate the workflow (paste, upload, or reference with `#file:skills/create-usercontext-instructions/SKILL.md` in VS Code Copilot Chat). In Claude Projects, add it to project knowledge. See [Invoking Skills](../../README.md#invoking-skills) in the README for full platform guidance.
+
 ## Required Inputs
 - Target identity label and role/title.
 - Privacy expectations (full detail vs placeholders).
@@ -26,8 +32,9 @@ Generate a complete user-context instruction file with required sections, privac
 1. Run phased discovery using `references/discovery-phases.md`.
 2. Normalize findings into required schema using `references/output-schema.md`.
 3. Apply format contract from `references/output-format.md`.
-4. Validate against `references/quality-checklist.md` before final output.
-5. If structured metadata is requested, apply `references/json-metadata-schema.md`.
+4. Stamp `spec_version: "1.4.1"` in the YAML frontmatter of the generated artifact.
+5. Validate against `references/quality-checklist.md` before final output.
+6. If structured metadata is requested, apply `references/json-metadata-schema.md`.
 
 ## Output Expectations
 - One complete `*.instructions.md` file for user context.

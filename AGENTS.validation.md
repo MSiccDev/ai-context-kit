@@ -1,17 +1,20 @@
+> **Scope note:** This score reflects structural compliance with the spec format as assessed by an AI model against a structured scoring rubric intended to be applied consistently. It does not guarantee real-world session effectiveness or consistent LLM behavior across providers. Treat it as a structural checklist result, not a quality certification.
+
 # AGENTS.md Validation Report
 
 **File:** `AGENTS.md`  
-**Validated:** 2026-02-21  
+**Validated:** 2026-05-08  
 **Validator:** `skills/validate-agents-md`
 
 ## Overall Status + Compliance Score
 - **Status:** PASS
-- **Compliance Score:** 99/100
+- **Compliance Score:** 100/100
 
 ## Phase 1: Core Presence & Structure
 - **Score:** 20/20
 - **Status:** PASS
 - Target file exists and is structurally complete.
+- `<!-- spec_version: 1.4.1 -->` comment is present and current — no version warning.
 - Purpose, precedence model, and repository map are explicitly defined.
 - Heading structure is scannable and consistent.
 
@@ -62,7 +65,7 @@
 - None.
 
 ### Enhancements (Optional)
-- Consider minor tightening in `Repository Project Context` prose to keep the file as concise as possible.
+- None.
 
 ## Recommendations (Immediate + Suggested)
 ### Immediate
