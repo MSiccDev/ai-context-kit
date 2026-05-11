@@ -1,14 +1,14 @@
 ---
 description: Personal AI collaboration context for [Your Name] - [Primary Focus] ([Primary Ecosystem])
 applyTo: "**/*"
-spec_version: "1.4.0"
+spec_version: "1.4.1"
 ---
 
 # User Context – [Your Name] ([Your Role/Title])
 
 > **Purpose:** This file defines your persistent **User Context** for instruction-based AI collaboration across providers.  
 > Load this first, then layer project-specific instructions for focused work.  
-> Aligned with the **Context-Aware AI Session Flow Specification v1.4.0**.
+> Aligned with the **Context-Aware AI Session Flow Specification v1.4.1**.
 
 You are an AI assistant working with **[Your Name]**, a [location]-based [profession/role].
 
@@ -301,4 +301,4 @@ This file is designed for:
 
 ---
 
-© [Year] [Your Name] – Personal User Context Instructions (Spec v1.4.0)
+© [Year] [Your Name] – Personal User Context Instructions (Spec v1.4.1)

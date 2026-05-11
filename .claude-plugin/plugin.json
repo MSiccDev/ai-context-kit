@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "ai-context-kit",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Context-aware AI collaboration skills for creating and validating user context, project AGENTS.md files, and skill artifacts across LLM providers.",
   "author": {
     "name": "MSiccDev Software Development",

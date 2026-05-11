@@ -1,0 +1,7 @@
+interface:
+  display_name: "Create AGENTS.md"
+  short_description: "Generate a root AGENTS.md for any repo"
+  default_prompt: "Use create-agents-md to generate an AGENTS.md file for this repository"
+
+policy:
+  allow_implicit_invocation: true

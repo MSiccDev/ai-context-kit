@@ -32,7 +32,7 @@ Load or attach this file's contents into your AI session to activate the workflo
 1. Run phased discovery using `references/discovery-phases.md`.
 2. Normalize findings into required schema using `references/output-schema.md`.
 3. Apply format contract from `references/output-format.md`.
-4. Stamp `spec_version: "1.4.0"` in the YAML frontmatter of the generated artifact.
+4. Stamp `spec_version: "1.4.1"` in the YAML frontmatter of the generated artifact.
 5. Validate against `references/quality-checklist.md` before final output.
 6. If structured metadata is requested, apply `references/json-metadata-schema.md`.
 

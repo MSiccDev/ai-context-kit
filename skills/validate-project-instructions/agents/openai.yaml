@@ -1,0 +1,7 @@
+interface:
+  display_name: "Validate Project Instructions"
+  short_description: "Validate a project AGENTS.md with scores"
+  default_prompt: "Use validate-project-instructions to validate a project-context AGENTS.md and produce a scored report"
+
+policy:
+  allow_implicit_invocation: true

@@ -81,7 +81,7 @@ ai-context-kit/
 │   └── context_aware_ai_session_spec.md              # Specification for AI session management
 │
 ├── templates/
-│  ├── usercontext_template.instructions.md           # Canonical v1.4.0 user context template (authoritative)
+│  ├── usercontext_template.instructions.md           # Canonical v1.4.1 user context template (authoritative)
 │  ├── AGENTS_template.md                             # Canonical AGENTS template (authoritative)
 │  └── skill_template/SKILL.md                        # Canonical skill template
 │
@@ -114,7 +114,7 @@ ai-context-kit/
 
 ---
 
-## Canonical Authority (Spec v1.4.0)
+## Canonical Authority (Spec v1.4.1)
 
 When guidance differs across files, use this authority order:
 
@@ -242,13 +242,13 @@ The following paths are considered **canonical**:
 - `AGENTS.md`
   - Primary agent entrypoint (repo-specific operational contract)
 - `templates/`
-  - Canonical instruction templates (spec v1.4.0)
+  - Canonical instruction templates (spec v1.4.1)
 - `skills/`
   - Canonical workflow skills (`SKILL.md`-based folders)
 - `prompts/`
   - Composition wrappers for instruction/skill workflows
 - `specs/context_aware_ai_session_spec.md`
-  - Authoritative specification (v1.4.0+)
+  - Authoritative specification (v1.4.1+)
 - Root `README.md`
   - Human-facing entry point and workflow documentation
 
@@ -361,6 +361,40 @@ claude plugin update ai-context-kit
 
 ---
 
+## Using with OpenAI Codex
+
+Codex auto-discovers skills from the `.agents/skills/` directory (scanned upward from the current working directory to the repo root). AI Context Kit ships a `.agents/skills/` directory whose entries are symlinks to the canonical `skills/` folder — no content duplication, single source of truth.
+
+Each skill also includes an `agents/openai.yaml` sidecar (`skills/<name>/agents/openai.yaml`) with UI metadata consumed by the Codex skill picker.
+
+### Auto-discovery (no install needed)
+
+If you clone this repo and run Codex from within it, all 9 skills are discovered automatically — no registration or import required.
+
+### Invoking skills in Codex
+
+Skills surface as chips in the Codex skill picker. You can also invoke them explicitly:
+
+```
+$create-usercontext-instructions
+$validate-agents-md
+$repository-drift-control
+```
+
+`repository-drift-control` requires explicit invocation (`allow_implicit_invocation: false`) since it is a governance action.
+
+### Using skills in your own project
+
+To make these skills available when working in a different project, add the skill path to your Codex configuration, or copy/symlink the `.agents/skills/` directory into your project root.
+
+> **Note for Windows users:** Git symlink support must be enabled **before** checkout — otherwise git materialises symlinks as plain text files. Enable it at clone time:
+> ```bash
+> git clone -c core.symlinks=true https://github.com/MSiccDev/ai-context-kit.git
+> ```
+> On Windows this also requires Developer Mode or elevated (Administrator) privileges. If you cannot enable symlinks, copy the `skills/` subdirectories into `.agents/skills/` manually as a fallback.
+
+---
+
 ## How It Works
 
 ### Context Control
@@ -418,7 +452,7 @@ Each project `AGENTS.md` should define:
 - **Languages:** LLMs work best when instructions are in English, but you can include multilingual content in user context if needed (just be aware of potential comprehension issues)
 - **Versioning:** Update user context when skills/preferences evolve; update project `AGENTS.md` when phases/objectives change. Ideally, these should live in the same repository as your codebase once they are created.
 - **Discoverability:** Semantic file extensions help AI tools identify and load the appropriate instructions automatically
-- **Canonical structure:** The templates in `/templates` define the only supported artifact structures for spec v1.4.0
+- **Canonical structure:** The templates in `/templates` define the only supported artifact structures for spec v1.4.1
 
 ---
 

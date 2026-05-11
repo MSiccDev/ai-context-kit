@@ -32,7 +32,7 @@ Load or attach this file's contents into your AI session to activate the workflo
 1. Run seven-phase discovery using `references/discovery-phases.md`.
 2. Apply required element contract from `references/required-elements.md`.
 3. Generate artifact using `references/output-format.md`.
-4. Stamp `<!-- spec_version: 1.4.0 -->` as an HTML comment at the top of the generated `AGENTS.md`.
+4. Stamp `<!-- spec_version: 1.4.1 -->` as an HTML comment at the top of the generated `AGENTS.md`.
 5. Validate result against `references/quality-checklist.md`.
 6. Ensure links/paths remain relative and repository-accurate.
 

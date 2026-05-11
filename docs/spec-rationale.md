@@ -1,13 +1,13 @@
 ---
 context_type: rationale
 document_type: companion_document
-spec_version: 1.4.0
+spec_version: 1.4.1
 created: 2025-10-20
 last_updated: 2026-05-09
 status: active
 ---
 
-# Spec Rationale & Extended Reference (v1.4.0)
+# Spec Rationale & Extended Reference (v1.4.1)
 
 This document is the companion to [`specs/context_aware_ai_session_spec.md`](../specs/context_aware_ai_session_spec.md). It contains the background reasoning, extended examples, project profile illustrations, end-to-end scenarios, and future enhancement notes that were removed from the normative spec to keep it readable.
 

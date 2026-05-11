@@ -1,17 +1,17 @@
 ---
-version: 1.4.0
+version: 1.4.1
 context_type: specification
 document_type: technical_specification
 created: 2025-10-20
-last_updated: 2026-05-08
+last_updated: 2026-05-11
 status: active
 intended_audience: AI-assisted developers, system designers, prompt engineers, LLM-based tooling architects
 license: Open for adaptation and refinement
 ---
 
-# Context-Aware AI Session Flow Specification (v1.4.0)
+# Context-Aware AI Session Flow Specification (v1.4.1)
 
-**Version:** 1.4.0 | **Updated:** 2026-05-08 | **Status:** Active
+**Version:** 1.4.1 | **Updated:** 2026-05-11 | **Status:** Active
 
 > This document contains the normative rules. For background reasoning, extended examples, end-to-end scenarios, and future enhancement notes, see [`docs/spec-rationale.md`](../docs/spec-rationale.md).
 
