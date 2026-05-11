@@ -361,6 +361,36 @@ claude plugin update ai-context-kit
 
 ---
 
+## Using with OpenAI Codex
+
+Codex auto-discovers skills from the `.agents/skills/` directory (scanned upward from the current working directory to the repo root). AI Context Kit ships a `.agents/skills/` directory whose entries are symlinks to the canonical `skills/` folder — no content duplication, single source of truth.
+
+Each skill also includes an `agents/openai.yaml` sidecar (`skills/<name>/agents/openai.yaml`) with UI metadata consumed by the Codex skill picker.
+
+### Auto-discovery (no install needed)
+
+If you clone this repo and run Codex from within it, all 9 skills are discovered automatically — no registration or import required.
+
+### Invoking skills in Codex
+
+Skills surface as chips in the Codex skill picker. You can also invoke them explicitly:
+
+```
+$create-usercontext-instructions
+$validate-agents-md
+$repository-drift-control
+```
+
+`repository-drift-control` requires explicit invocation (`allow_implicit_invocation: false`) since it is a governance action.
+
+### Using skills in your own project
+
+To make these skills available when working in a different project, add the skill path to your Codex configuration, or copy/symlink the `.agents/skills/` directory into your project root.
+
+> **Note for Windows users:** Symlinks in git require `git config core.symlinks true`. If your environment does not support symlinks, copy the `skills/` subdirectories into `.agents/skills/` manually.
+
+---
+
 ## How It Works
 
 ### Context Control

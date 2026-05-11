@@ -13,6 +13,22 @@ When a new version is released:
 
 ## [Unreleased]
 
+### Added
+- **OpenAI Codex support** — `agents/openai.yaml` metadata added to all 9 skill folders, providing UI display names, short descriptions, default prompts, and invocation policies for Codex skill chips
+- **`.agents/skills/` discovery directory** — symlinks each skill folder so Codex auto-discovers skills from the standard `.agents/skills/` path without duplicating content
+- README "Using with OpenAI Codex" section documenting Codex skill discovery, invocation, and the `.agents/skills/` structure
+
+### Safe to update from template
+- `skills/` (all skill folders — new `agents/openai.yaml` in each)
+- `.agents/` (new directory)
+- `README.md`
+- `CHANGELOG.md`
+
+### Protect (never overwrite)
+- Your personal `*_usercontext.instructions.md`
+- Your project `AGENTS.md`
+- Any custom skills you have created
+
 ---
 
 ## [1.4.0] - 2026-05-08
