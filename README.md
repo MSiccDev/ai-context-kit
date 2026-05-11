@@ -296,20 +296,32 @@ If paths must change, update the specification and README first, then adjust ski
 
 ---
 
-## Installing as a Claude Code Plugin
+## Installing as a Plugin (Claude Code and GitHub Copilot CLI)
 
-AI Context Kit is distributed as a native Claude Code plugin. Installing it gives you all 9 skills available directly in your Claude Code sessions without cloning or forking the repository.
+AI Context Kit is distributed as a plugin compatible with both Claude Code and GitHub Copilot CLI — they share the same plugin spec. Installing registers all 9 skills as namespaced slash commands in the plugin runtime, with no manual `SKILL.md` loading required.
 
-### Install
+### Claude Code
+
+Register the marketplace (one-time) and install:
 
 ```bash
-claude plugin install ai-context-kit@MSiccDev/ai-context-kit
+claude plugin marketplace add MSiccDev/ai-context-kit
+claude plugin install ai-context-kit@ai-context-kit
 ```
 
-This installs the plugin at user scope (`~/.claude/settings.json`). To install for a specific project only:
+To install for a specific project only (shared via `.claude/settings.json`):
 
 ```bash
-claude plugin install ai-context-kit@MSiccDev/ai-context-kit --scope project
+claude plugin install ai-context-kit@ai-context-kit --scope project
+```
+
+### GitHub Copilot CLI
+
+The install commands are identical — the plugin spec is shared:
+
+```bash
+copilot plugin marketplace add MSiccDev/ai-context-kit
+copilot plugin install ai-context-kit@ai-context-kit
 ```
 
 ### Test locally before installing
@@ -318,7 +330,16 @@ claude plugin install ai-context-kit@MSiccDev/ai-context-kit --scope project
 claude --plugin-dir ./path/to/ai-context-kit
 ```
 
-### Available skills after installation
+### Invoking skills after installation
+
+> **Plugin runtime vs. manual invocation:** This section covers invocation when the plugin is installed via the plugin system (Claude Code or Copilot CLI). If you are using the repository directly (cloned or forked), see [Invoking Skills](#invoking-skills) above — that approach requires loading each `SKILL.md` manually into your session.
+
+Skills are namespaced to the plugin name. Inside a session:
+
+```
+/ai-context-kit:create-usercontext-instructions
+/ai-context-kit:validate-agents-md
+```
 
 | Skill | What it does |
 |-------|-------------|
