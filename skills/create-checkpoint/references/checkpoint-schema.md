@@ -1,6 +1,6 @@
 # Checkpoint Schema: create-checkpoint
 
-Source: §4.4.2 of the AI Context Kit spec.
+Source: spec section 4.4.2.
 
 ## Required Fields
 

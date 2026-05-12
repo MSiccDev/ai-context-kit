@@ -1,6 +1,6 @@
 # Restore Rules: restore-checkpoint
 
-Source: §4.4.3 of the AI Context Kit spec.
+Source: spec section 4.4.3.
 
 ## Rules
 

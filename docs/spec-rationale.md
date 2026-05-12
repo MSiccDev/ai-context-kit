@@ -180,7 +180,7 @@ Assistant:
 
 ## Cross-Session Persistence and Context Compression
 
-These features are defined normatively in §4.4 and §4.5 of the spec. This section provides examples and rationale.
+These features are defined normatively in sections 4.4 and 4.5 of the spec. This section provides examples and rationale.
 
 ### Session Persistence: Example Checkpoint File
 

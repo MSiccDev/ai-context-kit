@@ -1,6 +1,6 @@
 ---
 name: "restore-checkpoint"
-description: "Load a checkpoint artifact at session start and restore the session state it describes per §4.4 restore rules. Use only when a checkpoint file is explicitly provided at the beginning of a session."
+description: "Load a checkpoint artifact at session start and restore the session state it describes per spec section 4.4 restore rules. Use only when a checkpoint file is explicitly provided at the beginning of a session."
 version: "1.0.0"
 allowed-tools: [Read]
 ---
@@ -33,7 +33,7 @@ Load a checkpoint artifact and restore the session state it describes, surfacing
 - Any missing required fields flagged, with the user asked to supply them or apply the instruction file default.
 
 ## Resources
-- `references/restore-rules.md` for §4.4.3 restore rules, conflict resolution logic, and examples.
+- `references/restore-rules.md` for spec section 4.4.3 restore rules, conflict resolution logic, and examples.
 
 ## Constraints And Safety
 - Never apply checkpoint state silently — always confirm with the user first.
