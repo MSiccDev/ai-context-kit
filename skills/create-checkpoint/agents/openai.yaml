@@ -1,0 +1,7 @@
+interface:
+  display_name: "Create Checkpoint"
+  short_description: "Capture session state as a checkpoint file"
+  default_prompt: "Use create-checkpoint to capture the current session state before ending"
+
+policy:
+  allow_implicit_invocation: false

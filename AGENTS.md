@@ -47,6 +47,17 @@ Active session state includes:
 - No silent transitions: do not change project, role, phase, output style, tone, or interaction mode without explicit user signal.
 - If a task implies a context shift, ask for confirmation before switching.
 
+### Cross-Session Persistence (§4.4)
+- When the user signals session end or explicitly requests one, propose creating a checkpoint artifact using the `create-checkpoint` skill.
+- Never create a checkpoint silently. User approval is required before writing.
+- When a checkpoint artifact is provided at session start, apply the `restore-checkpoint` skill to restore state and surface any conflicts with active instruction files before proceeding.
+
+### Context Compression (§4.5)
+- When context window saturation is evident, propose compression explicitly — describe what will be retained and what will be dropped before asking for confirmation.
+- Never apply compression silently. The user must confirm before any context is dropped.
+- Before applying compression, offer to export the current state to a checkpoint file using the `create-checkpoint` skill.
+- After compression, do not imply that dropped context is recoverable.
+
 ### Ambiguity Rule
 - If assumptions, state, or intent are ambiguous, ask clarifying questions before acting.
 

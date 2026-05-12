@@ -1,0 +1,7 @@
+interface:
+  display_name: "Restore Checkpoint"
+  short_description: "Restore session state from a checkpoint file"
+  default_prompt: "Use restore-checkpoint to restore session state from a checkpoint artifact"
+
+policy:
+  allow_implicit_invocation: false
