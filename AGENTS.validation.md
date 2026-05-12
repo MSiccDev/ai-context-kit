@@ -14,7 +14,7 @@
 - **Score:** 20/20
 - **Status:** PASS
 - Target file exists and is structurally complete.
-- `<!-- spec_version: 1.4.1 -->` comment is present and current — no version warning.
+- `<!-- spec_version: 1.4.2 -->` comment is present and current — no version warning.
 - Purpose, precedence model, and repository map are explicitly defined.
 - Heading structure is scannable and consistent.
 

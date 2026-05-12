@@ -4,7 +4,7 @@
 
 **File:** `usercontexts/sample_usercontext.instructions.md`
 **Validated:** 2026-05-08
-**Spec Version:** v1.4.1
+**Spec Version:** v1.4.2
 **Validator:** `skills/validate-usercontext-instructions`
 
 ---
@@ -21,7 +21,7 @@
 ### Findings
 - Valid YAML frontmatter detected.
 - Required attributes `description` and `applyTo` are present.
-- `spec_version: "1.4.1"` is present and current — no version warning.
+- `spec_version: "1.4.2"` is present and current — no version warning.
 - No unsupported frontmatter attributes detected.
 
 ### Recommendations
@@ -81,7 +81,7 @@
 - Instruction-based architecture is explicit (WHO/WHAT/HOW) — assistant is told who Jordan Kim is, what the working constraints are, and how to behave in sessions.
 - Provider-neutral and portable wording is preserved throughout.
 - Content is complete for context-aware collaboration use across hosted, local, and API-based runtimes.
-- `spec_version: "1.4.1"` is present in YAML frontmatter, meeting the stamping requirement introduced in spec v1.3.1.
+- `spec_version: "1.4.2"` is present in YAML frontmatter, meeting the stamping requirement introduced in spec v1.3.1.
 - Session state defaults (role, phase, output style, tone, interaction mode) are explicitly defined.
 
 ### Recommendations
@@ -118,4 +118,4 @@
 1. Re-run validation whenever the canonical usercontext template or spec version changes.
 
 ### Migration Path (when relevant)
-1. Not applicable; artifact is aligned with spec v1.4.1.
+1. Not applicable; artifact is aligned with spec v1.4.2.

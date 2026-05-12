@@ -13,17 +13,24 @@ When a new version is released:
 
 ## [Unreleased]
 
+---
+
+## [1.4.2] - 2026-05-12
+
 ### Added
 - **`create-checkpoint` skill** — guided workflow to capture session state as a checkpoint artifact per spec section 4.4, with schema reference and `agents/openai.yaml` sidecar
 - **`restore-checkpoint` skill** — guided workflow to load, validate, and restore a checkpoint artifact at session start per spec section 4.4 restore rules, with conflict resolution reference and `agents/openai.yaml` sidecar
+- **`checkpoint: true` required field** — added to spec section 4.4.2 schema so checkpoint files are self-identifying; restore validation is now fully spec-backed
 - AGENTS.md now references sections 4.4 (Cross-Session Persistence) and 4.5 (Context Compression) with explicit behavioral instructions for both
 - Prompts and Codex symlinks added for both new skills
+- `SKILL.validation.md` added to `create-checkpoint/` and `restore-checkpoint/` skill folders
 
 ### Safe to update from template
 - `skills/create-checkpoint/` (new)
 - `skills/restore-checkpoint/` (new)
 - `.agents/skills/` (two new symlinks)
 - `prompts/` (two new prompt files)
+- `specs/context_aware_ai_session_spec.md`
 - `AGENTS.md`
 - `README.md`
 - `CHANGELOG.md`
