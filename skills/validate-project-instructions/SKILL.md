@@ -4,7 +4,7 @@ description: "Validate project-context AGENTS.md files for required sections, se
 version: "1.0.0"
 allowed-tools: [Read, Write]
 metadata:
-  source_prompt: "prompts/validate-project-instructions.prompt.md"
+  source_prompt: "prompts/skills/validate-project-instructions.prompt.md"
   workflow_type: "validation"
 ---
 
