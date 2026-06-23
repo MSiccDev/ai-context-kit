@@ -4,7 +4,7 @@ description: "Validate user-context instruction files against schema, section co
 version: "1.0.0"
 allowed-tools: [Read, Write]
 metadata:
-  source_prompt: "prompts/validate-usercontext-instructions.prompt.md"
+  source_prompt: "prompts/skills/validate-usercontext-instructions.prompt.md"
   workflow_type: "validation"
 ---
 

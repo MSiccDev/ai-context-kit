@@ -4,7 +4,7 @@ description: "Create complete user-context instruction files using a structured 
 version: "1.0.0"
 allowed-tools: [Read, Write, Edit]
 metadata:
-  source_prompt: "prompts/create-usercontext-instructions.prompt.md"
+  source_prompt: "prompts/skills/create-usercontext-instructions.prompt.md"
   workflow_type: "generation"
 ---
 

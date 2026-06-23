@@ -4,7 +4,7 @@ description: "Create concise, repository-specific AGENTS.md files with operation
 version: "1.0.0"
 allowed-tools: [Read, Write, Edit]
 metadata:
-  source_prompt: "prompts/create-agents-md.prompt.md"
+  source_prompt: "prompts/skills/create-agents-md.prompt.md"
   workflow_type: "generation"
 ---
 
