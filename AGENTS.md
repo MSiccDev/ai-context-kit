@@ -23,7 +23,8 @@ Use this order when files differ:
 | `specs/` | Normative session-model specification and terminology |
 | `templates/` | Canonical instruction templates aligned to the spec |
 | `skills/` | Canonical workflow skills (`SKILL.md` folders) and skill-local resources |
-| `prompts/` | Compatibility wrappers that route workflows to canonical skills |
+| `prompts/skills/` | Compatibility wrappers that route workflows to canonical skills |
+| `prompts/loop/` | Numbered step prompts for the implementation loop (readiness-check → implementation → self-review → learnings → human-in-the-loop); invoke in order, learnings is optional |
 | `usercontexts/` | User-context instruction examples and validation reports |
 
 ## Scope And Precedence For AGENTS.md Files
@@ -201,14 +202,20 @@ When `specs/context_aware_ai_session_spec.md` changes, audit and update all impa
 - User context template: [`templates/usercontext_template.instructions.md`](templates/usercontext_template.instructions.md)
 - Skill template: [`templates/skill_template/SKILL.md`](templates/skill_template/SKILL.md)
 - Create prompts:
-  - [`prompts/create-agents-md.prompt.md`](prompts/create-agents-md.prompt.md)
-  - [`prompts/create-usercontext-instructions.prompt.md`](prompts/create-usercontext-instructions.prompt.md)
-  - [`prompts/create-project-instructions.prompt.md`](prompts/create-project-instructions.prompt.md)
-  - [`prompts/create-skill.prompt.md`](prompts/create-skill.prompt.md)
+  - [`prompts/skills/create-agents-md.prompt.md`](prompts/skills/create-agents-md.prompt.md)
+  - [`prompts/skills/create-usercontext-instructions.prompt.md`](prompts/skills/create-usercontext-instructions.prompt.md)
+  - [`prompts/skills/create-project-instructions.prompt.md`](prompts/skills/create-project-instructions.prompt.md)
+  - [`prompts/skills/create-skill.prompt.md`](prompts/skills/create-skill.prompt.md)
 - Validate prompts:
-  - [`prompts/validate-agents-md.prompt.md`](prompts/validate-agents-md.prompt.md)
-  - [`prompts/validate-usercontext-instructions.prompt.md`](prompts/validate-usercontext-instructions.prompt.md)
-  - [`prompts/validate-project-instructions.prompt.md`](prompts/validate-project-instructions.prompt.md)
-  - [`prompts/validate-skill.prompt.md`](prompts/validate-skill.prompt.md)
+  - [`prompts/skills/validate-agents-md.prompt.md`](prompts/skills/validate-agents-md.prompt.md)
+  - [`prompts/skills/validate-usercontext-instructions.prompt.md`](prompts/skills/validate-usercontext-instructions.prompt.md)
+  - [`prompts/skills/validate-project-instructions.prompt.md`](prompts/skills/validate-project-instructions.prompt.md)
+  - [`prompts/skills/validate-skill.prompt.md`](prompts/skills/validate-skill.prompt.md)
+- Loop prompts:
+  - [`prompts/loop/01-readiness-check.prompt.md`](prompts/loop/01-readiness-check.prompt.md)
+  - [`prompts/loop/02-implementation.prompt.md`](prompts/loop/02-implementation.prompt.md)
+  - [`prompts/loop/03-self-review.prompt.md`](prompts/loop/03-self-review.prompt.md)
+  - [`prompts/loop/04-learnings.prompt.md`](prompts/loop/04-learnings.prompt.md) _(optional)_
+  - [`prompts/loop/05-human-in-the-loop.prompt.md`](prompts/loop/05-human-in-the-loop.prompt.md)
 - Extracted skills index: [`skills/README.md`](skills/README.md)
 - Sample user context instructions: [`usercontexts/sample_usercontext.instructions.md`](usercontexts/sample_usercontext.instructions.md)

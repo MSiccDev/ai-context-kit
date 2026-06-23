@@ -68,14 +68,23 @@ ai-context-kit/
 ├── LICENSE                                           # MIT License file
 │
 ├── prompts/                                          # Composition prompt wrappers
-│   ├── create-usercontext-instructions.prompt.md     # Generate user context instruction files
-│   ├── create-project-instructions.prompt.md         # Generate project-context AGENTS.md files
-│   ├── create-agents-md.prompt.md                    # Generate AGENTS.md files
-│   ├── create-skill.prompt.md                        # Generate skill files
-│   ├── validate-usercontext-instructions.prompt.md   # Validate user context files
-│   ├── validate-project-instructions.prompt.md       # Validate project-context AGENTS.md files
-│   ├── validate-agents-md.prompt.md                  # Validate AGENTS.md files
-│   └── validate-skill.prompt.md                      # Validate skill files
+│   ├── skills/                                       # Skill-wrapper prompts (route to canonical skills)
+│   │   ├── create-usercontext-instructions.prompt.md # Generate user context instruction files
+│   │   ├── create-project-instructions.prompt.md     # Generate project-context AGENTS.md files
+│   │   ├── create-agents-md.prompt.md                # Generate AGENTS.md files
+│   │   ├── create-skill.prompt.md                    # Generate skill files
+│   │   ├── create-checkpoint.prompt.md               # Capture session state as a checkpoint
+│   │   ├── restore-checkpoint.prompt.md              # Restore session state from a checkpoint
+│   │   ├── validate-usercontext-instructions.prompt.md # Validate user context files
+│   │   ├── validate-project-instructions.prompt.md   # Validate project-context AGENTS.md files
+│   │   ├── validate-agents-md.prompt.md              # Validate AGENTS.md files
+│   │   └── validate-skill.prompt.md                  # Validate skill files
+│   └── loop/                                         # Implementation loop prompts (invoke in order)
+│       ├── 01-readiness-check.prompt.md              # Assess the target slice before any changes
+│       ├── 02-implementation.prompt.md               # Execute the approved step on a feature branch
+│       ├── 03-self-review.prompt.md                  # Review and emit STATUS: PASS or BLOCKED
+│       ├── 04-learnings.prompt.md                    # Capture key lessons (optional)
+│       └── 05-human-in-the-loop.prompt.md            # Commit-readiness checklist; waits for go-ahead
 │
 ├── specs/
 │   └── context_aware_ai_session_spec.md              # Specification for AI session management
@@ -110,7 +119,7 @@ ai-context-kit/
 - "Review this code for security issues"
 - "Run the AGENTS validation workflow and list blocking issues"
 
-`prompts/` are available as composition wrappers, while canonical workflow logic lives in `skills/`.
+`prompts/skills/` are composition wrappers that route to canonical skills. `prompts/loop/` contains the numbered implementation loop prompts (readiness-check → implementation → self-review → learnings → human-in-the-loop). Canonical workflow logic lives in `skills/`.
 
 ---
 
