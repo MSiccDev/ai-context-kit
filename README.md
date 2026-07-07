@@ -21,7 +21,7 @@ What began as a way to extract and reuse prompts across AI providers has evolved
 
 - **Layered architecture** – Personal user context + project `AGENTS.md` context create complete AI workspace configurations
 - **Skill-based workflows** – Create and validate context files using reusable skills with detailed operational logic
-- **Provider-agnostic** – Works seamlessly across different LLM environments
+- **Provider-agnostic** – Designed to work across different LLM environments; results may vary by platform
 
 ### The System
 
@@ -32,7 +32,7 @@ This framework consists of:
 - **Session specification** – How AI assistants should maintain and adapt context during work sessions
 - **Templates in `templates/`** – Canonical artifact structures aligned to the spec
 
-All components are designed to work across hosted and local LLM environments, ensuring that every AI assistant understands your background, working style, and project context without repeated explanations. Results may vary by platform, so you may need to adjust your context files accordingly.
+All components are designed to work across hosted and local LLM environments, ensuring that every AI assistant understands your background, working style, and project context without repeated explanations. You may need to adjust your context files for specific platforms.
 
 ---
 
