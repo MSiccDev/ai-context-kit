@@ -1,0 +1,41 @@
+{
+  "name": "ai-context-kit",
+  "version": "1.4.2",
+  "description": "Context-aware AI collaboration skills and implementation loop prompts for creating and validating user context, project AGENTS.md files, and skill artifacts across LLM providers.",
+  "author": {
+    "name": "MSiccDev Software Development",
+    "url": "https://github.com/MSiccDev"
+  },
+  "homepage": "https://github.com/MSiccDev/ai-context-kit",
+  "repository": "https://github.com/MSiccDev/ai-context-kit",
+  "license": "MIT",
+  "keywords": [
+    "context",
+    "agents",
+    "skills",
+    "user-context",
+    "ai-collaboration",
+    "prompt-engineering",
+    "implementation-loop",
+    "workflow-prompts"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "AI Context Kit",
+    "shortDescription": "AGENTS-first collaboration skills for Codex.",
+    "longDescription": "Reusable skills for creating and validating user context, project AGENTS.md files, and skill artifacts across LLM providers.",
+    "developerName": "MSiccDev Software Development",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/MSiccDev/ai-context-kit",
+    "defaultPrompt": [
+      "Use AI Context Kit to create a project AGENTS.md.",
+      "Validate this AGENTS.md with AI Context Kit.",
+      "Create a user context file with AI Context Kit."
+    ],
+    "brandColor": "#2563EB"
+  }
+}

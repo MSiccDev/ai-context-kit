@@ -67,6 +67,13 @@ ai-context-kit/
 ├── README.md                                         # This file
 ├── LICENSE                                           # MIT License file
 │
+├── .codex-plugin/
+│   └── plugin.json                                   # Codex plugin manifest
+├── .agents/
+│   ├── plugins/
+│   │   └── marketplace.json                          # Repo-scoped Codex marketplace
+│   └── skills/                                       # Codex skill discovery symlinks
+│
 ├── prompts/                                          # Prompt wrappers and implementation loop
 │   ├── skills/                                       # Skill-wrapper prompts (route to canonical skills)
 │   │   ├── create-usercontext-instructions.prompt.md # Generate user context instruction files
@@ -307,9 +314,21 @@ If paths must change, update the specification and README first, then adjust ski
 
 ---
 
-## Installing as a Plugin (Claude Code and GitHub Copilot CLI)
+## Installing as a Plugin
 
-AI Context Kit is distributed as a plugin compatible with both Claude Code and GitHub Copilot CLI — they share the same plugin spec. Installing registers all 9 skills as namespaced slash commands in the plugin runtime, with no manual `SKILL.md` loading required.
+AI Context Kit ships native plugin metadata for Codex and compatibility metadata for Claude Code and GitHub Copilot CLI. Installing registers all 11 skills in the target runtime, with no manual `SKILL.md` loading required.
+
+### OpenAI Codex
+
+Register the repository as a marketplace source:
+
+```bash
+codex plugin marketplace add MSiccDev/ai-context-kit
+```
+
+Then restart Codex, open **Plugins**, choose the **AI Context Kit** marketplace, and install `ai-context-kit`.
+
+This repository also supports repo-scoped skill discovery for direct local use. If you clone the repository and run Codex inside it, the `.agents/skills/` symlinks expose the canonical `skills/` directory without duplicating content.
 
 ### Claude Code
 
@@ -343,7 +362,7 @@ claude --plugin-dir ./path/to/ai-context-kit
 
 ### Invoking skills after installation
 
-> **Plugin runtime vs. manual invocation:** This section covers invocation when the plugin is installed via the plugin system (Claude Code or Copilot CLI). If you are using the repository directly (cloned or forked), see [Invoking Skills](#invoking-skills) above — that approach requires loading each `SKILL.md` manually into your session.
+> **Plugin runtime vs. manual invocation:** This section covers invocation when the plugin is installed via the plugin system. If you are using the repository directly (cloned or forked), see [Invoking Skills](#invoking-skills) above, or use Codex repo-scoped skill discovery through `.agents/skills/`.
 
 Skills are namespaced to the plugin name. Inside a session:
 
@@ -376,13 +395,13 @@ claude plugin update ai-context-kit
 
 ## Using with OpenAI Codex
 
-Codex auto-discovers skills from the `.agents/skills/` directory (scanned upward from the current working directory to the repo root). AI Context Kit ships a `.agents/skills/` directory whose entries are symlinks to the canonical `skills/` folder — no content duplication, single source of truth.
+Codex auto-discovers skills from the `.agents/skills/` directory, scanning upward from the current working directory to the repo root. AI Context Kit ships a `.agents/skills/` directory whose entries are symlinks to the canonical `skills/` folders, so repo-local skill discovery and plugin packaging both point at the same source of truth.
 
 Each skill also includes an `agents/openai.yaml` sidecar (`skills/<name>/agents/openai.yaml`) with UI metadata consumed by the Codex skill picker.
 
 ### Auto-discovery (no install needed)
 
-If you clone this repo and run Codex from within it, all 9 skills are discovered automatically — no registration or import required.
+If you clone this repo and run Codex from within it, all 11 skills are discovered automatically. No registration or import is required for repo-local use.
 
 ### Invoking skills in Codex
 
@@ -396,9 +415,13 @@ $repository-drift-control
 
 `repository-drift-control` requires explicit invocation (`allow_implicit_invocation: false`) since it is a governance action.
 
+### Installing the plugin instead of using repo-local discovery
+
+If you want the skills available outside this repository without copying `.agents/skills/` into each project, install the plugin from the Codex marketplace flow described above.
+
 ### Using skills in your own project
 
-To make these skills available when working in a different project, add the skill path to your Codex configuration, or copy/symlink the `.agents/skills/` directory into your project root.
+To make these skills available when working in a different project without installing the plugin, add the skill path to your Codex configuration, or copy or symlink the `.agents/skills/` directory into your project root.
 
 > **Note for Windows users:** Git symlink support must be enabled **before** checkout — otherwise git materialises symlinks as plain text files. Enable it at clone time:
 > ```bash
