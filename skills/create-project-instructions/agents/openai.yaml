@@ -1,7 +1,0 @@
-interface:
-  display_name: "Create Project Instructions"
-  short_description: "Generate a project-context AGENTS.md"
-  default_prompt: "Use create-project-instructions to generate a project AGENTS.md with role and phase defaults"
-
-policy:
-  allow_implicit_invocation: true
