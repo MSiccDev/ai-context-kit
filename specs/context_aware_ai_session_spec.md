@@ -1,17 +1,17 @@
 ---
-version: 1.4.2
+version: 1.4.3
 context_type: specification
 document_type: technical_specification
 created: 2025-10-20
-last_updated: 2026-05-12
+last_updated: 2026-07-07
 status: active
 intended_audience: AI-assisted developers, system designers, prompt engineers, LLM-based tooling architects
 license: Open for adaptation and refinement
 ---
 
-# Context-Aware AI Session Flow Specification (v1.4.2)
+# Context-Aware AI Session Flow Specification (v1.4.3)
 
-**Version:** 1.4.2 | **Updated:** 2026-05-12 | **Status:** Active
+**Version:** 1.4.3 | **Updated:** 2026-07-07 | **Status:** Active
 
 > This document contains the normative rules. For background reasoning, extended examples, end-to-end scenarios, and future enhancement notes, see [`docs/spec-rationale.md`](../docs/spec-rationale.md).
 
@@ -85,7 +85,7 @@ When multiple `AGENTS.md` files exist:
 | **Tone** | Communication voice (analytical, direct, encouraging, neutral). | Yes | Yes |
 | **Interaction Mode** | Initiative level (advisory, pair-programming, driver). | Optional* | Yes |
 
-*Project `AGENTS.md` files should define a default Interaction Mode to keep collaboration behavior deterministic at session start.
+*Project `AGENTS.md` files should define a default Interaction Mode to keep startup behavior consistent and predictable.
 
 ### 4.2 Persistence Rules
 
@@ -467,7 +467,7 @@ Skill-first repositories should group canonical skills into clear operational fa
 | Family | Purpose |
 |--------|---------|
 | Creation workflows | Generate or regenerate instruction artifacts |
-| Validation workflows | Evaluate artifacts and produce deterministic findings |
+| Validation workflows | Evaluate artifacts and produce consistent and predictable findings |
 | Governance workflows | Coordinate repository-level policy, lifecycle, and drift control |
 
 ---

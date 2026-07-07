@@ -1,7 +1,0 @@
-interface:
-  display_name: "Create User Context"
-  short_description: "Create a user context instructions file"
-  default_prompt: "Use create-usercontext-instructions to create a user context file through structured discovery"
-
-policy:
-  allow_implicit_invocation: true

@@ -15,6 +15,37 @@ When a new version is released:
 
 ---
 
+## [1.4.3] - 2026-07-07
+
+### Fixed
+- Replaced all surviving `deterministic` phrasing (spec §4.1 footnote, §10.8 workflow table; README session state section) with `consistent and predictable` — aligns with the reduced-variance language established in v1.4.2
+- Removed stale `agents/openai.yaml` sidecar claim from README Codex section (sidecars were deleted in v1.4.2 but the description was not updated)
+- Corrected Copilot platform table row: Copilot Code Review does support `AGENTS.md`; removed incorrect caveat and expanded label to reflect full Copilot coverage
+- Replaced `"Works seamlessly"` with honest cross-platform framing that matches the platform-variance caveat already present in the same section
+- Added provenance note to `agentskills.io` link — clarifies it is a third-party community site, not a project-maintained resource
+- Corrected `CLAUDE.md` / `.cursorrules` comparison: `"No layering"` was factually wrong (both support nested files); reframed around the actual gap — no personal/project separation that travels across tools
+- Added deprecation callout to template repository section directing new users to the plugin instead
+
+### Safe to update from template
+- `specs/context_aware_ai_session_spec.md`
+- `README.md`
+- `templates/usercontext_template.instructions.md`
+- `templates/AGENTS_template.md`
+- `skills/create-agents-md/SKILL.md`
+- `skills/create-project-instructions/SKILL.md`
+- `skills/create-usercontext-instructions/SKILL.md`
+- `skills/create-usercontext-instructions/references/quality-checklist.md`
+- `skills/validate-agents-md/SKILL.md`
+- `skills/validate-usercontext-instructions/SKILL.md`
+- `skills/validate-project-instructions/SKILL.md`
+
+### Protect (never overwrite)
+- Your personal `*_usercontext.instructions.md`
+- Your project `AGENTS.md`
+- Any custom skills you have created
+
+---
+
 ## [1.4.2] - 2026-05-12
 
 ### Added

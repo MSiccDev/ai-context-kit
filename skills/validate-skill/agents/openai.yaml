@@ -1,7 +1,0 @@
-interface:
-  display_name: "Validate Skill"
-  short_description: "Validate a SKILL.md with scored report"
-  default_prompt: "Use validate-skill to validate this SKILL.md artifact and produce a scored compliance report"
-
-policy:
-  allow_implicit_invocation: true
