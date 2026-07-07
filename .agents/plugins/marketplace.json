@@ -1,0 +1,20 @@
+{
+  "name": "ai-context-kit",
+  "interface": {
+    "displayName": "AI Context Kit"
+  },
+  "plugins": [
+    {
+      "name": "ai-context-kit",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
