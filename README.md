@@ -517,7 +517,7 @@ Each project `AGENTS.md` should define:
 
 | Approach | What it gives you | What's missing |
 |----------|------------------|----------------|
-| Single `CLAUDE.md` / `.cursorrules` | Quick, zero-overhead context for one tool | No portability, no layering, no validation — one file per tool |
+| Single `CLAUDE.md` / `.cursorrules` | Quick, zero-overhead context for one tool | No personal/project separation — the same file covers everything, no cross-tool portability, no structured validation |
 | Handwritten system prompt | Full control over phrasing | Re-explained every session, not versionable, not portable |
 | Per-project `AGENTS.md` only | Project-specific agent behavior | No personal layer — AI still doesn't know who you are |
 | **AI Context Kit** | Layered (personal + project), portable across providers, versioned, validated, skill-reusable | More upfront setup |
