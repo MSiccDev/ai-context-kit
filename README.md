@@ -536,6 +536,8 @@ Each project `AGENTS.md` should define:
 
 ## Getting Started with This Template Repository
 
+> **Plugin vs. template:** If you only need the skills, install the plugin (see [Installing as a Plugin](#installing-as-a-plugin) above) — no fork needed. Use the template route below if you want to own a private copy of the full framework and store your personal context files in the same repository.
+
 This is a **GitHub template repository**. Here's how to use it:
 
 ### Creating Your Own Instance
