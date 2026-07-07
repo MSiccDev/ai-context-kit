@@ -467,7 +467,7 @@ Skill-first repositories should group canonical skills into clear operational fa
 | Family | Purpose |
 |--------|---------|
 | Creation workflows | Generate or regenerate instruction artifacts |
-| Validation workflows | Evaluate artifacts and produce consistent, reproducible findings |
+| Validation workflows | Evaluate artifacts and produce consistent and predictable findings |
 | Governance workflows | Coordinate repository-level policy, lifecycle, and drift control |
 
 ---
