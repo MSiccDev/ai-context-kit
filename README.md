@@ -196,7 +196,7 @@ State behavior rules:
 
 This repository provides for reusable **Agent Skills** for authoring and validation.
 
-- Documentation reference: https://agentskills.io/home
+- Documentation reference: https://agentskills.io/home *(third-party community site for the Agent Skills format — not maintained by this project)*
 - Canonical paths:
   - `templates/skill_template/SKILL.md`
   - `skills/`
