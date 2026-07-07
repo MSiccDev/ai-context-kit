@@ -180,7 +180,7 @@ Session state is the active set of context values that governs assistant behavio
 | **Tone** | Communication style | Project defaults in `AGENTS.md` | Yes |
 | **Interaction Mode** | Initiative level (`advisory`, `pair`, `driver`) | Project defaults in `AGENTS.md` | Yes |
 
-Note: Interaction Mode is optional in the abstract session model, but project `AGENTS.md` should define a default to keep startup behavior deterministic.
+Note: Interaction Mode is optional in the abstract session model, but project `AGENTS.md` should define a default to keep startup behavior consistent and predictable.
 
 State behavior rules:
 - State persists across turns until explicitly changed or reset.
@@ -188,7 +188,7 @@ State behavior rules:
 - State can be changed with natural language or namespaced commands (for example `/namespace.mode`, `/namespace.phase`, `/namespace.style`, `/namespace.tone`, `/namespace.interact`).
 - `/namespace.context` shows current active state; `/namespace.reset` resets session state.
 
-**Purpose:** Keeps behavior deterministic, transparent, and aligned as work moves between planning, implementation, debugging, and review.
+**Purpose:** Keeps behavior consistent, transparent, and aligned as work moves between planning, implementation, debugging, and review.
 
 ---
 

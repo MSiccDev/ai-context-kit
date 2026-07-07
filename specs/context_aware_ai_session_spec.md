@@ -85,7 +85,7 @@ When multiple `AGENTS.md` files exist:
 | **Tone** | Communication voice (analytical, direct, encouraging, neutral). | Yes | Yes |
 | **Interaction Mode** | Initiative level (advisory, pair-programming, driver). | Optional* | Yes |
 
-*Project `AGENTS.md` files should define a default Interaction Mode to keep collaboration behavior deterministic at session start.
+*Project `AGENTS.md` files should define a default Interaction Mode to keep startup behavior consistent and predictable.
 
 ### 4.2 Persistence Rules
 
@@ -467,7 +467,7 @@ Skill-first repositories should group canonical skills into clear operational fa
 | Family | Purpose |
 |--------|---------|
 | Creation workflows | Generate or regenerate instruction artifacts |
-| Validation workflows | Evaluate artifacts and produce deterministic findings |
+| Validation workflows | Evaluate artifacts and produce consistent, reproducible findings |
 | Governance workflows | Coordinate repository-level policy, lifecycle, and drift control |
 
 ---
