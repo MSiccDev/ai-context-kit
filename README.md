@@ -306,7 +306,7 @@ If paths must change, update the specification and README first, then adjust ski
 | Platform | Method | Limitations / Notes |
 |----------|---------|---------------------|
 | **Anthropic Claude Projects** | Add user context and `AGENTS.md` to project knowledge or project instructions | Large files compete with conversation history for context window space; keep files concise |
-| **GitHub Copilot (VS Code/IDE, coding agent)** | Keep `AGENTS.md` in your project root; Copilot reads it automatically | Copilot Code Review does not yet support `AGENTS.md` — add `.github/copilot-instructions.md` if you need Code Review coverage |
+| **GitHub Copilot (VS Code/IDE, coding agent)** | Keep `AGENTS.md` in your project root; Copilot reads it automatically | Copilot Code Review does not support `AGENTS.md` — add `.github/copilot-instructions.md` if you need Code Review coverage |
 | **OpenAI ChatGPT** | Paste user context into **Custom Instructions**; upload `AGENTS.md` as a file attachment | Custom Instructions has a tight character limit — long user context files will be silently truncated; maintain a condensed version and consult current OpenAI documentation for the latest limit |
 | **OpenAI Codex** | Keep `AGENTS.md` in your project root; Codex reads it automatically | — |
 | **Local scripts / APIs** | Concatenate user context + `AGENTS.md` when initializing conversations | Context window management is your responsibility; monitor token usage for long sessions |
