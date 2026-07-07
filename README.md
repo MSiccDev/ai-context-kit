@@ -21,7 +21,7 @@ What began as a way to extract and reuse prompts across AI providers has evolved
 
 - **Layered architecture** – Personal user context + project `AGENTS.md` context create complete AI workspace configurations
 - **Skill-based workflows** – Create and validate context files using reusable skills with detailed operational logic
-- **Provider-agnostic** – Works seamlessly across different LLM environments
+- **Provider-agnostic** – Designed to work across different LLM environments; results may vary by platform
 
 ### The System
 
@@ -32,7 +32,7 @@ This framework consists of:
 - **Session specification** – How AI assistants should maintain and adapt context during work sessions
 - **Templates in `templates/`** – Canonical artifact structures aligned to the spec
 
-All components are designed to work across hosted and local LLM environments, ensuring that every AI assistant understands your background, working style, and project context without repeated explanations. Results may vary by platform, so you may need to adjust your context files accordingly.
+All components are designed to work across hosted and local LLM environments, ensuring that every AI assistant understands your background, working style, and project context without repeated explanations. You may need to adjust your context files for specific platforms.
 
 ---
 
@@ -97,7 +97,7 @@ ai-context-kit/
 │   └── context_aware_ai_session_spec.md              # Specification for AI session management
 │
 ├── templates/
-│  ├── usercontext_template.instructions.md           # Canonical v1.4.2 user context template (authoritative)
+│  ├── usercontext_template.instructions.md           # Canonical v1.4.3 user context template (authoritative)
 │  ├── AGENTS_template.md                             # Canonical AGENTS template (authoritative)
 │  └── skill_template/SKILL.md                        # Canonical skill template
 │
@@ -130,7 +130,7 @@ ai-context-kit/
 
 ---
 
-## Canonical Authority (Spec v1.4.2)
+## Canonical Authority (Spec v1.4.3)
 
 When guidance differs across files, use this authority order:
 
@@ -180,7 +180,7 @@ Session state is the active set of context values that governs assistant behavio
 | **Tone** | Communication style | Project defaults in `AGENTS.md` | Yes |
 | **Interaction Mode** | Initiative level (`advisory`, `pair`, `driver`) | Project defaults in `AGENTS.md` | Yes |
 
-Note: Interaction Mode is optional in the abstract session model, but project `AGENTS.md` should define a default to keep startup behavior deterministic.
+Note: Interaction Mode is optional in the abstract session model, but project `AGENTS.md` should define a default to keep startup behavior consistent and predictable.
 
 State behavior rules:
 - State persists across turns until explicitly changed or reset.
@@ -188,7 +188,7 @@ State behavior rules:
 - State can be changed with natural language or namespaced commands (for example `/namespace.mode`, `/namespace.phase`, `/namespace.style`, `/namespace.tone`, `/namespace.interact`).
 - `/namespace.context` shows current active state; `/namespace.reset` resets session state.
 
-**Purpose:** Keeps behavior deterministic, transparent, and aligned as work moves between planning, implementation, debugging, and review.
+**Purpose:** Keeps behavior consistent, transparent, and aligned as work moves between planning, implementation, debugging, and review.
 
 ---
 
@@ -196,7 +196,7 @@ State behavior rules:
 
 This repository provides for reusable **Agent Skills** for authoring and validation.
 
-- Documentation reference: https://agentskills.io/home
+- Documentation reference: https://agentskills.io/home *(third-party community site for the Agent Skills format — not maintained by this project)*
 - Canonical paths:
   - `templates/skill_template/SKILL.md`
   - `skills/`
@@ -260,13 +260,13 @@ The following paths are considered **canonical**:
 - `AGENTS.md`
   - Primary agent entrypoint (repo-specific operational contract)
 - `templates/`
-  - Canonical instruction templates (spec v1.4.2)
+  - Canonical instruction templates (spec v1.4.3)
 - `skills/`
   - Canonical workflow skills (`SKILL.md`-based folders)
 - `prompts/`
   - Composition wrappers for instruction/skill workflows
 - `specs/context_aware_ai_session_spec.md`
-  - Authoritative specification (v1.4.2+)
+  - Authoritative specification (v1.4.3+)
 - Root `README.md`
   - Human-facing entry point and workflow documentation
 
@@ -306,7 +306,7 @@ If paths must change, update the specification and README first, then adjust ski
 | Platform | Method | Limitations / Notes |
 |----------|---------|---------------------|
 | **Anthropic Claude Projects** | Add user context and `AGENTS.md` to project knowledge or project instructions | Large files compete with conversation history for context window space; keep files concise |
-| **GitHub Copilot (VS Code/IDE, coding agent)** | Keep `AGENTS.md` in your project root; Copilot reads it automatically | Copilot Code Review does not yet support `AGENTS.md` — add `.github/copilot-instructions.md` if you need Code Review coverage |
+| **GitHub Copilot (VS Code/IDE, coding agent, code review)** | Keep `AGENTS.md` in your project root; Copilot reads it automatically | — |
 | **OpenAI ChatGPT** | Paste user context into **Custom Instructions**; upload `AGENTS.md` as a file attachment | Custom Instructions has a tight character limit — long user context files will be silently truncated; maintain a condensed version and consult current OpenAI documentation for the latest limit |
 | **OpenAI Codex** | Keep `AGENTS.md` in your project root; Codex reads it automatically | — |
 | **Local scripts / APIs** | Concatenate user context + `AGENTS.md` when initializing conversations | Context window management is your responsibility; monitor token usage for long sessions |
@@ -397,8 +397,6 @@ claude plugin update ai-context-kit
 
 Codex auto-discovers skills from the `.agents/skills/` directory, scanning upward from the current working directory to the repo root. AI Context Kit ships a `.agents/skills/` directory whose entries are symlinks to the canonical `skills/` folders, so repo-local skill discovery and plugin packaging both point at the same source of truth.
 
-Each skill also includes an `agents/openai.yaml` sidecar (`skills/<name>/agents/openai.yaml`) with UI metadata consumed by the Codex skill picker.
-
 ### Auto-discovery (no install needed)
 
 If you clone this repo and run Codex from within it, all 11 skills are discovered automatically. No registration or import is required for repo-local use.
@@ -488,7 +486,7 @@ Each project `AGENTS.md` should define:
 - **Languages:** LLMs work best when instructions are in English, but you can include multilingual content in user context if needed (just be aware of potential comprehension issues)
 - **Versioning:** Update user context when skills/preferences evolve; update project `AGENTS.md` when phases/objectives change. Ideally, these should live in the same repository as your codebase once they are created.
 - **Discoverability:** Semantic file extensions help AI tools identify and load the appropriate instructions automatically
-- **Canonical structure:** The templates in `/templates` define the only supported artifact structures for spec v1.4.2
+- **Canonical structure:** The templates in `/templates` define the only supported artifact structures for spec v1.4.3
 
 ---
 
@@ -519,7 +517,7 @@ Each project `AGENTS.md` should define:
 
 | Approach | What it gives you | What's missing |
 |----------|------------------|----------------|
-| Single `CLAUDE.md` / `.cursorrules` | Quick, zero-overhead context for one tool | No portability, no layering, no validation — one file per tool |
+| Single `CLAUDE.md` / `.cursorrules` | Quick, zero-overhead context for one tool | No personal/project separation — the same file covers everything, no cross-tool portability, no structured validation |
 | Handwritten system prompt | Full control over phrasing | Re-explained every session, not versionable, not portable |
 | Per-project `AGENTS.md` only | Project-specific agent behavior | No personal layer — AI still doesn't know who you are |
 | **AI Context Kit** | Layered (personal + project), portable across providers, versioned, validated, skill-reusable | More upfront setup |
@@ -537,6 +535,8 @@ Each project `AGENTS.md` should define:
 ---
 
 ## Getting Started with This Template Repository
+
+> **Recommended: install the plugin** (see [Installing as a Plugin](#installing-as-a-plugin) above). The template repository path below is being phased out — new users should install via plugin instead.
 
 This is a **GitHub template repository**. Here's how to use it:
 
