@@ -1,7 +1,0 @@
-interface:
-  display_name: "Create Skill"
-  short_description: "Generate a new canonical SKILL.md file"
-  default_prompt: "Use create-skill to generate a new SKILL.md artifact for a workflow skill"
-
-policy:
-  allow_implicit_invocation: true

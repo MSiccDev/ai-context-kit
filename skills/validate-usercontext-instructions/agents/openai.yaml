@@ -1,7 +1,0 @@
-interface:
-  display_name: "Validate User Context"
-  short_description: "Validate user context file with scores"
-  default_prompt: "Use validate-usercontext-instructions to validate a user context file and produce a scored compliance report"
-
-policy:
-  allow_implicit_invocation: true

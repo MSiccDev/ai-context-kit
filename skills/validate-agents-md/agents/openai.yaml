@@ -1,7 +1,0 @@
-interface:
-  display_name: "Validate AGENTS.md"
-  short_description: "Validate an AGENTS.md with scored report"
-  default_prompt: "Use validate-agents-md to validate this AGENTS.md file and produce a scored compliance report"
-
-policy:
-  allow_implicit_invocation: true
