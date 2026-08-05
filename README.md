@@ -301,6 +301,43 @@ If paths must change, update the specification and README first, then adjust ski
 
 ---
 
+## Evaluation Reports
+
+Beyond the skill-based validators, `tests/AIContextKit.Evaluations` contains an xUnit test suite (built on `Microsoft.Extensions.AI.Evaluation`) that checks `AGENTS.md` for structural completeness — i.e. that all required sections are present — and can produce a browsable HTML report of the result.
+
+### Running the tests
+
+```bash
+dotnet test tests/AIContextKit.Evaluations
+```
+
+The positive-path test (`AgentsMd_ShouldHaveAllRequiredFields`) also records its result to a local, gitignored `eval-results/` folder under the test project, which the `aieval` report tool reads from.
+
+### Generating the report
+
+The `aieval` CLI ships as part of the `Microsoft.Extensions.AI.Evaluation.Console` .NET tool. Install it once globally:
+
+```bash
+dotnet tool install -g Microsoft.Extensions.AI.Evaluation.Console
+```
+
+Then, after running the tests at least once, generate (and optionally open) the report:
+
+```bash
+aieval report \
+  --path tests/AIContextKit.Evaluations/eval-results \
+  --output tests/AIContextKit.Evaluations/eval-results/report.html \
+  --open
+```
+
+- `--path` points at the result store populated by the test run.
+- `--output` is where the HTML report is written.
+- `--open` launches it in your default browser; omit it to just generate the file.
+
+Re-run the tests and the `aieval report` command any time `AGENTS.md` changes to confirm it still satisfies the structural contract.
+
+---
+
 ## Loading Context in Different AI Platforms
 
 | Platform | Method | Limitations / Notes |
