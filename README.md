@@ -315,16 +315,16 @@ The positive-path test (`AgentsMd_ShouldHaveAllRequiredFields`) also records its
 
 ### Generating the report
 
-The `aieval` CLI ships as part of the `Microsoft.Extensions.AI.Evaluation.Console` .NET tool. Install it once globally:
+The `aieval` CLI ships as part of the `Microsoft.Extensions.AI.Evaluation.Console` .NET tool, registered in this repo as a local tool via `dotnet-tools.json`. Restore it once (also runs automatically on `dotnet restore`):
 
 ```bash
-dotnet tool install -g Microsoft.Extensions.AI.Evaluation.Console
+dotnet tool restore
 ```
 
 Then, after running the tests at least once, generate (and optionally open) the report:
 
 ```bash
-aieval report \
+dotnet tool run aieval report \
   --path tests/AIContextKit.Evaluations/eval-results \
   --output tests/AIContextKit.Evaluations/eval-results/report.html \
   --open
