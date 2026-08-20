@@ -14,13 +14,14 @@ public class AgentsMdStructuralCompletenessTests
         var reportingConfiguration = DiskBasedReportingConfiguration.Create(
             storageRootPath: StorageRootPath,
             evaluators: [new AgentsMdStructuralCompletenessEvaluator()],
+            executionName: EvaluationExecution.Name,
             enableResponseCaching: false);
 
         await using var scenarioRun = await reportingConfiguration.CreateScenarioRunAsync(
             scenarioName: nameof(AgentsMd_ShouldHaveAllRequiredFields));
 
         var agentsMd = File.ReadAllText(AgentsMdStructuralCompletenessEvaluator.FindAgentsMdPath());
-        var messages = new List<ChatMessage> { new(ChatRole.User, "Generate an AGENTS.md for this repository") };
+        var messages = new List<ChatMessage> { new(ChatRole.User, "Validate the AGENTS.md for this repository") };
         var modelResponse = new ChatResponse(new ChatMessage(ChatRole.Assistant, agentsMd));
 
         var result = await scenarioRun.EvaluateAsync(messages, modelResponse);
