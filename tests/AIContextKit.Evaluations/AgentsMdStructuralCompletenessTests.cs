@@ -33,8 +33,9 @@ public class AgentsMdStructuralCompletenessTests
     [Fact]
     public void AgentsMd_ShouldFailWhenRequiredFieldIsMissing()
     {
-        // An incomplete document that omits the first required field entirely.
-        var incompleteAgentsMd = string.Join("\n\n", AgentsMdStructuralCompletenessEvaluator.RequiredFields.Skip(1));
+        // A realistic AGENTS.md — same repository content as the root file — with the
+        // "## Purpose" section actually removed, rather than a synthetic list of headings.
+        var incompleteAgentsMd = File.ReadAllText("TestData/agents-md/incomplete-example/AGENTS.md");
 
         var metric = AgentsMdStructuralCompletenessEvaluator.Evaluate(incompleteAgentsMd);
 
