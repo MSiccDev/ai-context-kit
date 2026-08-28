@@ -1,9 +1,8 @@
-using System.ClientModel;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.AI.Evaluation;
 using Microsoft.Extensions.AI.Evaluation.Reporting.Storage;
-using OpenAI;
+using OllamaSharp;
 using AiContextKit.Evals.Evaluators;
 using Xunit;
 
@@ -14,16 +13,14 @@ public class SkillEvaluatorTests
     private static readonly string StorageRootPath =
         Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "eval-results");
 
-    private static IChatClient CreateLmStudioClient() =>
-        new OpenAIClient(
-                new ApiKeyCredential("lm-studio"),
-                new OpenAIClientOptions
-                {
-                    Endpoint = new Uri("http://localhost:1234/v1"),
-                    NetworkTimeout = TimeSpan.FromMinutes(10),
-                })
-            .GetChatClient("microsoft/phi-4-reasoning-plus")
-            .AsIChatClient();
+    private static IChatClient CreateOllamaClient() =>
+        new OllamaApiClient(
+            new HttpClient
+            {
+                BaseAddress = new Uri("http://localhost:11434"),
+                Timeout = TimeSpan.FromMinutes(10),
+            },
+            defaultModel: "phi4-reasoning:14b-plus-q8_0");
 
     // Mirrors scoring.md's grade bands exactly, so this stays your single source
     // of truth for what PASS/WARN/FAIL means — same as validate-skill itself would report.
@@ -41,7 +38,7 @@ public class SkillEvaluatorTests
     private static async Task<(double TotalOn100, string Band, string Diagnostics)> EvaluateSkillAsync(
         string skillPath, string folderName, [CallerMemberName] string scenarioName = "")
     {
-        var chatConfiguration = new ChatConfiguration(CreateLmStudioClient());
+        var chatConfiguration = new ChatConfiguration(CreateOllamaClient());
 
         var reportingConfiguration = DiskBasedReportingConfiguration.Create(
             storageRootPath: StorageRootPath,
