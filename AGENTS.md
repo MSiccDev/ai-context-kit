@@ -26,6 +26,7 @@ Use this order when files differ:
 | `prompts/skills/` | Compatibility wrappers that route workflows to canonical skills |
 | `prompts/loop/` | Numbered step prompts for the implementation loop (readiness-check → implementation → self-review → learnings → human-in-the-loop); invoke in order, learnings is optional |
 | `usercontexts/` | User-context instruction examples and validation reports |
+| `tests/AIContextKit.Evaluations/` | xUnit suite (MEAI.Evaluation) checking `AGENTS.md` and `SKILL.md` structural completeness and quality — see README's "Evaluation Reports" section |
 
 ## Scope And Precedence For AGENTS.md Files
 - An `AGENTS.md` file applies to the directory it is in and all subdirectories.
