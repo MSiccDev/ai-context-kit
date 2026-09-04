@@ -20,8 +20,13 @@ public sealed class OllamaJudgeSettings
     {
         string endpoint = Required(configuration, EndpointKey);
         string model = Required(configuration, ModelKey);
-        double timeoutMinutes = double.Parse(
-            Required(configuration, TimeoutMinutesKey), NumberStyles.Number, CultureInfo.InvariantCulture);
+
+        string timeoutRaw = Required(configuration, TimeoutMinutesKey);
+        if (!double.TryParse(timeoutRaw, NumberStyles.Number, CultureInfo.InvariantCulture, out double timeoutMinutes))
+        {
+            throw new InvalidOperationException(
+                $"Configuration '{TimeoutMinutesKey}' must be a number of minutes, but was '{timeoutRaw}'.");
+        }
 
         return new OllamaJudgeSettings
         {

@@ -41,10 +41,10 @@ public class OllamaJudgeSettingsTests
     }
 
     [Fact]
-    public void FromConfiguration_ParsesTimeoutWithInvariantCulture()
+    public void FromConfiguration_ParsesFractionalTimeout()
     {
         var pairs = AllKeysSet();
-        pairs[2] = (OllamaJudgeSettings.TimeoutMinutesKey, "1.5"); // '.' decimal separator, not ','
+        pairs[2] = (OllamaJudgeSettings.TimeoutMinutesKey, "1.5");
 
         var settings = OllamaJudgeSettings.FromConfiguration(Config(pairs));
 
@@ -52,11 +52,13 @@ public class OllamaJudgeSettingsTests
     }
 
     [Fact]
-    public void FromConfiguration_ThrowsFormatException_WhenTimeoutNotANumber()
+    public void FromConfiguration_ThrowsWithKeyName_WhenTimeoutNotANumber()
     {
         var pairs = AllKeysSet();
         pairs[2] = (OllamaJudgeSettings.TimeoutMinutesKey, "soon");
 
-        Assert.Throws<FormatException>(() => OllamaJudgeSettings.FromConfiguration(Config(pairs)));
+        var ex = Assert.Throws<InvalidOperationException>(
+            () => OllamaJudgeSettings.FromConfiguration(Config(pairs)));
+        Assert.Contains(OllamaJudgeSettings.TimeoutMinutesKey, ex.Message);
     }
 }

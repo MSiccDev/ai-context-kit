@@ -43,6 +43,9 @@ public sealed partial class SkillQualityEvaluator : IEvaluator
         if (string.IsNullOrWhiteSpace(skillText))
         {
             var emptyMetric = new NumericMetric(MetricName, 0.0);
+            emptyMetric.Interpretation = new EvaluationMetricInterpretation(
+                rating: ScoringRubric.RatingFromScore(0.0),
+                reason: "SKILL.md content was empty.");
             emptyMetric.AddDiagnostics(EvaluationDiagnostic.Error("SKILL.md content was empty."));
             return new EvaluationResult(emptyMetric);
         }
