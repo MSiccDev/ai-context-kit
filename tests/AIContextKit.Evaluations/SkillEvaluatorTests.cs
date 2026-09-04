@@ -19,18 +19,16 @@ public class SkillEvaluatorTests
         .AddEnvironmentVariables()
         .Build();
 
-    private static IChatClient CreateOllamaClient()
+    // One HttpClient / judge client for the whole class — process-lifetime statics are the standard
+    // non-DI answer to HttpClient lifetime, and this suite only makes a couple of localhost calls.
+    // Lazy so a missing config key surfaces as OllamaJudgeSettings' own message on first use rather
+    // than a TypeInitializationException.
+    private static readonly Lazy<IChatClient> JudgeClient = new(() =>
     {
         var settings = OllamaJudgeSettings.FromConfiguration(Configuration);
-
-        return new OllamaApiClient(
-            new HttpClient
-            {
-                BaseAddress = settings.Endpoint,
-                Timeout = settings.Timeout,
-            },
-            defaultModel: settings.Model);
-    }
+        var httpClient = new HttpClient { BaseAddress = settings.Endpoint, Timeout = settings.Timeout };
+        return new OllamaApiClient(httpClient, defaultModel: settings.Model);
+    });
 
     // Mirrors scoring.md's grade bands exactly, so this stays your single source
     // of truth for what PASS/WARN/FAIL means — same as validate-skill itself would report.
@@ -48,7 +46,7 @@ public class SkillEvaluatorTests
     private static async Task<(double TotalOn100, string Band, string Diagnostics)> EvaluateSkillAsync(
         string skillPath, string folderName, [CallerMemberName] string scenarioName = "")
     {
-        var chatConfiguration = new ChatConfiguration(CreateOllamaClient());
+        var chatConfiguration = new ChatConfiguration(JudgeClient.Value);
 
         await using var scenarioRun = await EvaluationHarness.CreateScenarioRunAsync(
             scenarioName: scenarioName,
