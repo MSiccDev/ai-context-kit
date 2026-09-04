@@ -4,9 +4,8 @@ using Microsoft.Extensions.AI.Evaluation.Reporting.Storage;
 
 namespace AIContextKit.Evaluations;
 
-// Shared setup for the reporting-backed evaluation tests: the on-disk results location and the
-// DiskBasedReportingConfiguration + scenario-run wiring that was otherwise copy-pasted into every
-// such test class. All runs land in the same execution bucket via EvaluationExecution.Name.
+// Shared results location and DiskBasedReportingConfiguration + scenario-run wiring for the
+// reporting-backed evaluation tests.
 public static class EvaluationHarness
 {
     public static readonly string StorageRootPath =

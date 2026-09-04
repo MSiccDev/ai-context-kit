@@ -6,10 +6,8 @@ namespace AIContextKit.Evaluations.Tests;
 
 public class AgentsMdStructuralCompletenessTests
 {
-    // The positive path runs through DiskBasedReportingConfiguration so its result is recorded to
-    // eval-results/ for the aieval HTML report (see README "Evaluation Reports"). The negative path
-    // is a plain evaluator call via the shared helper below — no value in recording an expected
-    // failure. Both exercise the same IEvaluator.EvaluateAsync surface.
+    // The positive path is recorded to eval-results/ for the aieval report (see README "Evaluation
+    // Reports"); the negative path is a plain evaluator call, no need to record an expected failure.
     [Fact]
     public async Task AgentsMd_ShouldHaveAllRequiredFields()
     {
@@ -30,8 +28,7 @@ public class AgentsMdStructuralCompletenessTests
     [Fact]
     public async Task AgentsMd_ShouldFailWhenRequiredFieldIsMissing()
     {
-        // A realistic AGENTS.md — same repository content as the root file — with the
-        // "## Purpose" section actually removed, rather than a synthetic list of headings.
+        // A copy of the root AGENTS.md with the "## Purpose" section removed.
         var incompleteAgentsMd = await File.ReadAllTextAsync("TestData/agents-md/incomplete-example/AGENTS.md");
 
         var metric = await EvaluateCompletenessAsync(incompleteAgentsMd);

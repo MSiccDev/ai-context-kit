@@ -3,9 +3,8 @@ using Microsoft.Extensions.Configuration;
 
 namespace AIContextKit.Evaluations;
 
-// Ollama judge connection settings for SkillEvaluatorTests, read from configuration with no in-code
-// fallbacks: user secrets for local dev, environment variables of the same name overriding for CI.
-// A missing key fails fast with a message pointing at how to set it.
+// Ollama judge connection settings, read from configuration with no in-code fallbacks. A missing or
+// malformed key fails fast with a message naming it.
 public sealed class OllamaJudgeSettings
 {
     public const string EndpointKey = "OLLAMA_ENDPOINT";

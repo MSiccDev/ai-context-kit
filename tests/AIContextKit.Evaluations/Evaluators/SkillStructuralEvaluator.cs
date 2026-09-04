@@ -5,12 +5,9 @@ using Microsoft.Extensions.AI.Evaluation;
 namespace AIContextKit.Evaluations.Evaluators;
 
 /// <summary>
-/// Non-AI evaluator reproducing validate-skill's Phase 1, 2, and 4 checks —
-/// the deterministic <see cref="ScoringRubric.StructuralPoints"/> of
-/// <see cref="ScoringRubric.TotalPoints"/> in scoring.md. No LLM call, no
-/// ChatConfiguration dependency: pure text/regex logic against the SKILL.md
-/// content, mirroring exactly what a human running validate-skill manually
-/// would check first.
+/// Non-AI evaluator for validate-skill's Phase 1, 2, and 4 — the deterministic
+/// <see cref="ScoringRubric.StructuralPoints"/> of <see cref="ScoringRubric.TotalPoints"/> in
+/// scoring.md. Pure text/regex logic against the SKILL.md content; no LLM call.
 /// </summary>
 public sealed partial class SkillStructuralEvaluator : IEvaluator
 {
@@ -49,8 +46,8 @@ public sealed partial class SkillStructuralEvaluator : IEvaluator
         cancellationToken.ThrowIfCancellationRequested();
 
         string content = modelResponse.Text ?? string.Empty;
-        var findings = new List<string>(); // point-affecting issues — drive the score and the reason
-        var notes = new List<string>();    // non-scoring observations — attached as informational diagnostics
+        var findings = new List<string>(); // affect the score and the reason
+        var notes = new List<string>();    // attached as informational diagnostics only
 
         // ---- Phase 1: Presence, Structure, Frontmatter ----
         double phase1 = ScorePhase1(content, findings);
@@ -128,7 +125,7 @@ public sealed partial class SkillStructuralEvaluator : IEvaluator
                 points -= 8;
             }
 
-            // folder-name parity — this is exactly why SkillFolderContext exists
+            // folder-name parity
             if (folderName is not null && !string.Equals(name, folderName, StringComparison.Ordinal))
             {
                 findings.Add($"name '{name}' does not match folder name '{folderName}'");
@@ -157,19 +154,14 @@ public sealed partial class SkillStructuralEvaluator : IEvaluator
     {
         double points = ScoringRubric.Phase4ResourceReferencesSafety;
 
-        // Resource references should be relative, not absolute URLs to external hosts —
-        // this check mirrors the toolkit's own provider-neutrality/portability concerns.
-        // Matches both Markdown link syntax (]\(url\)) and bare URLs in prose — a
-        // SKILL.md can reference an external host either way, and only matching the
-        // Markdown-link form let bare URLs slip through undetected.
+        // Flag external host references (Markdown links and bare URLs alike) for manual review;
+        // add an allowlist here if your skills legitimately link externally.
         var externalUrls = ExternalUrlRegex().Matches(content)
             .Select(m => m.Value.TrimEnd('.', ',', ';', ':'))
             .Distinct();
 
         foreach (string target in externalUrls)
         {
-            // External links aren't automatically wrong, but flag for manual review —
-            // extend this with an allowlist if your skills legitimately link externally.
             findings.Add($"external reference found: {target} (verify this is intentional)");
             points -= 3;
         }

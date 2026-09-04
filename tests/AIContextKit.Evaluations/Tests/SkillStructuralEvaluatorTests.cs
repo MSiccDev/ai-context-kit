@@ -3,12 +3,8 @@ using AIContextKit.Evaluations.Evaluators;
 
 namespace AIContextKit.Evaluations.Tests;
 
-// Isolated, offline tests of SkillStructuralEvaluator's regex/string logic alone --
-// no ChatConfiguration, no Ollama. This is the fast counterpart to SkillEvaluatorTests,
-// which exercises the same fixtures through the full structural+quality pipeline and
-// requires a local judge model. Exercising Phase 4 here (and not only combined with the
-// LLM judge) is what would have caught the bare-URL detection bug immediately instead
-// of it being silently masked by SkillQualityEvaluator's independent Phase 5 check.
+// Offline tests of SkillStructuralEvaluator alone — no ChatConfiguration, no Ollama. The fast
+// counterpart to SkillEvaluatorTests, which runs the same fixtures through the full pipeline.
 public class SkillStructuralEvaluatorTests
 {
     [Fact]

@@ -6,11 +6,9 @@ using Microsoft.Extensions.AI.Evaluation;
 namespace AIContextKit.Evaluations.Evaluators;
 
 /// <summary>
-/// LLM-as-judge evaluator reproducing validate-skill's Phase 3 and Phase 5
-/// checks — the genuinely subjective <see cref="ScoringRubric.QualityPoints"/>
-/// of <see cref="ScoringRubric.TotalPoints"/> in scoring.md. Structurally the
-/// same pattern as ArchitecturalRelevanceEvaluator: the rubric lives in the
-/// prompt, the response is parsed from a fixed format.
+/// LLM-as-judge evaluator for validate-skill's Phase 3 and Phase 5 — the subjective
+/// <see cref="ScoringRubric.QualityPoints"/> of <see cref="ScoringRubric.TotalPoints"/> in
+/// scoring.md. The rubric lives in the prompt; the reply is parsed from a fixed SCORE:/REASON: format.
 /// </summary>
 public sealed partial class SkillQualityEvaluator : IEvaluator
 {
@@ -50,7 +48,7 @@ public sealed partial class SkillQualityEvaluator : IEvaluator
             return new EvaluationResult(emptyMetric);
         }
 
-        // Rubric mirrors phase-checks.md Phase 3 and Phase 5 directly; point weights come from ScoringRubric.
+        // Point weights come from ScoringRubric so the prompt can't drift from the rubric.
         string phase3Weight = (ScoringRubric.Phase3InstructionQuality / ScoringRubric.QualityPoints)
             .ToString("0.###", CultureInfo.InvariantCulture);
         string phase5Weight = (ScoringRubric.Phase5NeutralityPortability / ScoringRubric.QualityPoints)
@@ -92,9 +90,8 @@ public sealed partial class SkillQualityEvaluator : IEvaluator
 
         string judgeText = judgeResponse.Text ?? string.Empty;
 
-        // A local model that drops the SCORE:/REASON: format is a misbehaving judge, not a test
-        // crash: record a Poor result carrying the raw response so the run still completes and the
-        // failure is triageable, rather than throwing out of EvaluateAsync.
+        // A reply without a parseable SCORE is a misbehaving judge, not a crash: record a Poor result
+        // with the raw response so the run completes and the failure is triageable.
         if (ParseJudgeResponse(judgeText) is not (double score, string reason))
         {
             var unparsedMetric = new NumericMetric(MetricName, 0.0);

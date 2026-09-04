@@ -11,18 +11,15 @@ namespace AIContextKit.Evaluations.Tests;
 
 public class SkillEvaluatorTests
 {
-    // Ollama endpoint/model/timeout come from user secrets (local dev) with environment variables
-    // overriding (CI); both use flat keys OLLAMA_ENDPOINT / OLLAMA_MODEL / OLLAMA_TIMEOUT_MINUTES.
-    // All three are required — see OllamaJudgeSettings and README "Configuring the judge model".
+    // Judge config: user secrets, then environment variables of the same name. See OllamaJudgeSettings
+    // and README "Configuring the judge model".
     private static readonly IConfiguration Configuration = new ConfigurationBuilder()
         .AddUserSecrets<SkillEvaluatorTests>(optional: true)
         .AddEnvironmentVariables()
         .Build();
 
-    // One HttpClient / judge client for the whole class — process-lifetime statics are the standard
-    // non-DI answer to HttpClient lifetime, and this suite only makes a couple of localhost calls.
-    // Lazy so a missing config key surfaces as OllamaJudgeSettings' own message on first use rather
-    // than a TypeInitializationException.
+    // One judge client for the whole class. Lazy so a missing config key surfaces as
+    // OllamaJudgeSettings' message on first use, not a TypeInitializationException.
     private static readonly Lazy<IChatClient> JudgeClient = new(() =>
     {
         var settings = OllamaJudgeSettings.FromConfiguration(Configuration);
@@ -30,8 +27,7 @@ public class SkillEvaluatorTests
         return new OllamaApiClient(httpClient, defaultModel: settings.Model);
     });
 
-    // Mirrors scoring.md's grade bands exactly, so this stays your single source
-    // of truth for what PASS/WARN/FAIL means — same as validate-skill itself would report.
+    // Grade bands from scoring.md.
     private static string GradeBand(double totalScoreOn100) => totalScoreOn100 switch
     {
         >= 90 => "PASS",
@@ -40,9 +36,8 @@ public class SkillEvaluatorTests
         _ => "FAIL"
     };
 
-    // Runs both evaluators over one SKILL.md through a DiskBasedReportingConfiguration
-    // (matching AgentsMdStructuralCompletenessTests' pattern) and reproduces scoring.md
-    // exactly: Phases 1+2+4 (structural) and Phases 3+5 (quality), weighted per ScoringRubric.
+    // Runs both evaluators over one SKILL.md and recombines the metrics into a 0-100 score:
+    // structural (Phases 1+2+4) and quality (Phases 3+5), weighted per ScoringRubric.
     private static async Task<(double TotalOn100, string Band, string Diagnostics)> EvaluateFullPipelineAsync(
         string skillPath, string folderName, [CallerMemberName] string scenarioName = "")
     {

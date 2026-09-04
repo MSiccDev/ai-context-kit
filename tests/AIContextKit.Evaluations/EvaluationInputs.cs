@@ -4,9 +4,8 @@ using AIContextKit.Evaluations.Evaluators;
 
 namespace AIContextKit.Evaluations;
 
-// Builds the (messages, response, context) trio that both the isolated and the reporting-backed
-// skill evaluation tests feed to their evaluators: the SKILL.md content wrapped as an assistant
-// response, a fixed user prompt, and the folder-name context Phase 2's parity check needs.
+// Builds the (messages, response, context) trio the skill evaluators expect: the SKILL.md text as an
+// assistant response, a fixed user prompt, and the folder name Phase 2's parity check needs.
 public static class EvaluationInputs
 {
     public static async Task<(ChatMessage[] Messages, ChatResponse Response, EvaluationContext[] Context)>

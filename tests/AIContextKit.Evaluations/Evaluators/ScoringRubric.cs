@@ -22,7 +22,7 @@ public static class ScoringRubric
 
     public const double TotalPoints = StructuralPoints + QualityPoints; // 100
 
-    // Grade bands for a normalized 0.0-1.0 score, used only to present a metric's rating.
+    // Rating band for a normalized 0.0-1.0 score.
     public static EvaluationRating RatingFromScore(double score) =>
         score >= 0.9 ? EvaluationRating.Good
       : score >= 0.6 ? EvaluationRating.Average

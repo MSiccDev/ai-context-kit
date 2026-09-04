@@ -23,9 +23,7 @@ public partial class AgentsMdStructuralCompletenessEvaluator : IEvaluator
         IEnumerable<EvaluationContext>? additionalContext,
         CancellationToken cancellationToken)
     {
-        // Evaluate the AGENTS.md content carried by the response the caller built, matching
-        // SkillStructuralEvaluator's contract. Locating and reading the file is the caller's job
-        // (see AgentsMdStructuralCompletenessTests / FindAgentsMdPath).
+        // Content comes from the response; locating and reading AGENTS.md is the caller's job.
         return ValueTask.FromResult(new EvaluationResult(Evaluate(modelResponse.Text ?? string.Empty)));
     }
 
