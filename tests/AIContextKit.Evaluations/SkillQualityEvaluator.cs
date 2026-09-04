@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.AI.Evaluation;
@@ -6,13 +7,14 @@ namespace AIContextKit.Evaluations.Evaluators;
 
 /// <summary>
 /// LLM-as-judge evaluator reproducing validate-skill's Phase 3 and Phase 5
-/// checks — the genuinely subjective 40 of 100 points in scoring.md.
-/// Structurally the same pattern as ArchitecturalRelevanceEvaluator: the
-/// rubric lives in the prompt, the response is parsed from a fixed format.
+/// checks — the genuinely subjective <see cref="ScoringRubric.QualityPoints"/>
+/// of <see cref="ScoringRubric.TotalPoints"/> in scoring.md. Structurally the
+/// same pattern as ArchitecturalRelevanceEvaluator: the rubric lives in the
+/// prompt, the response is parsed from a fixed format.
 /// </summary>
 public sealed class SkillQualityEvaluator : IEvaluator
 {
-    public const string MetricName = "SkillQualityScore"; // 0.0-1.0, represents 40 of 100 points
+    public const string MetricName = "SkillQualityScore"; // 0.0-1.0, represents ScoringRubric.QualityPoints of TotalPoints
 
     public IReadOnlyCollection<string> EvaluationMetricNames => [MetricName];
 
@@ -39,18 +41,26 @@ public sealed class SkillQualityEvaluator : IEvaluator
             return new EvaluationResult(emptyMetric);
         }
 
-        // Rubric mirrors phase-checks.md Phase 3 (25 pts) and Phase 5 (15 pts) directly.
+        // Rubric mirrors phase-checks.md Phase 3 and Phase 5 directly; point weights come from ScoringRubric.
+        string phase3Weight = (ScoringRubric.Phase3InstructionQuality / ScoringRubric.QualityPoints)
+            .ToString("0.###", CultureInfo.InvariantCulture);
+        string phase5Weight = (ScoringRubric.Phase5NeutralityPortability / ScoringRubric.QualityPoints)
+            .ToString("0.###", CultureInfo.InvariantCulture);
+        string phase3Points = ScoringRubric.Phase3InstructionQuality.ToString("0.#", CultureInfo.InvariantCulture);
+        string phase5Points = ScoringRubric.Phase5NeutralityPortability.ToString("0.#", CultureInfo.InvariantCulture);
+        string qualityPoints = ScoringRubric.QualityPoints.ToString("0.#", CultureInfo.InvariantCulture);
+
         string judgePrompt = $"""
             You are validating a SKILL.md file against the following criteria.
             Score 0.0-1.0 as a weighted combination:
 
-            PHASE 3 - Instruction Quality And Completeness (weight 0.625, i.e. 25 of 40 points):
+            PHASE 3 - Instruction Quality And Completeness (weight {phase3Weight}, i.e. {phase3Points} of {qualityPoints} points):
             - operational guidance is clear and actionable, not vague
             - required body sections exist (Purpose, When To Use, Workflow, etc.)
             - scope boundaries are explicit (what NOT to use this skill for)
             - progressive disclosure is respected (doesn't front-load unnecessary detail)
 
-            PHASE 5 - Neutrality And Portability (weight 0.375, i.e. 15 of 40 points):
+            PHASE 5 - Neutrality And Portability (weight {phase5Weight}, i.e. {phase5Points} of {qualityPoints} points):
             - wording is provider-neutral (not locked to one specific AI tool)
             - the skill is portable across runtimes
             - no mandatory runtime lock-in assumptions

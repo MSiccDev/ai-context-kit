@@ -30,7 +30,7 @@ public class SkillEvaluatorTests
 
     // Runs both evaluators over one SKILL.md through a DiskBasedReportingConfiguration
     // (matching AgentsMdStructuralCompletenessTests' pattern) and reproduces scoring.md
-    // exactly: Phases 1+2+4 (structural) = 60 pts, Phases 3+5 (quality) = 40 pts.
+    // exactly: Phases 1+2+4 (structural) and Phases 3+5 (quality), weighted per ScoringRubric.
     private static async Task<(double TotalOn100, string Band, string Diagnostics)> EvaluateSkillAsync(
         string skillPath, string folderName, [CallerMemberName] string scenarioName = "")
     {
@@ -50,7 +50,7 @@ public class SkillEvaluatorTests
         double structural01 = structuralMetric.Value ?? 0.0;
         double quality01 = qualityMetric.Value ?? 0.0;
 
-        double totalOn100 = (structural01 * 60) + (quality01 * 40);
+        double totalOn100 = (structural01 * ScoringRubric.StructuralPoints) + (quality01 * ScoringRubric.QualityPoints);
         string band = GradeBand(totalOn100);
         string diagnostics =
             $"Structural: {structuralMetric.Interpretation?.Reason}. " +
