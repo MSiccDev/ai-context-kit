@@ -47,7 +47,8 @@ public sealed partial class SkillStructuralEvaluator : IEvaluator
         CancellationToken cancellationToken = default)
     {
         string content = modelResponse.Text ?? string.Empty;
-        var findings = new List<string>();
+        var findings = new List<string>(); // point-affecting issues — drive the score and the reason
+        var notes = new List<string>();    // non-scoring observations — attached as informational diagnostics
 
         // ---- Phase 1: Presence, Structure, Frontmatter ----
         double phase1 = ScorePhase1(content, findings);
@@ -56,7 +57,7 @@ public sealed partial class SkillStructuralEvaluator : IEvaluator
         string? folderName = additionalContext?
             .OfType<SkillFolderContext>()
             .FirstOrDefault()?.FolderName;
-        double phase2 = ScorePhase2(content, folderName, findings);
+        double phase2 = ScorePhase2(content, folderName, findings, notes);
 
         // ---- Phase 4: Resource References And Safety ----
         double phase4 = ScorePhase4(content, findings);
@@ -70,6 +71,11 @@ public sealed partial class SkillStructuralEvaluator : IEvaluator
             reason: findings.Count == 0
                 ? "All structural checks passed."
                 : string.Join("; ", findings));
+
+        foreach (string note in notes)
+        {
+            metric.AddDiagnostics(EvaluationDiagnostic.Informational(note));
+        }
 
         return new ValueTask<EvaluationResult>(new EvaluationResult(metric));
     }
@@ -102,7 +108,7 @@ public sealed partial class SkillStructuralEvaluator : IEvaluator
         return Math.Max(points, 0.0);
     }
 
-    private static double ScorePhase2(string content, string? folderName, List<string> findings)
+    private static double ScorePhase2(string content, string? folderName, List<string> findings, List<string> notes)
     {
         double points = ScoringRubric.Phase2FieldConstraintsNamingParity;
 
@@ -128,7 +134,7 @@ public sealed partial class SkillStructuralEvaluator : IEvaluator
             }
             else if (folderName is null)
             {
-                findings.Add("folder-name parity not checked — no SkillFolderContext supplied");
+                notes.Add("folder-name parity not checked — no SkillFolderContext supplied");
             }
         }
 

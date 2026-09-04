@@ -21,6 +21,22 @@ public class SkillStructuralEvaluatorTests
     }
 
     [Fact]
+    public async Task WellFormedSkill_WithoutFolderContext_PassesCleanlyWithInformationalNote()
+    {
+        var metric = await EvaluateStructuralAsync(
+            "TestData/skills/well-formed-example/SKILL.md", "well-formed-example", withFolderContext: false);
+
+        // Parity can't be checked without a SkillFolderContext, but that's a note, not a finding:
+        // the skill still scores full marks and reports clean.
+        Assert.Equal(1.0, metric.Value);
+        Assert.Equal("All structural checks passed.", metric.Interpretation?.Reason);
+        Assert.NotNull(metric.Diagnostics);
+        Assert.Contains(metric.Diagnostics!, d =>
+            d.Severity == EvaluationDiagnosticSeverity.Informational &&
+            d.Message.Contains("folder-name parity not checked"));
+    }
+
+    [Fact]
     public async Task MalformedSkill_FlagsNamingAndExternalReferenceIssues()
     {
         var metric = await EvaluateStructuralAsync("TestData/skills/malformed-example/SKILL.md", "malformed-example");
@@ -39,12 +55,14 @@ public class SkillStructuralEvaluatorTests
         Assert.Contains("external reference found: http://another-example.org/reference", reason);
     }
 
-    private static async Task<NumericMetric> EvaluateStructuralAsync(string skillPath, string folderName)
+    private static async Task<NumericMetric> EvaluateStructuralAsync(
+        string skillPath, string folderName, bool withFolderContext = true)
     {
         var evaluator = new SkillStructuralEvaluator();
         var (messages, response, context) = await EvaluationInputs.ForSkillAsync(skillPath, folderName);
 
-        EvaluationResult result = await evaluator.EvaluateAsync(messages, response, additionalContext: context);
+        EvaluationResult result = await evaluator.EvaluateAsync(
+            messages, response, additionalContext: withFolderContext ? context : null);
 
         return result.Get<NumericMetric>(SkillStructuralEvaluator.MetricName);
     }
