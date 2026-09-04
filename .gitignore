@@ -34,8 +34,9 @@ bld/
 .idea/
 *.sln.iml
 
-# VS Code
-.vscode/
+# VS Code (extensions.json is shared/tracked -- everything else is personal)
+.vscode/*
+!.vscode/extensions.json
 
 # NuGet
 *.nupkg
