@@ -142,17 +142,19 @@ public sealed class SkillStructuralEvaluator : IEvaluator
 
         // Resource references should be relative, not absolute URLs to external hosts —
         // this check mirrors the toolkit's own provider-neutrality/portability concerns.
-        var referenceLinks = Regex.Matches(content, @"\]\(([^)]+)\)");
-        foreach (Match link in referenceLinks)
+        // Matches both Markdown link syntax (]\(url\)) and bare URLs in prose — a
+        // SKILL.md can reference an external host either way, and only matching the
+        // Markdown-link form let bare URLs slip through undetected.
+        var externalUrls = Regex.Matches(content, @"https?://[^\s)\]]+")
+            .Select(m => m.Value.TrimEnd('.', ',', ';', ':'))
+            .Distinct();
+
+        foreach (string target in externalUrls)
         {
-            string target = link.Groups[1].Value;
-            if (target.StartsWith("http://") || target.StartsWith("https://"))
-            {
-                // External links aren't automatically wrong, but flag for manual review —
-                // extend this with an allowlist if your skills legitimately link externally.
-                findings.Add($"external reference found: {target} (verify this is intentional)");
-                points -= 3;
-            }
+            // External links aren't automatically wrong, but flag for manual review —
+            // extend this with an allowlist if your skills legitimately link externally.
+            findings.Add($"external reference found: {target} (verify this is intentional)");
+            points -= 3;
         }
 
         return Math.Max(points, 0.0);
