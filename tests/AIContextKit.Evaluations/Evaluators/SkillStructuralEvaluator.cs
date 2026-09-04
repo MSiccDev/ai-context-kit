@@ -46,6 +46,8 @@ public sealed partial class SkillStructuralEvaluator : IEvaluator
         IEnumerable<EvaluationContext>? additionalContext = null,
         CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
+
         string content = modelResponse.Text ?? string.Empty;
         var findings = new List<string>(); // point-affecting issues — drive the score and the reason
         var notes = new List<string>();    // non-scoring observations — attached as informational diagnostics
