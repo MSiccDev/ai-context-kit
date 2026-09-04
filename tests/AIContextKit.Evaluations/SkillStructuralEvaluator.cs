@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.AI.Evaluation;
 
-namespace AiContextKit.Evals.Evaluators;
+namespace AIContextKit.Evaluations.Evaluators;
 
 /// <summary>
 /// Context carrying the skill's containing folder name, needed for the

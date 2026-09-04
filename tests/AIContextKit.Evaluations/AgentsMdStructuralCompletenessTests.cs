@@ -1,8 +1,9 @@
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.AI.Evaluation;
 using Microsoft.Extensions.AI.Evaluation.Reporting.Storage;
+using AIContextKit.Evaluations.Evaluators;
 
-namespace AIContextKit.Evaluations;
+namespace AIContextKit.Evaluations.Tests;
 
 public class AgentsMdStructuralCompletenessTests
 {

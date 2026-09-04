@@ -3,10 +3,10 @@ using Microsoft.Extensions.AI;
 using Microsoft.Extensions.AI.Evaluation;
 using Microsoft.Extensions.AI.Evaluation.Reporting.Storage;
 using OllamaSharp;
-using AiContextKit.Evals.Evaluators;
+using AIContextKit.Evaluations.Evaluators;
 using Xunit;
 
-namespace AiContextKit.Evals.Tests;
+namespace AIContextKit.Evaluations.Tests;
 
 public class SkillEvaluatorTests
 {

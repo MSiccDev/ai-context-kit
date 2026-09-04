@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.AI.Evaluation;
 
-namespace AiContextKit.Evals.Evaluators;
+namespace AIContextKit.Evaluations.Evaluators;
 
 /// <summary>
 /// LLM-as-judge evaluator reproducing validate-skill's Phase 3 and Phase 5

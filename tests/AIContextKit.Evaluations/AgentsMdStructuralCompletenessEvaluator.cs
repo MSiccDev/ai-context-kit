@@ -1,6 +1,8 @@
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.AI.Evaluation;
 
+namespace AIContextKit.Evaluations.Evaluators;
+
 public class AgentsMdStructuralCompletenessEvaluator : IEvaluator
 {
     public const string MetricName = "StructuralCompleteness";
