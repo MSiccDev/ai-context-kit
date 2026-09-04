@@ -81,25 +81,40 @@ public sealed class SkillQualityEvaluator : IEvaluator
             .GetResponseAsync(judgeMessages, cancellationToken: cancellationToken)
             .ConfigureAwait(false);
 
-        (double score, string reason) = ParseJudgeResponse(judgeResponse.Text ?? string.Empty);
+        string judgeText = judgeResponse.Text ?? string.Empty;
+
+        // A local model that drops the SCORE:/REASON: format is a misbehaving judge, not a test
+        // crash: record a Poor result carrying the raw response so the run still completes and the
+        // failure is triageable, rather than throwing out of EvaluateAsync.
+        if (ParseJudgeResponse(judgeText) is not (double score, string reason))
+        {
+            var unparsedMetric = new NumericMetric(MetricName, 0.0);
+            unparsedMetric.Interpretation = new EvaluationMetricInterpretation(
+                rating: ScoringRubric.RatingFromScore(0.0),
+                reason: "Judge response did not contain a parseable SCORE line.");
+            unparsedMetric.AddDiagnostics(EvaluationDiagnostic.Error(
+                $"Could not parse a SCORE from the judge response. Raw response:\n{judgeText}"));
+            return new EvaluationResult(unparsedMetric);
+        }
 
         var metric = new NumericMetric(MetricName, score);
         metric.Interpretation = new EvaluationMetricInterpretation(
             rating: ScoringRubric.RatingFromScore(score),
             reason: reason);
-        metric.AddDiagnostics(EvaluationDiagnostic.Informational(judgeResponse.Text ?? string.Empty));
+        metric.AddDiagnostics(EvaluationDiagnostic.Informational(judgeText));
 
         return new EvaluationResult(metric);
     }
 
-    private static (double Score, string Reason) ParseJudgeResponse(string judgeText)
+    private static (double Score, string Reason)? ParseJudgeResponse(string judgeText)
     {
         var scoreMatch = Regex.Match(judgeText, @"SCORE:\s*([0-9]*\.?[0-9]+)", RegexOptions.IgnoreCase);
         var reasonMatch = Regex.Match(judgeText, @"REASON:\s*(.+)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
-        if (!scoreMatch.Success || !double.TryParse(scoreMatch.Groups[1].Value, out double score))
+        if (!scoreMatch.Success ||
+            !double.TryParse(scoreMatch.Groups[1].Value, NumberStyles.Number, CultureInfo.InvariantCulture, out double score))
         {
-            throw new FormatException($"Could not parse a SCORE from the judge response. Raw response:\n{judgeText}");
+            return null;
         }
 
         score = Math.Clamp(score, 0.0, 1.0);
