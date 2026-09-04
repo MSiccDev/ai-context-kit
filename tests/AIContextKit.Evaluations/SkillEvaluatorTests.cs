@@ -41,10 +41,7 @@ public class SkillEvaluatorTests
             evaluators: [new SkillStructuralEvaluator(), new SkillQualityEvaluator()],
             chatConfiguration: chatConfiguration);
 
-        string skillText = await File.ReadAllTextAsync(skillPath);
-        var messages = new[] { new ChatMessage(ChatRole.User, "Validate this SKILL.md.") };
-        var response = new ChatResponse(new ChatMessage(ChatRole.Assistant, skillText));
-        var context = new EvaluationContext[] { new SkillFolderContext(folderName) };
+        var (messages, response, context) = await EvaluationInputs.ForSkillAsync(skillPath, folderName);
 
         EvaluationResult result = await scenarioRun.EvaluateAsync(messages, response, context);
 

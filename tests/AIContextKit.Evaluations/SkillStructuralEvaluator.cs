@@ -5,17 +5,6 @@ using Microsoft.Extensions.AI.Evaluation;
 namespace AIContextKit.Evaluations.Evaluators;
 
 /// <summary>
-/// Context carrying the skill's containing folder name, needed for the
-/// folder-name parity check in Phase 2. This is exactly the pattern
-/// GroundednessEvaluator uses for its grounding text — extra context
-/// beyond the response, passed in via additionalContext.
-/// </summary>
-public sealed class SkillFolderContext(string folderName) : EvaluationContext(nameof(SkillFolderContext), folderName)
-{
-    public string FolderName { get; } = folderName;
-}
-
-/// <summary>
 /// Non-AI evaluator reproducing validate-skill's Phase 1, 2, and 4 checks —
 /// the deterministic 60 of 100 points in scoring.md. No LLM call, no
 /// ChatConfiguration dependency: pure text/regex logic against the SKILL.md

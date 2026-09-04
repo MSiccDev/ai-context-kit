@@ -1,4 +1,3 @@
-using Microsoft.Extensions.AI;
 using Microsoft.Extensions.AI.Evaluation;
 using AIContextKit.Evaluations.Evaluators;
 
@@ -42,10 +41,7 @@ public class SkillStructuralEvaluatorTests
     private static async Task<NumericMetric> EvaluateAsync(string skillPath, string folderName)
     {
         var evaluator = new SkillStructuralEvaluator();
-        string skillText = await File.ReadAllTextAsync(skillPath);
-        var messages = new[] { new ChatMessage(ChatRole.User, "Validate this SKILL.md.") };
-        var response = new ChatResponse(new ChatMessage(ChatRole.Assistant, skillText));
-        var context = new EvaluationContext[] { new SkillFolderContext(folderName) };
+        var (messages, response, context) = await EvaluationInputs.ForSkillAsync(skillPath, folderName);
 
         EvaluationResult result = await evaluator.EvaluateAsync(messages, response, additionalContext: context);
 
