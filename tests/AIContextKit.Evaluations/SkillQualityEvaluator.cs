@@ -85,9 +85,7 @@ public sealed class SkillQualityEvaluator : IEvaluator
 
         var metric = new NumericMetric(MetricName, score);
         metric.Interpretation = new EvaluationMetricInterpretation(
-            rating: score >= 0.9 ? EvaluationRating.Good
-                  : score >= 0.6 ? EvaluationRating.Average
-                  : EvaluationRating.Poor,
+            rating: ScoringRubric.RatingFromScore(score),
             reason: reason);
         metric.AddDiagnostics(EvaluationDiagnostic.Informational(judgeResponse.Text ?? string.Empty));
 

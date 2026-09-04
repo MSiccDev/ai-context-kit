@@ -1,3 +1,5 @@
+using Microsoft.Extensions.AI.Evaluation;
+
 namespace AIContextKit.Evaluations.Evaluators;
 
 // Point budget from skills/validate-skill/references/scoring.md. One definition so the structural
@@ -19,4 +21,10 @@ public static class ScoringRubric
     public const double QualityPoints = Phase3InstructionQuality + Phase5NeutralityPortability; // 40
 
     public const double TotalPoints = StructuralPoints + QualityPoints; // 100
+
+    // Grade bands for a normalized 0.0-1.0 score, used only to present a metric's rating.
+    public static EvaluationRating RatingFromScore(double score) =>
+        score >= 0.9 ? EvaluationRating.Good
+      : score >= 0.6 ? EvaluationRating.Average
+      : EvaluationRating.Poor;
 }

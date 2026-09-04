@@ -45,9 +45,7 @@ public sealed class SkillStructuralEvaluator : IEvaluator
 
         var metric = new NumericMetric(MetricName, normalized);
         metric.Interpretation = new EvaluationMetricInterpretation(
-            rating: normalized >= 0.9 ? EvaluationRating.Good
-                  : normalized >= 0.6 ? EvaluationRating.Average
-                  : EvaluationRating.Poor,
+            rating: ScoringRubric.RatingFromScore(normalized),
             reason: findings.Count == 0
                 ? "All structural checks passed."
                 : string.Join("; ", findings));
