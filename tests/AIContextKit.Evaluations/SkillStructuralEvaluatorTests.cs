@@ -29,7 +29,7 @@ public class SkillStructuralEvaluatorTests
         // Phase 1: 20/20 (frontmatter + name + description all present).
         // Phase 2: 0/25 (kebab-case violation, folder-name mismatch, description too short).
         // Phase 4: 9/15 (two bare-URL external references, -3 each).
-        Assert.Equal(29.0 / 60.0, metric.Value, precision: 4);
+        Assert.Equal(29.0 / 60.0, metric.Value.GetValueOrDefault(), precision: 4);
 
         string reason = metric.Interpretation?.Reason ?? string.Empty;
         Assert.Contains("does not follow kebab-case convention", reason);
