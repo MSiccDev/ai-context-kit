@@ -51,15 +51,25 @@ public class AgentsMdStructuralCompletenessEvaluator : IEvaluator
 
         while (directory is not null)
         {
-            var candidate = Path.Combine(directory.FullName, "AGENTS.md");
-            if (File.Exists(candidate))
+            // A `.git` entry (directory, or a file for worktrees/submodules) marks the
+            // repository root unambiguously -- unlike "first AGENTS.md found while
+            // walking up", which would silently pick a nested AGENTS.md (e.g. a future
+            // tests/AGENTS.md) instead of the root file this evaluator is meant to check.
+            if (Directory.Exists(Path.Combine(directory.FullName, ".git")) ||
+                File.Exists(Path.Combine(directory.FullName, ".git")))
             {
-                return candidate;
+                var candidate = Path.Combine(directory.FullName, "AGENTS.md");
+                if (File.Exists(candidate))
+                {
+                    return candidate;
+                }
+
+                throw new FileNotFoundException($"Repository root '{directory.FullName}' was found but has no AGENTS.md.");
             }
 
             directory = directory.Parent;
         }
 
-        throw new FileNotFoundException("Could not locate AGENTS.md in any parent directory of the test output.");
+        throw new FileNotFoundException("Could not locate the repository root (no '.git' found in any parent directory of the test output).");
     }
 }
