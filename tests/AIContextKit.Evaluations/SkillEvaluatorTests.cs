@@ -71,6 +71,7 @@ public class SkillEvaluatorTests
     }
 
     [Fact]
+    [Trait("Category", "Slow")]
     public async Task WellFormedSkill_PassesValidation()
     {
         var (totalOn100, band, diagnostics) = await EvaluateSkillAsync(
@@ -81,6 +82,7 @@ public class SkillEvaluatorTests
     }
 
     [Fact]
+    [Trait("Category", "Slow")]
     public async Task MalformedSkill_FailsValidation()
     {
         var (totalOn100, band, diagnostics) = await EvaluateSkillAsync(

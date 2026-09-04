@@ -303,15 +303,24 @@ If paths must change, update the specification and README first, then adjust ski
 
 ## Evaluation Reports
 
-Beyond the skill-based validators, `tests/AIContextKit.Evaluations` contains an xUnit test suite (built on `Microsoft.Extensions.AI.Evaluation`) that checks `AGENTS.md` for structural completeness — i.e. that all required sections are present — and can produce a browsable HTML report of the result.
+Beyond the skill-based validators, `tests/AIContextKit.Evaluations` contains an xUnit test suite (built on `Microsoft.Extensions.AI.Evaluation`) with two kinds of checks:
+
+- **`AGENTS.md` structural completeness** (`AgentsMdStructuralCompletenessTests`, `SkillStructuralEvaluatorTests`) — pure text/regex checks, no LLM involved, run fully offline.
+- **`SKILL.md` quality** (`SkillEvaluatorTests`) — combines the same structural checks with an LLM-as-judge pass via a locally hosted [Ollama](https://ollama.com/) model (`phi4-reasoning:14b-plus-q8_0` at `http://localhost:11434`) — start Ollama and pull that model before running these.
+
+Both can produce a browsable HTML report of the result.
 
 ### Running the tests
 
 ```bash
+# Fast, fully offline — no Ollama required
+dotnet test tests/AIContextKit.Evaluations --filter "Category!=Slow"
+
+# Full suite, including the Ollama-backed SKILL.md quality checks
 dotnet test tests/AIContextKit.Evaluations
 ```
 
-The positive-path test (`AgentsMd_ShouldHaveAllRequiredFields`) also records its result to a local, gitignored `eval-results/` folder under the test project, which the `aieval` report tool reads from.
+The positive-path tests (`AgentsMd_ShouldHaveAllRequiredFields`, `WellFormedSkill_PassesValidation`) also record their results to a local, gitignored `eval-results/` folder under the test project, which the `aieval` report tool reads from.
 
 ### Generating the report
 
