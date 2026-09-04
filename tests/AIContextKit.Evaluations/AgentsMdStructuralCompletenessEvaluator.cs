@@ -26,7 +26,7 @@ public class AgentsMdStructuralCompletenessEvaluator : IEvaluator
         return ValueTask.FromResult(new EvaluationResult(Evaluate(modelResponse.Text ?? string.Empty)));
     }
 
-    public static BooleanMetric Evaluate(string agentsMd)
+    private static BooleanMetric Evaluate(string agentsMd)
     {
         var missingFields = RequiredFields.Where(field => !agentsMd.Contains(field)).ToList();
 
