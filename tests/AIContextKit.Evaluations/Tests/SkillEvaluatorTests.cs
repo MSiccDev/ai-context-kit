@@ -43,7 +43,7 @@ public class SkillEvaluatorTests
     // Runs both evaluators over one SKILL.md through a DiskBasedReportingConfiguration
     // (matching AgentsMdStructuralCompletenessTests' pattern) and reproduces scoring.md
     // exactly: Phases 1+2+4 (structural) and Phases 3+5 (quality), weighted per ScoringRubric.
-    private static async Task<(double TotalOn100, string Band, string Diagnostics)> EvaluateSkillAsync(
+    private static async Task<(double TotalOn100, string Band, string Diagnostics)> EvaluateFullPipelineAsync(
         string skillPath, string folderName, [CallerMemberName] string scenarioName = "")
     {
         var chatConfiguration = new ChatConfiguration(JudgeClient.Value);
@@ -75,7 +75,7 @@ public class SkillEvaluatorTests
     [Trait("Category", "Slow")]
     public async Task WellFormedSkill_PassesValidation()
     {
-        var (totalOn100, band, diagnostics) = await EvaluateSkillAsync(
+        var (totalOn100, band, diagnostics) = await EvaluateFullPipelineAsync(
             "TestData/skills/well-formed-example/SKILL.md", "well-formed-example");
 
         Assert.True(totalOn100 >= 75,
@@ -86,7 +86,7 @@ public class SkillEvaluatorTests
     [Trait("Category", "Slow")]
     public async Task MalformedSkill_FailsValidation()
     {
-        var (totalOn100, band, diagnostics) = await EvaluateSkillAsync(
+        var (totalOn100, band, diagnostics) = await EvaluateFullPipelineAsync(
             "TestData/skills/malformed-example/SKILL.md", "malformed-example");
 
         Assert.True(totalOn100 < 75,

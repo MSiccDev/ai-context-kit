@@ -34,13 +34,13 @@ public class AgentsMdStructuralCompletenessTests
         // "## Purpose" section actually removed, rather than a synthetic list of headings.
         var incompleteAgentsMd = await File.ReadAllTextAsync("TestData/agents-md/incomplete-example/AGENTS.md");
 
-        var metric = await EvaluateAsync(incompleteAgentsMd);
+        var metric = await EvaluateCompletenessAsync(incompleteAgentsMd);
 
         Assert.False(metric.Value);
         Assert.Contains(AgentsMdStructuralCompletenessEvaluator.RequiredFields[0], metric.Reason);
     }
 
-    private static async Task<BooleanMetric> EvaluateAsync(string agentsMdContent)
+    private static async Task<BooleanMetric> EvaluateCompletenessAsync(string agentsMdContent)
     {
         IEvaluator evaluator = new AgentsMdStructuralCompletenessEvaluator();
         var messages = new[] { new ChatMessage(ChatRole.User, "Validate the AGENTS.md for this repository") };

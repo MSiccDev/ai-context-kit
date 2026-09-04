@@ -13,7 +13,7 @@ public class SkillQualityEvaluatorTests
     [Fact]
     public async Task UnparseableJudgeResponse_ScoresZeroWithErrorDiagnostic_DoesNotThrow()
     {
-        var metric = await EvaluateAsync("I think this skill looks pretty solid, nice work!");
+        var metric = await EvaluateQualityAsync("I think this skill looks pretty solid, nice work!");
 
         Assert.Equal(0.0, metric.Value);
         Assert.Equal(EvaluationRating.Poor, metric.Interpretation?.Rating);
@@ -25,7 +25,7 @@ public class SkillQualityEvaluatorTests
     [Fact]
     public async Task WellFormedJudgeResponse_ParsesScoreAndReason()
     {
-        var metric = await EvaluateAsync("SCORE: 0.83\nREASON: Both phases pass cleanly.");
+        var metric = await EvaluateQualityAsync("SCORE: 0.83\nREASON: Both phases pass cleanly.");
 
         Assert.Equal(0.83, metric.Value.GetValueOrDefault(), precision: 4);
         Assert.Equal("Both phases pass cleanly.", metric.Interpretation?.Reason);
@@ -34,12 +34,12 @@ public class SkillQualityEvaluatorTests
     [Fact]
     public async Task OutOfRangeJudgeScore_IsClampedToOne()
     {
-        var metric = await EvaluateAsync("SCORE: 1.7\nREASON: exceeds the range.");
+        var metric = await EvaluateQualityAsync("SCORE: 1.7\nREASON: exceeds the range.");
 
         Assert.Equal(1.0, metric.Value);
     }
 
-    private static async Task<NumericMetric> EvaluateAsync(string judgeReply)
+    private static async Task<NumericMetric> EvaluateQualityAsync(string judgeReply)
     {
         var evaluator = new SkillQualityEvaluator();
         var chatConfiguration = new ChatConfiguration(new FixedResponseChatClient(judgeReply));

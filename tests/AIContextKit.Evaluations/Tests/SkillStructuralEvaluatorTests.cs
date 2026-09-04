@@ -14,7 +14,7 @@ public class SkillStructuralEvaluatorTests
     [Fact]
     public async Task WellFormedSkill_ScoresFullStructuralMarks()
     {
-        var metric = await EvaluateAsync("TestData/skills/well-formed-example/SKILL.md", "well-formed-example");
+        var metric = await EvaluateStructuralAsync("TestData/skills/well-formed-example/SKILL.md", "well-formed-example");
 
         Assert.Equal(1.0, metric.Value);
         Assert.Equal("All structural checks passed.", metric.Interpretation?.Reason);
@@ -23,7 +23,7 @@ public class SkillStructuralEvaluatorTests
     [Fact]
     public async Task MalformedSkill_FlagsNamingAndExternalReferenceIssues()
     {
-        var metric = await EvaluateAsync("TestData/skills/malformed-example/SKILL.md", "malformed-example");
+        var metric = await EvaluateStructuralAsync("TestData/skills/malformed-example/SKILL.md", "malformed-example");
 
         // Phase 1: 20/20 (frontmatter + name + description all present).
         // Phase 2: 0/25 (kebab-case violation, folder-name mismatch, description too short).
@@ -38,7 +38,7 @@ public class SkillStructuralEvaluatorTests
         Assert.Contains("external reference found: http://another-example.org/reference", reason);
     }
 
-    private static async Task<NumericMetric> EvaluateAsync(string skillPath, string folderName)
+    private static async Task<NumericMetric> EvaluateStructuralAsync(string skillPath, string folderName)
     {
         var evaluator = new SkillStructuralEvaluator();
         var (messages, response, context) = await EvaluationInputs.ForSkillAsync(skillPath, folderName);
