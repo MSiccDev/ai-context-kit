@@ -16,7 +16,7 @@ public class SkillStructuralEvaluatorTests
     {
         var metric = await EvaluateStructuralAsync("TestData/skills/well-formed-example/SKILL.md", "well-formed-example");
 
-        Assert.Equal(1.0, metric.Value);
+        Assert.Equal(1.0, metric.Value); // exact: full marks, 60/60
         Assert.Equal("All structural checks passed.", metric.Interpretation?.Reason);
     }
 
@@ -25,10 +25,11 @@ public class SkillStructuralEvaluatorTests
     {
         var metric = await EvaluateStructuralAsync("TestData/skills/malformed-example/SKILL.md", "malformed-example");
 
-        // Phase 1: 20/20 (frontmatter + name + description all present).
-        // Phase 2: 0/25 (kebab-case violation, folder-name mismatch, description too short).
-        // Phase 4: 9/15 (two bare-URL external references, -3 each).
-        Assert.Equal(29.0 / 60.0, metric.Value.GetValueOrDefault(), precision: 4);
+        // Expected earned points, out of ScoringRubric.StructuralPoints — update if a phase budget
+        // or deduction changes: Phase 1 20/20 (frontmatter + name + description all present),
+        // Phase 2 0/25 (kebab-case violation, folder-name mismatch, description too short),
+        // Phase 4 9/15 (two bare-URL external references, -3 each).
+        Assert.Equal(29.0 / ScoringRubric.StructuralPoints, metric.Value.GetValueOrDefault(), precision: 4);
 
         string reason = metric.Interpretation?.Reason ?? string.Empty;
         Assert.Contains("does not follow kebab-case convention", reason);
