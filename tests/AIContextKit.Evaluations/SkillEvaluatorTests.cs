@@ -1,7 +1,9 @@
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.AI.Evaluation;
+using Microsoft.Extensions.Configuration;
 using OllamaSharp;
+using AIContextKit.Evaluations;
 using AIContextKit.Evaluations.Evaluators;
 using Xunit;
 
@@ -9,14 +11,26 @@ namespace AIContextKit.Evaluations.Tests;
 
 public class SkillEvaluatorTests
 {
-    private static IChatClient CreateOllamaClient() =>
-        new OllamaApiClient(
+    // Ollama endpoint/model/timeout come from user secrets (local dev) with environment variables
+    // overriding (CI); both use flat keys OLLAMA_ENDPOINT / OLLAMA_MODEL / OLLAMA_TIMEOUT_MINUTES.
+    // All three are required — see OllamaJudgeSettings and README "Configuring the judge model".
+    private static readonly IConfiguration Configuration = new ConfigurationBuilder()
+        .AddUserSecrets<SkillEvaluatorTests>(optional: true)
+        .AddEnvironmentVariables()
+        .Build();
+
+    private static IChatClient CreateOllamaClient()
+    {
+        var settings = OllamaJudgeSettings.FromConfiguration(Configuration);
+
+        return new OllamaApiClient(
             new HttpClient
             {
-                BaseAddress = new Uri("http://localhost:11434"),
-                Timeout = TimeSpan.FromMinutes(10),
+                BaseAddress = settings.Endpoint,
+                Timeout = settings.Timeout,
             },
-            defaultModel: "phi4-reasoning:14b-plus-q8_0");
+            defaultModel: settings.Model);
+    }
 
     // Mirrors scoring.md's grade bands exactly, so this stays your single source
     // of truth for what PASS/WARN/FAIL means — same as validate-skill itself would report.

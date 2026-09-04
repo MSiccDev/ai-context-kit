@@ -306,9 +306,29 @@ If paths must change, update the specification and README first, then adjust ski
 Beyond the skill-based validators, `tests/AIContextKit.Evaluations` contains an xUnit test suite (built on `Microsoft.Extensions.AI.Evaluation`) with two kinds of checks:
 
 - **`AGENTS.md` structural completeness** (`AgentsMdStructuralCompletenessTests`, `SkillStructuralEvaluatorTests`) — pure text/regex checks, no LLM involved, run fully offline.
-- **`SKILL.md` quality** (`SkillEvaluatorTests`) — combines the same structural checks with an LLM-as-judge pass via a locally hosted [Ollama](https://ollama.com/) model (`phi4-reasoning:14b-plus-q8_0` at `http://localhost:11434`) — start Ollama and pull that model before running these.
+- **`SKILL.md` quality** (`SkillEvaluatorTests`) — combines the same structural checks with an LLM-as-judge pass via a locally hosted [Ollama](https://ollama.com/) model — start Ollama, pull the model, and configure the keys below before running these.
 
 Both can produce a browsable HTML report of the result.
+
+### Configuring the judge model
+
+`SkillEvaluatorTests` reads the Ollama endpoint, model and request timeout from configuration — there are no in-code fallbacks, so **all three keys must be set** before the slow suite runs (a missing key fails the test with a message telling you how to set it). Values are resolved from [.NET user secrets](https://learn.microsoft.com/aspnet/core/security/app-secrets) first, then overridden by environment variables of the same name (handy in CI). The fast, offline suite needs none of this.
+
+| Key | Example | Purpose |
+| --- | --- | --- |
+| `OLLAMA_ENDPOINT` | `http://localhost:11434` | Base address of the Ollama server |
+| `OLLAMA_MODEL` | `phi4-reasoning:14b-plus-q8_0` | Model used as the LLM judge |
+| `OLLAMA_TIMEOUT_MINUTES` | `10` | Per-request HTTP timeout |
+
+Set them locally with user secrets:
+
+```bash
+dotnet user-secrets --project tests/AIContextKit.Evaluations set OLLAMA_ENDPOINT "http://localhost:11434"
+dotnet user-secrets --project tests/AIContextKit.Evaluations set OLLAMA_MODEL "phi4-reasoning:14b-plus-q8_0"
+dotnet user-secrets --project tests/AIContextKit.Evaluations set OLLAMA_TIMEOUT_MINUTES "10"
+```
+
+or export the same keys as environment variables to override per run.
 
 ### Running the tests
 

@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <UserSecretsId>46F6386E-B5A0-4E62-BD87-6D02677DFF98</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +13,8 @@
     <PackageReference Include="Microsoft.Extensions.AI.Evaluation" Version="10.8.0" />
     <PackageReference Include="Microsoft.Extensions.AI.Evaluation.Quality" Version="10.8.0" />
     <PackageReference Include="Microsoft.Extensions.AI.Evaluation.Reporting" Version="10.8.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageReference Include="OllamaSharp" Version="5.4.30" />
     <PackageReference Include="xunit" Version="2.9.3" />
