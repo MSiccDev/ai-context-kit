@@ -4,10 +4,13 @@ using Microsoft.Extensions.AI.Evaluation;
 
 namespace AIContextKit.Evaluations.Evaluators;
 
-public class AgentsMdStructuralCompletenessEvaluator : IEvaluator
+public partial class AgentsMdStructuralCompletenessEvaluator : IEvaluator
 {
     public const string MetricName = "StructuralCompleteness";
     public IReadOnlyCollection<string> EvaluationMetricNames => [MetricName];
+
+    [GeneratedRegex(@"^## .+$", RegexOptions.Multiline)]
+    private static partial Regex SectionHeadingRegex();
 
     // Derived from templates/AGENTS_template.md rather than hardcoded, so this evaluator
     // can't drift out of sync with the canonical template it's meant to enforce.
@@ -54,7 +57,7 @@ public class AgentsMdStructuralCompletenessEvaluator : IEvaluator
         var templatePath = Path.Combine(FindRepositoryRoot(), "templates", "AGENTS_template.md");
         var template = File.ReadAllText(templatePath);
 
-        var headings = Regex.Matches(template, @"^## .+$", RegexOptions.Multiline)
+        var headings = SectionHeadingRegex().Matches(template)
             .Select(m => m.Value.TrimEnd())
             .ToList();
 

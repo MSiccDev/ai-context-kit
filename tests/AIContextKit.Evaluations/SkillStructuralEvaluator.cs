@@ -12,11 +12,32 @@ namespace AIContextKit.Evaluations.Evaluators;
 /// content, mirroring exactly what a human running validate-skill manually
 /// would check first.
 /// </summary>
-public sealed class SkillStructuralEvaluator : IEvaluator
+public sealed partial class SkillStructuralEvaluator : IEvaluator
 {
     public const string MetricName = "SkillStructuralScore"; // 0.0-1.0, normalized over ScoringRubric.StructuralPoints
 
     public IReadOnlyCollection<string> EvaluationMetricNames => [MetricName];
+
+    [GeneratedRegex(@"^---\s*\n(.*?)\n---", RegexOptions.Singleline)]
+    private static partial Regex FrontmatterBlockRegex();
+
+    [GeneratedRegex(@"^\s*name\s*:", RegexOptions.Multiline)]
+    private static partial Regex NamePresenceRegex();
+
+    [GeneratedRegex(@"^\s*description\s*:", RegexOptions.Multiline)]
+    private static partial Regex DescriptionPresenceRegex();
+
+    [GeneratedRegex(@"^\s*name\s*:\s*[""']?([^""'\n]+)[""']?", RegexOptions.Multiline)]
+    private static partial Regex NameValueRegex();
+
+    [GeneratedRegex(@"^\s*description\s*:\s*[""']?([^""'\n]+)[""']?", RegexOptions.Multiline)]
+    private static partial Regex DescriptionValueRegex();
+
+    [GeneratedRegex(@"^[a-z0-9]+(-[a-z0-9]+)*$")]
+    private static partial Regex KebabCaseRegex();
+
+    [GeneratedRegex(@"https?://[^\s)\]]+")]
+    private static partial Regex ExternalUrlRegex();
 
     public ValueTask<EvaluationResult> EvaluateAsync(
         IEnumerable<ChatMessage> messages,
@@ -63,7 +84,7 @@ public sealed class SkillStructuralEvaluator : IEvaluator
             return 0.0;
         }
 
-        var frontmatterMatch = Regex.Match(content, @"^---\s*\n(.*?)\n---", RegexOptions.Singleline);
+        var frontmatterMatch = FrontmatterBlockRegex().Match(content);
         if (!frontmatterMatch.Success)
         {
             findings.Add("no valid YAML frontmatter block found");
@@ -72,8 +93,8 @@ public sealed class SkillStructuralEvaluator : IEvaluator
 
         string frontmatter = frontmatterMatch.Groups[1].Value;
 
-        bool hasName = Regex.IsMatch(frontmatter, @"^\s*name\s*:", RegexOptions.Multiline);
-        bool hasDescription = Regex.IsMatch(frontmatter, @"^\s*description\s*:", RegexOptions.Multiline);
+        bool hasName = NamePresenceRegex().IsMatch(frontmatter);
+        bool hasDescription = DescriptionPresenceRegex().IsMatch(frontmatter);
 
         if (!hasName) { findings.Add("missing required 'name' field"); points -= 10; }
         if (!hasDescription) { findings.Add("missing required 'description' field"); points -= 10; }
@@ -85,15 +106,15 @@ public sealed class SkillStructuralEvaluator : IEvaluator
     {
         double points = ScoringRubric.Phase2FieldConstraintsNamingParity;
 
-        var nameMatch = Regex.Match(content, @"^\s*name\s*:\s*[""']?([^""'\n]+)[""']?", RegexOptions.Multiline);
-        var descriptionMatch = Regex.Match(content, @"^\s*description\s*:\s*[""']?([^""'\n]+)[""']?", RegexOptions.Multiline);
+        var nameMatch = NameValueRegex().Match(content);
+        var descriptionMatch = DescriptionValueRegex().Match(content);
 
         if (nameMatch.Success)
         {
             string name = nameMatch.Groups[1].Value.Trim();
 
             // name format constraint: lowercase kebab-case
-            if (!Regex.IsMatch(name, @"^[a-z0-9]+(-[a-z0-9]+)*$"))
+            if (!KebabCaseRegex().IsMatch(name))
             {
                 findings.Add($"name '{name}' does not follow kebab-case convention");
                 points -= 8;
@@ -133,7 +154,7 @@ public sealed class SkillStructuralEvaluator : IEvaluator
         // Matches both Markdown link syntax (]\(url\)) and bare URLs in prose — a
         // SKILL.md can reference an external host either way, and only matching the
         // Markdown-link form let bare URLs slip through undetected.
-        var externalUrls = Regex.Matches(content, @"https?://[^\s)\]]+")
+        var externalUrls = ExternalUrlRegex().Matches(content)
             .Select(m => m.Value.TrimEnd('.', ',', ';', ':'))
             .Distinct();
 

@@ -12,11 +12,17 @@ namespace AIContextKit.Evaluations.Evaluators;
 /// same pattern as ArchitecturalRelevanceEvaluator: the rubric lives in the
 /// prompt, the response is parsed from a fixed format.
 /// </summary>
-public sealed class SkillQualityEvaluator : IEvaluator
+public sealed partial class SkillQualityEvaluator : IEvaluator
 {
     public const string MetricName = "SkillQualityScore"; // 0.0-1.0, represents ScoringRubric.QualityPoints of TotalPoints
 
     public IReadOnlyCollection<string> EvaluationMetricNames => [MetricName];
+
+    [GeneratedRegex(@"SCORE:\s*([0-9]*\.?[0-9]+)", RegexOptions.IgnoreCase)]
+    private static partial Regex ScoreRegex();
+
+    [GeneratedRegex(@"REASON:\s*(.+)", RegexOptions.IgnoreCase | RegexOptions.Singleline)]
+    private static partial Regex ReasonRegex();
 
     public async ValueTask<EvaluationResult> EvaluateAsync(
         IEnumerable<ChatMessage> messages,
@@ -108,8 +114,8 @@ public sealed class SkillQualityEvaluator : IEvaluator
 
     private static (double Score, string Reason)? ParseJudgeResponse(string judgeText)
     {
-        var scoreMatch = Regex.Match(judgeText, @"SCORE:\s*([0-9]*\.?[0-9]+)", RegexOptions.IgnoreCase);
-        var reasonMatch = Regex.Match(judgeText, @"REASON:\s*(.+)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        var scoreMatch = ScoreRegex().Match(judgeText);
+        var reasonMatch = ReasonRegex().Match(judgeText);
 
         if (!scoreMatch.Success ||
             !double.TryParse(scoreMatch.Groups[1].Value, NumberStyles.Number, CultureInfo.InvariantCulture, out double score))
