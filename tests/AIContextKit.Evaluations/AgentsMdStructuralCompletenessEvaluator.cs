@@ -20,9 +20,10 @@ public class AgentsMdStructuralCompletenessEvaluator : IEvaluator
         IEnumerable<EvaluationContext>? additionalContext,
         CancellationToken cancellationToken)
     {
-        var agentsMd = File.ReadAllText(FindAgentsMdPath());
-
-        return ValueTask.FromResult(new EvaluationResult(Evaluate(agentsMd)));
+        // Evaluate the AGENTS.md content carried by the response the caller built, matching
+        // SkillStructuralEvaluator's contract. Locating and reading the file is the caller's job
+        // (see AgentsMdStructuralCompletenessTests / FindAgentsMdPath).
+        return ValueTask.FromResult(new EvaluationResult(Evaluate(modelResponse.Text ?? string.Empty)));
     }
 
     public static BooleanMetric Evaluate(string agentsMd)

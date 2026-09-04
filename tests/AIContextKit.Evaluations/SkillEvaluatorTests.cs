@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.AI.Evaluation;
-using Microsoft.Extensions.AI.Evaluation.Reporting.Storage;
 using OllamaSharp;
 using AIContextKit.Evaluations.Evaluators;
 using Xunit;
@@ -10,9 +9,6 @@ namespace AIContextKit.Evaluations.Tests;
 
 public class SkillEvaluatorTests
 {
-    private static readonly string StorageRootPath =
-        Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "eval-results");
-
     private static IChatClient CreateOllamaClient() =>
         new OllamaApiClient(
             new HttpClient
@@ -40,14 +36,10 @@ public class SkillEvaluatorTests
     {
         var chatConfiguration = new ChatConfiguration(CreateOllamaClient());
 
-        var reportingConfiguration = DiskBasedReportingConfiguration.Create(
-            storageRootPath: StorageRootPath,
+        await using var scenarioRun = await EvaluationHarness.CreateScenarioRunAsync(
+            scenarioName: scenarioName,
             evaluators: [new SkillStructuralEvaluator(), new SkillQualityEvaluator()],
-            chatConfiguration: chatConfiguration,
-            executionName: EvaluationExecution.Name,
-            enableResponseCaching: false);
-
-        await using var scenarioRun = await reportingConfiguration.CreateScenarioRunAsync(scenarioName: scenarioName);
+            chatConfiguration: chatConfiguration);
 
         string skillText = await File.ReadAllTextAsync(skillPath);
         var messages = new[] { new ChatMessage(ChatRole.User, "Validate this SKILL.md.") };

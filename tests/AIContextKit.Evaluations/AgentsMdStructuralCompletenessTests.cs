@@ -1,25 +1,17 @@
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.AI.Evaluation;
-using Microsoft.Extensions.AI.Evaluation.Reporting.Storage;
 using AIContextKit.Evaluations.Evaluators;
 
 namespace AIContextKit.Evaluations.Tests;
 
 public class AgentsMdStructuralCompletenessTests
 {
-    private static readonly string StorageRootPath = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "eval-results");
-
     [Fact]
     public async Task AgentsMd_ShouldHaveAllRequiredFields()
     {
-        var reportingConfiguration = DiskBasedReportingConfiguration.Create(
-            storageRootPath: StorageRootPath,
-            evaluators: [new AgentsMdStructuralCompletenessEvaluator()],
-            executionName: EvaluationExecution.Name,
-            enableResponseCaching: false);
-
-        await using var scenarioRun = await reportingConfiguration.CreateScenarioRunAsync(
-            scenarioName: nameof(AgentsMd_ShouldHaveAllRequiredFields));
+        await using var scenarioRun = await EvaluationHarness.CreateScenarioRunAsync(
+            scenarioName: nameof(AgentsMd_ShouldHaveAllRequiredFields),
+            evaluators: [new AgentsMdStructuralCompletenessEvaluator()]);
 
         var agentsMd = File.ReadAllText(AgentsMdStructuralCompletenessEvaluator.FindAgentsMdPath());
         var messages = new List<ChatMessage> { new(ChatRole.User, "Validate the AGENTS.md for this repository") };
