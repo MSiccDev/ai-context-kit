@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.AI.Evaluation;
 
@@ -8,19 +9,9 @@ public class AgentsMdStructuralCompletenessEvaluator : IEvaluator
     public const string MetricName = "StructuralCompleteness";
     public IReadOnlyCollection<string> EvaluationMetricNames => [MetricName];
 
-    public static readonly IReadOnlyList<string> RequiredFields = new List<string>
-    {
-        "## Purpose",
-        "## Source Of Truth And Precedence",
-        "## Repository Map",
-        "## Scope And Precedence For AGENTS.md Files",
-        "## Session-State Contract",
-        "## Command Namespace Policy",
-        "## Repository Project Context",
-        "## Formatting And Path Stability Rules",
-        "## Update And Drift-Control Rule",
-        "## Key References"
-    };
+    // Derived from templates/AGENTS_template.md rather than hardcoded, so this evaluator
+    // can't drift out of sync with the canonical template it's meant to enforce.
+    public static readonly IReadOnlyList<string> RequiredFields = LoadRequiredFieldsFromTemplate();
 
     ValueTask<EvaluationResult> IEvaluator.EvaluateAsync(
         IEnumerable<ChatMessage> messages,
@@ -47,24 +38,47 @@ public class AgentsMdStructuralCompletenessEvaluator : IEvaluator
 
     public static string FindAgentsMdPath()
     {
+        var repositoryRoot = FindRepositoryRoot();
+        var candidate = Path.Combine(repositoryRoot, "AGENTS.md");
+        if (File.Exists(candidate))
+        {
+            return candidate;
+        }
+
+        throw new FileNotFoundException($"Repository root '{repositoryRoot}' was found but has no AGENTS.md.");
+    }
+
+    private static IReadOnlyList<string> LoadRequiredFieldsFromTemplate()
+    {
+        var templatePath = Path.Combine(FindRepositoryRoot(), "templates", "AGENTS_template.md");
+        var template = File.ReadAllText(templatePath);
+
+        var headings = Regex.Matches(template, @"^## .+$", RegexOptions.Multiline)
+            .Select(m => m.Value.TrimEnd())
+            .ToList();
+
+        if (headings.Count == 0)
+        {
+            throw new InvalidOperationException($"No '## ' section headings found in template '{templatePath}'.");
+        }
+
+        return headings;
+    }
+
+    // A `.git` entry (directory, or a file for worktrees/submodules) marks the repository
+    // root unambiguously -- unlike "first AGENTS.md found while walking up", which would
+    // silently pick a nested AGENTS.md (e.g. a future tests/AGENTS.md) instead of the root
+    // file this evaluator is meant to check.
+    private static string FindRepositoryRoot()
+    {
         var directory = new DirectoryInfo(AppContext.BaseDirectory);
 
         while (directory is not null)
         {
-            // A `.git` entry (directory, or a file for worktrees/submodules) marks the
-            // repository root unambiguously -- unlike "first AGENTS.md found while
-            // walking up", which would silently pick a nested AGENTS.md (e.g. a future
-            // tests/AGENTS.md) instead of the root file this evaluator is meant to check.
             if (Directory.Exists(Path.Combine(directory.FullName, ".git")) ||
                 File.Exists(Path.Combine(directory.FullName, ".git")))
             {
-                var candidate = Path.Combine(directory.FullName, "AGENTS.md");
-                if (File.Exists(candidate))
-                {
-                    return candidate;
-                }
-
-                throw new FileNotFoundException($"Repository root '{directory.FullName}' was found but has no AGENTS.md.");
+                return directory.FullName;
             }
 
             directory = directory.Parent;
