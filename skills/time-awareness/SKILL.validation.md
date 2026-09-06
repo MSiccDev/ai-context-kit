@@ -80,8 +80,8 @@ Observations (no deduction):
   anyway (no OS-neutral execution tool name; pinning `Bash` would import a POSIX
   assumption and exclude PowerShell-only environments). `[Read]` is the correct
   declaration and the workflow already documents why — no change needed.
-- Minor: Workflow step 3 cites the config key as `recheck.pacing` where the
-  precise field is `recheck.pacing.checkpoints`. Worth tightening for grep-ability.
+- Workflow step 3 now cites the exact config key `recheck.pacing.checkpoints`
+  (was `recheck.pacing`), matching the config and schema.
 
 ## Phase 4: Resource References And Safety
 
@@ -127,11 +127,12 @@ None.
 None.
 
 ### Enhancements (Optional)
-1. In Workflow step 3, reference the exact key `recheck.pacing.checkpoints`
-   instead of `recheck.pacing`.
-2. Consider noting in `SKILL.md` that some environments already inject the
+1. Consider noting in `SKILL.md` that some environments already inject the
    current date/time into context, and that such an injected value is an
    acceptable "real reading" for step 1 (still not an estimate).
+
+### Resolved since first review
+- Workflow step 3 now uses the exact key `recheck.pacing.checkpoints`.
 
 ## Recommendations
 
@@ -141,7 +142,6 @@ None.
 ### Suggested
 - Keep `config/time-awareness.config.yaml` and `references/config-schema.md` in
   lockstep whenever trigger types or checkpoint behavior change.
-- Tighten the one config-key reference in Workflow step 3.
 
 ## Example Fixes For Common Failures
 

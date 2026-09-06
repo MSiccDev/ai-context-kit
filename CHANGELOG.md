@@ -28,7 +28,7 @@ When a new version is released:
 - Version bumped `1.4.3` → `1.5.0` (minor: new skill). Synced across spec, `docs/spec-rationale.md`, `AGENTS.md`, README, templates, sample artifacts, and all `spec_version` stamps in create/validate skills
 - Realigned the three plugin manifests (`.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `.codex-plugin/plugin.json`) to the shared version — they were left at `1.4.2` by the 1.4.3 doc patch
 - README plugin and Codex sections now state 12 skills (was 11)
-- Spec `last_updated` set to 2026-09-06
+- `last_updated` set to 2026-09-06 in `specs/context_aware_ai_session_spec.md` and `docs/spec-rationale.md`
 - Refreshed `AGENTS.validation.md` and `usercontexts/sample_usercontext.validation.md` to `spec_version` 1.5.0 (re-validated, still PASS 100/100) so no doc carries a stale version reference
 
 ### Safe to update from template
