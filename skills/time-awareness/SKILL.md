@@ -1,7 +1,7 @@
 ---
 name: "time-awareness"
 description: "Always-on guardrail that grounds date, time-of-day, elapsed-time, and pacing statements in a real local clock reading instead of an estimate. Use whenever the session references the current time, a stated time budget, session duration, a date-dependent schedule, or a timestamp written into an artifact — including direct questions like \"what time is it\", \"what's today's date\", \"what day is it\". Do not use this to fetch time from a network service — local time only."
-version: "1.0.0"
+version: "1.0.1"
 allowed-tools: [Read]
 ---
 
