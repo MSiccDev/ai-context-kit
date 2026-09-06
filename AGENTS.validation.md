@@ -3,7 +3,7 @@
 # AGENTS.md Validation Report
 
 **File:** `AGENTS.md`  
-**Validated:** 2026-05-08  
+**Validated:** 2026-09-06  
 **Validator:** `skills/validate-agents-md`
 
 ## Overall Status + Compliance Score
@@ -14,7 +14,7 @@
 - **Score:** 20/20
 - **Status:** PASS
 - Target file exists and is structurally complete.
-- `<!-- spec_version: 1.4.2 -->` comment is present and current — no version warning.
+- `<!-- spec_version: 1.5.0 -->` comment is present and current — no version warning.
 - Purpose, precedence model, and repository map are explicitly defined.
 - Heading structure is scannable and consistent.
 

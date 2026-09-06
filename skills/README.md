@@ -26,8 +26,15 @@ This directory is the canonical location for repository skill instances.
 - `validate-agents-md` (`references/`)
 - `validate-skill` (`references/`)
 
+### Checkpoint Workflows
+- `create-checkpoint` (`references/`)
+- `restore-checkpoint` (`references/`)
+
 ### Governance Workflows
 - `repository-drift-control` (no `references/` directory)
+
+### Runtime Guardrails
+- `time-awareness` (`references/`, plus a user-editable `config/` directory)
 
 All current skills include:
 - `SKILL.md`
