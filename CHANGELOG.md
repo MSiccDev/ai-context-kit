@@ -29,6 +29,7 @@ When a new version is released:
 - Realigned the three plugin manifests (`.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `.codex-plugin/plugin.json`) to the shared version — they were left at `1.4.2` by the 1.4.3 doc patch
 - README plugin and Codex sections now state 12 skills (was 11)
 - Spec `last_updated` set to 2026-09-06
+- Refreshed `AGENTS.validation.md` and `usercontexts/sample_usercontext.validation.md` to `spec_version` 1.5.0 (re-validated, still PASS 100/100) so no doc carries a stale version reference
 
 ### Safe to update from template
 - `skills/time-awareness/` (new)
@@ -51,6 +52,8 @@ When a new version is released:
 - `skills/validate-agents-md/SKILL.md`
 - `skills/validate-project-instructions/SKILL.md`
 - `skills/validate-usercontext-instructions/SKILL.md`
+- `AGENTS.validation.md`
+- `usercontexts/sample_usercontext.validation.md`
 
 ### Protect (never overwrite)
 - Your personal `*_usercontext.instructions.md`
