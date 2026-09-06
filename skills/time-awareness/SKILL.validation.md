@@ -39,7 +39,7 @@ warnings. Two optional, non-blocking enhancements are noted.
   clock reading) and when to use it (any current-time, time-budget, session-
   duration, schedule, or artifact-timestamp reference), plus an explicit
   exclusion (no network time).
-- `version` = `1.0.0`: valid semver.
+- `version` = `1.0.1`: valid semver.
 - `allowed-tools` = `[Read]`: valid YAML flow list of recognized tool names.
   (Semantic adequacy is assessed in Phase 3.)
 
