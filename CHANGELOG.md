@@ -15,6 +15,53 @@ When a new version is released:
 
 ---
 
+## [1.5.0] - 2026-09-06
+
+### Added
+- **`time-awareness` skill** — always-on guardrail that grounds date, time-of-day, elapsed-time, and pacing statements in a real local clock reading instead of an estimate, covering time-of-day framing, time-budget drift, stale artifact timestamps, and day-of-week scheduling errors; local time only, no network time service
+- `skills/time-awareness/references/config-schema.md` and a user-editable `skills/time-awareness/config/time-awareness.config.yaml` (time-of-day buckets, re-check cadence, trigger phrases)
+- `SKILL.validation.md` for `time-awareness/` (PASS, 100/100)
+- `.agents/skills/time-awareness` symlink for Codex repo-local discovery
+- `skills/README.md` skill inventory expanded with a Runtime Guardrails section (and the previously missing Checkpoint Workflows entries)
+
+### Changed
+- Version bumped `1.4.3` → `1.5.0` (minor: new skill). Synced across spec, `docs/spec-rationale.md`, `AGENTS.md`, README, templates, sample artifacts, and all `spec_version` stamps in create/validate skills
+- Realigned the three plugin manifests (`.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `.codex-plugin/plugin.json`) to the shared version — they were left at `1.4.2` by the 1.4.3 doc patch
+- README plugin and Codex sections now state 12 skills (was 11)
+- `last_updated` set to 2026-09-06 in `specs/context_aware_ai_session_spec.md` and `docs/spec-rationale.md`
+- Refreshed `AGENTS.validation.md` and `usercontexts/sample_usercontext.validation.md` to `spec_version` 1.5.0 (re-validated, still PASS 100/100) so no doc carries a stale version reference
+
+### Safe to update from template
+- `skills/time-awareness/` (new)
+- `.agents/skills/` (one new symlink)
+- `skills/README.md`
+- `README.md`
+- `AGENTS.md`
+- `CHANGELOG.md`
+- `specs/context_aware_ai_session_spec.md`
+- `docs/spec-rationale.md`
+- `templates/AGENTS_template.md`
+- `templates/usercontext_template.instructions.md`
+- `.claude-plugin/plugin.json`
+- `.claude-plugin/marketplace.json`
+- `.codex-plugin/plugin.json`
+- `skills/create-agents-md/SKILL.md`
+- `skills/create-project-instructions/SKILL.md`
+- `skills/create-usercontext-instructions/SKILL.md`
+- `skills/create-usercontext-instructions/references/quality-checklist.md`
+- `skills/validate-agents-md/SKILL.md`
+- `skills/validate-project-instructions/SKILL.md`
+- `skills/validate-usercontext-instructions/SKILL.md`
+- `AGENTS.validation.md`
+- `usercontexts/sample_usercontext.validation.md`
+
+### Protect (never overwrite)
+- Your personal `*_usercontext.instructions.md`
+- Your project `AGENTS.md`
+- Any custom skills, config overrides, or checkpoint files you have created
+
+---
+
 ## [1.4.3] - 2026-07-07
 
 ### Fixed

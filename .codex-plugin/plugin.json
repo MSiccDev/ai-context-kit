@@ -1,6 +1,6 @@
 {
   "name": "ai-context-kit",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "Context-aware AI collaboration skills and implementation loop prompts for creating and validating user context, project AGENTS.md files, and skill artifacts across LLM providers.",
   "author": {
     "name": "MSiccDev Software Development",

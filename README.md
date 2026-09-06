@@ -97,7 +97,7 @@ ai-context-kit/
 │   └── context_aware_ai_session_spec.md              # Specification for AI session management
 │
 ├── templates/
-│  ├── usercontext_template.instructions.md           # Canonical v1.4.3 user context template (authoritative)
+│  ├── usercontext_template.instructions.md           # Canonical v1.5.0 user context template (authoritative)
 │  ├── AGENTS_template.md                             # Canonical AGENTS template (authoritative)
 │  └── skill_template/SKILL.md                        # Canonical skill template
 │
@@ -130,7 +130,7 @@ ai-context-kit/
 
 ---
 
-## Canonical Authority (Spec v1.4.3)
+## Canonical Authority (Spec v1.5.0)
 
 When guidance differs across files, use this authority order:
 
@@ -227,6 +227,7 @@ Operational workflow authority is skill-first:
 - `skills/validate-skill/`
 - `skills/create-checkpoint/`
 - `skills/restore-checkpoint/`
+- `skills/time-awareness/`
 
 ### Invoking Skills
 
@@ -260,13 +261,13 @@ The following paths are considered **canonical**:
 - `AGENTS.md`
   - Primary agent entrypoint (repo-specific operational contract)
 - `templates/`
-  - Canonical instruction templates (spec v1.4.3)
+  - Canonical instruction templates (spec v1.5.0)
 - `skills/`
   - Canonical workflow skills (`SKILL.md`-based folders)
 - `prompts/`
   - Composition wrappers for instruction/skill workflows
 - `specs/context_aware_ai_session_spec.md`
-  - Authoritative specification (v1.4.3+)
+  - Authoritative specification (v1.5.0+)
 - Root `README.md`
   - Human-facing entry point and workflow documentation
 
@@ -316,7 +317,7 @@ If paths must change, update the specification and README first, then adjust ski
 
 ## Installing as a Plugin
 
-AI Context Kit ships native plugin metadata for Codex and compatibility metadata for Claude Code and GitHub Copilot CLI. Installing registers all 11 skills in the target runtime, with no manual `SKILL.md` loading required.
+AI Context Kit ships native plugin metadata for Codex and compatibility metadata for Claude Code and GitHub Copilot CLI. Installing registers all 12 skills in the target runtime, with no manual `SKILL.md` loading required.
 
 ### OpenAI Codex
 
@@ -384,6 +385,7 @@ Skills are namespaced to the plugin name. Inside a session:
 | `repository-drift-control` | Check and enforce consistency across spec, templates, and docs |
 | `create-checkpoint` | Capture session state as a checkpoint artifact (spec section 4.4) |
 | `restore-checkpoint` | Restore session state from a checkpoint artifact (spec section 4.4) |
+| `time-awareness` | Ground date, time-of-day, elapsed-time, and pacing statements in a real local clock reading |
 
 ### Update
 
@@ -399,7 +401,7 @@ Codex auto-discovers skills from the `.agents/skills/` directory, scanning upwar
 
 ### Auto-discovery (no install needed)
 
-If you clone this repo and run Codex from within it, all 11 skills are discovered automatically. No registration or import is required for repo-local use.
+If you clone this repo and run Codex from within it, all 12 skills are discovered automatically. No registration or import is required for repo-local use.
 
 ### Invoking skills in Codex
 
@@ -486,7 +488,7 @@ Each project `AGENTS.md` should define:
 - **Languages:** LLMs work best when instructions are in English, but you can include multilingual content in user context if needed (just be aware of potential comprehension issues)
 - **Versioning:** Update user context when skills/preferences evolve; update project `AGENTS.md` when phases/objectives change. Ideally, these should live in the same repository as your codebase once they are created.
 - **Discoverability:** Semantic file extensions help AI tools identify and load the appropriate instructions automatically
-- **Canonical structure:** The templates in `/templates` define the only supported artifact structures for spec v1.4.3
+- **Canonical structure:** The templates in `/templates` define the only supported artifact structures for spec v1.5.0
 
 ---
 

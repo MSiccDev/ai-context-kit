@@ -1,4 +1,4 @@
-<!-- spec_version: 1.4.3 -->
+<!-- spec_version: 1.5.0 -->
 
 # AGENTS.md Template
 
