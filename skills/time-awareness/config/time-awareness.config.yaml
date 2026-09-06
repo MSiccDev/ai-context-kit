@@ -1,0 +1,38 @@
+# Time Awareness — configuration
+# Edit this file to change behavior. Do not edit SKILL.md for per-project tuning.
+# See references/config-schema.md for field definitions and defaults.
+
+time_of_day_buckets:
+  morning: "05:00-11:59"
+  afternoon: "12:00-16:59"
+  evening: "17:00-21:59"
+  night: "22:00-04:59"
+
+recheck:
+  pacing:
+    trigger_phrases:
+      - "we have {N} minutes"
+      - "let's time-box this"
+      - "{N}-minute session"
+      - "quick {N} minutes"
+    checkpoints:
+      - "midpoint"
+      - "5_minutes_before_end"
+      - "at_end"
+
+  long_session:
+    interval_minutes: 30
+    trigger: "idle_interval"
+
+  checkpoint_artifacts:
+    trigger_phrases:
+      - "checkpoint"
+      - "save session"
+      - "create-checkpoint"
+      - "changelog entry"
+      - "log this decision"
+    always_recheck: true
+
+  scheduling:
+    trigger: "session_crosses_midnight_or_new_topic"
+    always_recheck: true
