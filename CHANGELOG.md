@@ -15,6 +15,31 @@ When a new version is released:
 
 ---
 
+## [1.5.1] - 2026-09-06
+
+### Fixed
+- `time-awareness` skill, workflow step 3: corrected the config key reference back to `recheck.pacing.checkpoints` (it had regressed to the broader `recheck.pacing`, which doesn't itself list the checkpoints); matches `config/time-awareness.config.yaml` and `references/config-schema.md`
+- `SKILL.validation.md` for `time-awareness/` updated to match
+
+### Changed
+- Bumped `time-awareness` skill `version` `1.0.0` → `1.0.1` (patch: workflow reference fix)
+- Version bumped `1.5.0` → `1.5.1` (patch) so the fix is actually distributed: `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, and `.codex-plugin/plugin.json` all pin an explicit `version`, so Claude Code's plugin update mechanism only ships new content when that string changes — a content-only fix with no version bump would have been invisible to installed users
+
+### Safe to update from template
+- `skills/time-awareness/SKILL.md`
+- `skills/time-awareness/SKILL.validation.md`
+- `.claude-plugin/plugin.json`
+- `.claude-plugin/marketplace.json`
+- `.codex-plugin/plugin.json`
+- `CHANGELOG.md`
+
+### Protect (never overwrite)
+- Your personal `*_usercontext.instructions.md`
+- Your project `AGENTS.md`
+- Any custom skills, config overrides, or checkpoint files you have created
+
+---
+
 ## [1.5.0] - 2026-09-06
 
 ### Added
