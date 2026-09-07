@@ -5,7 +5,7 @@ using AIContextKit.Evaluations.Evaluators;
 namespace AIContextKit.Evaluations.Tests;
 
 // Offline tests of SkillQualityEvaluator's judge-response handling, using a canned IChatClient
-// instead of a live Ollama model. The slow SkillEvaluatorTests covers the real judge path.
+// instead of a live LM Studio model. The slow SkillEvaluatorTests covers the real judge path.
 public class SkillQualityEvaluatorTests
 {
     private const string SkillText = "---\nname: example\ndescription: a description long enough to be meaningful\n---\n\n# Example";

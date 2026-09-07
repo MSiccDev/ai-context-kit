@@ -3,19 +3,23 @@ using Microsoft.Extensions.Configuration;
 
 namespace AIContextKit.Evaluations;
 
-// Ollama judge connection settings, read from configuration with no in-code fallbacks. A missing or
-// malformed key fails fast with a message naming it.
-public sealed class OllamaJudgeSettings
+// LM Studio judge connection settings, read from configuration with no in-code fallbacks. A missing or
+// malformed key fails fast with a message naming it. LM Studio exposes an OpenAI-compatible API, so the
+// endpoint points at its "/v1" base and the API key is the placeholder LM Studio itself accepts.
+public sealed class LmStudioJudgeSettings
 {
-    public const string EndpointKey = "OLLAMA_ENDPOINT";
-    public const string ModelKey = "OLLAMA_MODEL";
-    public const string TimeoutMinutesKey = "OLLAMA_TIMEOUT_MINUTES";
+    public const string EndpointKey = "LMSTUDIO_ENDPOINT";
+    public const string ModelKey = "LMSTUDIO_MODEL";
+    public const string TimeoutMinutesKey = "LMSTUDIO_TIMEOUT_MINUTES";
+
+    // LM Studio's local server ignores the API key but the OpenAI client requires a non-empty credential.
+    public const string ApiKey = "lm-studio";
 
     public required Uri Endpoint { get; init; }
     public required string Model { get; init; }
     public required TimeSpan Timeout { get; init; }
 
-    public static OllamaJudgeSettings FromConfiguration(IConfiguration configuration)
+    public static LmStudioJudgeSettings FromConfiguration(IConfiguration configuration)
     {
         string endpoint = Required(configuration, EndpointKey);
         string model = Required(configuration, ModelKey);
@@ -27,7 +31,7 @@ public sealed class OllamaJudgeSettings
                 $"Configuration '{TimeoutMinutesKey}' must be a number of minutes, but was '{timeoutRaw}'.");
         }
 
-        return new OllamaJudgeSettings
+        return new LmStudioJudgeSettings
         {
             Endpoint = new Uri(endpoint),
             Model = model,

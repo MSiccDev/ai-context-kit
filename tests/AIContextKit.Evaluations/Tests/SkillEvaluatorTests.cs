@@ -1,8 +1,9 @@
+using System.ClientModel;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.AI.Evaluation;
 using Microsoft.Extensions.Configuration;
-using OllamaSharp;
+using OpenAI;
 using AIContextKit.Evaluations;
 using AIContextKit.Evaluations.Evaluators;
 using Xunit;
@@ -11,20 +12,28 @@ namespace AIContextKit.Evaluations.Tests;
 
 public class SkillEvaluatorTests
 {
-    // Judge config: user secrets, then environment variables of the same name. See OllamaJudgeSettings
+    // Judge config: user secrets, then environment variables of the same name. See LmStudioJudgeSettings
     // and README "Configuring the judge model".
     private static readonly IConfiguration Configuration = new ConfigurationBuilder()
         .AddUserSecrets<SkillEvaluatorTests>(optional: true)
         .AddEnvironmentVariables()
         .Build();
 
-    // One judge client for the whole class. Lazy so a missing config key surfaces as
-    // OllamaJudgeSettings' message on first use, not a TypeInitializationException.
+    // One judge client for the whole class, talking to LM Studio's OpenAI-compatible local server.
+    // Lazy so a missing config key surfaces as LmStudioJudgeSettings' message on first use, not a
+    // TypeInitializationException.
     private static readonly Lazy<IChatClient> JudgeClient = new(() =>
     {
-        var settings = OllamaJudgeSettings.FromConfiguration(Configuration);
-        var httpClient = new HttpClient { BaseAddress = settings.Endpoint, Timeout = settings.Timeout };
-        return new OllamaApiClient(httpClient, defaultModel: settings.Model);
+        var settings = LmStudioJudgeSettings.FromConfiguration(Configuration);
+        return new OpenAIClient(
+                new ApiKeyCredential(LmStudioJudgeSettings.ApiKey),
+                new OpenAIClientOptions
+                {
+                    Endpoint = settings.Endpoint,
+                    NetworkTimeout = settings.Timeout,
+                })
+            .GetChatClient(settings.Model)
+            .AsIChatClient();
     });
 
     // Grade bands from scoring.md.

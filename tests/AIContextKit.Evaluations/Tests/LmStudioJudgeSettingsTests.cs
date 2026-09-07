@@ -3,7 +3,7 @@ using AIContextKit.Evaluations;
 
 namespace AIContextKit.Evaluations.Tests;
 
-public class OllamaJudgeSettingsTests
+public class LmStudioJudgeSettingsTests
 {
     private static IConfiguration Config(params (string Key, string? Value)[] pairs) =>
         new ConfigurationBuilder()
@@ -12,31 +12,31 @@ public class OllamaJudgeSettingsTests
 
     private static (string, string?)[] AllKeysSet() =>
     [
-        (OllamaJudgeSettings.EndpointKey, "http://ollama.example:1234"),
-        (OllamaJudgeSettings.ModelKey, "llama3.1:8b"),
-        (OllamaJudgeSettings.TimeoutMinutesKey, "3.5"),
+        (LmStudioJudgeSettings.EndpointKey, "http://lmstudio.example:1234/v1"),
+        (LmStudioJudgeSettings.ModelKey, "microsoft/phi-4-reasoning-plus"),
+        (LmStudioJudgeSettings.TimeoutMinutesKey, "3.5"),
     ];
 
     [Fact]
     public void FromConfiguration_ReadsAllThreeKeys()
     {
-        var settings = OllamaJudgeSettings.FromConfiguration(Config(AllKeysSet()));
+        var settings = LmStudioJudgeSettings.FromConfiguration(Config(AllKeysSet()));
 
-        Assert.Equal(new Uri("http://ollama.example:1234"), settings.Endpoint);
-        Assert.Equal("llama3.1:8b", settings.Model);
+        Assert.Equal(new Uri("http://lmstudio.example:1234/v1"), settings.Endpoint);
+        Assert.Equal("microsoft/phi-4-reasoning-plus", settings.Model);
         Assert.Equal(TimeSpan.FromMinutes(3.5), settings.Timeout);
     }
 
     [Theory]
-    [InlineData(OllamaJudgeSettings.EndpointKey)]
-    [InlineData(OllamaJudgeSettings.ModelKey)]
-    [InlineData(OllamaJudgeSettings.TimeoutMinutesKey)]
+    [InlineData(LmStudioJudgeSettings.EndpointKey)]
+    [InlineData(LmStudioJudgeSettings.ModelKey)]
+    [InlineData(LmStudioJudgeSettings.TimeoutMinutesKey)]
     public void FromConfiguration_ThrowsWithKeyName_WhenKeyMissing(string missingKey)
     {
         var pairs = AllKeysSet().Where(p => p.Item1 != missingKey).ToArray();
 
         var ex = Assert.Throws<InvalidOperationException>(
-            () => OllamaJudgeSettings.FromConfiguration(Config(pairs)));
+            () => LmStudioJudgeSettings.FromConfiguration(Config(pairs)));
         Assert.Contains(missingKey, ex.Message);
     }
 
@@ -44,9 +44,9 @@ public class OllamaJudgeSettingsTests
     public void FromConfiguration_ParsesFractionalTimeout()
     {
         var pairs = AllKeysSet();
-        pairs[2] = (OllamaJudgeSettings.TimeoutMinutesKey, "1.5");
+        pairs[2] = (LmStudioJudgeSettings.TimeoutMinutesKey, "1.5");
 
-        var settings = OllamaJudgeSettings.FromConfiguration(Config(pairs));
+        var settings = LmStudioJudgeSettings.FromConfiguration(Config(pairs));
 
         Assert.Equal(TimeSpan.FromMinutes(1.5), settings.Timeout);
     }
@@ -55,10 +55,10 @@ public class OllamaJudgeSettingsTests
     public void FromConfiguration_ThrowsWithKeyName_WhenTimeoutNotANumber()
     {
         var pairs = AllKeysSet();
-        pairs[2] = (OllamaJudgeSettings.TimeoutMinutesKey, "soon");
+        pairs[2] = (LmStudioJudgeSettings.TimeoutMinutesKey, "soon");
 
         var ex = Assert.Throws<InvalidOperationException>(
-            () => OllamaJudgeSettings.FromConfiguration(Config(pairs)));
-        Assert.Contains(OllamaJudgeSettings.TimeoutMinutesKey, ex.Message);
+            () => LmStudioJudgeSettings.FromConfiguration(Config(pairs)));
+        Assert.Contains(LmStudioJudgeSettings.TimeoutMinutesKey, ex.Message);
     }
 }

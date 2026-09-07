@@ -3,7 +3,7 @@ using AIContextKit.Evaluations.Evaluators;
 
 namespace AIContextKit.Evaluations.Tests;
 
-// Offline tests of SkillStructuralEvaluator alone — no ChatConfiguration, no Ollama. The fast
+// Offline tests of SkillStructuralEvaluator alone — no ChatConfiguration, no judge model. The fast
 // counterpart to SkillEvaluatorTests, which runs the same fixtures through the full pipeline.
 public class SkillStructuralEvaluatorTests
 {

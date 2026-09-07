@@ -306,26 +306,28 @@ If paths must change, update the specification and README first, then adjust ski
 Beyond the skill-based validators, `tests/AIContextKit.Evaluations` contains an xUnit test suite (built on `Microsoft.Extensions.AI.Evaluation`) with two kinds of checks:
 
 - **`AGENTS.md` structural completeness** (`AgentsMdStructuralCompletenessTests`, `SkillStructuralEvaluatorTests`) — pure text/regex checks, no LLM involved, run fully offline.
-- **`SKILL.md` quality** (`SkillEvaluatorTests`) — combines the same structural checks with an LLM-as-judge pass via a locally hosted [Ollama](https://ollama.com/) model — start Ollama, pull the model, and configure the keys below before running these.
+- **`SKILL.md` quality** (`SkillEvaluatorTests`) — combines the same structural checks with an LLM-as-judge pass via a locally hosted [LM Studio](https://lmstudio.ai/) model served over its OpenAI-compatible API — start the LM Studio local server, load the model, and configure the keys below before running these.
 
 Both can produce a browsable HTML report of the result.
 
 ### Configuring the judge model
 
-`SkillEvaluatorTests` reads the Ollama endpoint, model and request timeout from configuration — there are no in-code fallbacks, so **all three keys must be set** before the slow suite runs (a missing key fails the test with a message telling you how to set it). Values are resolved from [.NET user secrets](https://learn.microsoft.com/aspnet/core/security/app-secrets) first, then overridden by environment variables of the same name (handy in CI). The fast, offline suite needs none of this.
+`SkillEvaluatorTests` reads the LM Studio endpoint, model and request timeout from configuration — there are no in-code fallbacks, so **all three keys must be set** before the slow suite runs (a missing key fails the test with a message telling you how to set it). Values are resolved from [.NET user secrets](https://learn.microsoft.com/aspnet/core/security/app-secrets) first, then overridden by environment variables of the same name (handy in CI). The fast, offline suite needs none of this.
 
 | Key | Example | Purpose |
 | --- | --- | --- |
-| `OLLAMA_ENDPOINT` | `http://localhost:11434` | Base address of the Ollama server |
-| `OLLAMA_MODEL` | `phi4-reasoning:14b-plus-q8_0` | Model used as the LLM judge |
-| `OLLAMA_TIMEOUT_MINUTES` | `10` | Per-request HTTP timeout |
+| `LMSTUDIO_ENDPOINT` | `http://localhost:1234/v1` | Base address of the LM Studio OpenAI-compatible server |
+| `LMSTUDIO_MODEL` | `microsoft/phi-4-reasoning-plus` | Model used as the LLM judge |
+| `LMSTUDIO_TIMEOUT_MINUTES` | `10` | Per-request HTTP timeout |
+
+The API key LM Studio expects is a placeholder that the local server ignores, so it is not configurable — the tests send `lm-studio`.
 
 Set them locally with user secrets:
 
 ```bash
-dotnet user-secrets --project tests/AIContextKit.Evaluations set OLLAMA_ENDPOINT "http://localhost:11434"
-dotnet user-secrets --project tests/AIContextKit.Evaluations set OLLAMA_MODEL "phi4-reasoning:14b-plus-q8_0"
-dotnet user-secrets --project tests/AIContextKit.Evaluations set OLLAMA_TIMEOUT_MINUTES "10"
+dotnet user-secrets --project tests/AIContextKit.Evaluations set LMSTUDIO_ENDPOINT "http://localhost:1234/v1"
+dotnet user-secrets --project tests/AIContextKit.Evaluations set LMSTUDIO_MODEL "microsoft/phi-4-reasoning-plus"
+dotnet user-secrets --project tests/AIContextKit.Evaluations set LMSTUDIO_TIMEOUT_MINUTES "10"
 ```
 
 or export the same keys as environment variables to override per run.
@@ -333,10 +335,10 @@ or export the same keys as environment variables to override per run.
 ### Running the tests
 
 ```bash
-# Fast, fully offline — no Ollama required
+# Fast, fully offline — no LM Studio required
 dotnet test tests/AIContextKit.Evaluations --filter "Category!=Slow"
 
-# Full suite, including the Ollama-backed SKILL.md quality checks
+# Full suite, including the LM Studio-backed SKILL.md quality checks
 dotnet test tests/AIContextKit.Evaluations
 ```
 
