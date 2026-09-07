@@ -342,7 +342,7 @@ dotnet test tests/AIContextKit.Evaluations --filter "Category!=Slow"
 dotnet test tests/AIContextKit.Evaluations
 ```
 
-The positive-path tests (`AgentsMd_ShouldHaveAllRequiredFields`, `WellFormedSkill_PassesValidation`) also record their results to a local, gitignored `eval-results/` folder under the test project, which the `aieval` report tool reads from.
+The `AgentsMd*` and `SkillEvaluator` tests — both the passing and the failing scenarios — record their results to a local, gitignored `eval-results/` folder under the test project, which the `aieval` report tool reads from, so the report shows compliant and non-compliant examples side by side. The isolated `Skill*EvaluatorTests` stay offline and are not recorded.
 
 ### Generating the report
 
