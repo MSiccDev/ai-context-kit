@@ -397,6 +397,8 @@ claude plugin update ai-context-kit
 
 Codex auto-discovers skills from the `.agents/skills/` directory, scanning upward from the current working directory to the repo root. AI Context Kit ships a `.agents/skills/` directory whose entries are symlinks to the canonical `skills/` folders, so repo-local skill discovery and plugin packaging both point at the same source of truth.
 
+On Windows, git creates these symlinks only with Developer Mode enabled (or `core.symlinks=true` and elevated rights). Without it the entries check out as plain text files and discovery fails; either enable Developer Mode and re-clone, or install the plugin instead.
+
 ### Auto-discovery (no install needed)
 
 If you clone this repo and run Codex from within it, all 11 skills are discovered automatically. No registration or import is required for repo-local use.
@@ -411,7 +413,7 @@ $validate-agents-md
 $repository-drift-control
 ```
 
-`repository-drift-control` requires explicit invocation (`allow_implicit_invocation: false`) since it is a governance action.
+`repository-drift-control` is a governance action: invoke it explicitly. No per-skill sidecar blocks implicit invocation, so Codex may also select it on its own.
 
 ### Installing the plugin instead of using repo-local discovery
 

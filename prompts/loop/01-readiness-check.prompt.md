@@ -12,7 +12,8 @@ Then read each of the following files in full if they exist:
 - `docs/implementation-backlog.md`
 - `specs/` — all specification files relevant to the target slice
   (fall back to `docs/specs/` if `specs/` is absent)
-- `docs/adrs/README.md` and every ADR file listed for the target slice
+- `docs/adr/README.md` and every ADR file listed for the target slice
+  (fall back to `docs/adrs/` if `docs/adr/` is absent)
 - `docs/use-cases/README.md` and every use-case file linked for the target slice
 
 For arc42 architecture documentation, check whether a `docs/arc42/` folder exists:

@@ -10,10 +10,6 @@ allowed-tools: [Read, Write]
 ## Purpose
 Capture the active session state as a structured Markdown checkpoint artifact so the session can be restored in a future conversation.
 
-## How to Invoke
-
-Load or attach this file's contents into your AI session to activate the workflow (paste, upload, or reference with `#file:skills/create-checkpoint/SKILL.md` in VS Code Copilot Chat). In Claude Projects, add it to project knowledge. See [Invoking Skills](../../README.md#invoking-skills) in the README for full platform guidance.
-
 ## When To Use
 - When the user signals they are ending the session and want to resume later.
 - When the user explicitly requests a checkpoint.

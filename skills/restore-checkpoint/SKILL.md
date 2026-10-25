@@ -10,10 +10,6 @@ allowed-tools: [Read]
 ## Purpose
 Load a checkpoint artifact and restore the session state it describes, surfacing any conflicts with active instruction files before any work begins.
 
-## How to Invoke
-
-Load or attach this file's contents into your AI session to activate the workflow (paste, upload, or reference with `#file:skills/restore-checkpoint/SKILL.md` in VS Code Copilot Chat). In Claude Projects, add it to project knowledge. See [Invoking Skills](../../README.md#invoking-skills) in the README for full platform guidance.
-
 ## When To Use
 - At the start of a session when the user provides a checkpoint file.
 - Do not apply checkpoint state mid-session or without the user explicitly providing the artifact.
