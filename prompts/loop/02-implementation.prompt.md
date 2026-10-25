@@ -18,7 +18,8 @@ If context was lost, re-read the following files before proceeding:
 - `docs/implementation-backlog.md` (if it exists)
 - `docs/arc42/05-building-block-view.md` and `docs/arc42/10-quality-requirements.md`
   (if `docs/arc42/` exists)
-- `docs/adrs/README.md` and every ADR file for the target slice (if it exists)
+- `docs/adr/README.md` and every ADR file for the target slice (if it exists;
+  fall back to `docs/adrs/` if `docs/adr/` is absent)
 - `docs/use-cases/README.md` and every use-case file for the target slice (if it exists)
 
 Also use:

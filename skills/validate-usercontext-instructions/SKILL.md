@@ -18,10 +18,6 @@ Validate user-context instruction files and produce structured reports with issu
 - Use this skill before publishing or reusing a user-context file.
 - Do not use this skill for project `AGENTS.md` (project context) files.
 
-## How to Invoke
-
-Load or attach this file's contents into your AI session to activate the workflow (paste, upload, or reference with `#file:skills/validate-usercontext-instructions/SKILL.md` in VS Code Copilot Chat). In Claude Projects, add it to project knowledge. See [Invoking Skills](../../README.md#invoking-skills) in the README for full platform guidance.
-
 ## Required Inputs
 - Target file path.
 - Expected spec version and required sections.
