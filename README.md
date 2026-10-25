@@ -227,7 +227,6 @@ Operational workflow authority is skill-first:
 - `skills/validate-skill/`
 - `skills/create-checkpoint/`
 - `skills/restore-checkpoint/`
-- `skills/time-awareness/`
 
 ### Invoking Skills
 
@@ -317,7 +316,7 @@ If paths must change, update the specification and README first, then adjust ski
 
 ## Installing as a Plugin
 
-AI Context Kit ships native plugin metadata for Codex and compatibility metadata for Claude Code and GitHub Copilot CLI. Installing registers all 12 skills in the target runtime, with no manual `SKILL.md` loading required.
+AI Context Kit ships native plugin metadata for Codex and compatibility metadata for Claude Code and GitHub Copilot CLI. Installing registers all 11 skills in the target runtime, with no manual `SKILL.md` loading required.
 
 ### OpenAI Codex
 
@@ -385,7 +384,6 @@ Skills are namespaced to the plugin name. Inside a session:
 | `repository-drift-control` | Check and enforce consistency across spec, templates, and docs |
 | `create-checkpoint` | Capture session state as a checkpoint artifact (spec section 4.4) |
 | `restore-checkpoint` | Restore session state from a checkpoint artifact (spec section 4.4) |
-| `time-awareness` | Ground date, time-of-day, elapsed-time, and pacing statements in a real local clock reading |
 
 ### Update
 
@@ -401,7 +399,7 @@ Codex auto-discovers skills from the `.agents/skills/` directory, scanning upwar
 
 ### Auto-discovery (no install needed)
 
-If you clone this repo and run Codex from within it, all 12 skills are discovered automatically. No registration or import is required for repo-local use.
+If you clone this repo and run Codex from within it, all 11 skills are discovered automatically. No registration or import is required for repo-local use.
 
 ### Invoking skills in Codex
 

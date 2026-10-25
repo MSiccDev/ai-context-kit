@@ -15,6 +15,32 @@ When a new version is released:
 
 ---
 
+## [1.5.2] - 2026-10-25
+
+### Removed
+- **`time-awareness` skill** (`skills/time-awareness/`, including its `config/` and `references/`) and its `.agents/skills/time-awareness` symlink. It had no observable effect in normal chats, and current models ground date and time reasoning well without it
+- `time-awareness` entries from `README.md` (skill list, skill table; plugin and Codex sections now state 11 skills) and the Runtime Guardrails section in `skills/README.md`
+- `ack-time-awareness` row from the skill rename table in `docs/plans/2.0-adoption-plan.md`
+
+### Changed
+- Version bumped `1.5.1` → `1.5.2` (patch) in `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, and `.codex-plugin/plugin.json` so installed plugins pick up the removal. The spec stays at `1.5.0`; no normative rules changed
+
+### Safe to update from template
+- Delete `skills/time-awareness/` and `.agents/skills/time-awareness` from your instance if present
+- `README.md`
+- `skills/README.md`
+- `.claude-plugin/plugin.json`
+- `.claude-plugin/marketplace.json`
+- `.codex-plugin/plugin.json`
+- `CHANGELOG.md`
+
+### Protect (never overwrite)
+- Your personal `*_usercontext.instructions.md`
+- Your project `AGENTS.md`
+- Any custom skills, config overrides, or checkpoint files you have created
+
+---
+
 ## [1.5.1] - 2026-09-06
 
 ### Fixed
