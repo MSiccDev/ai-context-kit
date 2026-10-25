@@ -15,6 +15,38 @@ When a new version is released:
 
 ---
 
+## [1.5.3] - 2026-10-25
+
+### Fixed
+- `README.md` Codex section no longer claims `repository-drift-control` is blocked from implicit invocation via `allow_implicit_invocation: false`; the `agents/openai.yaml` sidecars were removed in 1.4.2, so the text now says to invoke it explicitly and that Codex may still select it
+- `prompts/loop/01-readiness-check.prompt.md` and `02-implementation.prompt.md` read ADRs from `docs/adr/` (matching the 2.0 plan decision), falling back to `docs/adrs/` so existing projects keep working
+- `prompts/loop/04-learnings.prompt.md` no longer stops until five placeholders are hand-edited; it resolves stack, architecture, and background from the user context, `AGENTS.md`, and the session, and asks only for what remains unknown
+
+### Changed
+- Removed the repeated `## How to Invoke` block from all 11 `SKILL.md` files; the per-platform guidance already lives in the README under Invoking Skills, and the block cost context on every run
+- `README.md` documents the Windows symlink caveat for `.agents/skills/`
+- `docs/plans/2.0-adoption-plan.md`: stale "open decision" wording corrected and a status note added under Side findings
+- Version bumped `1.5.2` → `1.5.3` (patch) in `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, and `.codex-plugin/plugin.json`. The spec stays at `1.5.0`; no normative rules changed
+
+### Safe to update from template
+- `skills/*/SKILL.md`
+- `prompts/loop/01-readiness-check.prompt.md`
+- `prompts/loop/02-implementation.prompt.md`
+- `prompts/loop/04-learnings.prompt.md`
+- `README.md`
+- `docs/plans/2.0-adoption-plan.md`
+- `.claude-plugin/plugin.json`
+- `.claude-plugin/marketplace.json`
+- `.codex-plugin/plugin.json`
+- `CHANGELOG.md`
+
+### Protect (never overwrite)
+- Your personal `*_usercontext.instructions.md`
+- Your project `AGENTS.md`
+- Any custom skills, config overrides, or checkpoint files you have created
+
+---
+
 ## [1.5.2] - 2026-10-25
 
 ### Removed

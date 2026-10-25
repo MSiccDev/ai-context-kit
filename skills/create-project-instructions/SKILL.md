@@ -18,10 +18,6 @@ Generate project-context `AGENTS.md` files with required sections, role definiti
 - Use this skill when project context must include role/phase/style defaults.
 - Do not use this skill for user-context instruction generation.
 
-## How to Invoke
-
-Load or attach this file's contents into your AI session to activate the workflow (paste, upload, or reference with `#file:skills/create-project-instructions/SKILL.md` in VS Code Copilot Chat). In Claude Projects, add it to project knowledge. See [Invoking Skills](../../README.md#invoking-skills) in the README for full platform guidance.
-
 ## Required Inputs
 - Project name, description, and current phase.
 - Tech stack, architecture, and repository structure.

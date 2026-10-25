@@ -18,10 +18,6 @@ Validate `AGENTS.md` files to ensure they are concise, operationally complete, a
 - Use this skill before accepting AGENTS policy changes.
 - Do not use this skill for user/project instruction validation.
 
-## How to Invoke
-
-Load or attach this file's contents into your AI session to activate the workflow (paste, upload, or reference with `#file:skills/validate-agents-md/SKILL.md` in VS Code Copilot Chat). In Claude Projects, add it to project knowledge. See [Invoking Skills](../../README.md#invoking-skills) in the README for full platform guidance.
-
 ## Required Inputs
 - Target `AGENTS.md` path.
 - Repository path context for link/path validation.

@@ -13,29 +13,29 @@ Tool preference:
 
 ## Stack Context
 
-<!-- 
-  Fill in before use:
-  - Primary language / framework:        e.g. React, SwiftUI, Blazor
-  - Secondary language / framework:      e.g. TanStack Router/Query, ASP.NET Core
-  - Architecture pattern:                e.g. Clean Architecture, MVVM
-  - User's reference background:         e.g. .NET / C#
-  - Learning focus areas (optional):     e.g. React patterns, frontend state management
--->
+The learnings below refer to five stack values by name. Resolve them from the
+session; do not require the user to edit this prompt.
 
-Primary stack:        [PRIMARY_STACK]
-Secondary stack:      [SECONDARY_STACK]
-Architecture:         [ARCHITECTURE_PATTERN]
-User background:      [USER_BACKGROUND]
-Learning focus:       [LEARNING_FOCUS]
+Sources, in order:
+1. user context instructions and `AGENTS.md` (Tech Stack, Architecture, and
+   user background sections)
+2. the implementation and self-review output in this session
+
+Values:
+- `[PRIMARY_STACK]` — primary language / framework, e.g. React, SwiftUI, Blazor
+- `[SECONDARY_STACK]` — secondary language / framework, e.g. ASP.NET Core
+- `[ARCHITECTURE_PATTERN]` — e.g. Clean Architecture, MVVM
+- `[USER_BACKGROUND]` — the user's reference background, e.g. .NET / C#
+- `[LEARNING_FOCUS]` — focus areas (optional)
 
 Before doing anything else, run two checks in order:
 
 **1. Stack context check**
-Scan this prompt for any unfilled placeholders: `[PRIMARY_STACK]`,
-`[SECONDARY_STACK]`, `[ARCHITECTURE_PATTERN]`, `[USER_BACKGROUND]`,
-`[LEARNING_FOCUS]`. If any placeholder is still present as a literal string,
-stop immediately and tell the user which placeholders need to be filled in
-before this prompt can be used.
+Resolve each value from the sources above. If a required value (every value
+except `[LEARNING_FOCUS]`) cannot be determined, ask the user for exactly those
+values and wait for the answer. Do not guess. Wherever `[PRIMARY_STACK]`,
+`[SECONDARY_STACK]`, `[ARCHITECTURE_PATTERN]`, `[USER_BACKGROUND]`, or
+`[LEARNING_FOCUS]` appears below, use the resolved value.
 
 **2. Self-review status check**
 Check the self-review report for its status line:

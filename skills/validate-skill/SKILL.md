@@ -18,10 +18,6 @@ Validate `SKILL.md` files with structured checks and produce consistent validati
 - Use this skill before accepting skill updates.
 - Do not use this skill to generate new skills.
 
-## How to Invoke
-
-Load or attach this file's contents into your AI session to activate the workflow (paste, upload, or reference with `#file:skills/validate-skill/SKILL.md` in VS Code Copilot Chat). In Claude Projects, add it to project knowledge. See [Invoking Skills](../../README.md#invoking-skills) in the README for full platform guidance.
-
 ## Required Inputs
 - Target skill folder path.
 - Target `SKILL.md` path.

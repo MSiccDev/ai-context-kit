@@ -18,10 +18,6 @@ Generate a complete user-context instruction file with required sections, privac
 - Use this skill when user context must be gathered through structured phases.
 - Do not use this skill for project `AGENTS.md` (project context) files.
 
-## How to Invoke
-
-Load or attach this file's contents into your AI session to activate the workflow (paste, upload, or reference with `#file:skills/create-usercontext-instructions/SKILL.md` in VS Code Copilot Chat). In Claude Projects, add it to project knowledge. See [Invoking Skills](../../README.md#invoking-skills) in the README for full platform guidance.
-
 ## Required Inputs
 - Target identity label and role/title.
 - Privacy expectations (full detail vs placeholders).
