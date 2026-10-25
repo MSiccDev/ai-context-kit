@@ -33,9 +33,6 @@ This directory is the canonical location for repository skill instances.
 ### Governance Workflows
 - `repository-drift-control` (no `references/` directory)
 
-### Runtime Guardrails
-- `time-awareness` (`references/`, plus a user-editable `config/` directory)
-
 All current skills include:
 - `SKILL.md`
 - `SKILL.validation.md`
