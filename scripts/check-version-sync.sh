@@ -2,11 +2,12 @@
 # Checks that every plugin manifest carries the same release version and that
 # CHANGELOG.md has a matching release entry.
 #
-# Usage: scripts/check-version-sync.sh   (run from anywhere inside the repo)
+# Usage: scripts/check-version-sync.sh [repo-root]
+#   repo-root defaults to the repository that contains this script.
 # Exit codes: 0 in sync, 1 drift found, 2 missing tool or file.
 set -euo pipefail
 
-root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+root="${1:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 cd "$root"
 
 if ! command -v jq >/dev/null 2>&1; then
@@ -21,7 +22,13 @@ manifests=(
   ".codex-plugin/plugin.json|.version"
 )
 
-semver='^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$'
+# SemVer 2.0.0 (semver.org), rewritten for POSIX ERE (no non-capturing groups):
+# numeric parts without leading zeros, non-empty dot-separated pre-release
+# identifiers (numeric ones without leading zeros), optional +build metadata.
+num='(0|[1-9][0-9]*)'
+pre_id='(0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)'
+build_id='[0-9A-Za-z-]+'
+semver="^${num}\.${num}\.${num}(-${pre_id}(\.${pre_id})*)?(\+${build_id}(\.${build_id})*)?$"
 status=0
 expected=""
 

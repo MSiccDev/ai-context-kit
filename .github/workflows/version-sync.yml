@@ -7,6 +7,7 @@ on:
       - ".codex-plugin/**"
       - "CHANGELOG.md"
       - "scripts/check-version-sync.sh"
+      - "scripts/test-check-version-sync.sh"
       - ".github/workflows/version-sync.yml"
   push:
     branches: [main, development]
@@ -20,5 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Test the version check
+        run: bash scripts/test-check-version-sync.sh
       - name: Check manifest and changelog versions match
         run: bash scripts/check-version-sync.sh
