@@ -16,12 +16,17 @@ When a new version is released:
 ### Added
 - `scripts/check-version-sync.sh` checks that `.claude-plugin/plugin.json`, the `ai-context-kit` entry in `.claude-plugin/marketplace.json`, and `.codex-plugin/plugin.json` carry the same SemVer 2.0.0 version (no leading zeros, valid pre-release identifiers, optional `+build` metadata), and that the newest released heading in `CHANGELOG.md` matches it. Run it locally before tagging a release
 - `.github/workflows/version-sync.yml` runs the check on pull requests that touch the manifests or the changelog, and on pushes to `main` and `development`, so a missed bump like 1.5.1's fails CI instead of shipping
+- `docs/adr/` with ADR-001 to ADR-015, recording the 2.0 adoption plan's Decisions (OpenSpec mandatory, `ack-` skill names, merged AGENTS.md skills, installer package, attribution, release split and more), plus a `README.md` index. This completes Part 2 rollout step 1 of the plan; no skill, prompt or template behaviour changes yet
 - `scripts/test-check-version-sync.sh` runs the check against throwaway fixture repos (valid and invalid versions, drift in each source, a missing manifest); CI runs it before the real check
 
 ### Safe to update from template
 - `scripts/check-version-sync.sh`
 - `scripts/test-check-version-sync.sh`
 - `.github/workflows/version-sync.yml` (only if your instance publishes plugin manifests)
+- `docs/plans/2.0-adoption-plan.md`
+
+### Protect
+- `docs/adr/` records the kit's own decisions; do not copy it over your instance's ADRs
 
 ---
 
