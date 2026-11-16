@@ -1,20 +1,67 @@
 ---
-description: 'Readiness check — assess the target slice and produce a readiness report before any implementation begins.'
+description: 'Readiness check — confirm the target OpenSpec change is apply-ready, pick its next task group, and produce a readiness report before any implementation begins.'
 ---
 
 # Readiness Check
 
 Do not start implementation yet.
 
-Read `AGENTS.md` first and follow its precedence and role guidance throughout.
+Read `AGENTS.md` first and follow its precedence and role guidance throughout,
+including its spec-driven change workflow section (OpenSpec root, active change,
+how this project invokes OpenSpec).
 
-Then read each of the following files in full if they exist:
-- `docs/implementation-backlog.md`
-- `specs/` — all specification files relevant to the target slice
-  (fall back to `docs/specs/` if `specs/` is absent)
-- `docs/adr/README.md` and every ADR file listed for the target slice
+## 1. Confirm OpenSpec is available
+
+Run `openspec --version`.
+- If the command is not available, this session is in **manual mode**
+  (spec section 11.5): planning artifacts may be written, but implementation
+  may not start. Stop and tell the user that apply needs a repository with the
+  OpenSpec CLI. Offer to help with planning instead.
+- If the version is older than `1.13.2`, stop and report that it is unsupported.
+- If it is newer than `1.13.2`, continue and note in the report that the
+  version is newer than the kit's tested minimum.
+
+Run `openspec list --json`.
+- If no OpenSpec root is found, stop: this repository is not set up for the
+  spec-driven workflow (spec section 11.1). Recommend `openspec init` and do
+  nothing else.
+
+## 2. Determine the target change
+
+If the user named a change or task, target that change.
+If not, determine the target in this order:
+1. The active change named in the spec-driven section of `AGENTS.md`.
+2. The only active change in `openspec list --json`.
+3. If neither gives a single unambiguous change, stop and ask the user to name
+   the change. Do not guess.
+
+If the requested work has no change at all, stop: there is no change, so there
+is no code (spec section 11.2). Offer to create one with the project's OpenSpec
+propose workflow. Work with no behavior impact still gets a change, with
+`skip_specs: true` in its `.openspec.yaml`.
+
+## 3. Check apply-readiness
+
+Run `openspec instructions apply --change <id> --json` and read `state`:
+- `blocked`: the change is not apply-ready. Report the `missingArtifacts` and
+  `missingPrerequisites`, and offer to complete them
+  (`openspec instructions <artifact> --change <id> --json` shows how).
+  Do not plan any code.
+- `ready`: the change is apply-ready. Continue.
+- `all_done`: every task is ticked. Skip to self-review (step 03) or
+  human-in-the-loop (step 05); there is nothing left to implement.
+
+## 4. Read the context
+
+Read each of the following in full:
+- the change's `proposal.md`, `design.md`, `tasks.md` and every spec delta under
+  its `specs/` folder (`openspec status --change <id> --json` lists the paths
+  under `artifactPaths`)
+- the main specs in `openspec/specs/` that the spec deltas modify
+- `docs/adr/README.md` and every ADR relevant to the change
   (fall back to `docs/adrs/` if `docs/adr/` is absent)
-- `docs/use-cases/README.md` and every use-case file linked for the target slice
+- `docs/use-cases/README.md` and every use-case file linked to the change, if
+  they exist
 
 For arc42 architecture documentation, check whether a `docs/arc42/` folder exists:
 - If it exists, read `docs/arc42/05-building-block-view.md` and
@@ -29,25 +76,27 @@ Inspect the primary code and test directories to confirm the current solution st
 (commonly `src/` and `tests/`, but use whatever the project defines).
 Check `.agents/skills/` for any applicable skills.
 
-Explicitly list in the readiness report:
-- which skills under `.agents/skills/` apply to this slice
-- if arc42 docs are present: which sections are likely to need updating after
-  implementation, and which skill under `.agents/skills/` covers each one
+## 5. Pick the next task group
 
-If the user named a slice or task, target that.
-If not, determine the target in this order:
-1. Check the `Current Objectives` section of `AGENTS.md` for a single clear active item.
-2. If that is ambiguous, check `docs/implementation-backlog.md` for the first
-   unstarted or in-progress item.
-3. If neither gives a single unambiguous target, stop and ask the user to name
-   the slice or task explicitly. Do not guess.
+From `tasks.md`, take the first task group (a `## N.` heading) that still has
+unchecked tasks. That group is the step to implement. Do not plan beyond it.
 
 Determine:
-- whether the target is implementation-ready, needs definition first,
-  or is blocked by an unresolved ADR
-- the single next smallest meaningful step (code, tests, docs, or definition)
+- whether the group can be implemented as written, or the change needs updating
+  first (for example, a task contradicts a spec delta or an ADR)
+- the test seams the design names for this group, or that none are named
 - which files in the project's code and test directories would be touched
 
-Reply with a short readiness report covering the above,
-plus any visibility gaps or missing context.
+## Report
+
+Reply with a short readiness report:
+- the change id, its `state`, and its task progress (`progress` from the apply instructions)
+- the task group to implement, with each task's id and description
+- the files that would be touched, and the test seams
+- which skills under `.agents/skills/` apply to this group
+- if arc42 docs are present: which sections are likely to need updating after
+  implementation, and which skill under `.agents/skills/` covers each one
+- any ADR the group touches or contradicts
+- the OpenSpec version, and any visibility gaps or missing context
+
 Stop and wait for explicit go-ahead before making any changes.

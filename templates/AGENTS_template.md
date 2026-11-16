@@ -92,7 +92,7 @@ This repository uses OpenSpec as the contract for what gets built (spec section 
 - Minimum OpenSpec version: `1.13.2`
 
 ### No Change, No Code
-- Start implementation only against a change that `openspec status --change <id> --json` reports as apply-ready.
+- Start implementation only against an apply-ready change: `openspec instructions apply --change <id> --json` reports `state` as `ready`.
 - If no apply-ready change exists, stop and offer to create or complete one.
 - Changes with no behavior impact still get a change folder with `skip_specs: true`.
 - Archive the change as the last commit on the feature branch, after review approval.
