@@ -25,7 +25,7 @@ Validate user-context instruction files and produce structured reports with issu
 
 ## Workflow
 1. Run validation phases from `references/phase-checks.md`.
-2. Check for `spec_version` field in YAML frontmatter: flag as WARNING if absent (pre-existing files may predate this requirement); flag as WARNING if present but older than `1.5.0`.
+2. Check for `spec_version` field in YAML frontmatter: flag as WARNING if absent (pre-existing files may predate this requirement); flag as WARNING if present but older than `2.0.0-beta.1`.
 3. Generate report using `references/report-contract.md`.
 4. Apply deterministic scoring from `references/scoring.md`.
 5. Classify findings into critical/warning/enhancement buckets.

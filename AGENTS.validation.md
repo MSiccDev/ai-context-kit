@@ -3,7 +3,7 @@
 # AGENTS.md Validation Report
 
 **File:** `AGENTS.md`  
-**Validated:** 2026-09-06  
+**Validated:** 2026-09-06; re-checked 2026-11-16 for the spec 2.0.0-beta.1 changes only (full re-run in 2.0 rollout step 5)  
 **Validator:** `skills/validate-agents-md`
 
 ## Overall Status + Compliance Score
@@ -14,7 +14,7 @@
 - **Score:** 20/20
 - **Status:** PASS
 - Target file exists and is structurally complete.
-- `<!-- spec_version: 1.5.0 -->` comment is present and current — no version warning.
+- `<!-- spec_version: 2.0.0-beta.1 -->` comment is present and current — no version warning.
 - Purpose, precedence model, and repository map are explicitly defined.
 - Heading structure is scannable and consistent.
 
@@ -29,6 +29,7 @@
 - Formatting/path stability rules are present.
 - Drift-control rule is present.
 - Nested `AGENTS.md` precedence policy is present.
+- Spec-driven change workflow section is present (spec section 11.1, added to the template in 2.0.0-beta.1).
 
 ## Phase 3: Clarity, Actionability & Conciseness
 - **Score:** 19/20
@@ -51,6 +52,7 @@
 - Relative links in `AGENTS.md` resolve.
 - Referenced paths exist.
 - Canonical path guidance aligns with repository reality (AGENTS-first posture).
+- New `docs/adr/` repository map entry resolves.
 
 ## Summary (Strengths/Critical/Warnings/Enhancements)
 ### Strengths
@@ -62,7 +64,7 @@
 - None.
 
 ### Warnings (Should Fix)
-- None.
+- Spec section 11.1 requires an initialised `openspec/`, which this repository does not have yet. `AGENTS.md` states this and defers adoption to 2.0 rollout step 6 (dogfood). The current `validate-agents-md` rubric does not score OpenSpec yet, so the score is unchanged; the OpenSpec check arrives with the merged `ack-validate-agents-md` (ADR-009).
 
 ### Enhancements (Optional)
 - None.

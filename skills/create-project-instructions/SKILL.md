@@ -31,7 +31,7 @@ Generate project-context `AGENTS.md` files with required sections, role definiti
    - `references/command-template.md`
    - `references/role-template.md`
 4. Apply artifact/summary contract from `references/output-format.md`.
-5. Stamp `<!-- spec_version: 1.5.0 -->` as an HTML comment at the top of the generated `AGENTS.md`.
+5. Stamp `<!-- spec_version: 2.0.0-beta.1 -->` as an HTML comment at the top of the generated `AGENTS.md`.
 6. Validate completeness using `references/quality-checklist.md` before final output.
 
 ## Output Expectations

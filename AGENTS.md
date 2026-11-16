@@ -1,4 +1,4 @@
-<!-- spec_version: 1.5.0 -->
+<!-- spec_version: 2.0.0-beta.1 -->
 
 # AI Context Kit Agent Guide
 
@@ -11,7 +11,7 @@ This repository distinguishes:
 
 ## Source Of Truth And Precedence
 Use this order when files differ:
-1. **Specification (authoritative, v1.5.0):** `specs/context_aware_ai_session_spec.md`
+1. **Specification (authoritative, v2.0.0-beta.1):** `specs/context_aware_ai_session_spec.md`
 2. **Templates (canonical structures):** `templates/*.instructions.md` and `templates/skill_template/SKILL.md`
 3. **Skills (canonical operational workflows):** `skills/*/SKILL.md` and skill-local references
 4. **Prompts:** `prompts/skills/*.prompt.md` (compatibility wrappers — must defer detailed logic to skills); `prompts/loop/*.prompt.md` (implementation loop steps — self-contained workflow prompts)
@@ -26,6 +26,7 @@ Use this order when files differ:
 | `prompts/skills/` | Compatibility wrappers that route workflows to canonical skills |
 | `prompts/loop/` | Numbered step prompts for the implementation loop (readiness-check → implementation → self-review → learnings → human-in-the-loop); invoke in order, learnings is optional |
 | `usercontexts/` | User-context instruction examples and validation reports |
+| `docs/adr/` | Architecture decision records for the kit itself; start with `docs/adr/README.md` |
 
 ## Scope And Precedence For AGENTS.md Files
 - An `AGENTS.md` file applies to the directory it is in and all subdirectories.
@@ -91,6 +92,15 @@ Alias policy:
 - Namespaced `/ack.*` commands are the default.
 - Unprefixed aliases are allowed only when no command conflict exists.
 
+## Spec-Driven Change Workflow
+Spec section 11 makes OpenSpec mandatory for kit-managed repositories (ADR-001).
+
+- OpenSpec root: not yet initialised in this repository
+- Active change: none
+- Minimum OpenSpec version: `1.13.2`
+
+This repository adopts the workflow in 2.0 rollout step 6 (dogfood), when `openspec init` runs here and every later change becomes an OpenSpec change. Until then, changes follow the pull-request workflow, and the session spec stays the normative document rather than being split into capability specs.
+
 ## Repository Project Context
 ### Overview
 **AI Context Kit** is a template repository for building instruction-based AI collaboration across providers.
@@ -116,7 +126,7 @@ Alias policy:
 - Validation: skill-based validation workflows and reports
 
 ### Current Objectives
-- Keep templates and skills aligned with spec `v1.5.0`.
+- Keep templates and skills aligned with spec `v2.0.0-beta.1`.
 - Maintain the AGENTS-first project-context model.
 - Preserve deterministic behavior and path stability.
 - Reduce duplication and migration noise.
@@ -197,7 +207,7 @@ When `specs/context_aware_ai_session_spec.md` changes, audit and update all impa
 - `AGENTS.md`
 
 ## Key References
-- Specification (v1.5.0): [`specs/context_aware_ai_session_spec.md`](specs/context_aware_ai_session_spec.md)
+- Specification (v2.0.0-beta.1): [`specs/context_aware_ai_session_spec.md`](specs/context_aware_ai_session_spec.md)
 - Project operational defaults: this root `AGENTS.md` (Default State For This Repo)
 - User context template: [`templates/usercontext_template.instructions.md`](templates/usercontext_template.instructions.md)
 - Skill template: [`templates/skill_template/SKILL.md`](templates/skill_template/SKILL.md)
