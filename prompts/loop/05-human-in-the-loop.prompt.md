@@ -8,8 +8,9 @@ Do not commit yet.
 
 Check the self-review report for its status line before doing anything else:
 - If the report opens with `STATUS: BLOCKED`, stop immediately. Tell the user:
-  "The self-review is blocked. Resolve the findings listed in the review report,
-  then re-run the implementation step before committing."
+  "The self-review is blocked. Re-run the implementation step: it reopens the
+  tasks the findings affect (or adds corrective tasks), fixes them, and re-ticks
+  them after tests pass. Then run the self-review again before committing."
 - If the report opens with `STATUS: PASS`, proceed.
 
 Run `openspec instructions apply --change <id> --json` to get the current

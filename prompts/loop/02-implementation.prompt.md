@@ -30,12 +30,28 @@ Use `.agents/` resources only to the degree they are actually visible in this se
 If a resource is not accessible, state that briefly and continue with verified
 filesystem context.
 
-Before changing anything, run `openspec instructions apply --change <id> --json`
-and confirm `state` is still `ready`. If it is not, stop and re-run the
+## Fixing review findings
+
+If this run follows a `STATUS: BLOCKED` self-review, fix those findings first:
+- untick (`- [x]` → `- [ ]`) each task in `tasks.md` whose work a finding
+  affects, or add a corrective task to the same group for a finding that no
+  existing task covers
+- list the reopened and added tasks, with the finding each one answers
+- then continue below; the reopened and added tasks are the approved scope for
+  this run, and nothing else
+
+Reopening tasks is what puts an `all_done` change back to `ready`, so review
+fixes go through the same gate and the same tick-after-tests rule as any task.
+
+## Gate
+
+Before changing any code, run `openspec instructions apply --change <id> --json`
+and confirm `state` is `ready`. If it is not, stop and re-run the
 readiness step.
 
 Work task by task:
-- take the tasks of the approved group in order
+- take the tasks of the approved group in order (or, when fixing review
+  findings, the reopened and added tasks)
 - for each task: implement it, add or update its tests, then run build and tests
 - tick the task in `tasks.md` (`- [ ]` → `- [x]`) only after its build and tests pass
 - if a task cannot pass, leave it unticked, stop, and report why
@@ -74,7 +90,8 @@ When the group is done, run `openspec instructions apply --change <id> --json`
 again and report the new `progress` and `state`.
 
 At the end, provide:
-1. the change id and the task group implemented
+1. the change id and the task group implemented, and, when fixing review
+   findings, which tasks were reopened or added and for which finding
 2. each task ticked in `tasks.md`, and any task left unticked with the reason
 3. the new task progress and `state`
 4. what tests were added or updated, at which seams

@@ -48,8 +48,12 @@ Run `openspec instructions apply --change <id> --json` and read `state`:
   (`openspec instructions <artifact> --change <id> --json` shows how).
   Do not plan any code.
 - `ready`: the change is apply-ready. Continue.
-- `all_done`: every task is ticked. Skip to self-review (step 03) or
-  human-in-the-loop (step 05); there is nothing left to implement.
+- `all_done`: every task is ticked.
+  - If the latest self-review for this change opened with `STATUS: BLOCKED`,
+    its findings still need fixing: go to the implementation step, which
+    reopens the affected tasks (see "Fixing review findings" there).
+  - Otherwise skip to self-review (step 03) or human-in-the-loop (step 05);
+    there is nothing left to implement.
 
 ## 4. Read the context
 
