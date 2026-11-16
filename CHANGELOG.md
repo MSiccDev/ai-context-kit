@@ -13,6 +13,9 @@ When a new version is released:
 
 ## [Unreleased]
 
+### Changed
+- `AGENTS.md` documents the branch flow under Repository Context: feature branches merge into `development`, and `main` changes only through a pull request from `development`
+
 ---
 
 ## [2.0.0-beta.1] - 2026-11-16

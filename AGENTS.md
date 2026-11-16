@@ -139,6 +139,10 @@ This repository adopts the workflow in 2.0 rollout step 6 (dogfood), when `opens
 
 ### Repository Context
 - Default branch: `main`
+- Branch flow:
+  - Start feature branches from `development` and open their pull requests into `development`.
+  - `main` changes only through a pull request from `development` into `main`, opened when the maintainer decides to release.
+  - Do not open pull requests from `main` into `development`.
 - Key paths:
   - `specs/`
   - `templates/`
