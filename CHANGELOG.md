@@ -14,7 +14,7 @@ When a new version is released:
 ## [Unreleased]
 
 ### Changed
-- `AGENTS.md` documents the git flow branch model under Repository Context: features merge into `development`, releases go from `development` into `main`, and `hotfix/*` branches start from `main`, merge into `main`, and are then brought back into `development`
+- `AGENTS.md` documents the git flow branch model under Repository Context: features merge into `development`; `release/<version>` branches start from `development` and `hotfix/<version>` branches start from `main`; both merge into `main` and are then brought back into `development`. `main` is the production release branch, so releases are not tagged
 
 ---
 
