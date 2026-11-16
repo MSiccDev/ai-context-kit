@@ -13,6 +13,14 @@ When a new version is released:
 
 ## [Unreleased]
 
+### Added
+- `scripts/check-version-sync.sh` checks that `.claude-plugin/plugin.json`, the `ai-context-kit` entry in `.claude-plugin/marketplace.json`, and `.codex-plugin/plugin.json` carry the same semantic version, and that the newest released heading in `CHANGELOG.md` matches it. Run it locally before tagging a release
+- `.github/workflows/version-sync.yml` runs the check on pull requests that touch the manifests or the changelog, and on pushes to `main` and `development`, so a missed bump like 1.5.1's fails CI instead of shipping
+
+### Safe to update from template
+- `scripts/check-version-sync.sh`
+- `.github/workflows/version-sync.yml` (only if your instance publishes plugin manifests)
+
 ---
 
 ## [1.5.3] - 2026-10-25

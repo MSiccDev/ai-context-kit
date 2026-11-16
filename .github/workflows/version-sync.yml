@@ -1,0 +1,24 @@
+name: Version sync
+
+on:
+  pull_request:
+    paths:
+      - ".claude-plugin/**"
+      - ".codex-plugin/**"
+      - "CHANGELOG.md"
+      - "scripts/check-version-sync.sh"
+      - ".github/workflows/version-sync.yml"
+  push:
+    branches: [main, development]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check manifest and changelog versions match
+        run: bash scripts/check-version-sync.sh
