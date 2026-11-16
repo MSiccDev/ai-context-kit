@@ -90,7 +90,7 @@ ai-context-kit/
 │       ├── 01-readiness-check.prompt.md              # Check the OpenSpec change is apply-ready; pick the next task group
 │       ├── 02-implementation.prompt.md               # Implement the task group task by task on a feature branch
 │       ├── 03-self-review.prompt.md                  # Two-axis review (Spec, Standards); STATUS: PASS or BLOCKED
-│       ├── 04-learnings.prompt.md                    # Capture key lessons (optional)
+│       ├── 04-learnings.prompt.md                    # Teach lessons from the task group and review (optional)
 │       └── 05-human-in-the-loop.prompt.md            # Commit checklist; archives the change after review approval
 │
 ├── specs/

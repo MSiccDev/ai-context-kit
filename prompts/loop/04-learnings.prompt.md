@@ -1,5 +1,5 @@
 ---
-description: 'Learnings — capture and teach the key lessons from the implementation and review steps; optional but recommended.'
+description: 'Learnings — capture and teach the key lessons from the implemented task group of an OpenSpec change and its two-axis review; optional but recommended.'
 ---
 
 # Learnings
@@ -45,7 +45,8 @@ Check the self-review report for its status line:
   before continuing to learnings."
 - If the report opens with `STATUS: PASS`, proceed.
 
-Capture the learnings from the implementation step and the review that followed.
+Capture the learnings from the task group just implemented for the OpenSpec
+change, and from the review that followed.
 
 Purpose:
 - teach the user what was learned from this step
@@ -56,8 +57,10 @@ Purpose:
 - prioritize [LEARNING_FOCUS] given the user's stated focus areas
 
 Primary inputs:
-- the implementation report
-- the review report
+- the implementation report (change id, task group, ticked tasks)
+- the review report, with its Spec and Standards findings
+- the change's `proposal.md` and `design.md`, as the source of why the change
+  exists and which decisions and test seams it chose
 - the most relevant changed files
 - the most relevant tests
 - the most relevant docs, if any
@@ -66,7 +69,9 @@ Do not redo the readiness step.
 Do not redo the review.
 Do not search broadly for extra scope.
 If the review found issues, use them as teaching material rather than
-turning this into another review.
+turning this into another review. Keep the two kinds apart: Spec findings
+teach how the code drifted from what the change asked for; Standards findings
+teach code quality.
 
 Read only the minimum repository guidance needed to explain the touched
 code correctly.
@@ -76,7 +81,9 @@ concepts, patterns, or mental models where that helps transfer understanding
 without forcing weak analogies.
 
 Focus on:
-- what changed and why this was the right step now
+- what changed and why this task group was the right step now, in terms of
+  the change's proposal and design
+- how the code meets the requirements and scenarios in the change's spec deltas
 - the most important abstraction points or testable boundaries
 - what the tests are proving
 - the most relevant [PRIMARY_STACK] patterns or pitfalls
@@ -88,7 +95,8 @@ Focus on:
 Do not make code changes in this step.
 
 Reply with a short learning report:
-1. a short explanation of what was implemented and why it mattered
+1. a short explanation of what was implemented (change id and task group)
+   and why it mattered, grounded in the change's proposal and design
 2. the 3 to 5 most important learnings, each mapped to the user's
    [USER_BACKGROUND] background where useful
 3. which [PRIMARY_STACK] patterns or pitfalls are most worth studying
@@ -96,7 +104,8 @@ Reply with a short learning report:
 5. which [ARCHITECTURE_PATTERN] decisions are most worth reflecting on
 6. which abstraction points or testable boundaries are most worth studying
 7. which tests are most worth reading and what they prove
-8. which risks, mistakes, or tradeoffs were most instructive
+8. which risks, mistakes, or tradeoffs were most instructive, keeping lessons
+   from Spec findings separate from lessons from Standards findings
 9. which files the user should read next, in order
 10. one small follow-up exercise or reflection question for the user
 11. any limitation in the available context or evidence for this
