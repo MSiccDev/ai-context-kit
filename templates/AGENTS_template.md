@@ -1,4 +1,4 @@
-<!-- spec_version: 1.5.0 -->
+<!-- spec_version: 2.0.0-beta.1 -->
 
 # AGENTS.md Template
 
@@ -83,6 +83,27 @@ Recommended command format: `/<tag>.<command>`
 Alias policy:
 - Namespaced commands are default.
 - Unprefixed aliases are allowed only when no conflict exists.
+
+## Spec-Driven Change Workflow
+This repository uses OpenSpec as the contract for what gets built (spec section 11).
+
+- OpenSpec root: `<path, usually openspec/>`
+- Active change: `<change id, or "none">`
+- Minimum OpenSpec version: `1.13.2`
+
+### No Change, No Code
+- Start implementation only against a change that `openspec status --change <id> --json` reports as apply-ready.
+- If no apply-ready change exists, stop and offer to create or complete one.
+- Changes with no behavior impact still get a change folder with `skip_specs: true`.
+- Archive the change as the last commit on the feature branch, after review approval.
+
+### Invoking OpenSpec
+| Tool | How to invoke |
+| --- | --- |
+| `<tool 1>` | `<invocation spelling>` |
+| `<tool 2>` | `<invocation spelling>` |
+
+Do not edit generated `openspec-*` skills or commands; customise through `openspec/config.yaml`.
 
 ## Repository Project Context
 ### Overview

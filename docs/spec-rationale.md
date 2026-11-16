@@ -1,13 +1,13 @@
 ---
 context_type: rationale
 document_type: companion_document
-spec_version: 1.5.0
+spec_version: 2.0.0-beta.1
 created: 2025-10-20
-last_updated: 2026-09-06
+last_updated: 2026-11-16
 status: active
 ---
 
-# Spec Rationale & Extended Reference (v1.5.0)
+# Spec Rationale & Extended Reference (v2.0.0-beta.1)
 
 This document is the companion to [`specs/context_aware_ai_session_spec.md`](../specs/context_aware_ai_session_spec.md). It contains the background reasoning, extended examples, project profile illustrations, end-to-end scenarios, and future enhancement notes that were removed from the normative spec to keep it readable.
 
@@ -270,6 +270,34 @@ CKSubscription setup (resolved and no longer active).
 
 Save a checkpoint file before compressing? [yes / no / proceed without saving]
 ```
+
+---
+
+## Spec-Driven Changes With OpenSpec
+
+Spec section 11 makes OpenSpec mandatory in kit-managed repositories. The decisions behind it are recorded as ADR-001 to ADR-005 in [`docs/adr/`](adr/README.md); this section explains the reasoning in one place.
+
+### Why OpenSpec, and why mandatory
+
+The session model governs *how* the assistant works, but until 2.0 the kit had no contract for *what* it builds. The implementation loop read prose specs from `specs/` or `docs/specs/`, so a readiness check had nothing firm to test against, and a review could only compare code with a description. OpenSpec supplies that contract: living specs in `openspec/specs/`, one folder per change in `openspec/changes/<id>/`, and a CLI that reports when a change is apply-ready.
+
+Making it optional would leave two paths for every rule downstream, one with a contract and one without. So every change goes through OpenSpec, and changes with no behavior impact use OpenSpec's own escape hatch, `skip_specs: true`, instead of an exemption.
+
+### Why customise only through config.yaml
+
+OpenSpec generates its own skills and commands, and `openspec update` overwrites them. Any kit edit to those files would disappear on the next update, which OpenSpec's own docs list as an unsolved gap. `openspec/config.yaml` is the one surface that survives updates, and each of its fields reaches a known step: `context` reaches every artifact, `rules` reaches proposal, design and tasks, and `operations` reaches apply and archive. A forked schema could add an ADR artifact, but OpenSpec marks schema commands as experimental, so it stays out of scope for now.
+
+### Why manual mode is first-class
+
+The kit is provider-neutral, and many users plan in chat-only assistants that cannot run a CLI. Rather than lock them out, manual mode lets planning happen anywhere, using templates generated from OpenSpec's shipped schema at each kit release. The gate stays strict: validate, apply and archive still run in a repository with the CLI, so a manually planned change must pass the same apply-ready check.
+
+### Example: the implementation gate
+
+> **User:** "Let's implement the export feature."
+>
+> **Assistant:** "There is no apply-ready OpenSpec change for export. `openspec list --json` shows `add-csv-export` with 2 of 4 planning artifacts missing (design and tasks). Should I complete that change first, or start a new one?"
+
+The assistant does not write code until the change is apply-ready. That is the no-change-no-code rule in spec section 11.2.
 
 ---
 
