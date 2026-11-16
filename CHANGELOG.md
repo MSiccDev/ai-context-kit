@@ -13,20 +13,53 @@ When a new version is released:
 
 ## [Unreleased]
 
+---
+
+## [2.0.0-beta.1] - 2026-11-16
+
+First 2.0 pre-release: the session spec now makes OpenSpec mandatory (2.0 adoption plan, Part 2 rollout step 2). Skills, loop prompts and validators do not enforce the new rules yet; that follows in rollout steps 3 to 5, before 2.0.0.
+
+### Breaking
+- Spec section 11 (new), **Spec-Driven Change Workflow (OpenSpec)**: kit-managed repositories **MUST** contain an initialised `openspec/`, and the Implementation phase **MUST** start only against an apply-ready OpenSpec change (no change, no code). Section 11 also covers changes with no behavior impact (`skip_specs: true`), customising only through `openspec/config.yaml`, manual mode for chat-only surfaces, the minimum OpenSpec version (1.13.2; newer versions warn, never fail), archive timing, and the telemetry opt-out. See ADR-001 to ADR-005
+- `templates/AGENTS_template.md` gains a required `## Spec-Driven Change Workflow` section (OpenSpec root, active change, no-change-no-code rule, how each tool invokes OpenSpec)
+
+### Changed
+- Spec section 2.1 adds change specifications (OpenSpec) as an artifact type; section 5.2 initialisation reads `openspec list --json` where the CLI is available; the section 7.3 phase table maps each phase to its OpenSpec step; section 10.2 lists `docs/adr/` as a canonical path; the glossary moves to section 12 and defines OpenSpec change, apply-ready and manual mode
+- `docs/spec-rationale.md` explains why OpenSpec is mandatory, why customisation goes only through `config.yaml`, and why manual mode is first-class, with an example of the implementation gate
+- Spec version `1.5.0` → `2.0.0-beta.1` everywhere it is stamped or cited: both templates, the sample user context, the `create-*` skills that stamp new files, the validators' version threshold, `AGENTS.md` and `README.md`
+- The kit's own `AGENTS.md` gains the spec-driven section and a `docs/adr/` map entry. It states that this repository adopts OpenSpec in rollout step 6 (dogfood)
+- `AGENTS.validation.md` and `usercontexts/sample_usercontext.validation.md` are re-checked for the version change only; full re-runs follow in rollout step 5
+- Version bumped `1.5.3` → `2.0.0-beta.1` in `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, and `.codex-plugin/plugin.json`
+
 ### Added
 - `scripts/check-version-sync.sh` checks that `.claude-plugin/plugin.json`, the `ai-context-kit` entry in `.claude-plugin/marketplace.json`, and `.codex-plugin/plugin.json` carry the same SemVer 2.0.0 version (no leading zeros, valid pre-release identifiers, optional `+build` metadata), and that the newest released heading in `CHANGELOG.md` matches it. Run it locally before tagging a release
 - `.github/workflows/version-sync.yml` runs the check on pull requests that touch the manifests or the changelog, and on pushes to `main` and `development`, so a missed bump like 1.5.1's fails CI instead of shipping
 - `docs/adr/` with ADR-001 to ADR-015, recording the 2.0 adoption plan's Decisions (OpenSpec mandatory, `ack-` skill names, merged AGENTS.md skills, installer package, attribution, release split and more), plus a `README.md` index. This completes Part 2 rollout step 1 of the plan; no skill, prompt or template behaviour changes yet
 - `scripts/test-check-version-sync.sh` runs the check against throwaway fixture repos (valid and invalid versions, drift in each source, a missing manifest); CI runs it before the real check
 
+### Migration
+- Existing user context files and `AGENTS.md` files stamped `1.5.0` now get a version warning from the validators. Re-stamp them once you have reviewed spec section 11
+- Project `AGENTS.md` files need the new `## Spec-Driven Change Workflow` section from the template, and the repository needs `openspec init` (OpenSpec 1.13.2 or later, Node 20.19 or later). The 2.0 installer will automate this; until then, follow the template by hand
+
 ### Safe to update from template
+- `specs/context_aware_ai_session_spec.md`
+- `docs/spec-rationale.md`
+- `templates/AGENTS_template.md`
+- `templates/usercontext_template.instructions.md`
+- `skills/*/SKILL.md`
+- `skills/create-usercontext-instructions/references/quality-checklist.md`
+- `README.md`
 - `scripts/check-version-sync.sh`
 - `scripts/test-check-version-sync.sh`
 - `.github/workflows/version-sync.yml` (only if your instance publishes plugin manifests)
 - `docs/plans/2.0-adoption-plan.md`
+- `.claude-plugin/plugin.json`
+- `.claude-plugin/marketplace.json`
+- `.codex-plugin/plugin.json`
 
 ### Protect
 - `docs/adr/` records the kit's own decisions; do not copy it over your instance's ADRs
+- Your own `AGENTS.md` and user context files: re-stamp and extend them by hand, do not overwrite them
 
 ---
 

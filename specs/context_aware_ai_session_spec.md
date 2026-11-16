@@ -1,17 +1,17 @@
 ---
-version: 1.5.0
+version: 2.0.0-beta.1
 context_type: specification
 document_type: technical_specification
 created: 2025-10-20
-last_updated: 2026-09-06
-status: active
+last_updated: 2026-11-16
+status: beta
 intended_audience: AI-assisted developers, system designers, prompt engineers, LLM-based tooling architects
 license: Open for adaptation and refinement
 ---
 
-# Context-Aware AI Session Flow Specification (v1.5.0)
+# Context-Aware AI Session Flow Specification (v2.0.0-beta.1)
 
-**Version:** 1.5.0 | **Updated:** 2026-09-06 | **Status:** Active
+**Version:** 2.0.0-beta.1 | **Updated:** 2026-11-16 | **Status:** Beta
 
 > This document contains the normative rules. For background reasoning, extended examples, end-to-end scenarios, and future enhancement notes, see [`docs/spec-rationale.md`](../docs/spec-rationale.md).
 
@@ -32,8 +32,9 @@ This specification defines how an AI assistant should maintain and adapt context
 | **Instructions** | Persistent context files (user context, project `AGENTS.md`) | Define WHO the user is, WHAT they're working on, HOW the AI should behave |
 | **Skills** | Reusable workflow artifacts (`skills/*/SKILL.md` + references) | Centralize create/validate/governance operational logic |
 | **Prompts/Queries** | Day-to-day requests within the instructed environment | Express user intent; prompt files may serve as composition entrypoints |
+| **Change specifications** | OpenSpec artifacts in the project repository (`openspec/specs/`, `openspec/changes/<id>/`) | Define WHAT the system must do and WHAT is changing now; see section 11 |
 
-Instructions create the **environment**. Skills provide canonical **workflow behavior**. Prompts express **immediate intent**.
+Instructions create the **environment**. Skills provide canonical **workflow behavior**. Prompts express **immediate intent**. Change specifications define the **contract** that implementation works against.
 
 ### 2.2 Normative Artifact Precedence
 
@@ -188,7 +189,7 @@ A compression checkpoint must preserve:
 User Context is always loaded first as the foundational identity/preference layer.
 
 **Step 2 — Detect Project Context**
-If the environment provides metadata, the assistant may suggest a project.
+If the environment provides metadata, the assistant may suggest a project. Where the OpenSpec CLI is available, the assistant **SHOULD** also run `openspec list --json` to find the OpenSpec root and the active changes (section 11).
 
 **Step 3 — Confirm or Request Project Selection**
 - Confident detection → assistant confirms and activates
@@ -319,12 +320,12 @@ Even when not explicitly confirming state, the assistant should internally verif
 
 ### 7.3 Phase Behavior Reference
 
-| Phase | Expected Assistant Behavior |
-|-------|-----------------------------|
-| Planning | Explore options, clarify requirements |
-| Implementation | Provide concrete solutions or code |
-| Debugging | Investigate issues and propose fixes |
-| Review | Evaluate, critique, and refine |
+| Phase | Expected Assistant Behavior | OpenSpec step (section 11) |
+|-------|-----------------------------|----------------------------|
+| Planning | Explore options, clarify requirements | Explore, then propose a change (proposal, spec deltas, design, tasks) |
+| Implementation | Provide concrete solutions or code | Apply an apply-ready change, task by task |
+| Debugging | Investigate issues and propose fixes | Fixes that change behavior go through a change like any other work |
+| Review | Evaluate, critique, and refine | `openspec validate --strict`; archive after review approval |
 
 ### 7.4 Refusing or Reversing Transitions
 
@@ -426,6 +427,7 @@ The following paths are stable by policy:
 | `skills/` | Canonical workflow skill artifacts |
 | `prompts/` | Composition entrypoints |
 | `docs/spec-rationale.md` | Spec companion (rationale, examples, future notes) |
+| `docs/adr/` | Architecture decision records, one file per decision |
 | Root `AGENTS.md` | Primary repository operational entrypoint |
 | Root `README.md` | Human-facing documentation |
 
@@ -472,7 +474,54 @@ Skill-first repositories should group canonical skills into clear operational fa
 
 ---
 
-## 11. Glossary
+## 11. Spec-Driven Change Workflow (OpenSpec)
+
+Kit-managed repositories use [OpenSpec](https://github.com/Fission-AI/OpenSpec) as the contract for what gets built. The kit owns *who and how* (user context, `AGENTS.md`, session state); OpenSpec owns *what the system must do* and *what is changing now*. Background: [`docs/spec-rationale.md`](../docs/spec-rationale.md) and ADR-001 to ADR-005 in [`docs/adr/`](../docs/adr/README.md).
+
+### 11.1 Repository Requirement
+
+- A kit-managed repository **MUST** contain an initialised `openspec/` directory and at least one OpenSpec tool integration.
+- The project `AGENTS.md` **MUST** include a spec-driven change workflow section naming the OpenSpec root, the active change and how each tool invokes OpenSpec (see `templates/AGENTS_template.md`).
+
+### 11.2 Implementation Gate
+
+- The Implementation phase **MUST** start only against an OpenSpec change that `openspec status --change <id> --json` reports as apply-ready.
+- If no apply-ready change exists for the requested work, the assistant **MUST** stop and offer to create or complete one instead of writing code. This is the no-change-no-code rule.
+- Work proceeds task by task from the change's `tasks.md`; a task is ticked only after its build and tests pass.
+
+### 11.3 Changes Without Behavior Impact
+
+- Every change goes through OpenSpec; there are no exemptions.
+- Changes with no behavior impact (documentation, refactoring, tooling) still get a change folder, marked with OpenSpec's `skip_specs: true`.
+
+### 11.4 Customisation
+
+- Generated `openspec-*` skills and commands **MUST NOT** be edited, because `openspec update` overwrites them.
+- Customisation **MUST** go through `openspec/config.yaml` (`context`, `rules`, `operations`). `context` entries **SHOULD** be short pointers (to `AGENTS.md`, the glossary, `docs/adr/`) rather than copies.
+
+### 11.5 Manual Mode
+
+- Surfaces that cannot run the OpenSpec CLI (for example chat-only assistants) are fully supported in **manual mode**: planning artifacts (proposal, spec deltas, design, tasks) may be written anywhere from templates generated out of OpenSpec's shipped schema.
+- Validate, apply and archive **MUST** happen in a repository with the CLI. The implementation gate in 11.2 applies unchanged.
+
+### 11.6 Minimum Version
+
+- The minimum supported OpenSpec version is **1.13.2**.
+- Older versions **MUST** be reported as unsupported. Newer versions **SHOULD** produce a warning and **MUST NOT** fail a check.
+- The minimum is reviewed every three months.
+
+### 11.7 Archive Timing
+
+- A change **MUST** be archived as the last commit on its feature branch, after review approval, so spec deltas and code land in one pull request.
+- arc42 and ADR updates that follow from the change happen on the same branch. Design decisions that are hard to reverse, would surprise a newcomer, and are a real trade-off are promoted to `docs/adr/`.
+
+### 11.8 Telemetry
+
+- OpenSpec sends anonymous usage statistics by default. Kit documentation **MUST** name the opt-out (`openspec config set telemetry.enabled false`, or `OPENSPEC_TELEMETRY=0`), and kit tooling **MUST** ask before enabling or leaving it on.
+
+---
+
+## 12. Glossary
 
 | Term | Definition |
 |------|-----------|
@@ -487,4 +536,7 @@ Skill-first repositories should group canonical skills into clear operational fa
 | **State Transition** | A deliberate change in one or more session elements. |
 | **Default Profile** | A set of recommended initial values (role, phase, style, tone) for a specific project. |
 | **State Confirmation** | A summary communicated by the assistant verifying the active session context. |
+| **OpenSpec change** | A folder under `openspec/changes/<id>/` holding a proposal, spec deltas, design and tasks for one unit of work. |
+| **Apply-ready** | The state in which `openspec status --change <id> --json` reports that a change may be implemented. |
+| **Manual mode** | Using OpenSpec planning templates on a surface without the CLI, then validating, applying and archiving in a repository that has it. |
 | **Reduced variance** | The property of producing consistent conventions, reasoning patterns, and response structure under the same session context. LLMs are probabilistic; this principle targets predictable, comparable outputs rather than guaranteed identical ones. |
