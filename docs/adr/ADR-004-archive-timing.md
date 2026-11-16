@@ -16,4 +16,4 @@ The change is archived as the **last commit on the feature branch, after review 
 
 - Spec deltas and code land in one pull request.
 - arc42 and ADR updates happen on the same branch. `operations.archive` lists the arc42 sections to update and promotes `design.md` decisions that pass the ADR test to `docs/adr/` ([ADR-006](ADR-006-adr-home.md)).
-- `05-human-in-the-loop` (later `ack-loop-commit`) performs the archive step once review is approved.
+- `05-human-in-the-loop` (later `ack-loop-05-commit`) performs the archive step once review is approved.

@@ -10,8 +10,19 @@ The implementation loop lives in `prompts/loop/` as five numbered prompt files, 
 
 ## Decision
 
-- The loop prompts become **user-invoked skills**: `ack-loop-readiness`, `ack-loop-implement`, `ack-loop-review`, `ack-loop-learnings`, `ack-loop-commit`.
+- The loop prompts become **user-invoked skills**, numbered `01` to `05` in run order, the same numbers as today's prompt files:
+
+  | Today | 2.0 skill |
+  | --- | --- |
+  | `prompts/loop/01-readiness-check.prompt.md` | `ack-loop-01-readiness` |
+  | `prompts/loop/02-implementation.prompt.md` | `ack-loop-02-implement` |
+  | `prompts/loop/03-self-review.prompt.md` | `ack-loop-03-review` |
+  | `prompts/loop/04-learnings.prompt.md` | `ack-loop-04-learnings` (optional step) |
+  | `prompts/loop/05-human-in-the-loop.prompt.md` | `ack-loop-05-commit` |
+
 - The `prompts/skills/` wrappers are **removed**.
+
+The numbers were added on 2026-11-16, before this ADR was merged. Skill pickers list skills alphabetically, so numbered names keep the loop in run order and match the numbered prompt files users already know.
 
 ## Consequences
 
