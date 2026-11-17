@@ -15,23 +15,23 @@ This directory is the canonical location for repository skill instances.
 
 ## Current Skill Inventory
 ### Create Workflows
-- `create-usercontext-instructions` (`references/`)
+- `ack-create-user-context` (`references/`)
 - `create-project-instructions` (`references/`)
 - `create-agents-md` (`references/`)
-- `create-skill` (`references/`)
+- `ack-create-skill` (`references/`)
 
 ### Validate Workflows
-- `validate-usercontext-instructions` (`references/`)
+- `ack-validate-user-context` (`references/`)
 - `validate-project-instructions` (`references/`)
 - `validate-agents-md` (`references/`)
-- `validate-skill` (`references/`)
+- `ack-validate-skill` (`references/`)
 
 ### Checkpoint Workflows
-- `create-checkpoint` (`references/`)
-- `restore-checkpoint` (`references/`)
+- `ack-create-checkpoint` (`references/`)
+- `ack-restore-checkpoint` (`references/`)
 
 ### Governance Workflows
-- `repository-drift-control` (no `references/` directory)
+- `ack-drift-control` (no `references/` directory)
 
 All current skills include:
 - `SKILL.md`

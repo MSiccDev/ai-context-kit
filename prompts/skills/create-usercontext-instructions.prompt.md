@@ -8,7 +8,7 @@ description: 'Composition wrapper for creating user-context instruction files us
 Create a complete user-context instruction file by delegating workflow logic to the canonical skill.
 
 ## Canonical Skill
-- `skills/create-usercontext-instructions/SKILL.md`
+- `skills/ack-create-user-context/SKILL.md`
 
 ## Required Inputs
 - Target identity label and role/title
@@ -17,14 +17,14 @@ Create a complete user-context instruction file by delegating workflow logic to 
 - Desired output filename/path
 
 ## Wrapper Procedure
-1. Load and apply `skills/create-usercontext-instructions/SKILL.md`.
+1. Load and apply `skills/ack-create-user-context/SKILL.md`.
 2. Follow skill-local references in this order:
-   - `skills/create-usercontext-instructions/references/discovery-phases.md`
-   - `skills/create-usercontext-instructions/references/output-schema.md`
-   - `skills/create-usercontext-instructions/references/output-format.md`
-   - `skills/create-usercontext-instructions/references/quality-checklist.md`
+   - `skills/ack-create-user-context/references/discovery-phases.md`
+   - `skills/ack-create-user-context/references/output-schema.md`
+   - `skills/ack-create-user-context/references/output-format.md`
+   - `skills/ack-create-user-context/references/quality-checklist.md`
 3. If structured metadata is requested, also apply:
-   - `skills/create-usercontext-instructions/references/json-metadata-schema.md`
+   - `skills/ack-create-user-context/references/json-metadata-schema.md`
 
 ## Output Intent
 - Produce one complete `*.instructions.md` artifact.
