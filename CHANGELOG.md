@@ -26,6 +26,8 @@ When a new version is released:
   | `create-checkpoint` | `ack-create-checkpoint` |
   | `restore-checkpoint` | `ack-restore-checkpoint` |
 
+  The repo-local `.agents/skills/` symlinks are renamed and retargeted to match, so Codex run inside a checkout still discovers all eleven skills.
+
   Invoke them by the new names, for example `/ai-context-kit:ack-create-user-context` in Claude Code or `$ack-drift-control` in Codex. The four AGENTS.md skills keep their names until they are merged into `ack-create-agents-md` and `ack-validate-agents-md` (ADR-009). The `prompts/skills/` wrapper files keep their names until the wrappers are removed (ADR-010)
 
 ### Changed
