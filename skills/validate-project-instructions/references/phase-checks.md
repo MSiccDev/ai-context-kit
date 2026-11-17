@@ -6,6 +6,7 @@ Execute these phases in order.
 Check:
 - target is an `AGENTS.md` file
 - required AGENTS core sections exist
+- Scope And Precedence For AGENTS.md Files is present and states all four rules (applies to subtree, deepest wins, root global and nested folder-specific, ask when unresolved)
 - heading order and structure are coherent
 
 ## Phase 2: Session-State And Command Policy Validation

@@ -41,6 +41,11 @@ When a new version is released:
 - Spec section 11.2, the glossary and `templates/AGENTS_template.md` name `openspec instructions apply --change <id> --json` (`state: "ready"`) as the apply-ready check. The previous text named `openspec status`, which has no apply-ready field. ADR-001 gets a dated correction note
 - `AGENTS.md` documents the git flow branch model under Repository Context: features merge into `development`; `release/<version>` branches start from `development` and `hotfix/<version>` branches start from `main`; both merge into `main` and are then brought back into `development`. `main` is the production release branch, so releases are not tagged
 
+### Fixed
+- `create-project-instructions` now requires the `Scope And Precedence For AGENTS.md Files` section, in template order with the template's four rules: it is in the output schema, the quality checklist and discovery. `validate-project-instructions` checks for it
+- `AGENTS.validation.md` stated 100/100, but its phase scores add up to 99. It now states 99/100 with the sum and a dated correction; the status stays PASS
+- Known gap, not yet fixed: neither AGENTS.md creator writes the `Spec-Driven Change Workflow` section the template requires, and neither validator checks it. The merged `ack-create-agents-md` and `ack-validate-agents-md` close it (proposal in `docs/plans/agents-md-skill-merge.md`)
+
 ---
 
 ## [2.0.0-beta.1] - 2026-11-16
