@@ -485,7 +485,7 @@ Kit-managed repositories use [OpenSpec](https://github.com/Fission-AI/OpenSpec) 
 
 ### 11.2 Implementation Gate
 
-- The Implementation phase **MUST** start only against an OpenSpec change that `openspec status --change <id> --json` reports as apply-ready.
+- The Implementation phase **MUST** start only against an apply-ready OpenSpec change: one for which `openspec instructions apply --change <id> --json` reports `state` as `ready`. (`blocked` means planning artifacts are missing; `all_done` means every task is ticked.)
 - If no apply-ready change exists for the requested work, the assistant **MUST** stop and offer to create or complete one instead of writing code. This is the no-change-no-code rule.
 - Work proceeds task by task from the change's `tasks.md`; a task is ticked only after its build and tests pass.
 
@@ -537,6 +537,6 @@ Kit-managed repositories use [OpenSpec](https://github.com/Fission-AI/OpenSpec) 
 | **Default Profile** | A set of recommended initial values (role, phase, style, tone) for a specific project. |
 | **State Confirmation** | A summary communicated by the assistant verifying the active session context. |
 | **OpenSpec change** | A folder under `openspec/changes/<id>/` holding a proposal, spec deltas, design and tasks for one unit of work. |
-| **Apply-ready** | The state in which `openspec status --change <id> --json` reports that a change may be implemented. |
+| **Apply-ready** | The state in which `openspec instructions apply --change <id> --json` reports `state: "ready"`: every artifact the change needs for apply is done, so its tasks may be implemented. |
 | **Manual mode** | Using OpenSpec planning templates on a surface without the CLI, then validating, applying and archiving in a repository that has it. |
 | **Reduced variance** | The property of producing consistent conventions, reasoning patterns, and response structure under the same session context. LLMs are probabilistic; this principle targets predictable, comparable outputs rather than guaranteed identical ones. |

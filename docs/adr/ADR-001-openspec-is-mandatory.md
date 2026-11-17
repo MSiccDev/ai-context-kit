@@ -29,6 +29,10 @@ Every change in a kit-managed repo goes through OpenSpec, with no exemptions.
 - Chat-only surfaces cannot run the CLI; [ADR-003](ADR-003-manual-mode-is-fully-supported.md) covers them.
 - Kit docs name OpenSpec's telemetry opt-out, and the installer asks about it.
 
+## Correction (2026-11-16)
+
+The Decision names `openspec status --change <id> --json` as the apply-ready check. Testing against OpenSpec 1.13.2 and 2.0.0 showed that `status` has no apply-ready field: it reports per-artifact status and `applyRequires`. The command that reports it is `openspec instructions apply --change <id> --json`, whose `state` is `blocked`, `ready` or `all_done`. The decision itself is unchanged; spec section 11.2 and the loop prompts use the correct command.
+
 ## Alternatives considered
 
 - **OpenSpec as an option:** rejected, for the two-path reason above.
