@@ -8,7 +8,7 @@ description: 'Composition wrapper for creating project-context AGENTS.md files u
 Create a complete project-context `AGENTS.md` artifact by delegating workflow logic to the canonical skill.
 
 ## Canonical Skill
-- `skills/create-project-instructions/SKILL.md`
+- `skills/ack-create-agents-md/SKILL.md`, in root mode. The former `create-project-instructions` skill was merged into it (ADR-009).
 
 ## Required Inputs
 - Project name/description/current phase
@@ -17,14 +17,14 @@ Create a complete project-context `AGENTS.md` artifact by delegating workflow lo
 - Objectives, testing strategy, documentation standards
 
 ## Wrapper Procedure
-1. Load and apply `skills/create-project-instructions/SKILL.md`.
+1. Load and apply `skills/ack-create-agents-md/SKILL.md`.
 2. Follow skill-local references in this order:
-   - `skills/create-project-instructions/references/discovery-phases.md`
-   - `skills/create-project-instructions/references/output-schema.md`
-   - `skills/create-project-instructions/references/command-template.md`
-   - `skills/create-project-instructions/references/role-template.md`
-   - `skills/create-project-instructions/references/output-format.md`
-   - `skills/create-project-instructions/references/quality-checklist.md`
+   - `skills/ack-create-agents-md/references/discovery-phases.md`
+   - `skills/ack-create-agents-md/references/root-schema.md` (root mode) or `skills/ack-create-agents-md/references/nested-schema.md` (nested mode)
+   - `skills/ack-create-agents-md/references/command-template.md`
+   - `skills/ack-create-agents-md/references/role-template.md`
+   - `skills/ack-create-agents-md/references/output-format.md`
+   - `skills/ack-create-agents-md/references/quality-checklist.md`
 
 ## Output Intent
 - Produce one complete `AGENTS.md` artifact.

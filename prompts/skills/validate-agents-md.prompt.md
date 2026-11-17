@@ -8,7 +8,7 @@ description: 'Composition wrapper for validating AGENTS.md files using canonical
 Validate `AGENTS.md` files by delegating validation logic to the canonical skill.
 
 ## Canonical Skill
-- `skills/validate-agents-md/SKILL.md`
+- `skills/ack-validate-agents-md/SKILL.md`
 
 ## Required Inputs
 - Target `AGENTS.md` path
@@ -16,11 +16,11 @@ Validate `AGENTS.md` files by delegating validation logic to the canonical skill
 - Policy expectations for operational contract checks
 
 ## Wrapper Procedure
-1. Load and apply `skills/validate-agents-md/SKILL.md`.
+1. Load and apply `skills/ack-validate-agents-md/SKILL.md`.
 2. Follow skill-local references in this order:
-   - `skills/validate-agents-md/references/phase-checks.md`
-   - `skills/validate-agents-md/references/report-contract.md`
-   - `skills/validate-agents-md/references/scoring.md`
+   - `skills/ack-validate-agents-md/references/phase-checks.md`
+   - `skills/ack-validate-agents-md/references/report-contract.md`
+   - `skills/ack-validate-agents-md/references/scoring.md`
 
 ## Output Intent
 - Produce a deterministic validation report.

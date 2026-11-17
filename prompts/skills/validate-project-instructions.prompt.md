@@ -8,7 +8,7 @@ description: 'Composition wrapper for validating project-context AGENTS.md files
 Validate project-context `AGENTS.md` files by delegating validation logic to the canonical skill.
 
 ## Canonical Skill
-- `skills/validate-project-instructions/SKILL.md`
+- `skills/ack-validate-agents-md/SKILL.md`, in root mode. The former `validate-project-instructions` skill was merged into it (ADR-009).
 
 ## Required Inputs
 - Target `AGENTS.md` file
@@ -16,11 +16,11 @@ Validate project-context `AGENTS.md` files by delegating validation logic to the
 - Validation strictness preferences (if any)
 
 ## Wrapper Procedure
-1. Load and apply `skills/validate-project-instructions/SKILL.md`.
+1. Load and apply `skills/ack-validate-agents-md/SKILL.md`.
 2. Follow skill-local references in this order:
-   - `skills/validate-project-instructions/references/phase-checks.md`
-   - `skills/validate-project-instructions/references/report-contract.md`
-   - `skills/validate-project-instructions/references/scoring.md`
+   - `skills/ack-validate-agents-md/references/phase-checks.md`
+   - `skills/ack-validate-agents-md/references/report-contract.md`
+   - `skills/ack-validate-agents-md/references/scoring.md`
 
 ## Output Intent
 - Produce a deterministic validation report.

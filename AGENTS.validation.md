@@ -3,80 +3,86 @@
 # AGENTS.md Validation Report
 
 **File:** `AGENTS.md`  
-**Validated:** 2026-09-06; re-checked 2026-11-16 for the spec 2.0.0-beta.1 changes only (full re-run in 2.0 rollout step 5)  
-**Validator:** `skills/validate-agents-md`
+**Mode:** root  
+**Validated:** 2026-11-17 (full re-run; replaces the 2026-09-06 report and its 2026-11-16 delta re-check)  
+**Validator:** `skills/ack-validate-agents-md`  
+**Phase 3 source:** `openspec list --json` (OpenSpec 1.13.2): `root: null`, code `no_openspec_root`
 
 ## Overall Status + Compliance Score
-- **Status:** PASS
-- **Compliance Score:** 99/100 (Phase 1 20 + Phase 2 35 + Phase 3 19 + Phase 4 15 + Phase 5 10)
-- **Correction (2026-11-17):** this report previously stated 100/100, which did not match its own phase scores. The status is unchanged: 99 is in the PASS band (90-100).
+- **Status:** FAIL (one critical finding; the score alone would be PASS WITH WARNINGS)
+- **Compliance Score:** 88/100 (Phase 1 15 + Phase 2 25 + Phase 3 0 + Phase 4 20 + Phase 5 14 + Phase 6 14)
 
-## Phase 1: Core Presence & Structure
-- **Score:** 20/20
-- **Status:** PASS
-- Target file exists and is structurally complete.
-- `<!-- spec_version: 2.0.0-beta.1 -->` comment is present and current — no version warning.
-- Purpose, precedence model, and repository map are explicitly defined.
-- Heading structure is scannable and consistent.
-
-## Phase 2: Operational Contract Completeness
-- **Score:** 35/35
-- **Status:** PASS
-- Session-state summary is explicit.
-- No-silent-transitions rule is present.
-- Ambiguity rule is present.
-- Command namespace policy and `/ack.*` command reference are complete.
-- Default state values are explicitly defined.
-- Formatting/path stability rules are present.
-- Drift-control rule is present.
-- Nested `AGENTS.md` precedence policy is present.
-- Spec-driven change workflow section is present (spec section 11.1, added to the template in 2.0.0-beta.1).
-
-## Phase 3: Clarity, Actionability & Conciseness
-- **Score:** 19/20
-- **Status:** PASS
-- Guidance is actionable and testable.
-- No conflicting policy statements detected.
-- Spec duplication is controlled.
-- Minor opportunity: tighten a few descriptive lines in `Repository Project Context` to keep the operational profile lean.
-
-## Phase 4: Portability & Neutrality
+## Phase 1: Structure And Core Sections
 - **Score:** 15/15
 - **Status:** PASS
-- Language remains provider-neutral.
-- Guidance is runtime/tool portable.
-- No mandatory single-runtime assumptions found.
+- All eleven template sections are present, in template order.
+- `<!-- spec_version: 2.0.0-beta.1 -->` is present and current.
+- Headings are scannable.
 
-## Phase 5: Link Integrity & Repository Alignment
-- **Score:** 10/10
+## Phase 2: Operational Contract
+- **Score:** 25/25
 - **Status:** PASS
-- Relative links in `AGENTS.md` resolve.
-- Referenced paths exist.
-- Canonical path guidance aligns with repository reality (AGENTS-first posture).
-- New `docs/adr/` repository map entry resolves.
+- The session-state summary lists all six elements; no-silent-transitions and ambiguity rules are present.
+- The Default State table has all six elements.
+- The namespaced command reference has all seven `/ack.*` commands, with an alias policy.
+- Scope And Precedence For AGENTS.md Files states all four rules.
+- The drift-control rule lists the dependent artifacts.
+
+## Phase 3: Spec-Driven Workflow
+- **Score:** 0/10
+- **Status:** FAIL (critical)
+- The section is present, and its fields agree with the repository: the root is stated as "not yet initialised", the active change as `none`, the minimum version as `1.13.2`.
+- **Critical:** the repository has no OpenSpec root (spec section 11.1). `openspec list --json` returns `root: null` with code `no_openspec_root`. Per decision A in `docs/plans/agents-md-skill-merge.md`, this is critical with no exception, even though `AGENTS.md` states that adoption is deferred to rollout step 6.
+- Warning: the four No Change, No Code rules from the template are not stated; the section has a deferral paragraph instead.
+- Enhancement: there is no Invoking OpenSpec table.
+
+## Phase 4: Project Context
+- **Score:** 20/20
+- **Status:** PASS
+- All twelve Repository Project Context subsections are present with substantive content.
+- Four roles, each with all four role-table columns.
+
+## Phase 5: Clarity And Conciseness
+- **Score:** 14/15
+- **Status:** PASS
+- Guidance is actionable and testable, with no conflicting rules and no copied specification text.
+- Minor: `Repository Project Context` could be tighter; some lines describe rather than instruct.
+
+## Phase 6: Portability, Links And Alignment
+- **Score:** 14/15
+- **Status:** PASS
+- Provider-neutral wording, with no mandatory single-runtime assumptions.
+- All 18 relative links and all 32 backticked repository paths resolve.
+- Minor: `Repository Context` → Key paths omits `docs/adr/`, which spec section 10.2 lists as a canonical path.
 
 ## Summary (Strengths/Critical/Warnings/Enhancements)
 ### Strengths
-- Clear AGENTS-first authority model with explicit precedence.
-- Strong operational contract (state, transitions, command namespace).
-- High repository alignment and link integrity.
+- Complete operational contract and project context, in template order.
+- The spec-driven section states the repository's real OpenSpec state instead of claiming a setup that doesn't exist.
+- High link and path integrity.
 
 ### Critical Issues (Must Fix)
-- None.
+- No OpenSpec root. Fixed by rollout step 6, which runs `openspec init` in this repository.
 
 ### Warnings (Should Fix)
-- Spec section 11.1 requires an initialised `openspec/`, which this repository does not have yet. `AGENTS.md` states this and defers adoption to 2.0 rollout step 6 (dogfood). The current `validate-agents-md` rubric does not score OpenSpec yet, so the score is unchanged; the OpenSpec check arrives with the merged `ack-validate-agents-md` (ADR-009).
+- The Spec-Driven Change Workflow section lacks the four No Change, No Code rules.
 
 ### Enhancements (Optional)
-- None.
+- Add an Invoking OpenSpec table once `openspec init` has configured tools.
+- Add `docs/adr/` to Key paths.
+- Tighten descriptive lines in `Repository Project Context`.
 
-## Recommendations (Immediate + Suggested)
+## Recommendations (Immediate + Suggested + Migration Path)
 ### Immediate
-1. No blocking changes required.
+1. None that can land before rollout step 6; the critical finding is resolved by `openspec init`.
 
 ### Suggested
-1. Keep validation re-runs coupled with future AGENTS structural edits.
-2. If section growth continues, split non-operational detail into referenced docs while keeping AGENTS policy-focused.
+1. Add the four No Change, No Code rules and the Invoking OpenSpec table in the same change that runs `openspec init`.
+2. Add `docs/adr/` to Key paths.
+
+### Migration Path
+1. Rollout step 6: run `openspec init` here, fill the spec-driven section from `openspec list --json`, and re-run this validator. The status should then become PASS.
 
 ## Example Fixes for recurring failures
-- No recurring failures detected in this run.
+- Missing OpenSpec root: run `openspec init --tools <ids>`, then set `OpenSpec root: openspec/` in the spec-driven section.
+- Missing No Change, No Code rules: copy the four rules from `templates/AGENTS_template.md` → `### No Change, No Code`.
