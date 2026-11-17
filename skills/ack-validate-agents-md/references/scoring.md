@@ -35,7 +35,7 @@ Each critical finding makes the status FAIL, whatever the score:
 | Section missing | Critical |
 | No OpenSpec root | Critical |
 | Stated root does not match `root.path` | Critical |
-| Active change not in the list, or unnamed while exactly one change is active | Warning |
+| Active change is neither `none` nor an id in the list, or is `none` while exactly one change is active | Warning |
 | Minimum version is not `1.13.2` | Warning |
 | No Change, No Code rules incomplete | Warning |
 | `openspec/config.yaml` `context` does not point to `AGENTS.md` | Warning |

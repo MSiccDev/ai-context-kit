@@ -22,7 +22,7 @@ When a new version is released:
   | `validate-agents-md`, `validate-project-instructions` | `ack-validate-agents-md` |
 
   - `ack-create-agents-md` has **root** and **nested** modes, chosen from the target path. Root mode writes every section of `templates/AGENTS_template.md`, now including `Scope And Precedence For AGENTS.md Files` and `Spec-Driven Change Workflow` (filled from `openspec list --json`). Nested mode writes five folder-specific sections and points to the root file
-  - `ack-validate-agents-md` scores both modes with one six-phase rubric. It adds a spec-driven phase, lists critical findings that fail a file whatever its score (including a repository with no OpenSpec root), and requires phase scores to add up to the reported total
+  - `ack-validate-agents-md` scores both modes with one six-phase rubric. It accepts `Active change: none` when no change is active. It adds a spec-driven phase, lists critical findings that fail a file whatever its score (including a repository with no OpenSpec root), and requires phase scores to add up to the reported total
   - Both skills are at version `2.0.0`. There are no aliases for the old names; the four `prompts/skills/` wrappers now point to the merged skills, and the `.agents/skills/` links are updated
   - `AGENTS.validation.md` is fully re-run with `ack-validate-agents-md`. It now reports **FAIL** (88/100) with one critical finding: this repository has no OpenSpec root yet, which rollout step 6 fixes
   - Files written by the old creators lack the `Spec-Driven Change Workflow` section, and files from `create-project-instructions` may lack `Scope And Precedence For AGENTS.md Files`. Validate them with `ack-validate-agents-md` and add the missing sections from the template

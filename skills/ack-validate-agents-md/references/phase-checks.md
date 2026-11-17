@@ -15,7 +15,7 @@ Run `openspec list --json`, or read `openspec/` if the CLI is unavailable.
 - The `Spec-Driven Change Workflow` section is present.
 - The repository has an OpenSpec root.
 - The stated OpenSpec root matches `root.path`.
-- The stated active change is in the list of active changes; if exactly one change is active, the section names it.
+- The stated active change is `none` or an id in the list of active changes. `none` is valid when no change is active; if exactly one change is active, the section names it. The membership check applies only to real change ids.
 - The minimum version is `1.13.2`.
 - The four No Change, No Code rules are complete.
 - If `openspec/config.yaml` has a `context` field, it points to `AGENTS.md` rather than copying its content.
