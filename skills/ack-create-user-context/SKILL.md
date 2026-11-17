@@ -3,8 +3,10 @@ name: "ack-create-user-context"
 description: "Create complete user-context instruction files using a structured discovery workflow and repository format rules."
 version: "1.0.0"
 allowed-tools: [Read, Write, Edit]
+disable-model-invocation: true
 metadata:
   workflow_type: "generation"
+  invocation: "user"
 ---
 
 # Create User Context Instructions

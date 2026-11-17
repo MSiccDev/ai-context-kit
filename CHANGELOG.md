@@ -14,6 +14,13 @@ When a new version is released:
 ## [Unreleased]
 
 ### Breaking
+- Every skill declares who may start it (2.0 adoption plan, user versus model invocation split; Part 2 rollout step 4):
+  - `metadata.invocation: "user"` for the twelve create, validate, governance and loop skills, which also carry Claude Code's `disable-model-invocation: true`, so Claude Code no longer loads them on its own; `/name` still runs them
+  - `metadata.invocation: "model"` for `ack-create-checkpoint` and `ack-restore-checkpoint`, which the assistant may still start on its own
+  - `disable-model-invocation` is outside the Agent Skills spec: claude.ai and the Skills API reject it on upload, so remove that line from a user-invoked skill before uploading it. Pasting a skill or adding it as project knowledge is unaffected
+  - Codex sidecars (`agents/openai.yaml`) are not shipped; the 2.0 installer generates them from `metadata.invocation`. Until then Codex may still select any skill on its own
+  - `templates/skill_template/SKILL.md` and `ack-create-skill` require `metadata.invocation`, pair it with `disable-model-invocation`, and forbid a skill from starting a user-invoked skill. `ack-validate-skill` warns on a missing or invalid value, a mismatched pair, or a skill that starts a user-invoked one
+  - The five loop skills' validation reports drop their invocation deduction (now 99/100, and 100/100 for learnings)
 - The implementation loop prompts are now skills, and `prompts/` is gone (ADR-010; 2.0 adoption plan, Part 2 rollout step 4):
 
   | Before | After |

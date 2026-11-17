@@ -3,8 +3,10 @@ name: "ack-validate-agents-md"
 description: "Validate root or nested AGENTS.md files with one scored rubric: structure, operational contract, spec-driven change workflow, project context, clarity, and portability and links. Use before accepting any AGENTS.md change."
 version: "2.0.0"
 allowed-tools: [Read, Write, Bash]
+disable-model-invocation: true
 metadata:
   workflow_type: "validation"
+  invocation: "user"
 ---
 
 # Validate AGENTS.md

@@ -3,9 +3,11 @@ name: "ack-loop-01-readiness"
 description: "Implementation loop step 01: confirm the target OpenSpec change is apply-ready, pick its next task group, and report readiness before any code is written. Use at the start of every loop."
 version: "1.0.0"
 allowed-tools: [Read, Bash]
+disable-model-invocation: true
 metadata:
   workflow_type: "loop"
   loop_step: "01"
+  invocation: "user"
 ---
 
 # Loop 01: Readiness Check

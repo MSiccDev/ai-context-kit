@@ -3,6 +3,8 @@ name: "ack-create-checkpoint"
 description: "Capture the current session state as a checkpoint artifact per spec section 4.4. Use when the user signals session end or explicitly requests a checkpoint. Do not use mid-session or without user approval."
 version: "1.0.0"
 allowed-tools: [Read, Write]
+metadata:
+  invocation: "model"
 ---
 
 # Create Checkpoint

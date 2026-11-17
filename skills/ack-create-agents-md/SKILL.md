@@ -3,8 +3,10 @@ name: "ack-create-agents-md"
 description: "Create AGENTS.md files: the full root file (operational contract, spec-driven change workflow, project context) or a nested file that refines the root for one folder. Use when adding or regenerating any AGENTS.md."
 version: "2.0.0"
 allowed-tools: [Read, Write, Edit, Bash]
+disable-model-invocation: true
 metadata:
   workflow_type: "generation"
+  invocation: "user"
 ---
 
 # Create AGENTS.md

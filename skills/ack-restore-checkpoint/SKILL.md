@@ -3,6 +3,8 @@ name: "ack-restore-checkpoint"
 description: "Load a checkpoint artifact at session start and restore the session state it describes per spec section 4.4 restore rules. Use only when a checkpoint file is explicitly provided at the beginning of a session."
 version: "1.0.0"
 allowed-tools: [Read]
+metadata:
+  invocation: "model"
 ---
 
 # Restore Checkpoint

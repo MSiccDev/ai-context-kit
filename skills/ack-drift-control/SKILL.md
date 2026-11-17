@@ -3,9 +3,11 @@ name: "ack-drift-control"
 description: "Enforce coordinated updates across specs, templates, skills, samples, and docs to prevent repository guidance drift."
 version: "1.0.0"
 allowed-tools: [Read, Edit]
+disable-model-invocation: true
 metadata:
   source_docs: "AGENTS.md, README.md, specs/context_aware_ai_session_spec.md"
   workflow_type: "governance"
+  invocation: "user"
 ---
 
 # Repository Drift Control

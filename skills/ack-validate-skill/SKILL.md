@@ -3,8 +3,10 @@ name: "ack-validate-skill"
 description: "Validate SKILL.md artifacts for schema, quality, safety, portability, and scoring compliance."
 version: "1.0.0"
 allowed-tools: [Read, Write]
+disable-model-invocation: true
 metadata:
   workflow_type: "validation"
+  invocation: "user"
 ---
 
 # Validate Skill

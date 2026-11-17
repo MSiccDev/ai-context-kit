@@ -3,9 +3,11 @@ name: "ack-loop-05-commit"
 description: "Implementation loop step 05: present a commit-readiness summary (change progress, review result, door type, blast radius) and checklist, commit only on explicit go-ahead, and archive the OpenSpec change as the last commit after review approval. Use to close each loop."
 version: "1.0.0"
 allowed-tools: [Read, Bash]
+disable-model-invocation: true
 metadata:
   workflow_type: "loop"
   loop_step: "05"
+  invocation: "user"
 ---
 
 # Loop 05: Human In The Loop

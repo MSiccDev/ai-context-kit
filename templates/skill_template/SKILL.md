@@ -3,9 +3,11 @@ name: "example-skill"
 description: "Briefly describe what this skill does and when it should be used."
 version: "1.0.0"
 allowed-tools: [Read]
+disable-model-invocation: true
 license: "Optional license identifier"
 compatibility: "Optional environment/runtime requirements."
 metadata:
+  invocation: "user"
   owner: "Optional owner"
   domain: "Optional domain"
 ---
@@ -56,5 +58,9 @@ Describe the capability this skill provides and the problem it solves.
 - 1-500 characters.
 - Use only for real environment constraints.
 - `metadata` (optional): map of string keys to string values.
+- `metadata.invocation` (required by this kit): `"user"` when only the user may start the skill (workflows with side effects or a fixed order, such as create, validate, governance and loop skills), or `"model"` when the assistant may start it on its own (for example, proposing a checkpoint at session end).
+- `disable-model-invocation` (Claude Code only): `true` exactly when `metadata.invocation` is `"user"`; omit it otherwise. It stops Claude Code from loading the skill on its own. It is outside the Agent Skills spec, so remove this one line before uploading the skill to claude.ai or the Skills API, which reject unknown keys.
+- Codex reads invocation policy from a separate `agents/openai.yaml` file, which the kit installer generates from `metadata.invocation`; do not write it by hand.
+- A user-invoked skill is never started by another skill; a skill may only tell the user which skill to run next.
 - `version` (optional): semver string (e.g. `"1.0.0"`). Increment when skill behavior changes.
 - `allowed-tools` (optional): YAML flow list of tool names this skill may invoke (e.g. `[Read, Write, Edit]`).

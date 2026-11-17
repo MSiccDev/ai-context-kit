@@ -3,9 +3,11 @@ name: "ack-loop-02-implement"
 description: "Implementation loop step 02: implement the approved task group of an OpenSpec change task by task on a feature branch, ticking each task only after its build and tests pass. Use after an approved readiness report, or to fix blocked review findings."
 version: "1.0.0"
 allowed-tools: [Read, Write, Edit, Bash]
+disable-model-invocation: true
 metadata:
   workflow_type: "loop"
   loop_step: "02"
+  invocation: "user"
 ---
 
 # Loop 02: Implementation
