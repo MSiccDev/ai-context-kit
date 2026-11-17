@@ -216,17 +216,17 @@ Operational workflow authority is skill-first:
 > **Validation scope:** Validation scores reflect structural compliance with the spec format as assessed by an AI model against a structured scoring rubric intended to be applied consistently. They do not guarantee real-world session effectiveness or consistent LLM behavior across providers. Treat scores as a structural checklist result, not a quality certification.
 
 ### Available Skills
-- `skills/create-usercontext-instructions/`
+- `skills/ack-create-user-context/`
 - `skills/create-project-instructions/`
 - `skills/create-agents-md/`
-- `skills/validate-usercontext-instructions/`
+- `skills/ack-validate-user-context/`
 - `skills/validate-project-instructions/`
 - `skills/validate-agents-md/`
-- `skills/repository-drift-control/`
-- `skills/create-skill/`
-- `skills/validate-skill/`
-- `skills/create-checkpoint/`
-- `skills/restore-checkpoint/`
+- `skills/ack-drift-control/`
+- `skills/ack-create-skill/`
+- `skills/ack-validate-skill/`
+- `skills/ack-create-checkpoint/`
+- `skills/ack-restore-checkpoint/`
 
 ### Invoking Skills
 
@@ -278,7 +278,7 @@ If paths must change, update the specification and README first, then adjust ski
 
 1. **Create Your User Context Artifact**
    - **Manual (canonical):** Copy `templates/usercontext_template.instructions.md`, fill in your details, and save as `yourname_usercontext.instructions.md`
-   - **Skill:** Use `skills/create-usercontext-instructions/SKILL.md` to generate your user context file
+   - **Skill:** Use `skills/ack-create-user-context/SKILL.md` to generate your user context file
 
 2. **Create Project AGENTS Context**
    - **Manual (canonical):** Copy `templates/AGENTS_template.md` and define your project context
@@ -286,7 +286,7 @@ If paths must change, update the specification and README first, then adjust ski
    - Save as `AGENTS.md` in your project root (or scoped nested `AGENTS.md` where needed)
 
 3. **Validate Artifacts**
-   - Use `skills/validate-usercontext-instructions/SKILL.md` for user context files
+   - Use `skills/ack-validate-user-context/SKILL.md` for user context files
    - Use `skills/validate-agents-md/SKILL.md` for `AGENTS.md`
    - Use `skills/validate-project-instructions/SKILL.md` when validating project-context `AGENTS.md` artifacts
 
@@ -367,23 +367,23 @@ claude --plugin-dir ./path/to/ai-context-kit
 Skills are namespaced to the plugin name. Inside a session:
 
 ```
-/ai-context-kit:create-usercontext-instructions
+/ai-context-kit:ack-create-user-context
 /ai-context-kit:validate-agents-md
 ```
 
 | Skill | What it does |
 |-------|-------------|
-| `create-usercontext-instructions` | Generate a new user context file through structured discovery |
+| `ack-create-user-context` | Generate a new user context file through structured discovery |
 | `create-agents-md` | Generate a root `AGENTS.md` for any repository |
 | `create-project-instructions` | Generate a project-context `AGENTS.md` with role/phase defaults |
-| `create-skill` | Generate a new canonical `SKILL.md` artifact |
-| `validate-usercontext-instructions` | Validate a user context file with scored report |
+| `ack-create-skill` | Generate a new canonical `SKILL.md` artifact |
+| `ack-validate-user-context` | Validate a user context file with scored report |
 | `validate-agents-md` | Validate a root `AGENTS.md` with scored report |
 | `validate-project-instructions` | Validate a project-context `AGENTS.md` with scored report |
-| `validate-skill` | Validate a `SKILL.md` artifact with scored report |
-| `repository-drift-control` | Check and enforce consistency across spec, templates, and docs |
-| `create-checkpoint` | Capture session state as a checkpoint artifact (spec section 4.4) |
-| `restore-checkpoint` | Restore session state from a checkpoint artifact (spec section 4.4) |
+| `ack-validate-skill` | Validate a `SKILL.md` artifact with scored report |
+| `ack-drift-control` | Check and enforce consistency across spec, templates, and docs |
+| `ack-create-checkpoint` | Capture session state as a checkpoint artifact (spec section 4.4) |
+| `ack-restore-checkpoint` | Restore session state from a checkpoint artifact (spec section 4.4) |
 
 ### Update
 
@@ -408,12 +408,12 @@ If you clone this repo and run Codex from within it, all 11 skills are discovere
 Skills surface as chips in the Codex skill picker. You can also invoke them explicitly:
 
 ```
-$create-usercontext-instructions
+$ack-create-user-context
 $validate-agents-md
-$repository-drift-control
+$ack-drift-control
 ```
 
-`repository-drift-control` is a governance action: invoke it explicitly. No per-skill sidecar blocks implicit invocation, so Codex may also select it on its own.
+`ack-drift-control` is a governance action: invoke it explicitly. No per-skill sidecar blocks implicit invocation, so Codex may also select it on its own.
 
 ### Installing the plugin instead of using repo-local discovery
 

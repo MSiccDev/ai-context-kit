@@ -13,6 +13,23 @@ When a new version is released:
 
 ## [Unreleased]
 
+### Breaking
+- Seven skills are renamed with the `ack-` prefix, verb first (ADR-008; 2.0 adoption plan, Part 2 rollout step 4, first part). Their folders move under `skills/`, and every `name:` and reference changes with them:
+
+  | Before | After |
+  | --- | --- |
+  | `create-usercontext-instructions` | `ack-create-user-context` |
+  | `validate-usercontext-instructions` | `ack-validate-user-context` |
+  | `create-skill` | `ack-create-skill` |
+  | `validate-skill` | `ack-validate-skill` |
+  | `repository-drift-control` | `ack-drift-control` |
+  | `create-checkpoint` | `ack-create-checkpoint` |
+  | `restore-checkpoint` | `ack-restore-checkpoint` |
+
+  The repo-local `.agents/skills/` symlinks are renamed and retargeted to match, so Codex run inside a checkout still discovers all eleven skills.
+
+  Invoke them by the new names, for example `/ai-context-kit:ack-create-user-context` in Claude Code or `$ack-drift-control` in Codex. The four AGENTS.md skills keep their names until they are merged into `ack-create-agents-md` and `ack-validate-agents-md` (ADR-009). The `prompts/skills/` wrapper files keep their names until the wrappers are removed (ADR-010)
+
 ### Changed
 - All five loop prompts aligned with OpenSpec (2.0 adoption plan, Part 2 rollout step 3), checked against OpenSpec 1.13.2 and 2.0.0 in a sample repository:
   - `01-readiness-check` checks the OpenSpec version and root, stops in manual mode, targets an OpenSpec change, gates on `openspec instructions apply --change <id> --json` reporting `state: "ready"`, and picks the next unchecked task group in `tasks.md`. It no longer reads `specs/`, `docs/specs/` or `docs/implementation-backlog.md`

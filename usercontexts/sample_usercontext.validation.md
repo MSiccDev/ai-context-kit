@@ -5,7 +5,7 @@
 **File:** `usercontexts/sample_usercontext.instructions.md`
 **Validated:** 2026-09-06; re-checked 2026-11-16 for spec 2.0.0-beta.1
 **Spec Version:** v2.0.0-beta.1
-**Validator:** `skills/validate-usercontext-instructions`
+**Validator:** `skills/ack-validate-user-context`
 
 ---
 

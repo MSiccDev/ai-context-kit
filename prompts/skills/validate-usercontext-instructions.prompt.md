@@ -8,7 +8,7 @@ description: 'Composition wrapper for validating user-context instruction files 
 Validate user-context instruction files by delegating validation logic to the canonical skill.
 
 ## Canonical Skill
-- `skills/validate-usercontext-instructions/SKILL.md`
+- `skills/ack-validate-user-context/SKILL.md`
 
 ## Required Inputs
 - Target `*_usercontext.instructions.md` file
@@ -16,11 +16,11 @@ Validate user-context instruction files by delegating validation logic to the ca
 - Validation strictness preferences (if any)
 
 ## Wrapper Procedure
-1. Load and apply `skills/validate-usercontext-instructions/SKILL.md`.
+1. Load and apply `skills/ack-validate-user-context/SKILL.md`.
 2. Follow skill-local references in this order:
-   - `skills/validate-usercontext-instructions/references/phase-checks.md`
-   - `skills/validate-usercontext-instructions/references/report-contract.md`
-   - `skills/validate-usercontext-instructions/references/scoring.md`
+   - `skills/ack-validate-user-context/references/phase-checks.md`
+   - `skills/ack-validate-user-context/references/report-contract.md`
+   - `skills/ack-validate-user-context/references/scoring.md`
 
 ## Output Intent
 - Produce a deterministic validation report.

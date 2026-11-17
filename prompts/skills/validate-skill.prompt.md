@@ -8,7 +8,7 @@ description: 'Composition wrapper for validating SKILL.md files using canonical 
 Validate `SKILL.md` files by delegating validation logic to the canonical skill.
 
 ## Canonical Skill
-- `skills/validate-skill/SKILL.md`
+- `skills/ack-validate-skill/SKILL.md`
 
 ## Required Inputs
 - Target skill folder path
@@ -16,11 +16,11 @@ Validate `SKILL.md` files by delegating validation logic to the canonical skill.
 - Validation strictness preferences (if any)
 
 ## Wrapper Procedure
-1. Load and apply `skills/validate-skill/SKILL.md`.
+1. Load and apply `skills/ack-validate-skill/SKILL.md`.
 2. Follow skill-local references in this order:
-   - `skills/validate-skill/references/phase-checks.md`
-   - `skills/validate-skill/references/report-contract.md`
-   - `skills/validate-skill/references/scoring.md`
+   - `skills/ack-validate-skill/references/phase-checks.md`
+   - `skills/ack-validate-skill/references/report-contract.md`
+   - `skills/ack-validate-skill/references/scoring.md`
 
 ## Output Intent
 - Produce deterministic `SKILL.validation.md` report output.
