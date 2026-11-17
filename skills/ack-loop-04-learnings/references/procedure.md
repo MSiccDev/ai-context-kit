@@ -1,7 +1,3 @@
----
-description: 'Learnings — capture and teach the key lessons from the implemented task group of an OpenSpec change and its two-axis review; optional but recommended.'
----
-
 # Learnings
 
 Do not make further changes yet.

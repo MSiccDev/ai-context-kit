@@ -4,7 +4,6 @@ description: "Validate root or nested AGENTS.md files with one scored rubric: st
 version: "2.0.0"
 allowed-tools: [Read, Write, Bash]
 metadata:
-  source_prompt: "prompts/skills/validate-agents-md.prompt.md"
   workflow_type: "validation"
 ---
 

@@ -4,7 +4,6 @@ description: "Create AGENTS.md files: the full root file (operational contract, 
 version: "2.0.0"
 allowed-tools: [Read, Write, Edit, Bash]
 metadata:
-  source_prompt: "prompts/skills/create-agents-md.prompt.md"
   workflow_type: "generation"
 ---
 

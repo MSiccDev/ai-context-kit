@@ -14,6 +14,21 @@ When a new version is released:
 ## [Unreleased]
 
 ### Breaking
+- The implementation loop prompts are now skills, and `prompts/` is gone (ADR-010; 2.0 adoption plan, Part 2 rollout step 4):
+
+  | Before | After |
+  | --- | --- |
+  | `prompts/loop/01-readiness-check.prompt.md` | `ack-loop-01-readiness` |
+  | `prompts/loop/02-implementation.prompt.md` | `ack-loop-02-implement` |
+  | `prompts/loop/03-self-review.prompt.md` | `ack-loop-03-review` |
+  | `prompts/loop/04-learnings.prompt.md` | `ack-loop-04-learnings` |
+  | `prompts/loop/05-human-in-the-loop.prompt.md` | `ack-loop-05-commit` |
+
+  - Each loop prompt moved unchanged into its skill's `references/procedure.md`. The new `SKILL.md` files add the seven required sections and the step's place in the loop. The procedures' cross-references now name the skills
+  - The ten `prompts/skills/*.prompt.md` wrappers are removed; invoke the skills directly. The `source_prompt` metadata fields that pointed at them are removed from six skills
+  - Spec: section 2.2 drops prompts from the precedence order (four levels now); section 10.2 drops `prompts/` from the canonical paths; section 10.3 forbids separate prompt files that duplicate or route to skills; section 10.6 drops prompt entrypoints from the drift audit; the Prompt Composition Entrypoint Contract (old 10.7) is removed, so Workflow Family Mapping becomes 10.7 and gains a Loop workflows family
+  - `templates/AGENTS_template.md`, `AGENTS.md`, `README.md`, `skills/README.md`, `ack-drift-control` and the plugin descriptions no longer mention prompts or wrappers; the `.agents/skills/` links include the five loop skills (14 in total)
+  - Each loop skill has a `SKILL.validation.md` (98 or 99/100). Until the invocation field lands, nothing marks the loop skills as user-only, so an agent could select one on its own
 - The four AGENTS.md skills are merged into two (ADR-009; 2.0 adoption plan, Part 2 rollout step 4; design in `docs/plans/agents-md-skill-merge.md`):
 
   | Before | After |

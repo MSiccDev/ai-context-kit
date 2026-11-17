@@ -4,8 +4,7 @@ This directory is the canonical location for repository skill instances.
 
 ## Authority Model
 - `skills/` is the canonical source for operational create/validate/governance workflow logic.
-- `prompts/` remains available as compatibility wrappers and should defer detailed workflow logic to skills.
-- Keep wrappers concise; do not reintroduce full checklists/rubrics already defined in skills.
+- Skills are the only workflow entrypoint; there are no separate prompt files (ADR-010).
 
 ## Scope
 - Store concrete skill folders here, each containing a `SKILL.md` file.
@@ -31,6 +30,13 @@ This directory is the canonical location for repository skill instances.
 ### Governance Workflows
 - `ack-drift-control` (no `references/` directory)
 
+### Loop Workflows (invoke in order; 04 is optional)
+- `ack-loop-01-readiness` (`references/procedure.md`)
+- `ack-loop-02-implement` (`references/procedure.md`)
+- `ack-loop-03-review` (`references/procedure.md`)
+- `ack-loop-04-learnings` (`references/procedure.md`)
+- `ack-loop-05-commit` (`references/procedure.md`)
+
 All current skills include:
 - `SKILL.md`
 - `SKILL.validation.md`
@@ -41,4 +47,4 @@ All current skills include:
 
 ## Validation
 - Validate skills using the canonical skill validation workflow.
-- Keep validation status current whenever source prompts or governance rules change.
+- Keep validation status current whenever a skill's workflow or the governance rules change.

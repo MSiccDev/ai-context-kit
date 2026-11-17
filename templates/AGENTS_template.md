@@ -16,17 +16,15 @@ This repository distinguishes:
 Use this order when files differ:
 1. **Specification (authoritative):** `<path to spec>`
 2. **Templates (canonical structures):** `<path(s) to templates>`
-3. **Skills (canonical operational workflows):** `<path(s) to skills>`
-4. **Prompts (compatibility wrappers):** `<path(s) to create/validate wrappers>`
-5. **Samples (illustrative examples):** `<path(s) to sample instructions and validations>`
+3. **Skills (canonical operational workflows, including the implementation loop):** `<path(s) to skills>`
+4. **Samples (illustrative examples):** `<path(s) to sample instructions and validations>`
 
 ## Repository Map
 | Path | Purpose |
 | --- | --- |
 | `specs/` | Normative specification and terminology |
 | `templates/` | Canonical templates |
-| `skills/` | Canonical workflow skills |
-| `prompts/` | Creation and validation workflows |
+| `skills/` | Canonical workflow skills, including the `ack-loop-*` implementation loop |
 | `usercontexts/` | User-context instruction examples |
 | `<additional path>` | `<purpose>` |
 
@@ -186,7 +184,6 @@ Current status/phase: `<phase>`
 When the specification changes, audit and update all impacted artifacts:
 - `templates/`
 - `skills/`
-- `prompts/`
 - sample files (`usercontexts/`)
 - `README.md`
 - `AGENTS.md` files
@@ -194,6 +191,5 @@ When the specification changes, audit and update all impacted artifacts:
 ## Key References
 - Specification: `<relative path to spec>`
 - Templates: `<relative path(s)>`
-- Create prompts: `<relative path(s)>`
-- Validate prompts: `<relative path(s)>`
+- Skills: `<relative path(s)>`
 - Samples: `<relative path(s)>`

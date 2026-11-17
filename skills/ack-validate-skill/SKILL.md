@@ -4,7 +4,6 @@ description: "Validate SKILL.md artifacts for schema, quality, safety, portabili
 version: "1.0.0"
 allowed-tools: [Read, Write]
 metadata:
-  source_prompt: "prompts/skills/validate-skill.prompt.md"
   workflow_type: "validation"
 ---
 

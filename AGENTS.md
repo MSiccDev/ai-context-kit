@@ -13,9 +13,8 @@ This repository distinguishes:
 Use this order when files differ:
 1. **Specification (authoritative, v2.0.0-beta.1):** `specs/context_aware_ai_session_spec.md`
 2. **Templates (canonical structures):** `templates/*.instructions.md` and `templates/skill_template/SKILL.md`
-3. **Skills (canonical operational workflows):** `skills/*/SKILL.md` and skill-local references
-4. **Prompts:** `prompts/skills/*.prompt.md` (compatibility wrappers — must defer detailed logic to skills); `prompts/loop/*.prompt.md` (implementation loop steps — self-contained workflow prompts)
-5. **Samples and validation artifacts (illustrative records):** `usercontexts/*.instructions.md`, related `*.validation.md`
+3. **Skills (canonical operational workflows, including the implementation loop):** `skills/*/SKILL.md` and skill-local references
+4. **Samples and validation artifacts (illustrative records):** `usercontexts/*.instructions.md`, related `*.validation.md`
 
 ## Repository Map
 | Path | Purpose |
@@ -23,8 +22,7 @@ Use this order when files differ:
 | `specs/` | Normative session-model specification and terminology |
 | `templates/` | Canonical instruction templates aligned to the spec |
 | `skills/` | Canonical workflow skills (`SKILL.md` folders) and skill-local resources |
-| `prompts/skills/` | Compatibility wrappers that route workflows to canonical skills |
-| `prompts/loop/` | Numbered step prompts for the implementation loop (readiness-check → implementation → self-review → learnings → human-in-the-loop); invoke in order, learnings is optional |
+| `skills/ack-loop-*/` | The implementation loop as five numbered skills (readiness → implement → review → learnings → commit); invoke in order, learnings is optional |
 | `usercontexts/` | User-context instruction examples and validation reports |
 | `docs/adr/` | Architecture decision records for the kit itself; start with `docs/adr/README.md` |
 
@@ -115,14 +113,14 @@ This repository adopts the workflow in 2.0 rollout step 6 (dogfood), when `opens
 | Role | When To Use | Assistant Behavior | Typical Outputs |
 | --- | --- | --- | --- |
 | `Architect` | Defining structure, spec alignment, repository direction | Emphasize clarity, constraints, and tradeoffs | Plans, governance changes, architecture decisions |
-| `Prompt Engineer` | Refining create/validate wrappers and instruction workflows | Optimize flow, quality gates, and determinism | Prompt wrappers, workflow rules, validation criteria |
+| `Prompt Engineer` | Refining skills and instruction workflows | Optimize flow, quality gates, and determinism | Skills, workflow rules, validation criteria |
 | `Technical Writer` | Improving docs, onboarding, and migration clarity | Prioritize readability, consistency, and usability | README/AGENTS/template updates |
 | `Reviewer` | Verifying quality, regressions, and policy compliance | Surface gaps and actionable remediations | Findings, fixes, acceptance notes |
 
 ### Tech Stack
 - Languages: Markdown, shell scripts
 - Runtime/tooling: provider-agnostic instruction workflows
-- Architecture: specification + templates + skills + wrappers
+- Architecture: specification + templates + skills (including the implementation loop)
 - Validation: skill-based validation workflows and reports
 
 ### Current Objectives
@@ -148,8 +146,8 @@ This repository adopts the workflow in 2.0 rollout step 6 (dogfood), when `opens
   - `specs/`
   - `templates/`
   - `skills/`
-  - `prompts/`
   - `usercontexts/`
+  - `docs/adr/`
 
 ### Working Together
 **Architect**
@@ -157,7 +155,7 @@ This repository adopts the workflow in 2.0 rollout step 6 (dogfood), when `opens
 - "Propose a migration path with clear review gates."
 
 **Prompt Engineer**
-- "Keep wrappers thin and move logic into skills."
+- "Keep each skill focused and move detail into its references."
 - "Preserve quality gates while reducing duplication."
 
 **Technical Writer**
@@ -172,7 +170,7 @@ This repository adopts the workflow in 2.0 rollout step 6 (dogfood), when `opens
 - Specification: `specs/context_aware_ai_session_spec.md`
 - Templates: `templates/`
 - Skills: `skills/`
-- Prompt wrappers: `prompts/`
+- Implementation loop: `skills/ack-loop-01-readiness/` to `skills/ack-loop-05-commit/`
 - User context samples: `usercontexts/`
 
 ### Testing Strategy
@@ -188,17 +186,16 @@ This repository adopts the workflow in 2.0 rollout step 6 (dogfood), when `opens
 
 ### Testing Commands
 ```bash
-rg -n "<pattern>" AGENTS.md README.md skills prompts templates specs usercontexts
+rg -n "<pattern>" AGENTS.md README.md skills templates specs usercontexts docs
 ```
 
 ### Future Roadmap
 - Maintain AGENTS-only project-context governance.
-- Continue reducing legacy prompt-era artifacts.
 - Strengthen skill validation and drift-control automation.
 
 ## Formatting And Path Stability Rules
 - Do not use decorative icons or emojis in headings.
-- Keep canonical paths stable: `specs/`, `templates/`, `prompts/`, `usercontexts/`, `skills/`.
+- Keep canonical paths stable: `specs/`, `templates/`, `skills/`, `usercontexts/`, `docs/adr/`.
 - Use relative repository paths for cross-references.
 - Keep language provider-agnostic.
 
@@ -206,7 +203,6 @@ rg -n "<pattern>" AGENTS.md README.md skills prompts templates specs usercontext
 When `specs/context_aware_ai_session_spec.md` changes, audit and update all impacted artifacts:
 - `templates/`
 - `skills/`
-- `prompts/` wrappers (keep thin; do not duplicate full workflow logic)
 - sample files in `usercontexts/`
 - `README.md`
 - `AGENTS.md`
@@ -216,21 +212,13 @@ When `specs/context_aware_ai_session_spec.md` changes, audit and update all impa
 - Project operational defaults: this root `AGENTS.md` (Default State For This Repo)
 - User context template: [`templates/usercontext_template.instructions.md`](templates/usercontext_template.instructions.md)
 - Skill template: [`templates/skill_template/SKILL.md`](templates/skill_template/SKILL.md)
-- Create prompts:
-  - [`prompts/skills/create-agents-md.prompt.md`](prompts/skills/create-agents-md.prompt.md)
-  - [`prompts/skills/create-usercontext-instructions.prompt.md`](prompts/skills/create-usercontext-instructions.prompt.md)
-  - [`prompts/skills/create-project-instructions.prompt.md`](prompts/skills/create-project-instructions.prompt.md)
-  - [`prompts/skills/create-skill.prompt.md`](prompts/skills/create-skill.prompt.md)
-- Validate prompts:
-  - [`prompts/skills/validate-agents-md.prompt.md`](prompts/skills/validate-agents-md.prompt.md)
-  - [`prompts/skills/validate-usercontext-instructions.prompt.md`](prompts/skills/validate-usercontext-instructions.prompt.md)
-  - [`prompts/skills/validate-project-instructions.prompt.md`](prompts/skills/validate-project-instructions.prompt.md)
-  - [`prompts/skills/validate-skill.prompt.md`](prompts/skills/validate-skill.prompt.md)
-- Loop prompts:
-  - [`prompts/loop/01-readiness-check.prompt.md`](prompts/loop/01-readiness-check.prompt.md)
-  - [`prompts/loop/02-implementation.prompt.md`](prompts/loop/02-implementation.prompt.md)
-  - [`prompts/loop/03-self-review.prompt.md`](prompts/loop/03-self-review.prompt.md)
-  - [`prompts/loop/04-learnings.prompt.md`](prompts/loop/04-learnings.prompt.md) _(optional)_
-  - [`prompts/loop/05-human-in-the-loop.prompt.md`](prompts/loop/05-human-in-the-loop.prompt.md)
-- Extracted skills index: [`skills/README.md`](skills/README.md)
+- Create skills: [`ack-create-agents-md`](skills/ack-create-agents-md/SKILL.md), [`ack-create-user-context`](skills/ack-create-user-context/SKILL.md), [`ack-create-skill`](skills/ack-create-skill/SKILL.md)
+- Validate skills: [`ack-validate-agents-md`](skills/ack-validate-agents-md/SKILL.md), [`ack-validate-user-context`](skills/ack-validate-user-context/SKILL.md), [`ack-validate-skill`](skills/ack-validate-skill/SKILL.md)
+- Loop skills:
+  - [`ack-loop-01-readiness`](skills/ack-loop-01-readiness/SKILL.md)
+  - [`ack-loop-02-implement`](skills/ack-loop-02-implement/SKILL.md)
+  - [`ack-loop-03-review`](skills/ack-loop-03-review/SKILL.md)
+  - [`ack-loop-04-learnings`](skills/ack-loop-04-learnings/SKILL.md) _(optional)_
+  - [`ack-loop-05-commit`](skills/ack-loop-05-commit/SKILL.md)
+- Skills index: [`skills/README.md`](skills/README.md)
 - Sample user context instructions: [`usercontexts/sample_usercontext.instructions.md`](usercontexts/sample_usercontext.instructions.md)

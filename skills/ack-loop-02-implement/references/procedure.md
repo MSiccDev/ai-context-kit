@@ -1,7 +1,3 @@
----
-description: 'Implementation — implement the task group approved in the readiness report, task by task from the OpenSpec change, on a dedicated feature branch.'
----
-
 # Implementation
 
 Proceed with the task group you proposed in the readiness report.
