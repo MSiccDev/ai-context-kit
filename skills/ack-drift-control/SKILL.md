@@ -1,6 +1,6 @@
 ---
 name: "ack-drift-control"
-description: "Enforce coordinated updates across specs, templates, prompts, samples, and docs to prevent repository guidance drift."
+description: "Enforce coordinated updates across specs, templates, skills, samples, and docs to prevent repository guidance drift."
 version: "1.0.0"
 allowed-tools: [Read, Edit]
 metadata:
@@ -11,7 +11,7 @@ metadata:
 # Repository Drift Control
 
 ## Purpose
-Prevent divergence between authoritative specification, operational prompts/templates, and repository-facing documentation.
+Prevent divergence between authoritative specification, operational skills and templates, and repository-facing documentation.
 
 ## When To Use
 - Use this skill when specification or governance files change.
@@ -25,7 +25,7 @@ Prevent divergence between authoritative specification, operational prompts/temp
 
 ## Workflow
 1. Identify source-of-truth changes and affected dependency set.
-2. Audit templates, prompts, samples, README, and AGENTS for alignment.
+2. Audit templates, skills, samples, README, and AGENTS for alignment.
 3. Apply consistent terminology and path references.
 4. Verify policy and precedence remain coherent after updates.
 5. Record drift-control outcomes in commit/PR summary.

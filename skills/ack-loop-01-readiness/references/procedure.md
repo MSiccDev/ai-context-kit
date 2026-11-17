@@ -1,7 +1,3 @@
----
-description: 'Readiness check — confirm the target OpenSpec change is apply-ready, pick its next task group, and produce a readiness report before any implementation begins.'
----
-
 # Readiness Check
 
 Do not start implementation yet.
@@ -52,7 +48,7 @@ Run `openspec instructions apply --change <id> --json` and read `state`:
   - If the latest self-review for this change opened with `STATUS: BLOCKED`,
     its findings still need fixing: go to the implementation step, which
     reopens the affected tasks (see "Fixing review findings" there).
-  - Otherwise skip to self-review (step 03) or human-in-the-loop (step 05);
+  - Otherwise skip to self-review (`ack-loop-03-review`) or human-in-the-loop (`ack-loop-05-commit`);
     there is nothing left to implement.
 
 ## 4. Read the context

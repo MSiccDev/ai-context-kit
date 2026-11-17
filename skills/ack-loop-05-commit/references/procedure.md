@@ -1,7 +1,3 @@
----
-description: 'Human in the loop — present a commit-readiness summary and checklist; do not commit until the user gives explicit go-ahead; archive the OpenSpec change as the last commit after review approval.'
----
-
 # Human in the Loop
 
 Do not commit yet.

@@ -1,7 +1,3 @@
----
-description: 'Self-review — review the completed task group on two axes (Spec and Standards) and emit a STATUS: PASS or STATUS: BLOCKED report before proceeding.'
----
-
 # Self-Review
 
 Do not make further changes yet.

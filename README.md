@@ -74,25 +74,6 @@ ai-context-kit/
 │   │   └── marketplace.json                          # Repo-scoped Codex marketplace
 │   └── skills/                                       # Codex skill discovery symlinks
 │
-├── prompts/                                          # Prompt wrappers and implementation loop
-│   ├── skills/                                       # Skill-wrapper prompts (route to canonical skills)
-│   │   ├── create-usercontext-instructions.prompt.md # Generate user context instruction files
-│   │   ├── create-project-instructions.prompt.md     # ack-create-agents-md in root mode (merged)
-│   │   ├── create-agents-md.prompt.md                # Generate root or nested AGENTS.md files
-│   │   ├── create-skill.prompt.md                    # Generate skill files
-│   │   ├── create-checkpoint.prompt.md               # Capture session state as a checkpoint
-│   │   ├── restore-checkpoint.prompt.md              # Restore session state from a checkpoint
-│   │   ├── validate-usercontext-instructions.prompt.md # Validate user context files
-│   │   ├── validate-project-instructions.prompt.md   # ack-validate-agents-md in root mode (merged)
-│   │   ├── validate-agents-md.prompt.md              # Validate root or nested AGENTS.md files
-│   │   └── validate-skill.prompt.md                  # Validate skill files
-│   └── loop/                                         # Implementation loop prompts (invoke in order)
-│       ├── 01-readiness-check.prompt.md              # Check the OpenSpec change is apply-ready; pick the next task group
-│       ├── 02-implementation.prompt.md               # Implement the task group task by task on a feature branch
-│       ├── 03-self-review.prompt.md                  # Two-axis review (Spec, Standards); STATUS: PASS or BLOCKED
-│       ├── 04-learnings.prompt.md                    # Teach lessons from the task group and review (optional)
-│       └── 05-human-in-the-loop.prompt.md            # Commit checklist; archives the change after review approval
-│
 ├── specs/
 │   └── context_aware_ai_session_spec.md              # Specification for AI session management
 │
@@ -102,7 +83,9 @@ ai-context-kit/
 │  └── skill_template/SKILL.md                        # Canonical skill template
 │
 └── skills/
-   └── README.md                                      # Canonical location for skill instances
+   ├── README.md                                      # Canonical location for skill instances
+   ├── ack-*/                                         # Create, validate, checkpoint and governance skills
+   └── ack-loop-01-readiness/ … ack-loop-05-commit/   # Implementation loop, one skill per step (invoke in order)
 ```
 
 ---
@@ -126,7 +109,7 @@ ai-context-kit/
 - "Review this code for security issues"
 - "Run the AGENTS validation workflow and list blocking issues"
 
-`prompts/skills/` are composition wrappers that route to canonical skills. `prompts/loop/` contains the numbered implementation loop prompts (readiness-check → implementation → self-review → learnings → human-in-the-loop). Canonical workflow logic lives in `skills/`.
+All workflow logic lives in `skills/`, including the implementation loop: `ack-loop-01-readiness` → `ack-loop-02-implement` → `ack-loop-03-review` → `ack-loop-04-learnings` (optional) → `ack-loop-05-commit`. There are no separate prompt files (ADR-010).
 
 ---
 
@@ -136,9 +119,8 @@ When guidance differs across files, use this authority order:
 
 1. `specs/context_aware_ai_session_spec.md` (normative)
 2. `templates/` (canonical artifact structures)
-3. `skills/` (canonical operational workflows)
-4. `prompts/skills/` (composition wrappers) and `prompts/loop/` (implementation loop)
-5. `usercontexts/` and validation artifacts (illustrative examples)
+3. `skills/` (canonical operational workflows, including the implementation loop)
+4. `usercontexts/` and validation artifacts (illustrative examples)
 
 Canonical template structures live in:
 - `templates/usercontext_template.instructions.md`
@@ -200,17 +182,15 @@ This repository provides for reusable **Agent Skills** for authoring and validat
 - Canonical paths:
   - `templates/skill_template/SKILL.md`
   - `skills/`
-  - `prompts/` (composition wrappers)
 
 ### Skill-First Authority Model
 Operational workflow authority is skill-first:
-1. `skills/` is the canonical source for create/validate/governance workflow logic.
-2. `prompts/` are available as composition wrappers to orchestrate skills.
-3. Prompt wrappers should stay concise and must not reintroduce full checklists/rubrics already defined in skills.
+1. `skills/` is the canonical source for create, validate, governance and loop workflow logic.
+2. Skills are the only entrypoint; there are no wrapper prompt files.
 
 ### Skill Workflow
 1. Author or update workflow behavior in `skills/*/SKILL.md` plus skill-local `references/`.
-2. Keep detailed operational logic in skills; use prompts as composition wrappers only.
+2. Keep detailed operational logic in skills and their `references/`.
 3. Always validate skills and keep `SKILL.validation.md` current.
 
 > **Validation scope:** Validation scores reflect structural compliance with the spec format as assessed by an AI model against a structured scoring rubric intended to be applied consistently. They do not guarantee real-world session effectiveness or consistent LLM behavior across providers. Treat scores as a structural checklist result, not a quality certification.
@@ -225,6 +205,7 @@ Operational workflow authority is skill-first:
 - `skills/ack-validate-skill/`
 - `skills/ack-create-checkpoint/`
 - `skills/ack-restore-checkpoint/`
+- `skills/ack-loop-01-readiness/` to `skills/ack-loop-05-commit/` (the implementation loop)
 
 ### Invoking Skills
 
@@ -245,13 +226,12 @@ In repo-aware environments (VS Code Copilot Chat with `#file:` access, Claude Pr
 - Skills must remain provider-neutral and runtime-portable.
 - Use relative paths for skill-local references.
 - Treat tool execution permissions as explicit policy decisions.
-- Keep prompt wrappers thin and non-authoritative to avoid logic drift.
 
 ---
 
 ## File Path Conventions
 
-This repository relies on **stable, predictable file paths** so that AGENTS context, skills, specifications, prompts, and validators can reference each other safely.
+This repository relies on **stable, predictable file paths** so that AGENTS context, skills, specifications, and validators can reference each other safely.
 
 The following paths are considered **canonical**:
 
@@ -261,8 +241,6 @@ The following paths are considered **canonical**:
   - Canonical instruction templates (spec v2.0.0-beta.1)
 - `skills/`
   - Canonical workflow skills (`SKILL.md`-based folders)
-- `prompts/`
-  - Composition wrappers for instruction/skill workflows
 - `specs/context_aware_ai_session_spec.md`
   - Authoritative specification (v2.0.0-beta.1)
 - Root `README.md`
@@ -379,6 +357,11 @@ Skills are namespaced to the plugin name. Inside a session:
 | `ack-drift-control` | Check and enforce consistency across spec, templates, and docs |
 | `ack-create-checkpoint` | Capture session state as a checkpoint artifact (spec section 4.4) |
 | `ack-restore-checkpoint` | Restore session state from a checkpoint artifact (spec section 4.4) |
+| `ack-loop-01-readiness` | Loop step 01: confirm the OpenSpec change is apply-ready and pick the next task group |
+| `ack-loop-02-implement` | Loop step 02: implement the approved task group task by task on a feature branch |
+| `ack-loop-03-review` | Loop step 03: two-axis self-review (Spec, Standards); STATUS: PASS or BLOCKED |
+| `ack-loop-04-learnings` | Loop step 04 (optional): teach the lessons from the step and its review |
+| `ack-loop-05-commit` | Loop step 05: commit checklist; archive the change after review approval |
 
 ### Update
 

@@ -31,7 +31,7 @@ This specification defines how an AI assistant should maintain and adapt context
 |------|-----------|---------|
 | **Instructions** | Persistent context files (user context, project `AGENTS.md`) | Define WHO the user is, WHAT they're working on, HOW the AI should behave |
 | **Skills** | Reusable workflow artifacts (`skills/*/SKILL.md` + references) | Centralize create/validate/governance operational logic |
-| **Prompts/Queries** | Day-to-day requests within the instructed environment | Express user intent; prompt files may serve as composition entrypoints |
+| **Prompts/Queries** | Day-to-day requests within the instructed environment | Express user intent |
 | **Change specifications** | OpenSpec artifacts in the project repository (`openspec/specs/`, `openspec/changes/<id>/`) | Define WHAT the system must do and WHAT is changing now; see section 11 |
 
 Instructions create the **environment**. Skills provide canonical **workflow behavior**. Prompts express **immediate intent**. Change specifications define the **contract** that implementation works against.
@@ -42,9 +42,8 @@ When guidance conflicts across repository artifacts, apply this order:
 
 1. Specification (this document — authoritative model and normative rules)
 2. Templates (canonical artifact structures)
-3. Skills (canonical operational workflows)
-4. Prompts (composition entrypoints)
-5. Samples and validation artifacts (illustrative examples)
+3. Skills (canonical operational workflows, including the implementation loop)
+4. Samples and validation artifacts (illustrative examples)
 
 ### 2.3 AGENTS.md Bootstrap and Scope
 
@@ -425,18 +424,17 @@ The following paths are stable by policy:
 | `specs/context_aware_ai_session_spec.md` | Authoritative specification |
 | `templates/` | Canonical artifact structures |
 | `skills/` | Canonical workflow skill artifacts |
-| `prompts/` | Composition entrypoints |
 | `docs/spec-rationale.md` | Spec companion (rationale, examples, future notes) |
 | `docs/adr/` | Architecture decision records, one file per decision |
 | Root `AGENTS.md` | Primary repository operational entrypoint |
 | Root `README.md` | Human-facing documentation |
 
-If paths must change, update the specification and README first, then adjust AGENTS, skills, prompts, and validators.
+If paths must change, update the specification and README first, then adjust AGENTS, skills, and validators.
 
 ### 10.3 Workflow Authority and Entrypoint Discipline
 
 - Detailed workflow logic for create/validate/governance tasks **MUST** be canonicalized in skills.
-- Prompt files **MAY** remain as composition entrypoints but **MUST NOT** reintroduce logic already defined in skills.
+- Workflows **MUST NOT** be shipped as separate prompt files that duplicate or route to skills; the skill is the only entrypoint.
 - When workflow behavior changes, skill artifacts **MUST** be updated first.
 
 ### 10.4 Skill Integration Contract
@@ -454,15 +452,9 @@ If paths must change, update the specification and README first, then adjust AGE
 
 ### 10.6 Drift-Control Trigger Policy
 
-When authoritative guidance changes, maintainers must audit all dependent artifacts including templates, canonical skills, prompt entrypoints, sample artifacts, and repository-facing docs. Apply related updates in a coordinated change set to avoid partial drift.
+When authoritative guidance changes, maintainers must audit all dependent artifacts including templates, canonical skills, sample artifacts, and repository-facing docs. Apply related updates in a coordinated change set to avoid partial drift.
 
-### 10.7 Prompt Composition Entrypoint Contract
-
-- Entrypoints must remain concise and non-authoritative.
-- Each entrypoint must reference the canonical skill that owns its workflow logic.
-- If entrypoint and skill guidance diverge, the skill is the source of truth.
-
-### 10.8 Workflow Family Mapping
+### 10.7 Workflow Family Mapping
 
 Skill-first repositories should group canonical skills into clear operational families:
 
@@ -471,6 +463,7 @@ Skill-first repositories should group canonical skills into clear operational fa
 | Creation workflows | Generate or regenerate instruction artifacts |
 | Validation workflows | Evaluate artifacts and produce consistent and predictable findings |
 | Governance workflows | Coordinate repository-level policy, lifecycle, and drift control |
+| Loop workflows | Run the implementation loop as numbered steps, one skill per step, invoked in order |
 
 ---
 

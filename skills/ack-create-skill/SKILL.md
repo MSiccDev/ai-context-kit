@@ -4,7 +4,6 @@ description: "Create canonical SKILL.md artifacts with deterministic schema, wor
 version: "1.0.0"
 allowed-tools: [Read, Write, Edit]
 metadata:
-  source_prompt: "prompts/skills/create-skill.prompt.md"
   workflow_type: "generation"
 ---
 
