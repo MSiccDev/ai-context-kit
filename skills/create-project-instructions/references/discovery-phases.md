@@ -18,6 +18,7 @@ Collect:
 - test frameworks
 - documentation approach
 - key repository structure
+- whether nested `AGENTS.md` files exist or are planned, and for which folders
 
 ## Phase 3: Role Definitions
 Collect:

@@ -3,6 +3,7 @@
 Before finalizing:
 - [ ] Output target is `AGENTS.md` (or scoped nested `AGENTS.md`).
 - [ ] Required AGENTS sections exist and are complete.
+- [ ] Scope And Precedence For AGENTS.md Files states all four rules (applies to subtree, deepest wins, root global and nested folder-specific, ask when unresolved).
 - [ ] Default Session State includes all 6 required elements.
 - [ ] Command namespace and command reference are present and complete.
 - [ ] Repository Project Context includes all required subsections:

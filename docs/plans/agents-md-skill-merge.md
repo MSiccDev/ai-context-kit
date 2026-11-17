@@ -1,6 +1,6 @@
 # Outline: merging the AGENTS.md skills
 
-Nov 17, 2026 · Status: **draft for review**. No skill files change until this outline is approved.
+Nov 17, 2026 · Status: **decisions A to D accepted** (Nov 17, 2026). Gaps 2 and 3 in section 6 are fixed; gap 1 has a proposal for review. The merged skills are built in the next pull request.
 
 Part 2 rollout step 4 of the [2.0 adoption plan](2.0-adoption-plan.md), second pull request. It carries out [ADR-009](../adr/ADR-009-merge-agents-md-skills.md):
 
@@ -139,7 +139,9 @@ The grade bands stay as they are today (shared by both validators). The phase sc
 | `AGENTS.validation.md` | A full re-run with `ack-validate-agents-md` in root mode. This is the full re-run deferred since 2.0.0-beta.1. Its result depends on decision A. |
 | `CHANGELOG.md` | A Breaking entry under `[Unreleased]` with the old-to-new names and a note for files written by the old creators |
 
-## 5. Decisions for you
+## 5. Decisions
+
+All four recommendations were accepted on Nov 17, 2026: A Critical, B the five nested sections, C no aliases, D the weights as proposed.
 
 **A. A repository with no `openspec/` yet.** Spec section 11.1 says a kit-managed repository **MUST** have one. The kit repository itself doesn't until rollout step 6, and its `AGENTS.md` says so.
 - **Recommended: Critical, no exceptions.** The validator follows the spec, so the kit's own re-run reports FAIL until step 6. That's honest, and it puts pressure on step 6.
@@ -158,11 +160,44 @@ The grade bands stay as they are today (shared by both validators). The phase sc
 
 ## 6. Gaps found while comparing
 
-These exist today. The merge fixes all three.
+| Gap | Status |
+| --- | --- |
+| 1. Neither creator writes the `Spec-Driven Change Workflow` section, which the template has required since 2.0.0-beta.1, and neither validator checks for it. A file generated today can't satisfy spec section 11.1. | **Proposal below** |
+| 2. The kit's own `AGENTS.validation.md` reported 100/100, but its phase scores are 20 + 35 + 19 + 15 + 10 = 99. | **Fixed:** the report now states 99/100 with the sum, and a dated correction. The status stays PASS (90-100). The full re-run in section 4 replaces the report later. |
+| 3. `create-project-instructions` didn't require the `Scope And Precedence For AGENTS.md Files` section, so its files missed the nested-precedence rules the template has. | **Fixed:** added to its output schema (in template order, with the template's four rules), its quality checklist and its discovery. `validate-project-instructions` now checks the section too. |
 
-1. **Neither creator writes the `Spec-Driven Change Workflow` section**, which the template has required since 2.0.0-beta.1. A file generated today can't satisfy spec section 11.1. Neither validator checks for the section either.
-2. **The kit's own `AGENTS.validation.md` doesn't add up.** Its phase scores are 20 + 35 + 19 + 15 + 10 = 99, but it reports 100/100. The re-run in section 4 replaces it.
-3. **`create-project-instructions` doesn't require the `Scope And Precedence For AGENTS.md Files` section**, so files it generates miss the nested-precedence rules the template has.
+While fixing gap 2, every other validation report was checked for the same mismatch. None can have it: the twelve `SKILL.validation.md` and sample reports state only a total, with no phase scores to add up. The merged validator's sum rule (section 3) applies to new reports.
+
+### Proposal for gap 1
+
+**Recommended: fix it in the merged skills only, with no interim patch to the four current skills.** The next pull request replaces those skills, so a patch would be written once and deleted days later. Until then, the gap is documented here and in the changelog.
+
+**`ack-create-agents-md` writes the section in root mode** from discovery phase 6, which runs `openspec list --json`:
+
+| Field | Source | When OpenSpec isn't set up |
+| --- | --- | --- |
+| OpenSpec root | `root.path` from `openspec list --json`, written relative to the repository | "not yet initialised in this repository", and the skill offers `openspec init` |
+| Active change | Asked, with the only active change from `openspec list --json` as the recommended answer; `none` if there are none | `none` |
+| Minimum OpenSpec version | The spec's minimum, `1.13.2` | Same |
+| No Change, No Code | The template's four rules, unchanged | Same |
+| Invoking OpenSpec | One row per tool `openspec init` configured, with its invocation spelling | One row per tool the user names |
+
+**`ack-validate-agents-md` checks it in phase 3** (root mode, 10 points):
+
+| Check | Severity |
+| --- | --- |
+| The section is missing | Critical |
+| The repository has no `openspec/` (`openspec list --json` finds no root) | Critical (decision A) |
+| The stated OpenSpec root doesn't match `root.path` | Critical |
+| The stated active change isn't in `openspec list --json`, or the section names none while exactly one change is active | Warning |
+| The minimum version differs from the spec's `1.13.2` | Warning |
+| The four No Change, No Code rules are incomplete | Warning |
+| `openspec/config.yaml` has a `context` field that doesn't point to `AGENTS.md` (spec section 11.4 asks for pointers, not copies) | Warning |
+| The invocation table is empty | Enhancement |
+
+Without the CLI (manual mode), the validator can't run `openspec list --json`. It then checks the section's fields against the files under `openspec/`, and says so in the report.
+
+**What this means for the kit itself:** the full `AGENTS.validation.md` re-run in the next pull request reports FAIL with one critical finding (no `openspec/`) until rollout step 6 runs `openspec init` here.
 
 ## 7. Not in this pull request
 

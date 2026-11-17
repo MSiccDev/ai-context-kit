@@ -8,7 +8,8 @@
 
 ## Overall Status + Compliance Score
 - **Status:** PASS
-- **Compliance Score:** 100/100
+- **Compliance Score:** 99/100 (Phase 1 20 + Phase 2 35 + Phase 3 19 + Phase 4 15 + Phase 5 10)
+- **Correction (2026-11-17):** this report previously stated 100/100, which did not match its own phase scores. The status is unchanged: 99 is in the PASS band (90-100).
 
 ## Phase 1: Core Presence & Structure
 - **Score:** 20/20

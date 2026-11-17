@@ -4,12 +4,19 @@
 1. Purpose
 2. Source Of Truth And Precedence
 3. Repository Map
-4. Session-State Contract
-5. Command Namespace Policy
-6. Repository Project Context
-7. Formatting And Path Stability Rules
-8. Update And Drift-Control Rule
-9. Key References
+4. Scope And Precedence For AGENTS.md Files
+5. Session-State Contract
+6. Command Namespace Policy
+7. Repository Project Context
+8. Formatting And Path Stability Rules
+9. Update And Drift-Control Rule
+10. Key References
+
+## Scope And Precedence For AGENTS.md Files: Required Rules
+- An `AGENTS.md` applies to its directory and all subdirectories.
+- When several apply, the closest (deepest) one wins for files in its subtree.
+- The root `AGENTS.md` stays global; nested files stay folder-specific.
+- If instructions conflict or remain unclear after precedence, ask before proceeding.
 
 ## Repository Project Context: Required Subsections
 The `Repository Project Context` section must include all of the following subsections:
