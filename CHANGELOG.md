@@ -14,6 +14,18 @@ When a new version is released:
 ## [Unreleased]
 
 ### Breaking
+- The four AGENTS.md skills are merged into two (ADR-009; 2.0 adoption plan, Part 2 rollout step 4; design in `docs/plans/agents-md-skill-merge.md`):
+
+  | Before | After |
+  | --- | --- |
+  | `create-agents-md`, `create-project-instructions` | `ack-create-agents-md` |
+  | `validate-agents-md`, `validate-project-instructions` | `ack-validate-agents-md` |
+
+  - `ack-create-agents-md` has **root** and **nested** modes, chosen from the target path. Root mode writes every section of `templates/AGENTS_template.md`, now including `Scope And Precedence For AGENTS.md Files` and `Spec-Driven Change Workflow` (filled from `openspec list --json`). Nested mode writes five folder-specific sections and points to the root file
+  - `ack-validate-agents-md` scores both modes with one six-phase rubric. It accepts `Active change: none` when no change is active. It adds a spec-driven phase, lists critical findings that fail a file whatever its score (including a repository with no OpenSpec root), and requires phase scores to add up to the reported total
+  - Both skills are at version `2.0.0`. There are no aliases for the old names; the four `prompts/skills/` wrappers now point to the merged skills, and the `.agents/skills/` links are updated
+  - `AGENTS.validation.md` is fully re-run with `ack-validate-agents-md`. It now reports **FAIL** (88/100) with one critical finding: this repository has no OpenSpec root yet, which rollout step 6 fixes
+  - Files written by the old creators lack the `Spec-Driven Change Workflow` section, and files from `create-project-instructions` may lack `Scope And Precedence For AGENTS.md Files`. Validate them with `ack-validate-agents-md` and add the missing sections from the template
 - Seven skills are renamed with the `ack-` prefix, verb first (ADR-008; 2.0 adoption plan, Part 2 rollout step 4, first part). Their folders move under `skills/`, and every `name:` and reference changes with them:
 
   | Before | After |
@@ -44,7 +56,7 @@ When a new version is released:
 ### Fixed
 - `create-project-instructions` now requires the `Scope And Precedence For AGENTS.md Files` section, in template order with the template's four rules: it is in the output schema, the quality checklist and discovery. `validate-project-instructions` checks for it
 - `AGENTS.validation.md` stated 100/100, but its phase scores add up to 99. It now states 99/100 with the sum and a dated correction; the status stays PASS
-- Known gap, not yet fixed: neither AGENTS.md creator writes the `Spec-Driven Change Workflow` section the template requires, and neither validator checks it. The merged `ack-create-agents-md` and `ack-validate-agents-md` close it (proposal in `docs/plans/agents-md-skill-merge.md`)
+- Neither AGENTS.md creator wrote the `Spec-Driven Change Workflow` section the template requires, and neither validator checked it. Closed by the merged `ack-create-agents-md` and `ack-validate-agents-md` (see Breaking)
 
 ---
 

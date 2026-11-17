@@ -16,14 +16,12 @@ This directory is the canonical location for repository skill instances.
 ## Current Skill Inventory
 ### Create Workflows
 - `ack-create-user-context` (`references/`)
-- `create-project-instructions` (`references/`)
-- `create-agents-md` (`references/`)
+- `ack-create-agents-md` (`references/`; root and nested modes)
 - `ack-create-skill` (`references/`)
 
 ### Validate Workflows
 - `ack-validate-user-context` (`references/`)
-- `validate-project-instructions` (`references/`)
-- `validate-agents-md` (`references/`)
+- `ack-validate-agents-md` (`references/`; root and nested modes)
 - `ack-validate-skill` (`references/`)
 
 ### Checkpoint Workflows

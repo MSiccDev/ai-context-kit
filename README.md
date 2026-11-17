@@ -77,14 +77,14 @@ ai-context-kit/
 ├── prompts/                                          # Prompt wrappers and implementation loop
 │   ├── skills/                                       # Skill-wrapper prompts (route to canonical skills)
 │   │   ├── create-usercontext-instructions.prompt.md # Generate user context instruction files
-│   │   ├── create-project-instructions.prompt.md     # Generate project-context AGENTS.md files
-│   │   ├── create-agents-md.prompt.md                # Generate AGENTS.md files
+│   │   ├── create-project-instructions.prompt.md     # ack-create-agents-md in root mode (merged)
+│   │   ├── create-agents-md.prompt.md                # Generate root or nested AGENTS.md files
 │   │   ├── create-skill.prompt.md                    # Generate skill files
 │   │   ├── create-checkpoint.prompt.md               # Capture session state as a checkpoint
 │   │   ├── restore-checkpoint.prompt.md              # Restore session state from a checkpoint
 │   │   ├── validate-usercontext-instructions.prompt.md # Validate user context files
-│   │   ├── validate-project-instructions.prompt.md   # Validate project-context AGENTS.md files
-│   │   ├── validate-agents-md.prompt.md              # Validate AGENTS.md files
+│   │   ├── validate-project-instructions.prompt.md   # ack-validate-agents-md in root mode (merged)
+│   │   ├── validate-agents-md.prompt.md              # Validate root or nested AGENTS.md files
 │   │   └── validate-skill.prompt.md                  # Validate skill files
 │   └── loop/                                         # Implementation loop prompts (invoke in order)
 │       ├── 01-readiness-check.prompt.md              # Check the OpenSpec change is apply-ready; pick the next task group
@@ -217,11 +217,9 @@ Operational workflow authority is skill-first:
 
 ### Available Skills
 - `skills/ack-create-user-context/`
-- `skills/create-project-instructions/`
-- `skills/create-agents-md/`
+- `skills/ack-create-agents-md/`
 - `skills/ack-validate-user-context/`
-- `skills/validate-project-instructions/`
-- `skills/validate-agents-md/`
+- `skills/ack-validate-agents-md/`
 - `skills/ack-drift-control/`
 - `skills/ack-create-skill/`
 - `skills/ack-validate-skill/`
@@ -282,13 +280,12 @@ If paths must change, update the specification and README first, then adjust ski
 
 2. **Create Project AGENTS Context**
    - **Manual (canonical):** Copy `templates/AGENTS_template.md` and define your project context
-   - **Skill:** Use `skills/create-agents-md/SKILL.md` (or `skills/create-project-instructions/SKILL.md` where that workflow is preferred)
+   - **Skill:** Use `skills/ack-create-agents-md/SKILL.md` (root mode for the repository root, nested mode for a folder)
    - Save as `AGENTS.md` in your project root (or scoped nested `AGENTS.md` where needed)
 
 3. **Validate Artifacts**
    - Use `skills/ack-validate-user-context/SKILL.md` for user context files
-   - Use `skills/validate-agents-md/SKILL.md` for `AGENTS.md`
-   - Use `skills/validate-project-instructions/SKILL.md` when validating project-context `AGENTS.md` artifacts
+   - Use `skills/ack-validate-agents-md/SKILL.md` for root and nested `AGENTS.md` files
 
 4. **Load Context Into Your AI Environment**
    - See platform-specific instructions below
@@ -368,18 +365,16 @@ Skills are namespaced to the plugin name. Inside a session:
 
 ```
 /ai-context-kit:ack-create-user-context
-/ai-context-kit:validate-agents-md
+/ai-context-kit:ack-validate-agents-md
 ```
 
 | Skill | What it does |
 |-------|-------------|
 | `ack-create-user-context` | Generate a new user context file through structured discovery |
-| `create-agents-md` | Generate a root `AGENTS.md` for any repository |
-| `create-project-instructions` | Generate a project-context `AGENTS.md` with role/phase defaults |
+| `ack-create-agents-md` | Generate a root `AGENTS.md` (full template, including project context and the OpenSpec section) or a nested one for a folder |
 | `ack-create-skill` | Generate a new canonical `SKILL.md` artifact |
 | `ack-validate-user-context` | Validate a user context file with scored report |
-| `validate-agents-md` | Validate a root `AGENTS.md` with scored report |
-| `validate-project-instructions` | Validate a project-context `AGENTS.md` with scored report |
+| `ack-validate-agents-md` | Validate a root or nested `AGENTS.md` with one scored rubric |
 | `ack-validate-skill` | Validate a `SKILL.md` artifact with scored report |
 | `ack-drift-control` | Check and enforce consistency across spec, templates, and docs |
 | `ack-create-checkpoint` | Capture session state as a checkpoint artifact (spec section 4.4) |
@@ -409,7 +404,7 @@ Skills surface as chips in the Codex skill picker. You can also invoke them expl
 
 ```
 $ack-create-user-context
-$validate-agents-md
+$ack-validate-agents-md
 $ack-drift-control
 ```
 

@@ -1,6 +1,6 @@
 # Outline: merging the AGENTS.md skills
 
-Nov 17, 2026 · Status: **decisions A to D accepted** (Nov 17, 2026). Gaps 2 and 3 in section 6 are fixed; gap 1 has a proposal for review. The merged skills are built in the next pull request.
+Nov 17, 2026 · Status: **implemented** (Nov 17, 2026). Decisions A to D accepted; all three gaps in section 6 are closed. The merged skills are in `skills/ack-create-agents-md/` and `skills/ack-validate-agents-md/`.
 
 Part 2 rollout step 4 of the [2.0 adoption plan](2.0-adoption-plan.md), second pull request. It carries out [ADR-009](../adr/ADR-009-merge-agents-md-skills.md):
 
@@ -162,7 +162,7 @@ All four recommendations were accepted on Nov 17, 2026: A Critical, B the five n
 
 | Gap | Status |
 | --- | --- |
-| 1. Neither creator writes the `Spec-Driven Change Workflow` section, which the template has required since 2.0.0-beta.1, and neither validator checks for it. A file generated today can't satisfy spec section 11.1. | **Proposal below** |
+| 1. Neither creator writes the `Spec-Driven Change Workflow` section, which the template has required since 2.0.0-beta.1, and neither validator checks for it. A file generated today can't satisfy spec section 11.1. | **Closed** by the merged skills, as proposed below |
 | 2. The kit's own `AGENTS.validation.md` reported 100/100, but its phase scores are 20 + 35 + 19 + 15 + 10 = 99. | **Fixed:** the report now states 99/100 with the sum, and a dated correction. The status stays PASS (90-100). The full re-run in section 4 replaces the report later. |
 | 3. `create-project-instructions` didn't require the `Scope And Precedence For AGENTS.md Files` section, so its files missed the nested-precedence rules the template has. | **Fixed:** added to its output schema (in template order, with the template's four rules), its quality checklist and its discovery. `validate-project-instructions` now checks the section too. |
 

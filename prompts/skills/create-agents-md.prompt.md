@@ -8,7 +8,7 @@ description: 'Composition wrapper for creating AGENTS.md using canonical skill w
 Create repository-specific `AGENTS.md` by delegating workflow logic to the canonical skill.
 
 ## Canonical Skill
-- `skills/create-agents-md/SKILL.md`
+- `skills/ack-create-agents-md/SKILL.md`
 
 ## Required Inputs
 - Repository purpose and canonical paths
@@ -17,15 +17,17 @@ Create repository-specific `AGENTS.md` by delegating workflow logic to the canon
 - Drift-control requirements
 
 ## Wrapper Procedure
-1. Load and apply `skills/create-agents-md/SKILL.md`.
+1. Load and apply `skills/ack-create-agents-md/SKILL.md`.
 2. Follow skill-local references in this order:
-   - `skills/create-agents-md/references/discovery-phases.md`
-   - `skills/create-agents-md/references/required-elements.md`
-   - `skills/create-agents-md/references/output-format.md`
-   - `skills/create-agents-md/references/quality-checklist.md`
+   - `skills/ack-create-agents-md/references/discovery-phases.md`
+   - `skills/ack-create-agents-md/references/root-schema.md` (root mode) or `skills/ack-create-agents-md/references/nested-schema.md` (nested mode)
+   - `skills/ack-create-agents-md/references/command-template.md`
+   - `skills/ack-create-agents-md/references/role-template.md`
+   - `skills/ack-create-agents-md/references/output-format.md`
+   - `skills/ack-create-agents-md/references/quality-checklist.md`
 
 ## Output Intent
-- Produce one complete `AGENTS.md` artifact.
+- Produce one complete `AGENTS.md` artifact, root or nested by target path.
 - Include concise completion summary and assumptions.
 
 ## Wrapper Policy
