@@ -2,67 +2,71 @@
 
 **File:** skills/ack-validate-skill/SKILL.md
 **Skill:** ack-validate-skill
-**Validated:** 2026-02-17
+**Validated:** 2026-11-18 (rollout step 5 re-run, with the writing checks)
+**Validator:** `skills/ack-validate-skill`
 
 ---
 
-## Overall Status: ✅ PASS
+## Overall Status: PASS
 
-**Compliance Score:** 97/100
+**Compliance Score:** 100/100 (Phase 1 20 + Phase 2 25 + Phase 3 25 + Phase 4 15 + Phase 5 15)
 
 ---
 
 ## Phase 1: Presence, Structure, And Frontmatter
-**Status:** ✅ PASS
+**Score:** 20/20 · **Status:** PASS
 
 ### Findings:
-- SKILL.md exists with valid frontmatter.
-- Required fields are present and syntactically valid.
-
-### Recommendations:
-- None.
+- `SKILL.md` exists with valid YAML frontmatter.
+- Required fields `name` and `description` are present; every other key is a recognized optional field.
 
 ---
 
 ## Phase 2: Field Constraints And Naming Parity
-**Status:** ✅ PASS
+**Score:** 25/25 · **Status:** PASS
 
 ### Findings:
-- `name` parity and description quality are valid.
+- `name` (18 characters) matches the folder and meets the format rules.
+- `description` (123 characters): a one-line summary for the person who runs the skill (user-invoked).
+- `version` is `1.1.0`; `metadata` values are strings.
+- `metadata.invocation` is `"user"`, paired with `disable-model-invocation: true`.
+- No user-invoked skill is started by this skill.
+- Attribution: `metadata.credits` names mattpocock/skills for the writing checks, the body names the origin, and `THIRD_PARTY_NOTICES.md` lists the skill.
 
 ---
 
 ## Phase 3: Instruction Quality And Completeness
-**Status:** ✅ PASS
+**Score:** 25/25 · **Status:** PASS
 
 ### Findings:
-- Full phase checks, report contract, and scoring model are canonicalized.
-- Severity and remediation guidance are explicit.
+- All seven required body sections are present, in order; phases, scoring, report contract and writing checks live in references.
+- Every workflow step ends on a completion criterion; no no-ops or sediment found.
+- Scoring is deterministic: critical findings are listed, a warning costs 1 to 3 points by extent, and phase scores must add up to the total.
 
 ---
 
 ## Phase 4: Resource References And Safety
-**Status:** ✅ PASS
+**Score:** 15/15 · **Status:** PASS
 
 ### Findings:
-- All references are relative and resolvable.
-- Safety and neutrality checks are explicit.
+- All four references and the template link resolve; `references/phase-checks.md` names `writing-for-agents.md`, which `SKILL.md` also links directly, so the chain stays one level deep.
+- The skill writes only the report.
 
 ---
 
 ## Phase 5: Neutrality And Portability
-**Status:** ✅ PASS
+**Score:** 15/15 · **Status:** PASS
 
 ### Findings:
-- Provider-neutral and runtime-portable wording preserved.
+- Provider-neutral.
 
 ---
 
 ## Summary
 
 ### Strengths:
-- Skill validation workflow is now canonicalized as a first-class skill.
-- Deterministic report/scoring behavior is explicit and reusable.
+- New writing checks: description as pointer, a completion criterion per step, no-ops, sediment and duplication, positive instructions.
+- Fixed point costs per finding.
 
 ### Critical Issues (Must Fix):
 - None.
@@ -71,7 +75,7 @@
 - None.
 
 ### Enhancements (Optional):
-- Add optional automation checks for reference path validation.
+- Automate the mechanical checks (frontmatter keys, name parity, section order, reference resolution) as a script.
 
 ---
 
@@ -81,8 +85,4 @@
 1. None.
 
 ### Suggested Improvements:
-1. Revalidate after skill schema policy updates.
-
----
-
-**Validation completed successfully.**
+1. Re-validate when the skill template or the invocation rules change.

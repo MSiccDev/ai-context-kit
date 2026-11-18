@@ -2,69 +2,70 @@
 
 **File:** skills/ack-create-user-context/SKILL.md
 **Skill:** ack-create-user-context
-**Validated:** 2026-02-17
+**Validated:** 2026-11-18 (rollout step 5 re-run, with the writing checks)
+**Validator:** `skills/ack-validate-skill`
 
 ---
 
-## Overall Status: ✅ PASS
+## Overall Status: PASS
 
-**Compliance Score:** 98/100
+**Compliance Score:** 100/100 (Phase 1 20 + Phase 2 25 + Phase 3 25 + Phase 4 15 + Phase 5 15)
 
 ---
 
 ## Phase 1: Presence, Structure, And Frontmatter
-**Status:** ✅ PASS
+**Score:** 20/20 · **Status:** PASS
 
 ### Findings:
-- SKILL.md exists with valid frontmatter.
-- Required fields are present and syntactically valid.
-
-### Recommendations:
-- None.
+- `SKILL.md` exists with valid YAML frontmatter.
+- Required fields `name` and `description` are present; every other key is a recognized optional field.
 
 ---
 
 ## Phase 2: Field Constraints And Naming Parity
-**Status:** ✅ PASS
+**Score:** 25/25 · **Status:** PASS
 
 ### Findings:
-- `name` matches folder and naming constraints.
-- Description is clear and trigger-appropriate.
+- `name` (23 characters) matches the folder and meets the format rules.
+- `description` (113 characters): a one-line summary for the person who runs the skill (user-invoked).
+- `version` is `1.1.0`; `metadata` values are strings.
+- `metadata.invocation` is `"user"`, paired with `disable-model-invocation: true`.
+- No user-invoked skill is started by this skill.
 
 ---
 
 ## Phase 3: Instruction Quality And Completeness
-**Status:** ✅ PASS
+**Score:** 25/25 · **Status:** PASS
 
 ### Findings:
-- Workflow delegates deterministic detail to skill-local references.
-- Required output/quality controls are explicit.
+- All seven required body sections are present, in order; detail lives in five references.
+- Every workflow step ends on a completion criterion; no no-ops or sediment found.
+- Provider neutrality has one home, `references/output-schema.md`; the quality checklist verifies it.
 
 ---
 
 ## Phase 4: Resource References And Safety
-**Status:** ✅ PASS
+**Score:** 15/15 · **Status:** PASS
 
 ### Findings:
-- Discovery/schema/output/checklist references are relative and resolvable.
-- Privacy safeguards are explicit.
+- All references and both repository links resolve; no deep or circular reference chains.
+- Privacy handling is explicit: placeholders when the user asks for them.
 
 ---
 
 ## Phase 5: Neutrality And Portability
-**Status:** ✅ PASS
+**Score:** 15/15 · **Status:** PASS
 
 ### Findings:
-- Provider-neutral wording preserved.
-- Runtime portability remains intact.
+- Provider-neutral output.
 
 ---
 
 ## Summary
 
 ### Strengths:
-- Skill is self-sufficient and no longer prompt-dependent for core logic.
-- Quality gates are explicit in skill-local references.
+- Privacy handling is explicit and checked.
+- The 15 required sections match the user-context template.
 
 ### Critical Issues (Must Fix):
 - None.
@@ -73,7 +74,7 @@
 - None.
 
 ### Enhancements (Optional):
-- Add fixture-specific examples over time.
+- Add examples for different privacy levels.
 
 ---
 
@@ -83,8 +84,4 @@
 1. None.
 
 ### Suggested Improvements:
-1. Revalidate when schema references evolve.
-
----
-
-**Validation completed successfully.**
+1. Re-validate when `templates/usercontext_template.instructions.md` changes.

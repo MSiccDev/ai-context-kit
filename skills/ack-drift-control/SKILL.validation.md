@@ -2,71 +2,69 @@
 
 **File:** skills/ack-drift-control/SKILL.md
 **Skill:** ack-drift-control
-**Validated:** 2026-02-16
+**Validated:** 2026-11-18 (rollout step 5 re-run, with the writing checks)
+**Validator:** `skills/ack-validate-skill`
 
 ---
 
-## Overall Status: ✅ PASS
+## Overall Status: PASS
 
-**Compliance Score:** 94/100
+**Compliance Score:** 100/100 (Phase 1 20 + Phase 2 25 + Phase 3 25 + Phase 4 15 + Phase 5 15)
 
 ---
 
 ## Phase 1: Presence, Structure, And Frontmatter
-**Status:** ✅ PASS
+**Score:** 20/20 · **Status:** PASS
 
 ### Findings:
-- SKILL.md exists in expected directory.
-- Frontmatter contains required fields and valid syntax.
-
-### Recommendations:
-- None.
+- `SKILL.md` exists with valid YAML frontmatter.
+- Required fields `name` and `description` are present; every other key is a recognized optional field.
 
 ---
 
 ## Phase 2: Field Constraints And Naming Parity
-**Status:** ✅ PASS
+**Score:** 25/25 · **Status:** PASS
 
 ### Findings:
-- name matches folder and satisfies slug constraints.
-- description clearly states capability and use criteria.
-- Optional metadata fields are valid.
+- `name` (17 characters) matches the folder and meets the format rules.
+- `description` (116 characters): a one-line summary for the person who runs the skill (user-invoked).
+- `version` is `1.1.0`; `metadata` values are strings.
+- `metadata.invocation` is `"user"`, paired with `disable-model-invocation: true`.
+- No user-invoked skill is started by this skill.
 
 ---
 
 ## Phase 3: Instruction Quality And Completeness
-**Status:** ✅ PASS
+**Score:** 25/25 · **Status:** PASS
 
 ### Findings:
-- Skill includes operational sections (purpose, usage, inputs, workflow, output, resources, safety).
-- Instructions are actionable and scoped.
+- All seven required body sections are present, in order.
+- Every workflow step ends on a completion criterion (reworked in this re-run); no no-ops or sediment found.
+- Workflow step 5 adds `openspec/config.yaml` `context` to the audited set (adoption plan, part 2); step 6 keeps the attribution check (ADR-014).
 
 ---
 
 ## Phase 4: Resource References And Safety
-**Status:** ✅ PASS
+**Score:** 15/15 · **Status:** PASS
 
 ### Findings:
-- Skill-local references use relative paths.
-- Safety expectations and boundaries are explicit.
+- All repository links resolve; `openspec/config.yaml` is named as optional, so its absence is not a broken reference.
+- The skill edits only files with findings and records every change in the commit or pull request summary.
 
 ---
 
 ## Phase 5: Neutrality And Portability
-**Status:** ✅ PASS
+**Score:** 15/15 · **Status:** PASS
 
 ### Findings:
-- Language is provider-neutral and runtime-portable.
-- No provider-specific lock-in wording detected.
+- Provider-neutral.
 
 ---
 
 ## Summary
 
 ### Strengths:
-- Deterministic workflow guidance.
-- Clean mapping to source artifacts.
-- Good alignment with repository skill template.
+- Covers the spec, the instruction layer, OpenSpec project context and attribution in one audit.
 
 ### Critical Issues (Must Fix):
 - None.
@@ -75,7 +73,8 @@
 - None.
 
 ### Enhancements (Optional):
-- Consider adding an optional change-impact matrix template.
+- The constraint "Avoid partial updates" is a bare prohibition; state the target, for example "Update every dependent file in the same change".
+- Add an optional change-impact matrix template.
 
 ---
 
@@ -85,8 +84,4 @@
 1. None.
 
 ### Suggested Improvements:
-1. Periodically re-validate after source prompt updates.
-
----
-
-**Validation completed successfully.**
+1. Re-validate after `openspec init` runs here (rollout step 6), when step 5 first applies to this repository.

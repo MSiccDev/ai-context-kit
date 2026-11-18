@@ -13,6 +13,8 @@ AI Context Kit adapts ideas and passages from the projects below (ADR-014). Each
 | `ack-interview` | grilling: rounds over the decision frontier, a recommended answer per question, facts looked up rather than asked |
 | `ack-interview-with-context` | grill-with-docs and domain-modeling: the interview combined with a glossary of terms and synonyms to avoid, and the three-part ADR test |
 | `ack-tdd` | tdd: seams agreed before tests, red before green, one vertical slice per cycle, and the named anti-patterns |
+| `ack-validate-agents-md` | writing-for-agents: the phase 5 writing checks (no-ops, sediment, one home per rule, pointers, positive instructions) |
+| `ack-validate-skill` | writing-for-agents: the writing checks in `references/writing-for-agents.md` (description as pointer, a completion criterion per step, no-ops, sediment, positive instructions) |
 
 ```
 MIT License

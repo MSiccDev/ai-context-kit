@@ -2,67 +2,70 @@
 
 **File:** skills/ack-validate-user-context/SKILL.md
 **Skill:** ack-validate-user-context
-**Validated:** 2026-02-17
+**Validated:** 2026-11-18 (rollout step 5 re-run, with the writing checks)
+**Validator:** `skills/ack-validate-skill`
 
 ---
 
-## Overall Status: ✅ PASS
+## Overall Status: PASS
 
-**Compliance Score:** 98/100
+**Compliance Score:** 100/100 (Phase 1 20 + Phase 2 25 + Phase 3 25 + Phase 4 15 + Phase 5 15)
 
 ---
 
 ## Phase 1: Presence, Structure, And Frontmatter
-**Status:** ✅ PASS
+**Score:** 20/20 · **Status:** PASS
 
 ### Findings:
-- SKILL.md exists with valid frontmatter.
-- Required fields are present and syntactically valid.
-
-### Recommendations:
-- None.
+- `SKILL.md` exists with valid YAML frontmatter.
+- Required fields `name` and `description` are present; every other key is a recognized optional field.
 
 ---
 
 ## Phase 2: Field Constraints And Naming Parity
-**Status:** ✅ PASS
+**Score:** 25/25 · **Status:** PASS
 
 ### Findings:
-- `name` parity and description quality are valid.
+- `name` (25 characters) matches the folder and meets the format rules.
+- `description` (115 characters): a one-line summary for the person who runs the skill (user-invoked).
+- `version` is `1.1.0`; `metadata` values are strings.
+- `metadata.invocation` is `"user"`, paired with `disable-model-invocation: true`.
+- No user-invoked skill is started by this skill.
 
 ---
 
 ## Phase 3: Instruction Quality And Completeness
-**Status:** ✅ PASS
+**Score:** 25/25 · **Status:** PASS
 
 ### Findings:
-- Full phase checks, report contract, and scoring model are referenced canonically.
-- Severity classification guidance is explicit.
+- All seven required body sections are present, in order; phases, scoring and report contract live in references.
+- Every workflow step ends on a completion criterion; the no-op constraint "Keep recommendations implementation-ready and non-ambiguous" was removed.
+- `references/scoring.md` lists critical findings and a fixed cost per warning (2 points per missing section, otherwise 1 to 3 by extent), so a re-run gives the same score.
 
 ---
 
 ## Phase 4: Resource References And Safety
-**Status:** ✅ PASS
+**Score:** 15/15 · **Status:** PASS
 
 ### Findings:
-- All skill-local references are relative and resolvable.
-- Privacy-sensitive handling is explicit.
+- All three references resolve; no deep or circular reference chains.
+- The skill writes only the report and keeps private details out of findings.
 
 ---
 
 ## Phase 5: Neutrality And Portability
-**Status:** ✅ PASS
+**Score:** 15/15 · **Status:** PASS
 
 ### Findings:
-- Provider-neutral and runtime-portable wording preserved.
+- Provider-neutral.
 
 ---
 
 ## Summary
 
 ### Strengths:
-- Validator skill is now self-sufficient with deterministic outputs.
-- Prompt-level rubric duplication is removed.
+- Checks the `spec_version` stamp against `2.0.0-beta.1`.
+- Deterministic scoring with listed critical findings.
 
 ### Critical Issues (Must Fix):
 - None.
@@ -71,7 +74,7 @@
 - None.
 
 ### Enhancements (Optional):
-- Add optional lint helper for metadata JSON checks.
+- Require the phase scores to add up to the total, as the other two validators do, and re-run `usercontexts/sample_usercontext.validation.md` with it.
 
 ---
 
@@ -81,8 +84,4 @@
 1. None.
 
 ### Suggested Improvements:
-1. Revalidate when scoring policy changes.
-
----
-
-**Validation completed successfully.**
+1. Re-validate when `templates/usercontext_template.instructions.md` changes.

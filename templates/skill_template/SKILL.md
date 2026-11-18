@@ -25,9 +25,9 @@ Describe the capability this skill provides and the problem it solves.
 - List required information the assistant needs before applying this skill.
 
 ## Workflow
-1. Confirm the task fits the skill scope.
-2. Gather only the inputs required for this workflow.
-3. Execute steps in order and verify outputs.
+1. Confirm the task fits the skill scope. Done when the request matches When To Use.
+2. Gather only the inputs required for this workflow. Done when every required input has a value.
+3. Execute the steps in order. End each step on a completion criterion: the artifact, decision or check result that shows it is done.
 
 ## Output Expectations
 - Define the expected output format and quality criteria.
@@ -52,7 +52,7 @@ Describe the capability this skill provides and the problem it solves.
 - Must match the parent skill directory name.
 - `description` (required):
 - 1-1024 characters.
-- Must state what the skill does and when to use it.
+- It is the pointer that decides when the skill is reached. Model-invoked: say what the skill does, then each distinct trigger ("Use when …"). User-invoked: a one-line summary; a trigger list is optional. See `skills/ack-validate-skill/references/writing-for-agents.md`.
 - `license` (optional): short license identifier.
 - `compatibility` (optional):
 - 1-500 characters.

@@ -2,74 +2,70 @@
 
 **File:** skills/ack-restore-checkpoint/SKILL.md
 **Skill:** ack-restore-checkpoint
-**Validated:** 2026-05-12
+**Validated:** 2026-11-18 (rollout step 5 re-run, with the writing checks)
+**Validator:** `skills/ack-validate-skill`
 
 ---
 
-## Overall Status: ✅ PASS
+## Overall Status: PASS
 
-**Compliance Score:** 97/100
+**Compliance Score:** 100/100 (Phase 1 20 + Phase 2 25 + Phase 3 25 + Phase 4 15 + Phase 5 15)
 
 ---
 
 ## Phase 1: Presence, Structure, And Frontmatter
-**Status:** ✅ PASS
+**Score:** 20/20 · **Status:** PASS
 
 ### Findings:
-- SKILL.md exists with valid frontmatter.
-- Required fields (`name`, `description`, `version`, `allowed-tools`) are present and syntactically valid.
-- `allowed-tools` correctly scoped to `[Read]` — no writes during restore.
-
-### Recommendations:
-- None.
+- `SKILL.md` exists with valid YAML frontmatter.
+- Required fields `name` and `description` are present; every other key is a recognized optional field.
 
 ---
 
 ## Phase 2: Field Constraints And Naming Parity
-**Status:** ✅ PASS
+**Score:** 25/25 · **Status:** PASS
 
 ### Findings:
-- `name` matches folder name and naming constraints.
-- Description is trigger-appropriate and limits use to session-start only.
+- `name` (22 characters) matches the folder and meets the format rules.
+- `description` (208 characters): says what the skill does, then lists its triggers for the model (model-invoked).
+- `version` is `1.0.0`; `metadata` values are strings.
+- `metadata.invocation` is `"model"`, and `disable-model-invocation` is absent.
+- No user-invoked skill is started by this skill.
 
 ---
 
 ## Phase 3: Instruction Quality And Completeness
-**Status:** ✅ PASS
+**Score:** 25/25 · **Status:** PASS
 
 ### Findings:
-- Workflow is sequenced correctly: validate → compare → surface conflicts → resolve → confirm → proceed.
-- Confirmation gate is explicit: no task work begins until user confirms restored state.
-- Conflict resolution logic and examples are externalised to `references/restore-rules.md`.
-- Instruction-file-wins default is explicitly stated.
+- All seven required body sections are present, in order; the restore rules live in `references/restore-rules.md`.
+- Every workflow step ends on a completion criterion; no no-ops or sediment found.
+- The confirmation rule appears in workflow steps 6 and 7 and in Constraints And Safety, within the guardrail exception.
 
 ---
 
 ## Phase 4: Resource References And Safety
-**Status:** ✅ PASS
+**Score:** 15/15 · **Status:** PASS
 
 ### Findings:
-- `references/restore-rules.md` path is relative and resolves correctly.
-- Cross-reference to `skills/ack-create-checkpoint/references/checkpoint-schema.md` is accurate.
-- Mid-session guard is explicit.
+- The one reference resolves; no deep or circular reference chains.
+- `allowed-tools` is `[Read]` only, and no task work starts before the user confirms the restored state.
 
 ---
 
 ## Phase 5: Neutrality And Portability
-**Status:** ✅ PASS
+**Score:** 15/15 · **Status:** PASS
 
 ### Findings:
-- Provider-neutral wording throughout.
-- Conflict prompt language is platform-neutral (no terminal-specific cues).
-- Invocation guidance covers all supported platforms.
+- Provider-neutral; follows spec section 4.4.3.
 
 ---
 
 ## Summary
 
 ### Strengths:
-- Read-only allowed-tools scope is a strong safety constraint.
-- Explicit instruction-file-wins default prevents silent state overwrite.
+- Read-only tool scope.
+- Instruction files win when the user does not answer a conflict.
 
 ### Critical Issues (Must Fix):
 - None.
@@ -78,7 +74,7 @@
 - None.
 
 ### Enhancements (Optional):
-- Consider logging resolved conflicts to a short inline summary the user can copy for their records.
+- Offer a short summary of resolved conflicts the user can keep.
 
 ---
 
@@ -88,8 +84,4 @@
 1. None.
 
 ### Suggested Improvements:
-1. Revalidate after any spec section 4.4.3 restore rule changes.
-
----
-
-**Validation completed successfully.**
+1. Re-validate after spec section 4.4.3 restore rule changes.

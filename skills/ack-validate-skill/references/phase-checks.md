@@ -13,7 +13,7 @@ Check:
 Check:
 - `name` format constraints
 - folder-name parity
-- `description` quality constraints
+- `description` quality constraints, read as a pointer (`writing-for-agents.md`): a model-invoked skill lists its triggers; a user-invoked skill gives a one-line summary
 - optional field constraints (`version`, `compatibility`, `metadata`, `allowed-tools`)
 - invocation: `metadata.invocation` is present and is `"user"` or `"model"` (missing or other value: warning)
 - invocation parity: `disable-model-invocation: true` is present when `metadata.invocation` is `"user"`, and absent when it is `"model"` (mismatch: warning)
@@ -26,6 +26,9 @@ Check:
 - required body sections exist
 - scope boundaries are explicit
 - progressive disclosure is respected
+- every workflow step has a completion criterion (`writing-for-agents.md`; missing: warning)
+- no no-ops, sediment or duplicated rules (`writing-for-agents.md`; found: warning)
+- prohibitions outside the scope boundaries are paired with a positive target (`writing-for-agents.md`; bare prohibition: enhancement)
 
 ## Phase 4: Resource References And Safety
 Check:

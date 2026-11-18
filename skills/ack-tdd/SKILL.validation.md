@@ -2,7 +2,7 @@
 
 **File:** skills/ack-tdd/SKILL.md
 **Skill:** ack-tdd
-**Validated:** 2026-11-18
+**Validated:** 2026-11-18 (rollout step 5 re-run, with the writing checks)
 **Validator:** `skills/ack-validate-skill`
 
 ---
@@ -28,6 +28,7 @@
 - `name` matches the folder and meets the format rules; `description` states what the skill does and when to use it.
 - `metadata.invocation` is `"model"`, with no `disable-model-invocation`, so the assistant may start it.
 - No user-invoked skill is started by this skill.
+- Description as pointer: says what the skill does, then lists its triggers ("Use when …") for the model (model-invoked).
 
 ---
 
@@ -37,6 +38,7 @@
 ### Findings:
 - All seven required body sections are present, in order; detail lives in `references/`.
 - Seams, the red-green-refactor cycle with done conditions, vertical slices and five named anti-patterns are explicit.
+- Writing checks: every workflow step ends on a completion criterion; no no-ops, sediment or duplicated rules found.
 
 ---
 

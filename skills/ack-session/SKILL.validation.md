@@ -2,7 +2,7 @@
 
 **File:** skills/ack-session/SKILL.md
 **Skill:** ack-session
-**Validated:** 2026-11-18
+**Validated:** 2026-11-18 (rollout step 5 re-run, with the writing checks)
 **Validator:** `skills/ack-validate-skill`
 
 ---
@@ -28,6 +28,7 @@
 - `name` matches the folder and meets the format rules; `description` states what the skill does and when to use it.
 - `metadata.invocation` is `"user"`, paired with `disable-model-invocation: true`.
 - No user-invoked skill is started by this skill; it only names skills for the user to run.
+- Description as pointer: a one-line summary for the person who runs the skill (user-invoked).
 
 ---
 
@@ -37,6 +38,7 @@
 ### Findings:
 - All seven required body sections are present, in order; detail lives in `references/`.
 - Each command, its values, matching rules and error handling are specified, and `phase implementation` explicitly does not bypass the implementation gate.
+- Writing checks: every workflow step ends on a completion criterion; no no-ops, sediment or duplicated rules found.
 
 ---
 

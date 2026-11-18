@@ -45,3 +45,4 @@ Each critical finding makes the status FAIL, whatever the score:
 - Deduct within a phase for each failed check, in proportion to its weight. A critical finding takes the phase to 0.
 - Missing operational safeguards and missing project-context subsections cost heavily.
 - Broken links or path mismatches are always reflected in phase 6.
+- Phase 5 writing findings are warnings (a bare prohibition is an enhancement) and cost 1 to 3 points each: 1 for one place, 2 for several, 3 for most of the file.
