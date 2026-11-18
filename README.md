@@ -207,6 +207,8 @@ Operational workflow authority is skill-first:
 - `skills/ack-restore-checkpoint/`
 - `skills/ack-session/` (session state control)
 - `skills/ack-guide/` (which skill to run next; phase boundaries)
+- `skills/ack-interview/` and `skills/ack-interview-with-context/` (settle decisions and terms)
+- `skills/ack-tdd/` (test-driven implementation at agreed seams)
 - `skills/ack-loop-01-readiness/` to `skills/ack-loop-05-commit/` (the implementation loop)
 
 ### Invoking Skills
@@ -368,6 +370,9 @@ Skills are namespaced to the plugin name. Inside a session:
 | `ack-restore-checkpoint` | Restore session state from a checkpoint artifact (spec section 4.4) |
 | `ack-session` | Show or change session state, or reset it to the project defaults |
 | `ack-guide` | Recommend the next skill for a goal, and choose what to do at a phase boundary |
+| `ack-interview-with-context` | Settle a change's decisions and terms before proposing it; record ADRs that pass the three-part test |
+| `ack-interview` | (model-invoked) Settle open decisions in rounds, with a recommended answer per question |
+| `ack-tdd` | (model-invoked) Test-driven implementation: seams agreed first, red before green, one slice per cycle |
 | `ack-loop-01-readiness` | Loop step 01: confirm the OpenSpec change is apply-ready and pick the next task group |
 | `ack-loop-02-implement` | Loop step 02: implement the approved task group task by task on a feature branch |
 | `ack-loop-03-review` | Loop step 03: two-axis self-review (Spec, Standards); STATUS: PASS or BLOCKED |
@@ -637,6 +642,6 @@ What makes this approach powerful is the shift from treating every AI interactio
 
 This represents lessons learned from extensive work with hosted and local LLM providers and real-world development workflows across multiple projects and domains.
 
-**Third-party work:** some skills adapt ideas from other MIT-licensed projects. [mattpocock/skills](https://github.com/mattpocock/skills) by Matt Pocock: the router and phase-boundary tree in `ack-guide`. Each adapted skill credits its source in `metadata.credits`, and [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) holds the full license texts and the list of adapted skills.
+**Third-party work:** some skills adapt ideas from other MIT-licensed projects. [mattpocock/skills](https://github.com/mattpocock/skills) by Matt Pocock: the router and phase-boundary tree in `ack-guide`, the interview method in `ack-interview` and `ack-interview-with-context`, and the test-driven cycle in `ack-tdd`. Each adapted skill credits its source in `metadata.credits`, and [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) holds the full license texts and the list of adapted skills.
 
 ---

@@ -2,7 +2,7 @@
 
 One sequence for both modes. Root mode runs all eight phases. Nested mode runs phases 1, 2, 7 and 8, scoped to the target folder.
 
-Question style: look up every fact the repository can answer (paths, stack, test commands, existing `AGENTS.md` files, OpenSpec state) before asking. Ask each remaining question with a recommended answer. Discovery is done when no required field is left open.
+Question style: Ask the questions with `ack-interview` (`skills/ack-interview/`): look up facts first, ask only about decisions whose prerequisites are settled, and give a recommended answer with each question. Discovery is done when no required field is left open. Facts here include paths, stack, test commands, existing `AGENTS.md` files and the OpenSpec state.
 
 ## Phase 1: Identity And Purpose
 Collect:

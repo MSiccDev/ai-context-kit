@@ -69,7 +69,7 @@
 - None.
 
 ### Enhancements (Optional):
-- Add the interview skills to the routes once they exist.
+- None. (The interview skills were added to the routes on 2026-11-18.)
 
 ---
 
