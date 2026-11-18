@@ -23,20 +23,20 @@ Prepare a change by settling its decisions and its language at the same time, so
 ## Required Inputs
 - The idea or problem the change addresses.
 - The glossary: arc42 section 12 when `docs/arc42/` exists, otherwise `CONTEXT.md` at the repository root (created when the first term is recorded).
-- The ADR index, `docs/adr/README.md`, if it exists.
+- The ADR index, `docs/adr/README.md`, and, when `docs/arc42/` exists, the arc42 section 9 decision log.
 
 ## Workflow
 1. Read the glossary and the ADR index.
 2. Interview the user with the method in `../ack-interview/references/method.md`.
 3. Whenever a term is vague, overloaded or used with two meanings, stop and settle it with the rules in `references/glossary.md`.
-4. When a decision passes the three-part test in `references/glossary.md`, offer to record it as an ADR in `docs/adr/`. Write it only if the user agrees.
+4. When a decision passes the three-part test in `references/glossary.md`, offer to record it as an ADR in `docs/adr/`, indexed in `docs/adr/README.md` and, when arc42 exists, in the section 9 decision log. Write it only if the user agrees.
 5. When nothing is left open, write the glossary changes the user approved, and summarise the decisions, the new or changed terms, and any ADR written.
 6. Recommend `openspec-propose` as the next step, with the summary as its input.
 
 ## Output Expectations
 - Settled decisions, each with its source.
 - Glossary updates: each term with its definition and the synonyms to avoid.
-- Any ADR written, linked from `docs/adr/README.md`.
+- Any ADR written, linked from `docs/adr/README.md` and, when arc42 exists, from the section 9 decision log.
 - A closing summary ready to feed into `openspec-propose`.
 
 ## Resources
@@ -47,5 +47,5 @@ Prepare a change by settling its decisions and its language at the same time, so
 
 ## Constraints And Safety
 - Show every glossary or ADR change and get approval before writing it.
-- When arc42 exists, write terms through the project's arc42 section 12 skill if one is available, rather than editing the file directly.
+- When arc42 exists, write terms through the project's arc42 section 12 skill and ADR index entries through its section 9 skill, if available, rather than editing the files directly.
 - Never create an ADR for a decision that fails the three-part test.

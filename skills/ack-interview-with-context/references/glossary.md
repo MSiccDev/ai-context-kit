@@ -23,4 +23,4 @@ Offer an ADR only when the decision passes all three tests:
 2. **Surprising:** a newcomer would not expect it without an explanation.
 3. **A real trade-off:** there were reasonable alternatives with different costs.
 
-A decision that fails any test belongs in the OpenSpec change's `design.md`, not in an ADR. ADRs go in `docs/adr/` with the next free `ADR-NNN` id and a row in `docs/adr/README.md` (ADR-006).
+A decision that fails any test belongs in the OpenSpec change's `design.md`, not in an ADR. ADRs go in `docs/adr/` with the next free `ADR-NNN` id and a row in `docs/adr/README.md` (ADR-006). When `docs/arc42/` exists, also add the ADR to the arc42 section 9 decision log, which is the master index linking every ADR (ADR-006). Use the project's arc42 section 9 helper skill when one is available, rather than editing the file directly.
