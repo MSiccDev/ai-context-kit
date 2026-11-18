@@ -3,8 +3,10 @@ name: "ack-validate-user-context"
 description: "Validate user-context instruction files against schema, section completeness, quality checks, and scoring criteria."
 version: "1.0.0"
 allowed-tools: [Read, Write]
+disable-model-invocation: true
 metadata:
   workflow_type: "validation"
+  invocation: "user"
 ---
 
 # Validate User Context Instructions

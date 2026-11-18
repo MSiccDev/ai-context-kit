@@ -209,6 +209,13 @@ Operational workflow authority is skill-first:
 
 ### Invoking Skills
 
+Each skill declares who may start it in `metadata.invocation`:
+
+- **`user`** (create, validate, governance and loop skills): only you start it. These skills also carry `disable-model-invocation: true`, so Claude Code never loads them on its own; `/name` still runs them.
+- **`model`** (`ack-create-checkpoint`, `ack-restore-checkpoint`): the assistant may start it, for example to propose a checkpoint at session end.
+
+`disable-model-invocation` is a Claude Code extension outside the Agent Skills spec. Uploading a skill to claude.ai or the Skills API fails on unknown keys, so delete that one line from a user-invoked skill before uploading it. Pasting a skill into a chat or adding it as project knowledge works unchanged.
+
 Skills are invoked by loading the skill's `SKILL.md` content into your AI session. The method varies by platform:
 
 | Platform | How to invoke a skill |
@@ -391,7 +398,7 @@ $ack-validate-agents-md
 $ack-drift-control
 ```
 
-`ack-drift-control` is a governance action: invoke it explicitly. No per-skill sidecar blocks implicit invocation, so Codex may also select it on its own.
+Invoke user-invoked skills (every skill except the two checkpoint skills) explicitly. Codex reads invocation policy from a per-skill `agents/openai.yaml` sidecar, which this repository does not ship yet: the 2.0 installer will generate it from `metadata.invocation`. Until then, Codex may select any skill on its own.
 
 ### Installing the plugin instead of using repo-local discovery
 

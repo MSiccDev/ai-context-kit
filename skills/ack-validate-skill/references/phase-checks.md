@@ -15,6 +15,9 @@ Check:
 - folder-name parity
 - `description` quality constraints
 - optional field constraints (`version`, `compatibility`, `metadata`, `allowed-tools`)
+- invocation: `metadata.invocation` is present and is `"user"` or `"model"` (missing or other value: warning)
+- invocation parity: `disable-model-invocation: true` is present when `metadata.invocation` is `"user"`, and absent when it is `"model"` (mismatch: warning)
+- no user-invoked skill is started by another skill's workflow (violation: warning)
 
 ## Phase 3: Instruction Quality And Completeness
 Check:

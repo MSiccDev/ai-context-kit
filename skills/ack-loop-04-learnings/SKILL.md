@@ -3,9 +3,11 @@ name: "ack-loop-04-learnings"
 description: "Implementation loop step 04 (optional): teach the key lessons from the implemented task group and its two-axis review, mapped to the user's background and stack. Use after a passing self-review when the user wants to learn from the step."
 version: "1.0.0"
 allowed-tools: [Read]
+disable-model-invocation: true
 metadata:
   workflow_type: "loop"
   loop_step: "04"
+  invocation: "user"
 ---
 
 # Loop 04: Learnings

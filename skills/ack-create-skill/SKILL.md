@@ -3,8 +3,10 @@ name: "ack-create-skill"
 description: "Create canonical SKILL.md artifacts with deterministic schema, workflow, safety, and quality checks."
 version: "1.0.0"
 allowed-tools: [Read, Write, Edit]
+disable-model-invocation: true
 metadata:
   workflow_type: "generation"
+  invocation: "user"
 ---
 
 # Create Skill
