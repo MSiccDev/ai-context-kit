@@ -30,6 +30,7 @@ Run `openspec list --json`, or read `openspec/` if the CLI is unavailable.
 - No conflicting rules.
 - No copied normative specification text.
 - **Nested:** no repetition of root content.
+- Writing checks from `../../ack-validate-skill/references/writing-for-agents.md`: no no-ops, no sediment (lines about removed files, retired commands or past versions), each rule in one home, lines that name another document say what it is and when to read it, and prohibitions paired with a positive target.
 
 ## Phase 6: Portability, Links And Alignment
 - Wording is provider-neutral, with no mandatory single-runtime assumptions.

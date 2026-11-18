@@ -1,7 +1,7 @@
 ---
 name: "ack-validate-user-context"
 description: "Validate user-context instruction files against schema, section completeness, quality checks, and scoring criteria."
-version: "1.0.0"
+version: "1.1.0"
 allowed-tools: [Read, Write]
 disable-model-invocation: true
 metadata:
@@ -25,12 +25,11 @@ Validate user-context instruction files and produce structured reports with issu
 - Validation strictness expectations (if any).
 
 ## Workflow
-1. Run validation phases from `references/phase-checks.md`.
-2. Check for `spec_version` field in YAML frontmatter: flag as WARNING if absent (pre-existing files may predate this requirement); flag as WARNING if present but older than `2.0.0-beta.1`.
-3. Generate report using `references/report-contract.md`.
-4. Apply deterministic scoring from `references/scoring.md`.
-5. Classify findings into critical/warning/enhancement buckets.
-6. Produce implementation-ready recommendations.
+1. Run the five phases in `references/phase-checks.md`. A phase is done when every check in it has a result.
+2. Check for the `spec_version` field in the YAML frontmatter: flag a WARNING if it is absent (older files may predate it) or older than `2.0.0-beta.1`.
+3. Score each phase with `references/scoring.md`. Done when every phase has a score and the status follows the grade bands.
+4. Classify every finding as Critical, Warning or Enhancement, each with a concrete fix.
+5. Write the report next to the target, as `references/report-contract.md` describes.
 
 ## Output Expectations
 - A markdown validation report with phase-by-phase findings.
@@ -49,6 +48,5 @@ Validate user-context instruction files and produce structured reports with issu
 
 ## Constraints And Safety
 - Preserve privacy boundaries in findings and examples.
-- Keep recommendations implementation-ready and non-ambiguous.
 - Use provider-neutral language.
-- Do not modify validated source files automatically.
+- Write only the report; leave the validated file unchanged.

@@ -17,7 +17,7 @@
 
 ## Constraint rules
 - `name`: 1-64 chars, lowercase alphanumeric + hyphen, no leading/trailing hyphen, no consecutive hyphens, matches folder name.
-- `description`: 1-1024 chars, must state what the skill does and when to use it.
+- `description`: 1-1024 chars. It is the pointer that decides when the skill is reached (`../../ack-validate-skill/references/writing-for-agents.md`). Model-invoked: state what the skill does, leading word first, then each distinct trigger ("Use when …"). User-invoked: a one-line summary for the person who types the name; a trigger list is optional.
 - `compatibility`: optional, 1-500 chars.
 - `metadata`: optional map of string keys to string values.
 - `metadata.invocation`: `"user"` or `"model"`. Use `"user"` for skills with side effects or a fixed order (create, validate, governance, loop); use `"model"` only when the assistant should start the skill on its own.

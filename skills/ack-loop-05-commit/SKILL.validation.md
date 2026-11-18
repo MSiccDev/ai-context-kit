@@ -2,7 +2,7 @@
 
 **File:** skills/ack-loop-05-commit/SKILL.md
 **Skill:** ack-loop-05-commit
-**Validated:** 2026-11-17; Phase 3 re-checked 2026-11-17 after the invocation field was added
+**Validated:** 2026-11-18 (rollout step 5 re-run, with the writing checks)
 **Validator:** `skills/ack-validate-skill`
 
 ---
@@ -29,6 +29,7 @@
 - `name` matches the folder and meets the format rules.
 - `description` states what the step does and when to use it.
 - `metadata` values are strings (`workflow_type`, `loop_step`).
+- Description as pointer: a one-line summary for the person who runs the skill (user-invoked).
 
 ---
 
@@ -39,6 +40,7 @@
 - All seven required body sections are present, in order, and name the step's place in the loop.
 - The full procedure lives in `references/procedure.md`, moved unchanged from the former loop prompt (progressive disclosure).
 - `metadata.invocation` is `"user"`, with `disable-model-invocation: true` to match, so Claude Code never loads the skill on its own.
+- Writing checks: every workflow step ends on a completion criterion; no no-ops, sediment or duplicated rules found.
 
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: "ack-create-user-context"
 description: "Create complete user-context instruction files using a structured discovery workflow and repository format rules."
-version: "1.0.0"
+version: "1.1.0"
 allowed-tools: [Read, Write, Edit]
 disable-model-invocation: true
 metadata:
@@ -26,12 +26,12 @@ Generate a complete user-context instruction file with required sections, privac
 - Desired output filename/path.
 
 ## Workflow
-1. Run phased discovery using `references/discovery-phases.md`.
-2. Normalize findings into required schema using `references/output-schema.md`.
-3. Apply format contract from `references/output-format.md`.
-4. Stamp `spec_version: "2.0.0-beta.1"` in the YAML frontmatter of the generated artifact.
-5. Validate against `references/quality-checklist.md` before final output.
-6. If structured metadata is requested, apply `references/json-metadata-schema.md`.
+1. Run the discovery phases in `references/discovery-phases.md`. Done when no required field is left open.
+2. Map the findings onto the sections in `references/output-schema.md`. Done when all 15 sections have content in order.
+3. Apply the format contract in `references/output-format.md`, and stamp `spec_version: "2.0.0-beta.1"` in the YAML frontmatter.
+4. If the user asks for structured metadata, add it with `references/json-metadata-schema.md`. Done when the JSON is valid and states nothing the markdown does not.
+5. Check the draft against `references/quality-checklist.md` and fix any unchecked item.
+6. Return the artifact and completion summary described in `references/output-format.md`.
 
 ## Output Expectations
 - One complete `*.instructions.md` file for user context.

@@ -46,7 +46,7 @@ Kit skills are named `ack-*`. OpenSpec skills are installed by `openspec init` a
 | See or change role, phase, style, tone or interaction mode | `ack-session` |
 | Save the session before ending it | `ack-create-checkpoint` |
 | Resume from a checkpoint | `ack-restore-checkpoint` |
-| Decide what to do at a phase boundary | This skill, `references/phase-boundaries.md` |
+| Decide what to do at a phase boundary | This skill, workflow step 3 (the phase-boundary choices) |
 
 ## Extend the kit
 

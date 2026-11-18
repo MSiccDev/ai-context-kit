@@ -1,18 +1,19 @@
 ---
 name: "ack-validate-agents-md"
 description: "Validate root or nested AGENTS.md files with one scored rubric: structure, operational contract, spec-driven change workflow, project context, clarity, and portability and links. Use before accepting any AGENTS.md change."
-version: "2.0.0"
+version: "2.1.0"
 allowed-tools: [Read, Write, Bash]
 disable-model-invocation: true
 metadata:
   workflow_type: "validation"
   invocation: "user"
+  credits: "Phase 5 writing checks adapted from mattpocock/skills writing-for-agents (MIT, Copyright (c) 2026 Matt Pocock), https://github.com/mattpocock/skills"
 ---
 
 # Validate AGENTS.md
 
 ## Purpose
-Validate an `AGENTS.md` file in **root** or **nested** mode with one combined rubric, and write a scored report. This skill replaces `validate-agents-md` and `validate-project-instructions` (ADR-009).
+Validate an `AGENTS.md` file in **root** or **nested** mode with one combined rubric, and write a scored report. This skill replaces `validate-agents-md` and `validate-project-instructions` (ADR-009). The phase 5 writing checks adapt Matt Pocock's writing-for-agents skill.
 
 ## When To Use
 - Use this skill when adding or updating a root or nested `AGENTS.md`, and before accepting `AGENTS.md` policy changes.
@@ -43,6 +44,7 @@ Validate an `AGENTS.md` file in **root** or **nested** mode with one combined ru
 - Phase checks: `references/phase-checks.md`
 - Scoring and critical findings: `references/scoring.md`
 - Report contract: `references/report-contract.md`
+- Writing checks (phase 5): `../ack-validate-skill/references/writing-for-agents.md`
 - Canonical template: `../../templates/AGENTS_template.md`
 - Example target: `../../AGENTS.md`
 

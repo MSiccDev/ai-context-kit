@@ -2,7 +2,7 @@
 
 **File:** skills/ack-interview-with-context/SKILL.md
 **Skill:** ack-interview-with-context
-**Validated:** 2026-11-18
+**Validated:** 2026-11-18 (rollout step 5 re-run, with the writing checks)
 **Validator:** `skills/ack-validate-skill`
 
 ---
@@ -28,6 +28,7 @@
 - `name` matches the folder and meets the format rules; `description` states what the skill does and when to use it.
 - `metadata.invocation` is `"user"`, paired with `disable-model-invocation: true`.
 - No user-invoked skill is started by this skill.
+- Description as pointer: a one-line summary for the person who runs the skill (user-invoked).
 
 ---
 
@@ -37,6 +38,7 @@
 ### Findings:
 - All seven required body sections are present, in order; detail lives in `references/`.
 - The glossary location (arc42 section 12 or `CONTEXT.md`), entry shape, when to challenge a term and the three-part ADR test are explicit.
+- Writing checks: every workflow step ends on a completion criterion; no no-ops, sediment or duplicated rules found.
 
 ---
 
