@@ -2,6 +2,8 @@
 
 Use this phased interview sequence and do not skip phases unless the user already provided equivalent detail.
 
+Question style: Ask the questions with `ack-interview` (`skills/ack-interview/`): look up facts first, ask only about decisions whose prerequisites are settled, and give a recommended answer with each question. Discovery is done when no required field is left open.
+
 ## Phase 1: Personal Identity And Professional Background
 Collect:
 - preferred name/label

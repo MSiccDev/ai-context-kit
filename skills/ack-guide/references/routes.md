@@ -7,9 +7,10 @@ Kit skills are named `ack-*`. OpenSpec skills are installed by `openspec init` a
 | Step | Goal | Skill | Notes |
 | --- | --- | --- | --- |
 | 1 | Think through an idea before committing to it | `openspec-explore` | Optional |
+| 1a | Settle the change's decisions and terms; offer ADRs | `ack-interview-with-context` | Recommended when the change touches domain language |
 | 2 | Turn the idea into an OpenSpec change (proposal, spec deltas, design, tasks) | `openspec-propose` | Ends when `openspec instructions apply` reports `ready` |
 | 3 | Check readiness and pick the next task group | `ack-loop-01-readiness` | Start of every loop |
-| 4 | Implement the task group | `ack-loop-02-implement` | Also fixes blocked review findings |
+| 4 | Implement the task group | `ack-loop-02-implement` | Also fixes blocked review findings; writes tests with `ack-tdd` |
 | 5 | Review on the Spec and Standards axes | `ack-loop-03-review` | |
 | 6 | Learn from the step | `ack-loop-04-learnings` | Optional |
 | 7 | Commit, and archive the change once all tasks are done and review is approved | `ack-loop-05-commit` | Repeat from step 3 while tasks remain |
@@ -30,6 +31,13 @@ Kit skills are named `ack-*`. OpenSpec skills are installed by `openspec init` a
 | Validate an `AGENTS.md` | `ack-validate-agents-md` |
 | Validate an OpenSpec change | `openspec validate <id> --strict` (also part of `ack-loop-03-review`) |
 | Check spec, templates, skills and docs for drift | `ack-drift-control` |
+
+## Decisions and language
+
+| Goal | Skill |
+| --- | --- |
+| Settle open decisions for any task | `ack-interview` (the assistant uses it; you can also ask for it) |
+| Settle decisions and agree terms before a change; record ADRs | `ack-interview-with-context` |
 
 ## Session
 

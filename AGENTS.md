@@ -216,6 +216,7 @@ When `specs/context_aware_ai_session_spec.md` changes, audit and update all impa
 - Create skills: [`ack-create-agents-md`](skills/ack-create-agents-md/SKILL.md), [`ack-create-user-context`](skills/ack-create-user-context/SKILL.md), [`ack-create-skill`](skills/ack-create-skill/SKILL.md)
 - Validate skills: [`ack-validate-agents-md`](skills/ack-validate-agents-md/SKILL.md), [`ack-validate-user-context`](skills/ack-validate-user-context/SKILL.md), [`ack-validate-skill`](skills/ack-validate-skill/SKILL.md)
 - Session and navigation: [`ack-session`](skills/ack-session/SKILL.md), [`ack-guide`](skills/ack-guide/SKILL.md)
+- Interview and implementation: [`ack-interview`](skills/ack-interview/SKILL.md), [`ack-interview-with-context`](skills/ack-interview-with-context/SKILL.md), [`ack-tdd`](skills/ack-tdd/SKILL.md)
 - Loop skills:
   - [`ack-loop-01-readiness`](skills/ack-loop-01-readiness/SKILL.md)
   - [`ack-loop-02-implement`](skills/ack-loop-02-implement/SKILL.md)

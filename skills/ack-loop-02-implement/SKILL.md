@@ -30,7 +30,7 @@ Loop order: `ack-loop-01-readiness` → **02 implement** → `ack-loop-03-review
 ## Workflow
 1. Follow `references/procedure.md` in order: fixing review findings (when applicable), the `state: ready` gate, then task-by-task work.
 2. Work on a feature branch; never on `main`, `master`, `dev`, `develop` or `development`.
-3. Tick a task in `tasks.md` only after its build and tests pass.
+3. Write tests with `ack-tdd` at the agreed seams, and tick a task in `tasks.md` only after its build and tests pass.
 4. Report what was implemented, as the procedure lists.
 
 ## Output Expectations

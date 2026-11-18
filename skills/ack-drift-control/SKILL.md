@@ -30,7 +30,8 @@ Prevent divergence between authoritative specification, operational skills and t
 2. Audit templates, skills, samples, README, and AGENTS for alignment.
 3. Apply consistent terminology and path references.
 4. Verify policy and precedence remain coherent after updates.
-5. Record drift-control outcomes in commit/PR summary.
+5. Check attribution: every skill with a `metadata.credits` entry has a row in `THIRD_PARTY_NOTICES.md`, every row names an existing skill, and each source's license text is present (ADR-014).
+6. Record drift-control outcomes in commit/PR summary.
 
 ## Output Expectations
 - Aligned artifacts with no stale references.

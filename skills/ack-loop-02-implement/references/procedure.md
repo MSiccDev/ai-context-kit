@@ -61,8 +61,9 @@ Rules:
 - implement only the approved task group; do not start the next group
 - add tests together with meaningful logic; never ship logic without
   accompanying tests
-- write tests at the seams named in `design.md`; if a TDD skill is available,
-  use it at those seams; if the design names no seams, ask before choosing them
+- write tests with `ack-tdd` at the seams named in `design.md`: a failing test
+  first, then the minimal code, one slice at a time; if the design names no
+  seams, agree them with the user before writing any test
 - run build and test suite after implementation and include the output
   in the report
 - do not introduce new dependencies without an explicit decision

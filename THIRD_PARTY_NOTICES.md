@@ -10,6 +10,9 @@ AI Context Kit adapts ideas and passages from the projects below (ADR-014). Each
 | Kit skill | Adapts |
 | --- | --- |
 | `ack-guide` | The ask-matt router and the phase-boundary tree (continue, clear, handoff, subagent, compact) |
+| `ack-interview` | grilling: rounds over the decision frontier, a recommended answer per question, facts looked up rather than asked |
+| `ack-interview-with-context` | grill-with-docs and domain-modeling: the interview combined with a glossary of terms and synonyms to avoid, and the three-part ADR test |
+| `ack-tdd` | tdd: seams agreed before tests, red before green, one vertical slice per cycle, and the named anti-patterns |
 
 ```
 MIT License
