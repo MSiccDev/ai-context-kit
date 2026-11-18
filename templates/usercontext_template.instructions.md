@@ -170,8 +170,8 @@ When replying:
 - [Guideline 2]
 - [Guideline 3]
 - Prefer explicit confirmation when a context shift is implied
-- Be transparent about active context when asked (`/tag.context`)
-- Use the project’s namespaced commands (e.g., `/ack.context`) when available
+- Be transparent about active context when asked (`ack-session context`)
+- Accept session changes through `ack-session` or plain language, and confirm them
 
 ---
 

@@ -169,6 +169,18 @@ A compression checkpoint must preserve:
 - A compression checkpoint may serve as a session restore point per section 4.4.
 - The assistant must not imply that dropped context is recoverable after compression has been applied.
 
+#### 4.5.4 Phase Boundary Choices
+
+At a phase boundary (a task group committed, a change archived, a switch of topic) or when context pressure builds, the assistant **SHOULD** consider these options in order and propose the first that fits:
+
+1. **Continue:** the current context is still relevant and there is room left. Carry on in the same session.
+2. **Clear:** the finished work's detail is no longer needed. Start a fresh session; instructions and session state are reloaded from `AGENTS.md` and user context.
+3. **Handoff:** the work continues elsewhere (a new session, another tool or a colleague). Create a checkpoint (section 4.4) and resume from it.
+4. **Subagent:** a self-contained sub-task would flood the current context. Delegate it where the tool supports sub-agents, and keep only its result.
+5. **Compact:** none of the above fits. Propose compression under sections 4.5.1 to 4.5.3.
+
+Compression is the last option because it is the only one that loses context irreversibly. Every option except Continue requires the user's confirmation.
+
 ---
 
 ## 5. Context Initialization
@@ -241,7 +253,7 @@ The assistant should infer whether context is established or missing. If no proj
 
 ### 5.5 When Confirmation May Be Skipped
 
-If a valid session state is already established, the task aligns with current context, and no conflicts are detected, the assistant may proceed without re-confirming. The user may always request a recap via the project's context command (e.g., `/namespace.context`).
+If a valid session state is already established, the task aligns with current context, and no conflicts are detected, the assistant may proceed without re-confirming. The user may always request a recap with the session skill (`ack-session context`, section 8.2).
 
 ### 5.6 Recommended Context Summary Format
 
@@ -288,7 +300,7 @@ Active Context:
 
 ### 6.3 User-Initiated Context Recall
 
-Users may request active context at any time via natural language ("What mode are we in?") or the project's namespaced context command. The assistant responds with the user's preferred summary format.
+Users may request active context at any time via natural language ("What mode are we in?") or `ack-session context` (section 8.2). The assistant responds with the user's preferred summary format.
 
 ### 6.4 Silent Internal Checks
 
@@ -350,26 +362,23 @@ The assistant must recognize clearly expressed state changes via natural languag
 | "Be more concise and direct." | Adjust Tone = Direct |
 | "Let's pair-program this step by step." | Set Interaction Mode = Pair-Programming |
 
-### 8.2 Structured Command Interface
+### 8.2 Session Skill
 
-| Command | Parameters | Description |
-|---------|------------|-------------|
-| `/namespace.mode [role]` | architect, developer, reviewer, … | Changes assistant role |
-| `/namespace.phase [name]` | planning, implementation, debugging, review | Updates work phase |
-| `/namespace.style [name]` | step-by-step, minimal, annotated | Sets verbosity and formatting |
-| `/namespace.tone [style]` | formal, direct, encouraging, neutral | Changes communication tone |
-| `/namespace.interact [mode]` | advisory, pair, driver | Adjusts assistant initiative |
-| `/namespace.context` | — | Displays current session state |
-| `/namespace.reset` | — | Clears session state (user context retained) |
+Explicit state control goes through one user-invoked skill, **`ack-session`**, which takes a command and, where needed, a value: `ack-session <command> [value]`.
 
-Optional extensions:
+| Command | Value | Description |
+|---------|-------|-------------|
+| `context` | — | Displays the current session state (section 6.2 format) |
+| `mode` | architect, developer, reviewer, … | Changes the assistant role |
+| `phase` | planning, implementation, debugging, review | Updates the work phase |
+| `style` | step-by-step, minimal, annotated | Sets verbosity and formatting |
+| `tone` | formal, direct, encouraging, neutral | Changes communication tone |
+| `interact` | advisory, pair, driver | Adjusts assistant initiative |
+| `reset` | — | Clears session state back to the project defaults (user context retained) |
 
-| Command | Description |
-|---------|-------------|
-| `/namespace.project [name]` | Switches active project (when explicit project routing is enabled) |
-| `/namespace.help` | Lists available commands |
+How a user starts the skill depends on the tool, for example `/ack-session phase implementation` in Claude Code or `$ack-session phase implementation` in Codex. Where skills cannot be invoked by name, the user pastes the skill and states the command.
 
-Commands may be combined if unambiguous: `/namespace.mode developer /namespace.phase implementation`
+Because `ack-session` is user-invoked (`metadata.invocation: "user"`), the assistant cannot run it on its own. This enforces the no-silent-transitions rule (section 7.1) in tools that honour invocation settings. Natural-language control (section 8.1) remains available and still requires confirmation where section 7.2 says so.
 
 ### 8.3 Error Handling
 
@@ -377,9 +386,9 @@ Commands may be combined if unambiguous: `/namespace.mode developer /namespace.p
 - **Conflict**: Assistant flags the conflict and asks for confirmation before proceeding
 - **Unrecognized value**: Assistant lists available options
 
-### 8.4 Command Namespacing
+### 8.4 Session Commands In AGENTS.md
 
-Projects must define a command namespace prefix to avoid collisions across tooling. Format: `/namespace.command` (e.g., `/ack.context` for AI Context Kit). The namespace must be documented in the project `AGENTS.md`.
+The project `AGENTS.md` **MUST** name `ack-session` and its commands in a `Session Commands` section. Projects no longer define their own command prefix: the `ack-` skill prefix (ADR-008) already avoids collisions across tooling.
 
 ---
 

@@ -29,7 +29,7 @@ This skill replaces `create-agents-md` and `create-project-instructions` (ADR-00
 
 ## Required Inputs
 - Target path (decides the mode).
-- Root mode: repository purpose, canonical paths, source precedence, session-state defaults, command namespace, OpenSpec setup, project context.
+- Root mode: repository purpose, canonical paths, source precedence, session-state defaults, OpenSpec setup, project context.
 - Nested mode: the folder's purpose, local paths and commands, and the root rules it overrides.
 
 ## Workflow

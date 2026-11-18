@@ -17,4 +17,4 @@ Format:
 ## Transition Examples
 Show both:
 - natural language transition
-- namespaced command transition (`/tag.mode ...`, `/tag.phase ...`)
+- session skill transition (`ack-session mode ...`, `ack-session phase ...`)

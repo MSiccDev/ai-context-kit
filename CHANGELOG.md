@@ -14,6 +14,10 @@ When a new version is released:
 ## [Unreleased]
 
 ### Breaking
+- `ack-session` replaces the `/ack.*` and per-project `/<tag>.*` session commands (ADR-011; Part 2 rollout step 4). Run `ack-session context`, `mode`, `phase`, `style`, `tone`, `interact` or `reset` instead. It is user-invoked, so the assistant cannot change session state on its own; plain-language requests still work
+  - Spec section 8.2 is now the Session Skill; section 8.4 requires a `Session Commands` section in `AGENTS.md` and drops per-project command prefixes. Sections 5.5 and 6.3 point to `ack-session context`
+  - `templates/AGENTS_template.md` renames `Command Namespace Policy` to `Session Commands`. `ack-create-agents-md` writes it, `ack-validate-agents-md` checks it, and the kit's own `AGENTS.md` uses it. Existing `AGENTS.md` files with the old section need it rewritten from the template
+  - The user context template refers to `ack-session context` instead of `/tag.context`
 - Every skill declares who may start it (2.0 adoption plan, user versus model invocation split; Part 2 rollout step 4):
   - `metadata.invocation: "user"` for the twelve create, validate, governance and loop skills, which also carry Claude Code's `disable-model-invocation: true`, so Claude Code no longer loads them on its own; `/name` still runs them
   - `metadata.invocation: "model"` for `ack-create-checkpoint` and `ack-restore-checkpoint`, which the assistant may still start on its own
@@ -79,6 +83,11 @@ When a new version is released:
 - `create-project-instructions` now requires the `Scope And Precedence For AGENTS.md Files` section, in template order with the template's four rules: it is in the output schema, the quality checklist and discovery. `validate-project-instructions` checks for it
 - `AGENTS.validation.md` stated 100/100, but its phase scores add up to 99. It now states 99/100 with the sum and a dated correction; the status stays PASS
 - Neither AGENTS.md creator wrote the `Spec-Driven Change Workflow` section the template requires, and neither validator checked it. Closed by the merged `ack-create-agents-md` and `ack-validate-agents-md` (see Breaking)
+
+### Added
+- `ack-guide` (user-invoked): recommends the next kit or OpenSpec skill for a goal, along the main flow explore → propose → `ack-loop-01` to `05`, and walks the phase-boundary choices. It adapts mattpocock/skills' ask-matt router and phase-boundary tree
+- Spec section 4.5.4, **Phase Boundary Choices**: at a phase boundary, consider continue, clear, handoff, subagent and compact in that order; compaction is last because only it loses context irreversibly
+- `THIRD_PARTY_NOTICES.md` with the MIT license of mattpocock/skills and the list of adapted skills, and a README Acknowledgments entry (ADR-014). The skill template and `ack-create-skill` require `metadata.credits` for adapted material, and `ack-validate-skill` warns when it or the notices row is missing
 
 ---
 

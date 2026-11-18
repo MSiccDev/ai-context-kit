@@ -25,6 +25,7 @@ Use this order when files differ:
 | `skills/ack-loop-*/` | The implementation loop as five numbered skills (readiness → implement → review → learnings → commit); invoke in order, learnings is optional |
 | `usercontexts/` | User-context instruction examples and validation reports |
 | `docs/adr/` | Architecture decision records for the kit itself; start with `docs/adr/README.md` |
+| `THIRD_PARTY_NOTICES.md` | Licenses and the list of skills that adapt third-party work |
 
 ## Scope And Precedence For AGENTS.md Files
 - An `AGENTS.md` file applies to the directory it is in and all subdirectories.
@@ -73,22 +74,22 @@ Defaults are defined directly in this `AGENTS.md` to keep project context self-c
 | Tone | `direct` |
 | Interaction Mode | `advisory` |
 
-## Command Namespace Policy
-Use namespaced commands for explicit state control.
+## Session Commands
+Change session state explicitly with the user-invoked [`ack-session`](skills/ack-session/SKILL.md) skill (spec section 8.2): `ack-session <command> [value]`. Plain-language requests ("switch to Reviewer") also work and follow the same confirmation rules. The former `/ack.*` commands are retired (ADR-011).
 
 | Command | Description |
 | --- | --- |
-| `/ack.context` | Show active session state summary |
-| `/ack.mode <role>` | Change assistant role/mode |
-| `/ack.phase <phase>` | Change current work phase |
-| `/ack.style <style>` | Change output style/verbosity |
-| `/ack.tone <tone>` | Change communication tone |
-| `/ack.interact <mode>` | Change interaction mode (`advisory`, `pair`, `driver`) |
-| `/ack.reset` | Reset session state (keep user context and project context unless user says otherwise) |
+| `ack-session context` | Show active session state summary |
+| `ack-session mode <role>` | Change assistant role/mode |
+| `ack-session phase <phase>` | Change current work phase |
+| `ack-session style <style>` | Change output style/verbosity |
+| `ack-session tone <tone>` | Change communication tone |
+| `ack-session interact <mode>` | Change interaction mode (`advisory`, `pair`, `driver`) |
+| `ack-session reset` | Reset session state to the defaults above (keep user context and project context unless the user says otherwise) |
 
-Alias policy:
-- Namespaced `/ack.*` commands are the default.
-- Unprefixed aliases are allowed only when no command conflict exists.
+Invocation: `/ack-session` in Claude Code (`/ai-context-kit:ack-session` with the plugin), `$ack-session` in Codex.
+
+To find the right skill for a task, run [`ack-guide`](skills/ack-guide/SKILL.md).
 
 ## Spec-Driven Change Workflow
 Spec section 11 makes OpenSpec mandatory for kit-managed repositories (ADR-001).
@@ -214,6 +215,7 @@ When `specs/context_aware_ai_session_spec.md` changes, audit and update all impa
 - Skill template: [`templates/skill_template/SKILL.md`](templates/skill_template/SKILL.md)
 - Create skills: [`ack-create-agents-md`](skills/ack-create-agents-md/SKILL.md), [`ack-create-user-context`](skills/ack-create-user-context/SKILL.md), [`ack-create-skill`](skills/ack-create-skill/SKILL.md)
 - Validate skills: [`ack-validate-agents-md`](skills/ack-validate-agents-md/SKILL.md), [`ack-validate-user-context`](skills/ack-validate-user-context/SKILL.md), [`ack-validate-skill`](skills/ack-validate-skill/SKILL.md)
+- Session and navigation: [`ack-session`](skills/ack-session/SKILL.md), [`ack-guide`](skills/ack-guide/SKILL.md)
 - Loop skills:
   - [`ack-loop-01-readiness`](skills/ack-loop-01-readiness/SKILL.md)
   - [`ack-loop-02-implement`](skills/ack-loop-02-implement/SKILL.md)

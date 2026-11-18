@@ -3,11 +3,11 @@
 Run the phases in order. Each phase lists its checks for root mode and for nested mode.
 
 ## Phase 1: Structure And Core Sections
-- **Root:** the file exists; all eleven sections of the template are present, in template order (Purpose, Source Of Truth And Precedence, Repository Map, Scope And Precedence For AGENTS.md Files, Session-State Contract, Command Namespace Policy, Spec-Driven Change Workflow, Repository Project Context, Formatting And Path Stability Rules, Update And Drift-Control Rule, Key References); headings are scannable.
+- **Root:** the file exists; all eleven sections of the template are present, in template order (Purpose, Source Of Truth And Precedence, Repository Map, Scope And Precedence For AGENTS.md Files, Session-State Contract, Session Commands, Spec-Driven Change Workflow, Repository Project Context, Formatting And Path Stability Rules, Update And Drift-Control Rule, Key References); headings are scannable.
 - **Nested:** the file exists; the five nested sections are present, in order (Scope, What This Folder Overrides, Local Map, Local Commands, Key References); a root `AGENTS.md` exists.
 
 ## Phase 2: Operational Contract
-- **Root:** the session-state summary lists the six elements; the no-silent-transitions rule and the ambiguity rule are present; the Default State table has Project, Role, Phase, Output Style, Tone and Interaction Mode; the namespaced command reference is complete; Scope And Precedence For AGENTS.md Files states all four rules (applies to subtree, deepest wins, root global and nested folder-specific, ask when unresolved); the drift-control rule lists the dependent artifacts.
+- **Root:** the session-state summary lists the six elements; the no-silent-transitions rule and the ambiguity rule are present; the Default State table has Project, Role, Phase, Output Style, Tone and Interaction Mode; Session Commands names `ack-session` and its seven commands (context, mode, phase, style, tone, interact, reset) and says how tools start it; Scope And Precedence For AGENTS.md Files states all four rules (applies to subtree, deepest wins, root global and nested folder-specific, ask when unresolved); the drift-control rule lists the dependent artifacts.
 - **Nested:** the scope statement names the folder; Key References links to the root `AGENTS.md`; every override names the root rule it refines; nothing in the file contradicts the root file without being stated as an override.
 
 ## Phase 3: Spec-Driven Workflow (root mode only)

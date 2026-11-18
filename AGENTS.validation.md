@@ -24,7 +24,7 @@
 - **Status:** PASS
 - The session-state summary lists all six elements; no-silent-transitions and ambiguity rules are present.
 - The Default State table has all six elements.
-- The namespaced command reference has all seven `/ack.*` commands, with an alias policy.
+- Session Commands names `ack-session` with all seven commands and says how Claude Code and Codex start it. Re-checked 2026-11-18, after this section replaced the retired `/ack.*` commands.
 - Scope And Precedence For AGENTS.md Files states all four rules.
 - The drift-control rule lists the dependent artifacts.
 

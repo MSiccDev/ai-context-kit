@@ -13,6 +13,6 @@ A nested `AGENTS.md` refines the root file for one folder. It says only what dif
 | Key References | A relative link to the root `AGENTS.md`, plus local references |
 
 ## Rules
-- Do not repeat root content: no session-state contract, command namespace, drift-control rule or spec-driven section.
+- Do not repeat root content: no session-state contract, session commands, drift-control rule or spec-driven section.
 - To change one of those for this folder, state it under "What This Folder Overrides", naming the root rule.
 - Use relative paths only, and keep wording provider-neutral.
