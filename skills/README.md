@@ -30,6 +30,10 @@ This directory is the canonical location for repository skill instances.
 ### Governance Workflows
 - `ack-drift-control` (no `references/` directory)
 
+### Session And Navigation Workflows
+- `ack-session` (`references/commands.md`)
+- `ack-guide` (`references/routes.md`, `references/phase-boundaries.md`)
+
 ### Loop Workflows (invoke in order; 04 is optional)
 - `ack-loop-01-readiness` (`references/procedure.md`)
 - `ack-loop-02-implement` (`references/procedure.md`)

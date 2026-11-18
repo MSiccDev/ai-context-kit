@@ -62,5 +62,6 @@ Describe the capability this skill provides and the problem it solves.
 - `disable-model-invocation` (Claude Code only): `true` exactly when `metadata.invocation` is `"user"`; omit it otherwise. It stops Claude Code from loading the skill on its own. It is outside the Agent Skills spec, so remove this one line before uploading the skill to claude.ai or the Skills API, which reject unknown keys.
 - Codex reads invocation policy from a separate `agents/openai.yaml` file, which the kit installer generates from `metadata.invocation`; do not write it by hand.
 - A user-invoked skill is never started by another skill; a skill may only tell the user which skill to run next.
+- `metadata.credits` (when adapting external material): one string with source, license, copyright and URL; also name the origin once in the body and list the skill in `THIRD_PARTY_NOTICES.md`.
 - `version` (optional): semver string (e.g. `"1.0.0"`). Increment when skill behavior changes.
 - `allowed-tools` (optional): YAML flow list of tool names this skill may invoke (e.g. `[Read, Write, Edit]`).

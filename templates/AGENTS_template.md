@@ -62,25 +62,20 @@ Track and expose:
 | Tone | `<default tone>` |
 | Interaction Mode | `<default mode>` |
 
-## Command Namespace Policy
-Use namespaced commands as the default control surface.
-
-Set namespace prefix: `<tag>`  
-Recommended command format: `/<tag>.<command>`
+## Session Commands
+Change session state explicitly with the user-invoked `ack-session` skill (spec section 8.2): `ack-session <command> [value]`. Plain-language requests ("switch to Reviewer") also work and follow the same confirmation rules.
 
 | Command | Description |
 | --- | --- |
-| `/<tag>.context` | Show active session state |
-| `/<tag>.mode <role>` | Change role/mode |
-| `/<tag>.phase <phase>` | Change phase |
-| `/<tag>.style <style>` | Change output style |
-| `/<tag>.tone <tone>` | Change communication tone |
-| `/<tag>.interact <mode>` | Change interaction mode |
-| `/<tag>.reset` | Reset session state |
+| `ack-session context` | Show active session state |
+| `ack-session mode <role>` | Change role/mode |
+| `ack-session phase <phase>` | Change phase |
+| `ack-session style <style>` | Change output style |
+| `ack-session tone <tone>` | Change communication tone |
+| `ack-session interact <mode>` | Change interaction mode |
+| `ack-session reset` | Reset session state to the defaults above |
 
-Alias policy:
-- Namespaced commands are default.
-- Unprefixed aliases are allowed only when no conflict exists.
+Invocation: `<how each tool starts a skill, e.g. /ack-session in Claude Code, $ack-session in Codex>`
 
 ## Spec-Driven Change Workflow
 This repository uses OpenSpec as the contract for what gets built (spec section 11).

@@ -11,7 +11,7 @@
 - [ ] All eleven sections of `root-schema.md` are present, in order.
 - [ ] Scope And Precedence For AGENTS.md Files states all four rules.
 - [ ] The Default State table has all six elements.
-- [ ] The command namespace and namespaced command reference are complete.
+- [ ] Session Commands names `ack-session`, lists its seven commands, and says how each tool starts it.
 - [ ] Spec-Driven Change Workflow names the OpenSpec root (or "not yet initialised"), the active change and the minimum version, has all four No Change, No Code rules, and has an invocation table.
 - [ ] Repository Project Context has all twelve subsections, with at least 3 roles.
 - [ ] The drift-control rule lists the dependent artifacts.

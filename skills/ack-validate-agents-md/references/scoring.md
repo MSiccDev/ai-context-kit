@@ -21,7 +21,7 @@ The phase scores must add up to the reported total. State the sum in the report,
 
 ## Critical findings
 Each critical finding makes the status FAIL, whatever the score:
-- Root mode: the session-state contract or the command namespace is missing.
+- Root mode: the session-state contract or the Session Commands section is missing.
 - Root mode: the `Spec-Driven Change Workflow` section is missing.
 - Root mode: the repository has no OpenSpec root (spec section 11.1).
 - Root mode: the stated OpenSpec root does not match `root.path`.

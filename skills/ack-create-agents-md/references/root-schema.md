@@ -8,7 +8,7 @@ The root `AGENTS.md` follows `templates/AGENTS_template.md` exactly.
 3. Repository Map
 4. Scope And Precedence For AGENTS.md Files
 5. Session-State Contract
-6. Command Namespace Policy
+6. Session Commands
 7. Spec-Driven Change Workflow
 8. Repository Project Context
 9. Formatting And Path Stability Rules
@@ -31,9 +31,10 @@ The root `AGENTS.md` follows `templates/AGENTS_template.md` exactly.
 - Ambiguity Rule.
 - Default State table with Project, Role, Phase, Output Style, Tone, Interaction Mode.
 
-## Command Namespace Policy: Required Content
-- The namespace prefix and the namespaced command reference (see `command-template.md`).
-- The alias policy.
+## Session Commands: Required Content
+- That explicit state changes go through the user-invoked `ack-session` skill (spec section 8.2), and that plain-language requests also work.
+- The `ack-session` command table (see `command-template.md`).
+- How each tool the project uses starts the skill (for example `/ack-session` in Claude Code, `$ack-session` in Codex).
 
 ## Spec-Driven Change Workflow: Required Fields
 Fill each field from discovery phase 6:

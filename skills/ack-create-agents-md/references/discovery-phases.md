@@ -27,11 +27,10 @@ Collect:
 - defaults for the six elements: Project, Role, Phase, Output Style, Tone, Interaction Mode
 - the no-silent-transitions rule and the ambiguity rule
 
-## Phase 5: Command Namespace
+## Phase 5: Session Commands
 Collect:
-- the namespace prefix
-- the command set
-- the alias policy
+- which tools the project uses, to write how each starts `ack-session`
+- any default values the commands should mention (roles, phases, styles, tones)
 
 ## Phase 6: Spec-Driven Workflow
 Run `openspec list --json` (spec section 11). Collect:
