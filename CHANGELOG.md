@@ -69,6 +69,9 @@ When a new version is released:
   Invoke them by the new names, for example `/ai-context-kit:ack-create-user-context` in Claude Code or `$ack-drift-control` in Codex. The four AGENTS.md skills keep their names until they are merged into `ack-create-agents-md` and `ack-validate-agents-md` (ADR-009). The `prompts/skills/` wrapper files keep their names until the wrappers are removed (ADR-010)
 
 ### Changed
+- `ack-validate-user-context` 1.2.0: every phase states its score, and the phase scores must add up to the reported total, as in the other two validators (OpenSpec change `user-context-score-sum`, the kit's first change through OpenSpec)
+  - `usercontexts/sample_usercontext.validation.md` is re-run in that format and now scores 98/100: the sample lacks the required **Documentation Preferences** section, which the earlier report missed
+  - User-context reports written before this change lack per-phase scores until they are re-run
 - Validators and drift control (2.0 adoption plan, Part 2 rollout step 5):
   - New writing checks adapted from mattpocock/skills writing-for-agents, in `skills/ack-validate-skill/references/writing-for-agents.md`: description as pointer (model-invoked skills list their triggers, user-invoked skills give a one-line summary), a completion criterion for every workflow step, no no-ops, sediment or duplicated rules, and positive instructions. All findings are warnings or enhancements
   - `ack-validate-skill` 1.1.0 applies them in phases 2 and 3, lists its critical findings, costs each warning 1 to 3 points by extent, and requires the phase scores to add up to the total. `ack-validate-agents-md` 2.1.0 applies them in phase 5. Both carry `metadata.credits`, and `THIRD_PARTY_NOTICES.md` lists them
@@ -88,11 +91,13 @@ When a new version is released:
 - `AGENTS.md` documents the git flow branch model under Repository Context: features merge into `development`; `release/<version>` branches start from `development` and `hotfix/<version>` branches start from `main`; both merge into `main` and are then brought back into `development`. `main` is the production release branch, so releases are not tagged
 
 ### Fixed
+- The OpenSpec root check could not pass a correct `AGENTS.md`: `openspec list --json` reports `root.path` as the directory that contains `openspec/`, so `ack-create-agents-md` wrote `.` and `ack-validate-agents-md` flagged `openspec/` as a critical mismatch. The stated root is now the `openspec/` folder under `root.path` in both skills (2.0.1 and 2.1.1) and in the template placeholder (OpenSpec change `openspec-root-check`, found while dogfooding)
 - `create-project-instructions` now requires the `Scope And Precedence For AGENTS.md Files` section, in template order with the template's four rules: it is in the output schema, the quality checklist and discovery. `validate-project-instructions` checks for it
 - `AGENTS.validation.md` stated 100/100, but its phase scores add up to 99. It now states 99/100 with the sum and a dated correction; the status stays PASS
 - Neither AGENTS.md creator wrote the `Spec-Driven Change Workflow` section the template requires, and neither validator checked it. Closed by the merged `ack-create-agents-md` and `ack-validate-agents-md` (see Breaking)
 
 ### Added
+- The kit repository uses OpenSpec (2.0 adoption plan, rollout step 6). `openspec init --tools claude,codex` added `openspec/` and the generated `openspec-*` skills in `.claude/skills/` and `.agents/skills/`. `openspec/config.yaml` points to `AGENTS.md`, records that every kit change sets `skip_specs: true` because the session spec stays the normative document, and adds proposal, design and tasks rules. `AGENTS.md` fills its Spec-Driven Change Workflow section with the real root, active change, the four No Change, No Code rules and an Invoking OpenSpec table, and `AGENTS.validation.md` now reports **PASS** (96/100)
 - `ack-interview` (model-invoked): settles open decisions in rounds. It looks up facts before asking, asks only about decisions whose prerequisites are settled, gives a recommended answer per question, and stops only when nothing is open. `ack-create-agents-md`, `ack-create-user-context` and `ack-create-skill` now ask their discovery questions with it (ADR-012)
 - `ack-interview-with-context` (user-invoked): the interview plus the glossary. It challenges fuzzy terms, records them with the synonyms to avoid in arc42 section 12 or `CONTEXT.md` (ADR-007), and offers an ADR only for decisions that pass the three-part test, indexed in `docs/adr/README.md` and, where arc42 exists, in the section 9 decision log (ADR-006). `ack-guide` recommends it before `openspec-propose`
 - `ack-tdd` (model-invoked): seams agreed with the user before any test, then one vertical slice per cycle with a failing test first, with five named anti-patterns. `ack-loop-02-implement` writes its tests with it
@@ -100,6 +105,26 @@ When a new version is released:
 - `ack-guide` (user-invoked): recommends the next kit or OpenSpec skill for a goal, along the main flow explore → propose → `ack-loop-01` to `05`, and walks the phase-boundary choices. It adapts mattpocock/skills' ask-matt router and phase-boundary tree
 - Spec section 4.5.4, **Phase Boundary Choices**: at a phase boundary, consider continue, clear, handoff, subagent and compact in that order; compaction is last because only it loses context irreversibly
 - `THIRD_PARTY_NOTICES.md` with the MIT license of mattpocock/skills and the list of adapted skills, and a README Acknowledgments entry (ADR-014). The skill template and `ack-create-skill` require `metadata.credits` for adapted material, and `ack-validate-skill` warns when it or the notices row is missing
+
+### Migration
+- **Skills renamed and merged.** Every skill now has the `ack-` prefix, the four AGENTS.md skills are merged into `ack-create-agents-md` and `ack-validate-agents-md`, and the loop prompts are the `ack-loop-01` to `ack-loop-05` skills. There are no aliases: update any instruction file or habit that names an old skill or a `prompts/` file (see Breaking)
+- **Session commands.** Replace `/ack.*` and per-project `/<tag>.*` commands with `ack-session <command>`, and replace the `Command Namespace Policy` section of your `AGENTS.md` with `Session Commands` from the template
+- **OpenSpec.** Your repository needs `openspec init` (OpenSpec 1.13.2 or later, Node 20.19 or later), and your `AGENTS.md` needs the `Spec-Driven Change Workflow` section with the `openspec/` folder as its root. Turn OpenSpec telemetry off if you do not want it: `openspec config set telemetry.enabled false`
+- **Re-validate.** Run `ack-validate-agents-md` on your `AGENTS.md` and `ack-validate-user-context` on your user context file; both reports now state per-phase scores that add up to the total
+- **Claude Code uploads.** User-invoked skills carry `disable-model-invocation: true`; remove that line before uploading a skill to claude.ai or the Skills API
+
+### Safe to update from template
+- `specs/context_aware_ai_session_spec.md`
+- `templates/`
+- `skills/` (delete the old skill folders and `prompts/` from your instance first)
+- `THIRD_PARTY_NOTICES.md`
+- `README.md`
+- `docs/plans/2.0-adoption-plan.md`
+- `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `.codex-plugin/plugin.json`
+
+### Protect
+- `docs/adr/` and `openspec/` record the kit's own decisions and changes; do not copy them over your instance's
+- Your own `AGENTS.md`, `openspec/config.yaml` and user context files: extend them by hand, do not overwrite them
 
 ---
 

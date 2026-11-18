@@ -34,7 +34,7 @@ Collect:
 
 ## Phase 6: Spec-Driven Workflow
 Run `openspec list --json` (spec section 11). Collect:
-- the OpenSpec root (`root.path`, written relative to the repository), or that OpenSpec is not yet initialised
+- the OpenSpec root: the `openspec/` folder under `root.path`, written relative to the repository (usually `openspec/`; `root.path` itself is the directory that contains it), or that OpenSpec is not yet initialised
 - the active change: recommend the only active change if there is exactly one, otherwise `none` or the user's choice
 - the minimum OpenSpec version (`1.13.2`)
 - one invocation row per tool `openspec init` configured, or per tool the user names

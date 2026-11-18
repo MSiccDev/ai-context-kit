@@ -2,7 +2,7 @@
 
 **File:** skills/ack-validate-user-context/SKILL.md
 **Skill:** ack-validate-user-context
-**Validated:** 2026-11-18 (rollout step 5 re-run, with the writing checks)
+**Validated:** 2026-11-18 (re-run for OpenSpec change `user-context-score-sum`)
 **Validator:** `skills/ack-validate-skill`
 
 ---
@@ -28,7 +28,7 @@
 ### Findings:
 - `name` (25 characters) matches the folder and meets the format rules.
 - `description` (115 characters): a one-line summary for the person who runs the skill (user-invoked).
-- `version` is `1.1.0`; `metadata` values are strings.
+- `version` is `1.2.0`; `metadata` values are strings.
 - `metadata.invocation` is `"user"`, paired with `disable-model-invocation: true`.
 - No user-invoked skill is started by this skill.
 
@@ -40,7 +40,7 @@
 ### Findings:
 - All seven required body sections are present, in order; phases, scoring and report contract live in references.
 - Every workflow step ends on a completion criterion; the no-op constraint "Keep recommendations implementation-ready and non-ambiguous" was removed.
-- `references/scoring.md` lists critical findings and a fixed cost per warning (2 points per missing section, otherwise 1 to 3 by extent), so a re-run gives the same score.
+- `references/scoring.md` lists critical findings and a fixed cost per warning (2 points per missing section, otherwise 1 to 3 by extent), so a re-run gives the same score. Every phase states its score, and the phase scores must add up to the total, as in the other two validators.
 
 ---
 
@@ -65,7 +65,7 @@
 
 ### Strengths:
 - Checks the `spec_version` stamp against `2.0.0-beta.1`.
-- Deterministic scoring with listed critical findings.
+- Deterministic scoring with listed critical findings, and a phase sum that explains the total.
 
 ### Critical Issues (Must Fix):
 - None.
@@ -74,7 +74,7 @@
 - None.
 
 ### Enhancements (Optional):
-- Require the phase scores to add up to the total, as the other two validators do, and re-run `usercontexts/sample_usercontext.validation.md` with it.
+- None.
 
 ---
 

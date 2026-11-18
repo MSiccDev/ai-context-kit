@@ -2,7 +2,7 @@
 
 **File:** skills/ack-validate-agents-md/SKILL.md
 **Skill:** ack-validate-agents-md
-**Validated:** 2026-11-18 (rollout step 5 re-run, with the writing checks)
+**Validated:** 2026-11-18 (re-run for OpenSpec change `openspec-root-check`)
 **Validator:** `skills/ack-validate-skill`
 
 ---
@@ -28,7 +28,7 @@
 ### Findings:
 - `name` (22 characters) matches the folder and meets the format rules.
 - `description` (221 characters) states what the skill validates and when to use it.
-- `version` is `2.1.0`; `metadata` values are strings.
+- `version` is `2.1.1`; `metadata` values are strings.
 - Description as pointer: a one-line summary for the person who runs the skill (user-invoked).
 
 ---
@@ -39,6 +39,7 @@
 ### Findings:
 - Six phases with separate root and nested checks, a point model per mode, explicit critical findings, and the sum rule.
 - The report contract lists every section, including how phase 3 ran.
+- Phase 3 compares the stated root with the `openspec/` folder under `root.path`, which is what OpenSpec reports (checked with 2.1.0); a correct `openspec/` no longer reads as a critical mismatch.
 - Minor: within-phase deductions are "in proportion to the weight" of each failed check, so two runs can differ by a point or two inside a phase. Critical findings and phase totals remain deterministic.
 - Writing checks: every workflow step ends on a completion criterion; no no-ops, sediment or duplicated rules found.
 - Phase 5 now applies the writing checks from `../ack-validate-skill/references/writing-for-agents.md`, with fixed costs of 1 to 3 points per finding.

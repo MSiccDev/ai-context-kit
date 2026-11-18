@@ -24,7 +24,7 @@ Each critical finding makes the status FAIL, whatever the score:
 - Root mode: the session-state contract or the Session Commands section is missing.
 - Root mode: the `Spec-Driven Change Workflow` section is missing.
 - Root mode: the repository has no OpenSpec root (spec section 11.1).
-- Root mode: the stated OpenSpec root does not match `root.path`.
+- Root mode: the stated OpenSpec root is not the `openspec/` folder under `root.path`.
 - A relative link or referenced path does not resolve.
 - Nested mode: no root `AGENTS.md` exists.
 - Nested mode: the file contradicts the root file without stating it as an override.
@@ -34,7 +34,7 @@ Each critical finding makes the status FAIL, whatever the score:
 | --- | --- |
 | Section missing | Critical |
 | No OpenSpec root | Critical |
-| Stated root does not match `root.path` | Critical |
+| Stated root is not the `openspec/` folder under `root.path` | Critical |
 | Active change is neither `none` nor an id in the list, or is `none` while exactly one change is active | Warning |
 | Minimum version is not `1.13.2` | Warning |
 | No Change, No Code rules incomplete | Warning |

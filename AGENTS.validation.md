@@ -4,13 +4,13 @@
 
 **File:** `AGENTS.md`  
 **Mode:** root  
-**Validated:** 2026-11-17 (full re-run; replaces the 2026-09-06 report and its 2026-11-16 delta re-check)  
-**Validator:** `skills/ack-validate-agents-md`  
-**Phase 3 source:** `openspec list --json` (OpenSpec 1.13.2): `root: null`, code `no_openspec_root`
+**Validated:** 2026-11-18 (full re-run after `openspec init`, rollout step 6; replaces the 2026-11-17 report)  
+**Validator:** `skills/ack-validate-agents-md` 2.1.1  
+**Phase 3 source:** `openspec list --json` (OpenSpec 2.1.0): `root.path` is the repository root; active changes `user-context-score-sum` and `openspec-root-check`
 
 ## Overall Status + Compliance Score
-- **Status:** FAIL (one critical finding; the score alone would be PASS WITH WARNINGS)
-- **Compliance Score:** 88/100 (Phase 1 15 + Phase 2 25 + Phase 3 0 + Phase 4 20 + Phase 5 14 + Phase 6 14)
+- **Status:** PASS
+- **Compliance Score:** 96/100 (Phase 1 15 + Phase 2 25 + Phase 3 10 + Phase 4 20 + Phase 5 11 + Phase 6 15)
 
 ## Phase 1: Structure And Core Sections
 - **Score:** 15/15
@@ -24,17 +24,19 @@
 - **Status:** PASS
 - The session-state summary lists all six elements; no-silent-transitions and ambiguity rules are present.
 - The Default State table has all six elements.
-- Session Commands names `ack-session` with all seven commands and says how Claude Code and Codex start it. Re-checked 2026-11-18, after this section replaced the retired `/ack.*` commands.
+- Session Commands names `ack-session` with all seven commands and says how Claude Code and Codex start it.
 - Scope And Precedence For AGENTS.md Files states all four rules.
 - The drift-control rule lists the dependent artifacts.
 
 ## Phase 3: Spec-Driven Workflow
-- **Score:** 0/10
-- **Status:** FAIL (critical)
-- The section is present, and its fields agree with the repository: the root is stated as "not yet initialised", the active change as `none`, the minimum version as `1.13.2`.
-- **Critical:** the repository has no OpenSpec root (spec section 11.1). `openspec list --json` returns `root: null` with code `no_openspec_root`. Per decision A in `docs/plans/agents-md-skill-merge.md`, this is critical with no exception, even though `AGENTS.md` states that adoption is deferred to rollout step 6.
-- Warning: the four No Change, No Code rules from the template are not stated; the section has a deferral paragraph instead.
-- Enhancement: there is no Invoking OpenSpec table.
+- **Score:** 10/10
+- **Status:** PASS
+- The section is present.
+- The stated root, `openspec/`, is the `openspec/` folder under `root.path`.
+- The stated active change, `user-context-score-sum`, is in the list of active changes. Two changes are active, so naming either one is valid.
+- The minimum version is `1.13.2`, and all four No Change, No Code rules are stated.
+- `openspec/config.yaml` `context` points to `AGENTS.md` first and adds only pointers (spec, ADR index, skill template) and the `skip_specs` convention.
+- The Invoking OpenSpec table has rows for Claude Code and Codex, the two tools `openspec init` configured.
 
 ## Phase 4: Project Context
 - **Score:** 20/20
@@ -43,46 +45,48 @@
 - Four roles, each with all four role-table columns.
 
 ## Phase 5: Clarity And Conciseness
-- **Score:** 14/15
-- **Status:** PASS
+- **Score:** 11/15
+- **Status:** PASS WITH WARNINGS
 - Guidance is actionable and testable, with no conflicting rules and no copied specification text.
-- Minor: `Repository Project Context` could be tighter; some lines describe rather than instruct.
+- Warning (2 points): two rules have two homes. "No decorative emojis or icons in headings" and "Use relative repository paths" appear in both Documentation Standards and Formatting And Path Stability Rules.
+- Warning (1 point): sediment. "The former `/ack.*` commands are retired (ADR-011)" in Session Commands describes a past version; the changelog already records it.
+- Minor (1 point): `Repository Project Context` could be tighter; some lines describe rather than instruct (for example Future Roadmap).
 
 ## Phase 6: Portability, Links And Alignment
-- **Score:** 14/15
+- **Score:** 15/15
 - **Status:** PASS
-- Provider-neutral wording, with no mandatory single-runtime assumptions.
-- All 18 relative links and all 32 backticked repository paths resolve.
-- Minor: `Repository Context` → Key paths omits `docs/adr/`, which spec section 10.2 lists as a canonical path.
+- Provider-neutral wording, with no mandatory single-runtime assumptions. The tool names in the Invoking OpenSpec table are the tools this repository configured.
+- All 23 relative links and all 24 backticked repository paths resolve.
+- Key paths include `docs/adr/` and `openspec/`.
 
 ## Summary (Strengths/Critical/Warnings/Enhancements)
 ### Strengths
+- The spec-driven section states the real OpenSpec state and how each configured tool invokes it.
 - Complete operational contract and project context, in template order.
-- The spec-driven section states the repository's real OpenSpec state instead of claiming a setup that doesn't exist.
 - High link and path integrity.
 
 ### Critical Issues (Must Fix)
-- No OpenSpec root. Fixed by rollout step 6, which runs `openspec init` in this repository.
+- None. The earlier critical finding (no OpenSpec root) is resolved by `openspec init`.
 
 ### Warnings (Should Fix)
-- The Spec-Driven Change Workflow section lacks the four No Change, No Code rules.
+- Two rules are stated in two sections (Phase 5).
+- One sediment line about retired commands (Phase 5).
 
 ### Enhancements (Optional)
-- Add an Invoking OpenSpec table once `openspec init` has configured tools.
-- Add `docs/adr/` to Key paths.
 - Tighten descriptive lines in `Repository Project Context`.
 
 ## Recommendations (Immediate + Suggested + Migration Path)
 ### Immediate
-1. None that can land before rollout step 6; the critical finding is resolved by `openspec init`.
+1. None blocking.
 
 ### Suggested
-1. Add the four No Change, No Code rules and the Invoking OpenSpec table in the same change that runs `openspec init`.
-2. Add `docs/adr/` to Key paths.
+1. Keep the heading and path rules only in Formatting And Path Stability Rules, and drop them from Documentation Standards.
+2. Remove the sentence about retired `/ack.*` commands.
+3. Make both edits through an OpenSpec change, as this repository now requires.
 
 ### Migration Path
-1. Rollout step 6: run `openspec init` here, fill the spec-driven section from `openspec list --json`, and re-run this validator. The status should then become PASS.
+1. When both active changes are archived, set `Active change` to `none`.
 
 ## Example Fixes for recurring failures
-- Missing OpenSpec root: run `openspec init --tools <ids>`, then set `OpenSpec root: openspec/` in the spec-driven section.
-- Missing No Change, No Code rules: copy the four rules from `templates/AGENTS_template.md` → `### No Change, No Code`.
+- Duplicated rule: keep it in one section and point to it from the other, or delete the copy.
+- Stated root does not match: state the `openspec/` folder under `root.path`, written relative to the repository.

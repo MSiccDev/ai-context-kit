@@ -41,7 +41,7 @@ Fill each field from discovery phase 6:
 
 | Field | Content | When OpenSpec is not set up |
 | --- | --- | --- |
-| OpenSpec root | The root path, relative to the repository | "not yet initialised in this repository" |
+| OpenSpec root | The `openspec/` folder under `root.path`, relative to the repository (usually `openspec/`) | "not yet initialised in this repository" |
 | Active change | The active change id | `none` |
 | Minimum OpenSpec version | `1.13.2` | `1.13.2` |
 

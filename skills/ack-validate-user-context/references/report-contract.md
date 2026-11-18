@@ -6,7 +6,7 @@
 - Overwrite existing report for the same target.
 
 ## Required report sections
-- Overall Status + Compliance Score
+- Overall Status + Compliance Score, with the sum of the phase scores
 - Phase 1: YAML Frontmatter
 - Phase 2: Required Sections
 - Phase 3: Content Completeness
@@ -14,6 +14,8 @@
 - Phase 5: Spec Compliance
 - Summary (Strengths/Critical/Warnings/Enhancements)
 - Recommendations (Immediate + Suggested + Migration Path when relevant)
+
+Each phase section states its score as `Score: n/max`.
 
 ## Severity classification
 - `Critical Issues (Must Fix)` blocks acceptance.

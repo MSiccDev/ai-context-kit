@@ -2,7 +2,7 @@
 
 **File:** skills/ack-create-agents-md/SKILL.md
 **Skill:** ack-create-agents-md
-**Validated:** 2026-11-18 (rollout step 5 re-run, with the writing checks)
+**Validated:** 2026-11-18 (re-run for OpenSpec change `openspec-root-check`)
 **Validator:** `skills/ack-validate-skill`
 
 ---
@@ -28,7 +28,7 @@
 ### Findings:
 - `name` (20 characters) matches the folder and meets the format rules.
 - `description` (213 characters) states what the skill does and when to use it.
-- `version` is `2.0.0`; `metadata` values are strings.
+- `version` is `2.0.1`; `metadata` values are strings.
 - Description as pointer: a one-line summary for the person who runs the skill (user-invoked).
 
 ---
@@ -41,6 +41,7 @@
 - Root and nested modes have separate schemas and checklists; scope boundaries name the sibling skills to use instead.
 - Detail lives in references (progressive disclosure).
 - Discovery asks its questions with `ack-interview` (ADR-012) instead of describing the style inline.
+- Discovery phase 6 and the root schema state the OpenSpec root as the `openspec/` folder under `root.path`, matching what `ack-validate-agents-md` checks.
 - Writing checks: every workflow step ends on a completion criterion; no no-ops, sediment or duplicated rules found.
 
 ---
