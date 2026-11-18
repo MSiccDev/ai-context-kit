@@ -37,7 +37,6 @@ Generate complete `SKILL.md` artifacts for one skill folder, with explicit const
 - One complete `SKILL.md` artifact at `skills/{name}/SKILL.md`.
 - Frontmatter and folder-name parity are correct.
 - Body sections are complete, actionable, and concise.
-- Output remains provider-neutral and portable.
 
 ## Resources
 - Discovery workflow: `references/discovery-phases.md`
@@ -50,6 +49,5 @@ Generate complete `SKILL.md` artifacts for one skill folder, with explicit const
 
 ## Constraints And Safety
 - Keep in `SKILL.md` only what every run needs; move detail that only some cases reach into `references/`.
-- Avoid provider-specific lock-in wording.
 - Use relative paths for local references.
 - Treat `allowed-tools` as optional/experimental unless explicitly required.

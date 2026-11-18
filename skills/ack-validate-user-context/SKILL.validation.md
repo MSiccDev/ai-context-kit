@@ -9,7 +9,7 @@
 
 ## Overall Status: PASS
 
-**Compliance Score:** 98/100 (Phase 1 20 + Phase 2 25 + Phase 3 23 + Phase 4 15 + Phase 5 15)
+**Compliance Score:** 100/100 (Phase 1 20 + Phase 2 25 + Phase 3 25 + Phase 4 15 + Phase 5 15)
 
 ---
 
@@ -35,12 +35,12 @@
 ---
 
 ## Phase 3: Instruction Quality And Completeness
-**Score:** 23/25 · **Status:** PASS
+**Score:** 25/25 · **Status:** PASS
 
 ### Findings:
 - All seven required body sections are present, in order; phases, scoring and report contract live in references.
-- Every workflow step ends on a completion criterion (reworked in this re-run); the no-op constraint "Keep recommendations implementation-ready and non-ambiguous" was removed.
-- Warning (2 points): `references/scoring.md` gives points per phase but no rule for how much each failed check costs, so two runs can score the same file differently.
+- Every workflow step ends on a completion criterion; the no-op constraint "Keep recommendations implementation-ready and non-ambiguous" was removed.
+- `references/scoring.md` lists critical findings and a fixed cost per warning (2 points per missing section, otherwise 1 to 3 by extent), so a re-run gives the same score.
 
 ---
 
@@ -65,22 +65,23 @@
 
 ### Strengths:
 - Checks the `spec_version` stamp against `2.0.0-beta.1`.
+- Deterministic scoring with listed critical findings.
 
 ### Critical Issues (Must Fix):
 - None.
 
 ### Warnings (Should Fix):
-- No fixed cost per failed check (Phase 3).
+- None.
 
 ### Enhancements (Optional):
-- Require the phase scores to add up to the total, as the other two validators do.
+- Require the phase scores to add up to the total, as the other two validators do, and re-run `usercontexts/sample_usercontext.validation.md` with it.
 
 ---
 
 ## Recommendations
 
 ### Immediate Actions:
-1. Add critical findings and a 1 to 3 point cost per warning to `references/scoring.md`, matching `ack-validate-skill`.
+1. None.
 
 ### Suggested Improvements:
 1. Re-validate when `templates/usercontext_template.instructions.md` changes.

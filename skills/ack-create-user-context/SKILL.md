@@ -37,7 +37,6 @@ Generate a complete user-context instruction file with required sections, privac
 - One complete `*.instructions.md` file for user context.
 - Required section coverage and logical ordering are preserved.
 - Privacy handling is explicit and consistent.
-- Output is provider-neutral.
 - Output contract and summary format follow `references/output-format.md`.
 
 ## Resources
@@ -50,7 +49,6 @@ Generate a complete user-context instruction file with required sections, privac
 - Example reference: `../../usercontexts/sample_usercontext.instructions.md`
 
 ## Constraints And Safety
-- Keep provider-neutral wording.
 - Preserve sensitive data boundaries; prefer placeholders when requested.
 - Use relative paths for references.
 - Avoid unrelated recommendations outside user-context scope.

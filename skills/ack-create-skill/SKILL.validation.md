@@ -9,7 +9,7 @@
 
 ## Overall Status: PASS
 
-**Compliance Score:** 99/100 (Phase 1 20 + Phase 2 25 + Phase 3 24 + Phase 4 15 + Phase 5 15)
+**Compliance Score:** 100/100 (Phase 1 20 + Phase 2 25 + Phase 3 25 + Phase 4 15 + Phase 5 15)
 
 ---
 
@@ -35,12 +35,12 @@
 ---
 
 ## Phase 3: Instruction Quality And Completeness
-**Score:** 24/25 · **Status:** PASS
+**Score:** 25/25 · **Status:** PASS
 
 ### Findings:
 - All seven required body sections are present, in order; detail lives in six references.
-- Every workflow step ends on a completion criterion (reworked in this re-run); no no-ops or sediment found.
-- Warning (1 point): provider neutrality is stated in Output Expectations, Constraints And Safety and `references/safety.md`. Keep it in `references/safety.md`, which workflow step 4 applies.
+- Every workflow step ends on a completion criterion; no no-ops or sediment found.
+- Provider neutrality has one home, `references/safety.md`, which workflow step 4 applies.
 
 ---
 
@@ -64,14 +64,14 @@
 ## Summary
 
 ### Strengths:
-- The field constraints now describe the description as a pointer, matching `ack-validate-skill`.
+- The field constraints describe the description as a pointer, matching `ack-validate-skill`.
 - Each workflow step names its done condition.
 
 ### Critical Issues (Must Fix):
 - None.
 
 ### Warnings (Should Fix):
-- Provider neutrality has three homes (Phase 3).
+- None.
 
 ### Enhancements (Optional):
 - Add an example skill per workflow type (generation, validation, governance, loop).
@@ -81,7 +81,7 @@
 ## Recommendations
 
 ### Immediate Actions:
-1. Drop the neutrality lines from Output Expectations and Constraints And Safety.
+1. None.
 
 ### Suggested Improvements:
 1. Re-validate when `templates/skill_template/SKILL.md` changes.

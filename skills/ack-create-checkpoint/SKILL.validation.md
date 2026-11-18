@@ -9,7 +9,7 @@
 
 ## Overall Status: PASS
 
-**Compliance Score:** 98/100 (Phase 1 20 + Phase 2 25 + Phase 3 23 + Phase 4 15 + Phase 5 15)
+**Compliance Score:** 100/100 (Phase 1 20 + Phase 2 25 + Phase 3 25 + Phase 4 15 + Phase 5 15)
 
 ---
 
@@ -28,19 +28,19 @@
 ### Findings:
 - `name` (21 characters) matches the folder and meets the format rules.
 - `description` (204 characters): says what the skill does, then lists its triggers for the model (model-invoked).
-- `version` is `1.0.0`; `metadata` values are strings.
+- `version` is `1.1.0`; `metadata` values are strings.
 - `metadata.invocation` is `"model"`, and `disable-model-invocation` is absent.
 - No user-invoked skill is started by this skill.
 
 ---
 
 ## Phase 3: Instruction Quality And Completeness
-**Score:** 23/25 · **Status:** PASS
+**Score:** 25/25 · **Status:** PASS
 
 ### Findings:
 - All seven required body sections are present, in order; the schema lives in `references/checkpoint-schema.md`.
 - Every workflow step ends on a completion criterion; no no-ops or sediment found.
-- Warning (2 points): the approval rule appears in five places in the body (When To Use, workflow steps 6 and 7, Output Expectations, Constraints And Safety). Keep it in step 7 and in Constraints And Safety.
+- The approval rule now appears in workflow step 7 and in Constraints And Safety only, within the guardrail exception. When To Use names `ack-restore-checkpoint` as the boundary instead of repeating the rule.
 
 ---
 
@@ -64,17 +64,17 @@
 ## Summary
 
 ### Strengths:
-- A strict approval gate before any write.
+- A strict approval gate before any write, stated once in its step and once as a constraint.
 - Field definitions live in one reference.
 
 ### Critical Issues (Must Fix):
 - None.
 
 ### Warnings (Should Fix):
-- The approval rule is repeated in five places (Phase 3).
+- None.
 
 ### Enhancements (Optional):
-- The description ends on a prohibition ("Do not use mid-session or without user approval"); a pointer works better with the positive trigger only.
+- The description ends on a prohibition ("Do not use mid-session or without user approval"); a pointer works better with the positive trigger only. It is kept for now because it steers when the model starts the skill.
 - Suggest adding the checkpoint path to `.gitignore` when the file holds private context.
 
 ---
@@ -82,7 +82,7 @@
 ## Recommendations
 
 ### Immediate Actions:
-1. Remove the approval rule from When To Use, step 6 and Output Expectations; keep step 7 and Constraints And Safety.
+1. None.
 
 ### Suggested Improvements:
 1. Re-validate after spec section 4.4.2 schema changes.
