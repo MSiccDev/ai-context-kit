@@ -3,7 +3,7 @@
 # User Context Instruction Validation Report
 
 **File:** `usercontexts/sample_usercontext.instructions.md`
-**Validated:** 2026-11-18 (re-run with per-phase scores, OpenSpec change `user-context-score-sum`)
+**Validated:** 2026-11-18 (re-run for OpenSpec change `sample-documentation-preferences`)
 **Spec Version:** v2.0.0-beta.1
 **Validator:** `skills/ack-validate-user-context`
 
@@ -11,7 +11,7 @@
 
 ## Overall Status + Compliance Score
 - **Status:** PASS
-- **Compliance Score:** 98/100 (10 + 28 + 30 + 15 + 15)
+- **Compliance Score:** 100/100 (10 + 30 + 30 + 15 + 15)
 
 ---
 
@@ -31,17 +31,17 @@
 ---
 
 ## Phase 2: Required Sections
-**Score:** 28/30
+**Score:** 30/30
 **Status:** PASS
 
 ### Findings
-- Fourteen of the fifteen required sections are present, in template order. **Documentation Preferences** is missing: the template and `skills/ack-create-user-context/references/output-schema.md` place it between Quality Standards and Communication Style. The sample states its documentation format in Format Preferences only. Warning, 2 points.
+- All fifteen required sections are present, in template order. Documentation Preferences, missing in the previous run, now sits between Quality Standards and Communication Style and agrees with Format Preferences.
 - Heading levels are coherent and readable.
 - Sections are substantive and not placeholder-only.
 - Illustrative-example notice is prominently placed at the top of the document body.
 
 ### Recommendations
-- Add a `## Documentation Preferences` section between Quality Standards and Communication Style.
+- None.
 
 ---
 
@@ -99,7 +99,7 @@
 ### Strengths
 - Highly specific technical profile with opinionated, justified constraints — demonstrates real-world specificity that generic samples lack.
 - Non-idealized project statuses (slipped ship dates, projects on hold, NDA scope) make the sample more instructive for real users.
-- No placeholder content in any section.
+- Full coverage across all fifteen required sections with no placeholder content.
 - `spec_version` field present — validation tooling can detect files created before the stamping requirement.
 - Clear fictional labeling prevents privacy concerns while maximizing instructive value.
 
@@ -107,7 +107,7 @@
 - None.
 
 ### Warnings (Should Fix)
-- The Documentation Preferences section is missing (Phase 2).
+- None.
 
 ### Enhancements (Optional)
 - None.
@@ -118,7 +118,6 @@
 
 ### Immediate
 1. No blocking changes required.
-2. Add the missing Documentation Preferences section.
 
 ### Suggested
 1. Re-run validation whenever the canonical usercontext template or spec version changes.

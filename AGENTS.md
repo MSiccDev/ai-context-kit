@@ -76,7 +76,7 @@ Defaults are defined directly in this `AGENTS.md` to keep project context self-c
 | Interaction Mode | `advisory` |
 
 ## Session Commands
-Change session state explicitly with the user-invoked [`ack-session`](skills/ack-session/SKILL.md) skill (spec section 8.2): `ack-session <command> [value]`. Plain-language requests ("switch to Reviewer") also work and follow the same confirmation rules. The former `/ack.*` commands are retired (ADR-011).
+Change session state explicitly with the user-invoked [`ack-session`](skills/ack-session/SKILL.md) skill (spec section 8.2): `ack-session <command> [value]`. Plain-language requests ("switch to Reviewer") also work and follow the same confirmation rules.
 
 | Command | Description |
 | --- | --- |
@@ -197,9 +197,8 @@ Do not edit generated `openspec-*` skills or commands; customise through `opensp
 
 ### Documentation Standards
 - Markdown-first documentation.
-- Relative repository paths for cross-references.
-- No decorative emojis/icons in headings.
 - Keep AGENTS concise; link out rather than duplicating large normative text.
+- Headings and paths follow Formatting And Path Stability Rules below.
 
 ### Testing Commands
 ```bash
