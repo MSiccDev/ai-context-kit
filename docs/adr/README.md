@@ -26,4 +26,5 @@ Each ADR has a status, date and source, followed by Context, Decision and Conseq
 | [ADR-014](ADR-014-attribution.md) | Credit every adapted source where it lands and once centrally | Accepted |
 | [ADR-015](ADR-015-release-split.md) | What ships in 2.0 and what waits for 2.1 | Accepted |
 | [ADR-016](ADR-016-minimum-openspec-2-1.md) | Minimum OpenSpec version 2.1.0; the kit detects old CLIs and stale generated files | Accepted |
-| [ADR-017](ADR-017-installer-tool-registry.md) | Installer tool registry and layout for 2.0 (`installer/`, TypeScript, copies not symlinks) | Accepted |
+| [ADR-017](ADR-017-installer-tool-registry.md) | Installer tool registry and layout for 2.0 (`installer/`, TypeScript, copies not symlinks) | Accepted; Node minimum superseded by ADR-018 |
+| [ADR-018](ADR-018-installer-node-22.md) | The installer requires Node 22.12 or later; workflows use Node 24 actions | Accepted |

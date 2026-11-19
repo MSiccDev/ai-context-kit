@@ -6,7 +6,7 @@ ADR-015 puts the installer MVP in 2.0, and ADR-017 fixed its tool registry and l
 
 ## What Changes
 
-- New package in `installer/`: `@msiccdev/ai-context-kit`, bin `ai-context-kit`, TypeScript compiled to ESM for Node 20.19 or later, no runtime dependencies, tests with Vitest (ADR-013, ADR-017).
+- New package in `installer/`: `@msiccdev/ai-context-kit`, bin `ai-context-kit`, TypeScript compiled to ESM for Node 22.12 or later (ADR-018), no runtime dependencies, tests with Vitest (ADR-013, ADR-017).
 - Commands:
   - `init [path] --tools <ids|all|none> --yes`: detects tools (or takes `--tools`), copies the bundled `ack-*` skills into each tool's skills folder, generates Codex sidecars, writes the kit marker blocks in `AGENTS.md` and (for `claude`) `CLAUDE.md`, and writes `.ai-context-kit/manifest.json`.
   - `update [--force]`: refreshes managed files whose hash still matches the manifest; writes `<file>.ai-context-kit-new` beside an edited file; leaves a deleted file deleted.

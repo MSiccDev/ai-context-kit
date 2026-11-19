@@ -24,10 +24,15 @@ describe("doctor", () => {
     expect(report.warnings).toEqual([]);
   });
 
-  it("reports a Node version older than 20.19", async () => {
-    const { code, report } = await doctorJson(await installed(), "v20.18.1");
+  it.each(["v20.19.0", "v22.11.0"])("reports Node %s as older than 22.12", async (v) => {
+    const { code, report } = await doctorJson(await installed(), v);
     expect(code).toBe(1);
     expect(report.problems.map((p: { check: string }) => p.check)).toContain("node");
+  });
+
+  it.each(["v22.12.0", "v24.1.0"])("accepts Node %s", async (v) => {
+    const { code } = await doctorJson(await installed(), v);
+    expect(code).toBe(0);
   });
 
   it("reports a missing managed file", async () => {

@@ -27,7 +27,7 @@ Claude Code facts behind the `claude` row: it reads `AGENTS.md` directly from v2
 
 - **2.0 scope:** plan Part 3 rollout steps 1 (spike), 2 (MVP: `init`, `update`, `doctor`, manifest, marker blocks), 3 (OpenSpec orchestration), 4 (`ack-setup` and `install.md`) and 6 (publish). Step 5 (Cursor, Gemini CLI, Mistral Vibe, `remove`, `--dry-run`) waits for 2.1, as ADR-015 already lists those tools as 2.1 candidates.
 - **Code home:** `installer/` in this repository. The package bundles `skills/` at build time, so the parity test runs locally and kit and installer versions stay in step.
-- **Stack:** TypeScript, compiled to ESM for Node 20.19 or later; tests with Vitest.
+- **Stack:** TypeScript, compiled to ESM for Node 20.19 or later; tests with Vitest. (The Node minimum is superseded by [ADR-018](ADR-018-installer-node-22.md): Node 22.12 or later.)
 - **Copies, not symlinks:** the installer writes real files into each tool's skills folder. It touches only `ack-*` folders its manifest owns, so it coexists with OpenSpec's linked `openspec-*` folders.
 - **`CLAUDE.md`:** written with an `@AGENTS.md` import inside `<!-- AI-CONTEXT-KIT:START -->` and `<!-- AI-CONTEXT-KIT:END -->` when absent; added as a marker block to an existing `CLAUDE.md`, never replacing user text.
 

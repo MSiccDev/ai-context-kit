@@ -25,6 +25,7 @@
 
 - [x] 6.1 Path guard: manifest paths validated, symbolic links never followed for reads, writes or deletes; tests for `../`, absolute, drive and backslash paths and for linked `AGENTS.md`, skills folder, `.ai-context-kit/` and skill folder
 - [x] 6.2 `doctor` reports unsafe and linked paths without reading them
+- [x] 6.4 Node 22.12 minimum (ADR-018): `engines`, `doctor`, CI matrix 22.12.0 and 24; both workflows on `actions/checkout@v7` and `actions/setup-node@v7`
 - [x] 6.3 Upgrade `vite` to 7.3.8 and `esbuild` to 0.28.2; `npm audit` reports 0; CI runs `npm audit --audit-level=moderate`
 
 ## 5. CI and records

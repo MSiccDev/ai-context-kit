@@ -17,7 +17,7 @@ npx @msiccdev/ai-context-kit@latest init --tools claude,codex
 | `doctor [path] [--json]` | Checks Node, missing and edited files, the kit blocks, and outdated skills |
 | `tools` | Lists tool ids, skills folders and how to start a skill |
 
-Tool ids: `claude`, `codex`, `github-copilot`, `agents`. Requires Node.js 20.19 or later.
+Tool ids: `claude`, `codex`, `github-copilot`, `agents`. Requires Node.js 22.12 or later.
 
 ## Files it owns
 

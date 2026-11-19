@@ -13,7 +13,7 @@
     "THIRD_PARTY_NOTICES.md"
   ],
   "engines": {
-    "node": ">=20.19.0"
+    "node": ">=22.12.0"
   },
   "repository": {
     "type": "git",
@@ -27,7 +27,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "devDependencies": {
-    "@types/node": "20.19.43",
+    "@types/node": "22.20.5",
     "typescript": "6.0.3",
     "vite": "7.3.8",
     "vitest": "4.1.12"

@@ -16,4 +16,4 @@ export function compareVersions(a: string, b: string): number {
   return x.pre.localeCompare(y.pre, "en", { numeric: true });
 }
 
-export const MIN_NODE = "20.19.0";
+export const MIN_NODE = "22.12.0";
