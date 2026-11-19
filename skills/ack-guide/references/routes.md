@@ -1,6 +1,6 @@
 # Routes: ack-guide
 
-Kit skills are named `ack-*`. OpenSpec skills are installed by `openspec init` and named `openspec-*`; each tool also exposes them as commands (in Claude Code, `/opsx:explore`, `/opsx:propose` and so on).
+Kit skills are named `ack-*`. OpenSpec skills are installed by `openspec init` and named `openspec-*`. With OpenSpec 2.1 or later, start them like any skill: `/openspec-propose` in most tools, `$openspec-propose` in Codex. The 1.x `/opsx:*` commands are gone; `ack-openspec-check` says how to upgrade.
 
 ## Main flow: build a change
 
@@ -22,6 +22,7 @@ Kit skills are named `ack-*`. OpenSpec skills are installed by `openspec init` a
 | Write your user context file | `ack-create-user-context` |
 | Write or refresh a root or nested `AGENTS.md` | `ack-create-agents-md` |
 | Set up OpenSpec in the repository | Run `openspec init` (spec section 11.1); then refresh `AGENTS.md` with `ack-create-agents-md` |
+| Check the OpenSpec version, or upgrade it | `ack-openspec-check` (the assistant uses it; you can also ask for it) |
 
 ## Check quality
 

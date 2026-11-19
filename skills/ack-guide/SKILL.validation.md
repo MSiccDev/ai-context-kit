@@ -2,7 +2,7 @@
 
 **File:** skills/ack-guide/SKILL.md
 **Skill:** ack-guide
-**Validated:** 2026-11-18 (rollout step 5 re-run, with the writing checks)
+**Validated:** 2026-11-19 (re-run for OpenSpec change `require-openspec-2-1`)
 **Validator:** `skills/ack-validate-skill`
 
 ---
@@ -37,8 +37,9 @@
 
 ### Findings:
 - All seven required body sections are present, in order; detail lives in `references/`.
-- Minor: the routes name OpenSpec's installed skills and Claude Code commands (`openspec-explore`, `openspec-propose`, `/opsx:*`) as OpenSpec 1.13.2 creates them; a later OpenSpec release could rename them. One point deducted.
+- Minor: the routes name OpenSpec's installed skills (`openspec-explore`, `openspec-propose`) as OpenSpec 2.1 creates them; a later OpenSpec release could rename them. One point deducted. The 1.x `/opsx:*` commands are no longer named.
 - Writing checks: every workflow step ends on a completion criterion; no no-ops, sediment or duplicated rules found.
+- Workflow step 2 starts the model-invoked `ack-openspec-check` before recommending an `openspec-*` skill, and recommends its upgrade steps first when it is not `OK`. That is the one skill it starts, which the constraints now state.
 
 ---
 

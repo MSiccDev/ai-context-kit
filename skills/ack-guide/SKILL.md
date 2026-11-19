@@ -1,7 +1,7 @@
 ---
 name: "ack-guide"
 description: "Point to the right kit or OpenSpec skill for what you want to do next, and help choose between continuing, clearing, handing off, delegating or compacting at a phase boundary."
-version: "1.0.0"
+version: "1.1.0"
 allowed-tools: [Read]
 disable-model-invocation: true
 metadata:
@@ -26,7 +26,7 @@ Answer "which skill do I run now?" for every flow the kit supports, from first s
 
 ## Workflow
 1. Match the request to a goal in `references/routes.md`. If two goals fit, ask which one.
-2. Recommend the skill or skills for that goal, in order, with how to start each in the user's tool.
+2. Recommend the skill or skills for that goal, in order, with how to start each in the user's tool. Before recommending an `openspec-*` skill, start `ack-openspec-check`; unless it reports `OK` or `NEWER`, recommend its upgrade steps first.
 3. At a phase boundary, walk the options in `references/phase-boundaries.md` in order and recommend the first that fits.
 4. If no route fits, say so and list the closest goals.
 
@@ -38,9 +38,10 @@ Answer "which skill do I run now?" for every flow the kit supports, from first s
 ## Resources
 - Goal-to-skill routes: `references/routes.md`
 - Phase-boundary choices: `references/phase-boundaries.md`
+- OpenSpec version check: the `ack-openspec-check` skill
 - Spec section 4.5.4 and section 11: `../../specs/context_aware_ai_session_spec.md`
 
 ## Constraints And Safety
-- Recommend only; never start another skill. User-invoked skills are started by the user.
+- Recommend only. The one skill this skill starts is the model-invoked `ack-openspec-check`; every user-invoked skill is started by the user.
 - Recommend only skills that exist in the repository or that OpenSpec installed; do not invent skill names.
 - Compaction is always the last option, and every option except Continue needs the user's confirmation.

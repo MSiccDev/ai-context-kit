@@ -82,7 +82,7 @@ This repository uses OpenSpec as the contract for what gets built (spec section 
 
 - OpenSpec root: `<OpenSpec folder, usually openspec/>`
 - Active change: `<change id, or "none">`
-- Minimum OpenSpec version: `1.13.2`
+- Minimum OpenSpec version: `2.1.0`
 
 ### No Change, No Code
 - Start implementation only against an apply-ready change: `openspec instructions apply --change <id> --json` reports `state` as `ready`.

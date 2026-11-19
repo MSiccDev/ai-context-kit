@@ -8,14 +8,19 @@ how this project invokes OpenSpec).
 
 ## 1. Confirm OpenSpec is available
 
-Run `openspec --version`.
-- If the command is not available, this session is in **manual mode**
-  (spec section 11.5): planning artifacts may be written, but implementation
-  may not start. Stop and tell the user that apply needs a repository with the
-  OpenSpec CLI. Offer to help with planning instead.
-- If the version is older than `1.13.2`, stop and report that it is unsupported.
-- If it is newer than `1.13.2`, continue and note in the report that the
-  version is newer than the kit's tested minimum.
+Start the `ack-openspec-check` skill and act on its status line
+(spec section 11.6):
+- `NO_CLI`: this session is in **manual mode** (spec section 11.5): planning
+  artifacts may be written, but implementation may not start. Stop, pass on the
+  install steps from the check, and offer to help with planning instead.
+- `UPGRADE_CLI`: the CLI is older than `2.1.0`. Stop and pass on the upgrade
+  steps from the check.
+- `UPDATE_FILES`: the repository's OpenSpec files are older than the CLI. Pass
+  on the `openspec update` steps and continue only after the user has run them
+  or says to proceed.
+- `NEWER`: continue, and note in the report that the version is newer than the
+  kit's tested version.
+- `OK`: continue.
 
 Run `openspec list --json`.
 - If no OpenSpec root is found, stop: this repository is not set up for the

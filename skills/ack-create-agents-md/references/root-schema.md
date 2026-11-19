@@ -43,7 +43,7 @@ Fill each field from discovery phase 6:
 | --- | --- | --- |
 | OpenSpec root | The `openspec/` folder under `root.path`, relative to the repository (usually `openspec/`) | "not yet initialised in this repository" |
 | Active change | The active change id | `none` |
-| Minimum OpenSpec version | `1.13.2` | `1.13.2` |
+| Minimum OpenSpec version | `2.1.0` | `2.1.0` |
 
 Then two subsections:
 - **No Change, No Code**: the template's four rules, unchanged: start implementation only against an apply-ready change (`openspec instructions apply --change <id> --json` reports `state` as `ready`); if none exists, stop and offer to create or complete one; changes with no behavior impact still get a change folder with `skip_specs: true`; archive the change as the last commit on the feature branch, after review approval.

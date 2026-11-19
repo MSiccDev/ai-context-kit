@@ -11,7 +11,7 @@ Each ADR has a status, date and source, followed by Context, Decision and Conseq
 | ID | Decision | Status |
 | --- | --- | --- |
 | [ADR-001](ADR-001-openspec-is-mandatory.md) | OpenSpec is mandatory for every change | Accepted |
-| [ADR-002](ADR-002-minimum-openspec-version.md) | Minimum OpenSpec version 1.13.2; newer versions warn, never fail | Accepted |
+| [ADR-002](ADR-002-minimum-openspec-version.md) | Minimum OpenSpec version 1.13.2; newer versions warn, never fail | Superseded by ADR-016 |
 | [ADR-003](ADR-003-manual-mode-is-fully-supported.md) | Manual mode is fully supported on chat-only surfaces | Accepted |
 | [ADR-004](ADR-004-archive-timing.md) | Archive a change as the last commit on its feature branch | Accepted |
 | [ADR-005](ADR-005-openspec-stores-deferred.md) | OpenSpec stores are deferred past 2.0 | Accepted |
@@ -25,3 +25,4 @@ Each ADR has a status, date and source, followed by Context, Decision and Conseq
 | [ADR-013](ADR-013-installer-package-and-binary.md) | Installer package `@msiccdev/ai-context-kit` | Accepted |
 | [ADR-014](ADR-014-attribution.md) | Credit every adapted source where it lands and once centrally | Accepted |
 | [ADR-015](ADR-015-release-split.md) | What ships in 2.0 and what waits for 2.1 | Accepted |
+| [ADR-016](ADR-016-minimum-openspec-2-1.md) | Minimum OpenSpec version 2.1.0; the kit detects old CLIs and stale generated files | Accepted |

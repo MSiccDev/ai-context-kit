@@ -6,7 +6,7 @@
 - Overwrite an existing report for the same target.
 
 ## Required report sections
-- Header: file, mode (root or nested), validator, date, how phase 3 ran (`openspec list --json` or reading `openspec/`)
+- Header: file, mode (root or nested), validator, date, how phase 3 ran (`openspec list --json` or reading `openspec/`) and the `ack-openspec-check` status line with the CLI version
 - Overall Status + Compliance Score, with the sum of the phase scores
 - Phase 1: Structure And Core Sections
 - Phase 2: Operational Contract

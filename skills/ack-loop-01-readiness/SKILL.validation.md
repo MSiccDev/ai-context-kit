@@ -2,7 +2,7 @@
 
 **File:** skills/ack-loop-01-readiness/SKILL.md
 **Skill:** ack-loop-01-readiness
-**Validated:** 2026-11-18 (rollout step 5 re-run, with the writing checks)
+**Validated:** 2026-11-19 (re-run for OpenSpec change `require-openspec-2-1`)
 **Validator:** `skills/ack-validate-skill`
 
 ---
@@ -41,6 +41,7 @@
 - The full procedure lives in `references/procedure.md`, moved unchanged from the former loop prompt (progressive disclosure).
 - `metadata.invocation` is `"user"`, with `disable-model-invocation: true` to match, so Claude Code never loads the skill on its own.
 - Writing checks: every workflow step ends on a completion criterion; no no-ops, sediment or duplicated rules found.
+- Step 1 starts `ack-openspec-check` and acts on each of its five statuses; the minimum is 2.1.0 (spec section 11.6, ADR-016).
 
 ---
 

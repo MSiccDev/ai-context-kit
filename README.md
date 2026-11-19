@@ -201,6 +201,7 @@ Operational workflow authority is skill-first:
 - `skills/ack-validate-user-context/`
 - `skills/ack-validate-agents-md/`
 - `skills/ack-drift-control/`
+- `skills/ack-openspec-check/` (OpenSpec version and upgrade check)
 - `skills/ack-create-skill/`
 - `skills/ack-validate-skill/`
 - `skills/ack-create-checkpoint/`
@@ -366,6 +367,7 @@ Skills are namespaced to the plugin name. Inside a session:
 | `ack-validate-agents-md` | Validate a root or nested `AGENTS.md` with one scored rubric |
 | `ack-validate-skill` | Validate a `SKILL.md` artifact with scored report |
 | `ack-drift-control` | Check and enforce consistency across spec, templates, and docs |
+| `ack-openspec-check` | (model-invoked) Check the OpenSpec CLI is 2.1.0 or later and the repository's OpenSpec files match it; give the upgrade steps |
 | `ack-create-checkpoint` | Capture session state as a checkpoint artifact (spec section 4.4) |
 | `ack-restore-checkpoint` | Restore session state from a checkpoint artifact (spec section 4.4) |
 | `ack-session` | Show or change session state, or reset it to the project defaults |
