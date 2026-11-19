@@ -1,0 +1,35 @@
+{
+  "name": "@msiccdev/ai-context-kit",
+  "version": "2.0.0-beta.1",
+  "description": "Per-repository installer for AI Context Kit skills across Claude Code, Codex, GitHub Copilot and other agents",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "ai-context-kit": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "skills",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MSiccDev/ai-context-kit.git",
+    "directory": "installer"
+  },
+  "scripts": {
+    "bundle": "node scripts/bundle-skills.mjs",
+    "build": "npm run bundle && tsc -p tsconfig.json",
+    "test": "npm run build && vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.5",
+    "typescript": "6.0.3",
+    "vite": "7.3.8",
+    "vitest": "4.1.12"
+  }
+}

@@ -20,7 +20,7 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Test the version check
         run: bash scripts/test-check-version-sync.sh
       - name: Check manifest and changelog versions match
