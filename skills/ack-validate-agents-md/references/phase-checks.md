@@ -13,7 +13,7 @@ Run the phases in order. Each phase lists its checks for root mode and for neste
 ## Phase 3: Spec-Driven Workflow (root mode only)
 Start the `ack-openspec-check` skill (spec section 11.6) and record its status line in the report. Then run `openspec list --json`, or read `openspec/` if the CLI is unavailable (`NO_CLI`).
 - The OpenSpec CLI is 2.1.0 or later (`UPGRADE_CLI` fails this check).
-- The repository's generated OpenSpec files match the CLI (`UPDATE_FILES` fails this check).
+- The repository's generated OpenSpec files match the CLI (`UPDATE_FILES` and `UNVERIFIED` fail this check).
 - The `Spec-Driven Change Workflow` section is present.
 - The repository has an OpenSpec root.
 - The stated OpenSpec root, resolved against the repository, is the `openspec/` folder under `root.path` (`root.path` is the directory that contains it).

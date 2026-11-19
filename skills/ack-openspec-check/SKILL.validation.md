@@ -42,6 +42,7 @@
 - Every workflow step ends on a completion criterion: a version or a missing command, a status, a file classification, a status line.
 - No no-ops or sediment. The status contract for callers is stated once, in Output Expectations; each caller adds only its own handling (for example manual mode in `ack-create-agents-md`).
 - Enhancement: "Never use sudo or edit shell profiles" is a prohibition without a positive target; it is a hard guardrail, so it stays.
+- The fallback never certifies files it cannot check: with no 1.x markers it reports `UNVERIFIED`, which callers treat like `UPDATE_FILES` (added after Codex review).
 
 ---
 

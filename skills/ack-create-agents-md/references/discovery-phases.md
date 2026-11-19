@@ -35,7 +35,7 @@ Collect:
 ## Phase 6: Spec-Driven Workflow
 First start the `ack-openspec-check` skill (spec section 11.6) and act on its status line:
 - `UPGRADE_CLI`: stop discovery here and pass on the upgrade steps; continue when the user has upgraded.
-- `UPDATE_FILES`: pass on the `openspec update` steps and continue only after the user has run them or says to proceed, so the invocation rows describe the current OpenSpec skills.
+- `UPDATE_FILES` or `UNVERIFIED`: pass on the `openspec update` steps and continue only after the user has run them or says to proceed, so the invocation rows describe the current OpenSpec skills.
 - `NO_CLI`: continue in manual mode (spec section 11.5) by reading `openspec/` directly, pass on the install steps, and note both in the completion summary.
 - `OK` or `NEWER`: continue.
 

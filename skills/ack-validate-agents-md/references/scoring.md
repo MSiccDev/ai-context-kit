@@ -37,7 +37,7 @@ Each critical finding makes the status FAIL, whatever the score:
 | No OpenSpec root | Critical |
 | Stated root is not the `openspec/` folder under `root.path` | Critical |
 | CLI older than 2.1.0 (`UPGRADE_CLI`) | Critical |
-| Generated OpenSpec files older than the CLI (`UPDATE_FILES`) | Warning |
+| Generated OpenSpec files older than the CLI, or not confirmable (`UPDATE_FILES`, `UNVERIFIED`) | Warning |
 | Active change is neither `none` nor an id in the list, or is `none` while exactly one change is active | Warning |
 | Minimum version is not `2.1.0` | Warning |
 | No Change, No Code rules incomplete | Warning |

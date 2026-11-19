@@ -15,9 +15,9 @@ Start the `ack-openspec-check` skill and act on its status line
   install steps from the check, and offer to help with planning instead.
 - `UPGRADE_CLI`: the CLI is older than `2.1.0`. Stop and pass on the upgrade
   steps from the check.
-- `UPDATE_FILES`: the repository's OpenSpec files are older than the CLI. Pass
-  on the `openspec update` steps and continue only after the user has run them
-  or says to proceed.
+- `UPDATE_FILES` or `UNVERIFIED`: the repository's OpenSpec files are older
+  than the CLI, or could not be confirmed current. Pass on the `openspec update`
+  steps and continue only after the user has run them or says to proceed.
 - `NEWER`: continue, and note in the report that the version is newer than the
   kit's tested version.
 - `OK`: continue.

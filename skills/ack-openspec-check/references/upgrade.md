@@ -16,7 +16,7 @@ OpenSpec 1.x has no `openspec version` command; an "unknown command 'version'" e
 
 ## Classifying the generated files
 - **Primary:** `openspec update --dry-run --json` (2.x). A non-empty `changes` list means `UPDATE_FILES`. Entries with `"action": "delete"` under `.claude/commands/opsx/` are 1.x command files.
-- **Fallback** when the dry run fails: read the frontmatter of each generated `openspec-*/SKILL.md` (in `.agents/skills/`, `.claude/skills/` and other tool folders). OpenSpec 1.x writes `metadata.generatedBy` (for example `"1.13.2"`) and 2.x does not, so any `generatedBy` field, or a `.claude/commands/opsx/` folder, means `UPDATE_FILES`.
+- **Fallback** when the dry run fails: read the frontmatter of each generated `openspec-*/SKILL.md` (in `.agents/skills/`, `.claude/skills/` and other tool folders). OpenSpec 1.x writes `metadata.generatedBy` (for example `"1.13.2"`) and 2.x does not, so any `generatedBy` field, or a `.claude/commands/opsx/` folder, means `UPDATE_FILES`. With neither marker the fallback cannot tell current 2.x files from older 2.x files: report `UNVERIFIED`, never `OK`.
 - No generated files at all means OpenSpec is not set up in this repository; report that, and leave `openspec init` to the calling skill.
 
 ## Upgrade steps
@@ -28,7 +28,7 @@ npm install -g @fission-ai/openspec@latest
 ```
 If `openspec version --json` reports another `install.packageManager` (for example pnpm, yarn, bun or Homebrew), use that package manager's upgrade command instead, as OpenSpec's installation docs describe. Then run `openspec --version` again and continue with the file check.
 
-**`UPDATE_FILES`: refresh the repository's OpenSpec files**, from the repository root:
+**`UPDATE_FILES` or `UNVERIFIED`: refresh or confirm the repository's OpenSpec files**, from the repository root (for `UNVERIFIED`, the dry run shows whether anything is out of date):
 ```bash
 openspec update --dry-run
 ```

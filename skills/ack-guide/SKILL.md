@@ -26,7 +26,7 @@ Answer "which skill do I run now?" for every flow the kit supports, from first s
 
 ## Workflow
 1. Match the request to a goal in `references/routes.md`. If two goals fit, ask which one.
-2. Recommend the skill or skills for that goal, in order, with how to start each in the user's tool. Before recommending an `openspec-*` skill, start `ack-openspec-check`; unless it reports `OK` or `NEWER`, recommend its upgrade steps first.
+2. Recommend the skill or skills for that goal, in order, with how to start each in the user's tool. Before recommending an `openspec-*` skill, start `ack-openspec-check`; unless it reports `OK` or `NEWER` (so also for `UNVERIFIED`), recommend its upgrade steps first.
 3. At a phase boundary, walk the options in `references/phase-boundaries.md` in order and recommend the first that fits.
 4. If no route fits, say so and list the closest goals.
 
