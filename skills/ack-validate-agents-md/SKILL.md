@@ -1,7 +1,7 @@
 ---
 name: "ack-validate-agents-md"
 description: "Validate root or nested AGENTS.md files with one scored rubric: structure, operational contract, spec-driven change workflow, project context, clarity, and portability and links. Use before accepting any AGENTS.md change."
-version: "2.1.1"
+version: "2.2.0"
 allowed-tools: [Read, Write, Bash]
 disable-model-invocation: true
 metadata:
@@ -29,7 +29,7 @@ Validate an `AGENTS.md` file in **root** or **nested** mode with one combined ru
 
 ## Workflow
 1. Determine the mode.
-2. Run the six phases in `references/phase-checks.md` for that mode. For phase 3 in root mode, run `openspec list --json`; if the CLI is unavailable, check against the files under `openspec/` and say so in the report.
+2. Run the six phases in `references/phase-checks.md` for that mode. For phase 3 in root mode, start `ack-openspec-check`, then run `openspec list --json`; if the CLI is unavailable, check against the files under `openspec/` and say so in the report.
 3. Check for `<!-- spec_version: ... -->`: flag a WARNING if it is absent, or if it is older than `2.0.0-beta.1`.
 4. Score each phase with `references/scoring.md`. The phase scores must add up to the reported total; state the sum in the report.
 5. Classify findings as Critical, Warning or Enhancement. Any critical finding in `references/scoring.md` makes the status FAIL, whatever the score.
@@ -44,12 +44,13 @@ Validate an `AGENTS.md` file in **root** or **nested** mode with one combined ru
 - Phase checks: `references/phase-checks.md`
 - Scoring and critical findings: `references/scoring.md`
 - Report contract: `references/report-contract.md`
+- OpenSpec version check: the `ack-openspec-check` skill
 - Writing checks (phase 5): `../ack-validate-skill/references/writing-for-agents.md`
 - Canonical template: `../../templates/AGENTS_template.md`
 - Example target: `../../AGENTS.md`
 
 ## Constraints And Safety
 - Never rewrite the target file; only write the report.
-- Run only read-only OpenSpec commands (`openspec list --json`); never `openspec init` or `openspec update`.
+- Run only read-only OpenSpec commands (`openspec list --json`, and those `ack-openspec-check` runs); never `openspec init` or `openspec update`.
 - Keep the rubric deterministic and the findings repository-specific.
 - Avoid style-only feedback, keep wording provider-neutral, and do not copy normative specification text into fixes.

@@ -4,9 +4,9 @@
 
 **File:** `AGENTS.md`  
 **Mode:** root  
-**Validated:** 2026-11-18 (full re-run after `openspec init`, rollout step 6; phase 5 re-checked for OpenSpec change `agents-md-writing-cleanup`; phase 3 re-checked 2026-11-19 after the four changes were archived)  
-**Validator:** `skills/ack-validate-agents-md` 2.1.1  
-**Phase 3 source:** `openspec list --json` (OpenSpec 2.1.0): `root.path` is the repository root; no active changes; four archived changes in `openspec/changes/archive/`
+**Validated:** 2026-11-18 (full re-run after `openspec init`, rollout step 6); phase 3 re-checked 2026-11-19 for OpenSpec change `require-openspec-2-1`  
+**Validator:** `skills/ack-validate-agents-md` 2.2.0  
+**Phase 3 source:** `ack-openspec-check`: `OPENSPEC: OK` (CLI 2.1.0, `openspec update --dry-run --json` lists no changes); `openspec list --json`: `root.path` is the repository root; no active changes; `require-openspec-2-1` archived
 
 ## Overall Status + Compliance Score
 - **Status:** PASS
@@ -34,9 +34,10 @@
 - The section is present.
 - The stated root, `openspec/`, is the `openspec/` folder under `root.path`.
 - The stated active change is `none`, and `openspec list --json` lists no active changes.
-- The minimum version is `1.13.2`, and all four No Change, No Code rules are stated.
+- The OpenSpec CLI is 2.1.0, and the generated OpenSpec files match it.
+- The minimum version is `2.1.0`, and all four No Change, No Code rules are stated.
 - `openspec/config.yaml` `context` points to `AGENTS.md` first and adds only pointers (spec, ADR index, skill template) and the `skip_specs` convention.
-- The Invoking OpenSpec table has rows for Claude Code and Codex, the two tools `openspec init` configured.
+- The Invoking OpenSpec table has rows for Claude Code and Codex, the two tools `openspec init` configured, and names the OpenSpec 2.x skills.
 
 ## Phase 4: Project Context
 - **Score:** 20/20

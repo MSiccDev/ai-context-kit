@@ -11,15 +11,17 @@ Run the phases in order. Each phase lists its checks for root mode and for neste
 - **Nested:** the scope statement names the folder; Key References links to the root `AGENTS.md`; every override names the root rule it refines; nothing in the file contradicts the root file without being stated as an override.
 
 ## Phase 3: Spec-Driven Workflow (root mode only)
-Run `openspec list --json`, or read `openspec/` if the CLI is unavailable.
+Start the `ack-openspec-check` skill (spec section 11.6) and record its status line in the report. Then run `openspec list --json`, or read `openspec/` if the CLI is unavailable (`NO_CLI`).
+- The OpenSpec CLI is 2.1.0 or later (`UPGRADE_CLI` fails this check).
+- The repository's generated OpenSpec files match the CLI (`UPDATE_FILES` and `UNVERIFIED` fail this check).
 - The `Spec-Driven Change Workflow` section is present.
 - The repository has an OpenSpec root.
 - The stated OpenSpec root, resolved against the repository, is the `openspec/` folder under `root.path` (`root.path` is the directory that contains it).
 - The stated active change is `none` or an id in the list of active changes. `none` is valid when no change is active; if exactly one change is active, the section names it. The membership check applies only to real change ids.
-- The minimum version is `1.13.2`.
+- The minimum version is `2.1.0`.
 - The four No Change, No Code rules are complete.
 - If `openspec/config.yaml` has a `context` field, it points to `AGENTS.md` rather than copying its content.
-- The Invoking OpenSpec table has at least one row.
+- The Invoking OpenSpec table has at least one row, and its rows name OpenSpec 2.x skills (such as `/openspec-propose`), not the 1.x `/opsx:*` commands.
 
 ## Phase 4: Project Context
 - **Root:** Repository Project Context has all twelve subsections (Overview, Role Definitions, Tech Stack, Current Objectives, Development Principles, Repository Context, Working Together, Key Components, Testing Strategy, Documentation Standards, Testing Commands, Future Roadmap) with substantive content; at least 3 roles; the role table has every column.

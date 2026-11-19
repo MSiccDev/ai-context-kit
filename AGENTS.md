@@ -97,7 +97,7 @@ This repository uses OpenSpec as the contract for what gets built (spec section 
 
 - OpenSpec root: `openspec/`
 - Active change: `none`
-- Minimum OpenSpec version: `1.13.2`
+- Minimum OpenSpec version: `2.1.0`
 
 The session spec stays the normative document and is not split into OpenSpec capability specs, so `openspec/specs/` stays empty and every change sets `skip_specs: true`. `openspec/config.yaml` points back to this file.
 

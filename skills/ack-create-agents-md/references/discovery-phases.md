@@ -33,11 +33,17 @@ Collect:
 - any default values the commands should mention (roles, phases, styles, tones)
 
 ## Phase 6: Spec-Driven Workflow
-Run `openspec list --json` (spec section 11). Collect:
+First start the `ack-openspec-check` skill (spec section 11.6) and act on its status line:
+- `UPGRADE_CLI`: stop discovery here and pass on the upgrade steps; continue when the user has upgraded.
+- `UPDATE_FILES` or `UNVERIFIED`: pass on the `openspec update` steps and continue only after the user has run them or says to proceed, so the invocation rows describe the current OpenSpec skills.
+- `NO_CLI`: continue in manual mode (spec section 11.5) by reading `openspec/` directly, pass on the install steps, and note both in the completion summary.
+- `OK` or `NEWER`: continue.
+
+Then run `openspec list --json` (spec section 11). Collect:
 - the OpenSpec root: the `openspec/` folder under `root.path`, written relative to the repository (usually `openspec/`; `root.path` itself is the directory that contains it), or that OpenSpec is not yet initialised
 - the active change: recommend the only active change if there is exactly one, otherwise `none` or the user's choice
-- the minimum OpenSpec version (`1.13.2`)
-- one invocation row per tool `openspec init` configured, or per tool the user names
+- the minimum OpenSpec version (`2.1.0`)
+- one invocation row per tool `openspec init` configured, or per tool the user names, naming the OpenSpec 2.x skills (for example `/openspec-propose` in Claude Code, `$openspec-propose` in Codex)
 
 If no OpenSpec root is found, record "not yet initialised in this repository" and offer `openspec init`. Do not run it without approval.
 

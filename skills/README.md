@@ -29,6 +29,7 @@ This directory is the canonical location for repository skill instances.
 
 ### Governance Workflows
 - `ack-drift-control` (no `references/` directory)
+- `ack-openspec-check` (`references/upgrade.md`; model-invoked)
 
 ### Session And Navigation Workflows
 - `ack-session` (`references/commands.md`)

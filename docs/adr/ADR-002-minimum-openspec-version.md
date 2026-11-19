@@ -1,6 +1,6 @@
 # ADR-002: Minimum OpenSpec version
 
-- Status: Accepted
+- Status: Superseded by [ADR-016](ADR-016-minimum-openspec-2-1.md)
 - Date: 2026-09-27
 - Source: [2.0 adoption plan, Decisions](../plans/2.0-adoption-plan.md#decisions)
 

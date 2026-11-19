@@ -508,8 +508,11 @@ Kit-managed repositories use [OpenSpec](https://github.com/Fission-AI/OpenSpec) 
 
 ### 11.6 Minimum Version
 
-- The minimum supported OpenSpec version is **1.13.2**.
-- Older versions **MUST** be reported as unsupported. Newer versions **SHOULD** produce a warning and **MUST NOT** fail a check.
+- The minimum supported OpenSpec version is **2.1.0** (ADR-016).
+- Before relying on OpenSpec, kit tooling **MUST** check two things: the CLI version (`openspec --version`), and whether the files OpenSpec generated into the repository match that CLI (`openspec update --dry-run --json` lists no changes).
+- A CLI older than the minimum **MUST** stop implementation and AGENTS.md generation until the user upgrades. Without a CLI, the session is in manual mode (11.5): planning and AGENTS.md generation may continue from the files in `openspec/`, implementation may not. Generated files older than the CLI **MUST** be reported with `openspec update` as the fix, and work continues only after the user runs it or says to proceed.
+- Kit tooling **MUST NOT** install, upgrade or update OpenSpec without the user's approval.
+- Newer versions **SHOULD** produce a warning and **MUST NOT** fail a check.
 - The minimum is reviewed every three months.
 
 ### 11.7 Archive Timing

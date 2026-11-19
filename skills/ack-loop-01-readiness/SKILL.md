@@ -1,7 +1,7 @@
 ---
 name: "ack-loop-01-readiness"
 description: "Implementation loop step 01: confirm the target OpenSpec change is apply-ready, pick its next task group, and report readiness before any code is written. Use at the start of every loop."
-version: "1.0.0"
+version: "1.1.0"
 allowed-tools: [Read, Bash]
 disable-model-invocation: true
 metadata:
@@ -24,12 +24,12 @@ Loop order: **01 readiness** → `ack-loop-02-implement` → `ack-loop-03-review
 
 ## Required Inputs
 - A repository with `AGENTS.md` and an OpenSpec root.
-- The OpenSpec CLI (`openspec`), version 1.13.2 or later. Without it the step stops: manual mode allows planning, not implementation.
+- The OpenSpec CLI (`openspec`), version 2.1.0 or later, as `ack-openspec-check` reports it. Without it the step stops: manual mode allows planning, not implementation.
 - Optionally, the change or task the user wants to target.
 
 ## Workflow
-1. Follow `references/procedure.md` in order: confirm OpenSpec, determine the target change, check apply-readiness with `openspec instructions apply --change <id> --json`, read the context, pick the next task group.
-2. Stop wherever the procedure says to stop (no CLI, old version, no root, no change, `blocked` state).
+1. Follow `references/procedure.md` in order: confirm OpenSpec with `ack-openspec-check`, determine the target change, check apply-readiness with `openspec instructions apply --change <id> --json`, read the context, pick the next task group.
+2. Stop wherever the procedure says to stop (no CLI, old CLI, stale OpenSpec files until the user updates them, no root, no change, `blocked` state).
 3. Reply with the readiness report and wait for explicit go-ahead.
 
 ## Output Expectations
@@ -38,6 +38,7 @@ Loop order: **01 readiness** → `ack-loop-02-implement` → `ack-loop-03-review
 
 ## Resources
 - Procedure: `references/procedure.md`
+- OpenSpec version check: the `ack-openspec-check` skill
 - Spec section 11 (spec-driven change workflow): `../../specs/context_aware_ai_session_spec.md`
 
 ## Constraints And Safety
