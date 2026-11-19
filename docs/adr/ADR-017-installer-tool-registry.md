@@ -35,4 +35,4 @@ Claude Code facts behind the `claude` row: it reads `AGENTS.md` directly from v2
 
 - The MVP implements this table as its registry data file; later tools are added rows.
 - Two facts rest on the maintainer's confirmation because the vendor docs were unreachable during the spike; `doctor` can re-check them.
-- Before the publish step, the maintainer registers the `@msiccdev` npm scope (ADR-013).
+- The `@msiccdev` npm organisation is registered (2026-11-19, ADR-013); `@msiccdev/ai-context-kit` is not yet published. The publish step uses npm trusted publishing from GitHub Actions where possible, so no npm token is stored.
