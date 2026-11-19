@@ -1,7 +1,7 @@
 import { existsSync, statSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { UsageError, type Io } from "../io.js";
-import { readManifest } from "../manifest.js";
+import { ManifestError, readManifest } from "../manifest.js";
 import { TOOLS, findTool, type Tool } from "../registry.js";
 import { UnsafePathError } from "../paths.js";
 import { sync, toolsFrom, type Event } from "../sync.js";
@@ -50,6 +50,10 @@ export function loadManifest(io: Io, root: string): ReturnType<typeof readManife
   try {
     return readManifest(root);
   } catch (e) {
+    if (e instanceof ManifestError) {
+      io.stderr(`Refusing to run: ${e.message} Fix or remove the manifest; nothing was changed.`);
+      return null;
+    }
     if (!(e instanceof UnsafePathError)) throw e;
     io.stderr(`Refusing to run: the manifest is unsafe. ${e.message} Check .ai-context-kit/manifest.json.`);
     return null;

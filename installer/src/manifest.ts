@@ -24,13 +24,48 @@ export function sha256(text: string): string {
   return createHash("sha256").update(text, "utf8").digest("hex");
 }
 
-/** Reads the manifest. Throws UnsafePathError for a symlinked manifest or any path that leaves the repository. */
+/** The manifest exists but cannot be read or does not have the expected shape. */
+export class ManifestError extends Error {}
+
+/**
+ * Reads the manifest. Throws ManifestError for invalid JSON or a wrong shape, and
+ * UnsafePathError for a symlinked manifest or any path that leaves the repository.
+ */
 export function readManifest(root: string): Manifest | undefined {
   const path = guard(root, MANIFEST_PATH);
   if (!existsSync(path)) return undefined;
-  const m = JSON.parse(readFileSync(path, "utf8")) as Manifest;
-  for (const f of [...(m.files ?? []), ...(m.blocks ?? [])]) checkRelative(f.path);
+  let data: unknown;
+  try {
+    data = JSON.parse(readFileSync(path, "utf8"));
+  } catch (e) {
+    throw new ManifestError(`${MANIFEST_PATH} is not valid JSON (${(e as Error).message}).`);
+  }
+  const m = validate(data);
+  for (const f of [...m.files, ...m.blocks]) checkRelative(f.path);
   return m;
+}
+
+function validate(data: unknown): Manifest {
+  const fail = (what: string): never => {
+    throw new ManifestError(`${MANIFEST_PATH} is malformed: ${what}.`);
+  };
+  if (typeof data !== "object" || data === null || Array.isArray(data)) fail("expected a JSON object");
+  const m = data as Record<string, unknown>;
+  if (m.schemaVersion !== 1) fail("schemaVersion must be 1");
+  if (typeof m.kitVersion !== "string" || m.kitVersion === "") fail("kitVersion must be a version string");
+  if (!Array.isArray(m.tools) || !m.tools.every((t) => typeof t === "string")) fail("tools must be a list of tool ids");
+  for (const key of ["files", "blocks"] as const) {
+    const list = m[key];
+    if (!Array.isArray(list)) fail(`${key} must be a list`);
+    (list as unknown[]).forEach((entry, i) => {
+      const e = entry as Record<string, unknown>;
+      if (typeof e !== "object" || e === null) fail(`${key}[${i}] must be an object`);
+      if (typeof e.path !== "string") fail(`${key}[${i}].path must be a string`);
+      if (typeof e.sha256 !== "string" || !/^[0-9a-f]{64}$/.test(e.sha256)) fail(`${key}[${i}].sha256 must be a sha256 hex digest`);
+      if (e.deleted !== undefined && typeof e.deleted !== "boolean") fail(`${key}[${i}].deleted must be true or false`);
+    });
+  }
+  return m as unknown as Manifest;
 }
 
 export function serializeManifest(m: Manifest): string {

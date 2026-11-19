@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { packageVersion } from "../bundle.js";
 import type { Io } from "../io.js";
-import { readManifest, sha256 } from "../manifest.js";
+import { ManifestError, readManifest, sha256 } from "../manifest.js";
 import { readBlock } from "../markers.js";
 import { guard, UnsafePathError } from "../paths.js";
 import { compareVersions, MIN_NODE } from "../version.js";
@@ -28,8 +28,13 @@ export function doctor(io: Io, positionals: string[], values: Record<string, unk
   try {
     manifest = readManifest(root);
   } catch (e) {
-    if (!(e instanceof UnsafePathError)) throw e;
-    problems.push({ check: e.reason === "symlink" ? "symlink" : "manifest", path: e.path, message: e.message });
+    if (e instanceof ManifestError) {
+      problems.push({ check: "manifest", path: ".ai-context-kit/manifest.json", message: e.message });
+    } else if (e instanceof UnsafePathError) {
+      problems.push({ check: e.reason === "symlink" ? "symlink" : "manifest", path: e.path, message: e.message });
+    } else {
+      throw e;
+    }
     manifest = undefined;
   }
   if (manifest === undefined && problems.some((p) => p.check === "manifest" || p.check === "symlink")) {
