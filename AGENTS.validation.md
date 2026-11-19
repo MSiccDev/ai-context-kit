@@ -4,9 +4,9 @@
 
 **File:** `AGENTS.md`  
 **Mode:** root  
-**Validated:** 2026-11-18 (full re-run after `openspec init`, rollout step 6; phase 5 re-checked for OpenSpec change `agents-md-writing-cleanup`)  
+**Validated:** 2026-11-18 (full re-run after `openspec init`, rollout step 6; phase 5 re-checked for OpenSpec change `agents-md-writing-cleanup`; phase 3 re-checked 2026-11-19 after the four changes were archived)  
 **Validator:** `skills/ack-validate-agents-md` 2.1.1  
-**Phase 3 source:** `openspec list --json` (OpenSpec 2.1.0): `root.path` is the repository root; active changes `user-context-score-sum`, `openspec-root-check`, `sample-documentation-preferences` and `agents-md-writing-cleanup`
+**Phase 3 source:** `openspec list --json` (OpenSpec 2.1.0): `root.path` is the repository root; no active changes; four archived changes in `openspec/changes/archive/`
 
 ## Overall Status + Compliance Score
 - **Status:** PASS
@@ -33,7 +33,7 @@
 - **Status:** PASS
 - The section is present.
 - The stated root, `openspec/`, is the `openspec/` folder under `root.path`.
-- The stated active change, `user-context-score-sum`, is in the list of active changes. Four changes are active, so naming any one of them is valid.
+- The stated active change is `none`, and `openspec list --json` lists no active changes.
 - The minimum version is `1.13.2`, and all four No Change, No Code rules are stated.
 - `openspec/config.yaml` `context` points to `AGENTS.md` first and adds only pointers (spec, ADR index, skill template) and the `skip_specs` convention.
 - The Invoking OpenSpec table has rows for Claude Code and Codex, the two tools `openspec init` configured.
@@ -81,7 +81,7 @@
 1. Tighten descriptive lines in `Repository Project Context` through an OpenSpec change.
 
 ### Migration Path
-1. When both active changes are archived, set `Active change` to `none`.
+1. None.
 
 ## Example Fixes for recurring failures
 - Duplicated rule: keep it in one section and point to it from the other, or delete the copy.
