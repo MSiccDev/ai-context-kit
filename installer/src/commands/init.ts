@@ -47,6 +47,9 @@ export function report(io: Io, events: Event[]): void {
   io.stdout([...counts].map(([a, n]) => `${a}: ${n}`).join(", "));
   for (const e of events) {
     if (e.action === "conflict") io.stdout(`Edited locally, new version written beside it: ${e.path}.ai-context-kit-new`);
+    if (e.action === "conflict-copy-kept") {
+      io.stdout(`Edited locally, and its conflict copy was edited too; both kept: ${e.path}.ai-context-kit-new`);
+    }
     if (e.action === "kept-deleted") io.stdout(`Deleted locally, left deleted: ${e.path}`);
     if (e.action === "kept-edited") io.stdout(`No longer part of the kit but edited locally, kept: ${e.path}`);
   }

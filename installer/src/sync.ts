@@ -7,7 +7,15 @@ import { findTool, type Tool } from "./registry.js";
 
 export const NEW_SUFFIX = ".ai-context-kit-new";
 
-export type Action = "written" | "updated" | "unchanged" | "conflict" | "kept-deleted" | "removed" | "kept-edited";
+export type Action =
+  | "written"
+  | "updated"
+  | "unchanged"
+  | "conflict"
+  | "conflict-copy-kept"
+  | "kept-deleted"
+  | "removed"
+  | "kept-edited";
 
 export interface Event {
   path: string;
@@ -103,8 +111,14 @@ export function sync({ root, tools, force = false }: SyncOptions): Event[] {
       events.push({ path, action: "updated" });
       files.push({ path, sha256: hash });
     } else {
-      write(full + NEW_SUFFIX, content);
-      events.push({ path, action: "conflict" });
+      // The conflict copy is where the user merges; never overwrite an edited one.
+      const copy = full + NEW_SUFFIX;
+      if (existsSync(copy) && read(copy) !== content) {
+        events.push({ path, action: "conflict-copy-kept" });
+      } else {
+        if (!existsSync(copy)) write(copy, content);
+        events.push({ path, action: "conflict" });
+      }
       files.push({ path, sha256: record?.sha256 ?? hash });
     }
   }
@@ -130,7 +144,8 @@ export function sync({ root, tools, force = false }: SyncOptions): Event[] {
       blocks.push({ ...record, deleted: true });
       continue;
     }
-    const before = exists ? read(full) : undefined;
+    // Read raw: text outside the markers keeps its bytes, including CRLF.
+    const before = exists ? readFileSync(full, "utf8") : undefined;
     const after = writeBlock(before, body);
     if (before === after) {
       events.push({ path, action: "unchanged" });

@@ -100,6 +100,40 @@ describe("update", () => {
     expect(listFiles(repo).map((p) => [p, read(repo, p)])).toEqual(before);
   });
 
+  it("never overwrites an edited conflict copy, even with --force", async () => {
+    const repo = await installed();
+    writeFileSync(join(repo, SKILL), read(repo, SKILL) + "\nmine\n");
+    await cli(repo, "update");
+    const copy = SKILL + ".ai-context-kit-new";
+    writeFileSync(join(repo, copy), "half-merged work\n");
+    const r = await cli(repo, "update");
+    expect(read(repo, copy)).toBe("half-merged work\n");
+    expect(r.stdout).toContain(copy);
+    await cli(repo, "init", "--tools", "codex", "--yes");
+    expect(read(repo, copy)).toBe("half-merged work\n");
+    await cli(repo, "update", "--force");
+    expect(read(repo, copy)).toBe("half-merged work\n");
+  });
+
+  it("keeps CRLF line endings outside the kit block, on append and on refresh", async () => {
+    const repo = tempRepo();
+    const user = "# Project\r\n\r\nWindows text.\r\n";
+    touch(repo, "AGENTS.md", user);
+    await cli(repo, "init", "--tools", "agents", "--yes");
+    const first = read(repo, "AGENTS.md");
+    expect(first.startsWith(user)).toBe(true);
+    expect(first.replace(/\r\n/g, "")).not.toContain("\n");
+    writeFileSync(join(repo, "AGENTS.md"), first.replace("## AI Context Kit", "## Changed") + "Tail.\r\n");
+    await cli(repo, "update");
+    const after = read(repo, "AGENTS.md");
+    expect(after.startsWith(user)).toBe(true);
+    expect(after.endsWith("Tail.\r\n")).toBe(true);
+    expect(after).toContain("## AI Context Kit");
+    expect(after.replace(/\r\n/g, "")).not.toContain("\n");
+    const doctor = await cli(repo, "doctor");
+    expect(doctor.code).toBe(0);
+  });
+
   it("refuses to run without a manifest", async () => {
     const r = await cli(tempRepo(), "update");
     expect(r.code).toBe(2);
