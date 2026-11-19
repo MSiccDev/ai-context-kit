@@ -7,6 +7,8 @@
 - Format & Quality: 15
 - Spec Compliance: 15
 
+The phase scores must add up to the reported total. State the sum in the report, for example `96/100 (10 + 30 + 28 + 13 + 15)`.
+
 ## Grade bands
 - 90-100: PASS
 - 75-89: PASS WITH WARNINGS

@@ -25,6 +25,7 @@ Use this order when files differ:
 | `skills/ack-loop-*/` | The implementation loop as five numbered skills (readiness → implement → review → learnings → commit); invoke in order, learnings is optional |
 | `usercontexts/` | User-context instruction examples and validation reports |
 | `docs/adr/` | Architecture decision records for the kit itself; start with `docs/adr/README.md` |
+| `openspec/` | OpenSpec root: `config.yaml` and the active and archived changes |
 | `THIRD_PARTY_NOTICES.md` | Licenses and the list of skills that adapt third-party work |
 
 ## Scope And Precedence For AGENTS.md Files
@@ -75,7 +76,7 @@ Defaults are defined directly in this `AGENTS.md` to keep project context self-c
 | Interaction Mode | `advisory` |
 
 ## Session Commands
-Change session state explicitly with the user-invoked [`ack-session`](skills/ack-session/SKILL.md) skill (spec section 8.2): `ack-session <command> [value]`. Plain-language requests ("switch to Reviewer") also work and follow the same confirmation rules. The former `/ack.*` commands are retired (ADR-011).
+Change session state explicitly with the user-invoked [`ack-session`](skills/ack-session/SKILL.md) skill (spec section 8.2): `ack-session <command> [value]`. Plain-language requests ("switch to Reviewer") also work and follow the same confirmation rules.
 
 | Command | Description |
 | --- | --- |
@@ -92,13 +93,27 @@ Invocation: `/ack-session` in Claude Code (`/ai-context-kit:ack-session` with th
 To find the right skill for a task, run [`ack-guide`](skills/ack-guide/SKILL.md).
 
 ## Spec-Driven Change Workflow
-Spec section 11 makes OpenSpec mandatory for kit-managed repositories (ADR-001).
+This repository uses OpenSpec as the contract for what gets built (spec section 11, ADR-001).
 
-- OpenSpec root: not yet initialised in this repository
-- Active change: none
+- OpenSpec root: `openspec/`
+- Active change: `user-context-score-sum`
 - Minimum OpenSpec version: `1.13.2`
 
-This repository adopts the workflow in 2.0 rollout step 6 (dogfood), when `openspec init` runs here and every later change becomes an OpenSpec change. Until then, changes follow the pull-request workflow, and the session spec stays the normative document rather than being split into capability specs.
+The session spec stays the normative document and is not split into OpenSpec capability specs, so `openspec/specs/` stays empty and every change sets `skip_specs: true`. `openspec/config.yaml` points back to this file.
+
+### No Change, No Code
+- Start implementation only against an apply-ready change: `openspec instructions apply --change <id> --json` reports `state` as `ready`.
+- If no apply-ready change exists, stop and offer to create or complete one.
+- Changes with no behavior impact still get a change folder with `skip_specs: true`.
+- Archive the change as the last commit on the feature branch, after review approval.
+
+### Invoking OpenSpec
+| Tool | How to invoke |
+| --- | --- |
+| Claude Code | `/openspec-propose`, `/openspec-apply-change`, `/openspec-archive-change` (skills in `.claude/skills/`) |
+| Codex | `$openspec-propose`, `$openspec-apply-change`, `$openspec-archive-change` (skills in `.agents/skills/`) |
+
+Do not edit generated `openspec-*` skills or commands; customise through `openspec/config.yaml`. OpenSpec telemetry is off for kit work: run `openspec config set telemetry.enabled false` or set `OPENSPEC_TELEMETRY=0`.
 
 ## Repository Project Context
 ### Overview
@@ -149,6 +164,7 @@ This repository adopts the workflow in 2.0 rollout step 6 (dogfood), when `opens
   - `skills/`
   - `usercontexts/`
   - `docs/adr/`
+  - `openspec/`
 
 ### Working Together
 **Architect**
@@ -181,9 +197,8 @@ This repository adopts the workflow in 2.0 rollout step 6 (dogfood), when `opens
 
 ### Documentation Standards
 - Markdown-first documentation.
-- Relative repository paths for cross-references.
-- No decorative emojis/icons in headings.
 - Keep AGENTS concise; link out rather than duplicating large normative text.
+- Headings and paths follow Formatting And Path Stability Rules below.
 
 ### Testing Commands
 ```bash

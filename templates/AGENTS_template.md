@@ -80,7 +80,7 @@ Invocation: `<how each tool starts a skill, e.g. /ack-session in Claude Code, $a
 ## Spec-Driven Change Workflow
 This repository uses OpenSpec as the contract for what gets built (spec section 11).
 
-- OpenSpec root: `<path, usually openspec/>`
+- OpenSpec root: `<OpenSpec folder, usually openspec/>`
 - Active change: `<change id, or "none">`
 - Minimum OpenSpec version: `1.13.2`
 

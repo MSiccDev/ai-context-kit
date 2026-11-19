@@ -1,0 +1,17 @@
+schema: spec-driven
+
+# Project context for OpenSpec. Pointers only (spec section 11.4); the content lives in the files named here.
+context: |
+  Project context, roles, branch flow and conventions: AGENTS.md (read it first).
+  Normative behavior: specs/context_aware_ai_session_spec.md. It stays one document and is not split into OpenSpec capability specs, so openspec/specs/ stays empty and every change sets skip_specs: true in its .openspec.yaml.
+  Architecture decisions: docs/adr/README.md.
+  Skills follow templates/skill_template/SKILL.md and are checked with skills/ack-validate-skill.
+
+rules:
+  proposal:
+    - Name the skills, templates and spec sections the change touches, and the ADR it follows or needs.
+  design:
+    - Confirm the test seams with the user before tasks are written; in this repository the seams are validation reports and repository-wide path scans.
+  tasks:
+    - Slice tasks vertically, so each task leaves the repository consistent.
+    - End with tasks that re-run the affected SKILL.validation.md reports and update CHANGELOG.md under [Unreleased].

@@ -154,6 +154,15 @@ They can be changed explicitly using commands or natural language.
 
 ---
 
+## Documentation Preferences
+
+- A short README per project: purpose, build steps, and how to run the tests
+- DocC comments on public APIs only; internal code relies on clear naming
+- Inline comments only where intent is non-obvious, such as a sync conflict rule
+- Architecture decisions recorded as short ADRs next to the code they affect
+
+---
+
 ## Communication Style
 
 - Tone: **Direct, technical, low ceremony**

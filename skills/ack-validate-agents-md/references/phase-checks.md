@@ -14,7 +14,7 @@ Run the phases in order. Each phase lists its checks for root mode and for neste
 Run `openspec list --json`, or read `openspec/` if the CLI is unavailable.
 - The `Spec-Driven Change Workflow` section is present.
 - The repository has an OpenSpec root.
-- The stated OpenSpec root matches `root.path`.
+- The stated OpenSpec root, resolved against the repository, is the `openspec/` folder under `root.path` (`root.path` is the directory that contains it).
 - The stated active change is `none` or an id in the list of active changes. `none` is valid when no change is active; if exactly one change is active, the section names it. The membership check applies only to real change ids.
 - The minimum version is `1.13.2`.
 - The four No Change, No Code rules are complete.
