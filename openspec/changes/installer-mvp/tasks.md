@@ -21,6 +21,12 @@
 
 - [x] 4.1 Node version, missing and edited files, missing marker blocks, stale skills; `--json`; exit 1 on problems
 
+## 6. Security review
+
+- [x] 6.1 Path guard: manifest paths validated, symbolic links never followed for reads, writes or deletes; tests for `../`, absolute, drive and backslash paths and for linked `AGENTS.md`, skills folder, `.ai-context-kit/` and skill folder
+- [x] 6.2 `doctor` reports unsafe and linked paths without reading them
+- [x] 6.3 Upgrade `vite` to 7.3.8 and `esbuild` to 0.28.2; `npm audit` reports 0; CI runs `npm audit --audit-level=moderate`
+
 ## 5. CI and records
 
 - [x] 5.1 `.github/workflows/installer.yml`: build and test on Linux, macOS and Windows for pull requests touching `installer/` or `skills/`

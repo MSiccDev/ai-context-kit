@@ -4,6 +4,7 @@ import { codexSidecar, loadSkills, packageVersion, stampProvenance } from "./bun
 import { MANIFEST_PATH, readManifest, serializeManifest, sha256, type Manifest, type ManifestFile } from "./manifest.js";
 import { readBlock, writeBlock } from "./markers.js";
 import { findTool, type Tool } from "./registry.js";
+import { guard, UnsafePathError } from "./paths.js";
 
 export const NEW_SUFFIX = ".ai-context-kit-new";
 
@@ -15,11 +16,13 @@ export type Action =
   | "conflict-copy-kept"
   | "kept-deleted"
   | "removed"
-  | "kept-edited";
+  | "kept-edited"
+  | "refused";
 
 export interface Event {
   path: string;
   action: Action;
+  reason?: string;
 }
 
 /** Everything the kit wants on disk for a set of tools. */
@@ -86,10 +89,24 @@ export function sync({ root, tools, force = false }: SyncOptions): Event[] {
   const files: ManifestFile[] = [];
   const blocks: ManifestFile[] = [];
 
+  const refuse = (e: unknown, path: string, record?: ManifestFile) => {
+    if (!(e instanceof UnsafePathError)) throw e;
+    events.push({ path, action: "refused", reason: e.message });
+    return record;
+  };
+
   for (const [path, content] of desired.files) {
     const hash = sha256(content);
     const record = known.get(path);
-    const full = join(root, path);
+    let full: string;
+    try {
+      full = guard(root, path);
+      guard(root, path + NEW_SUFFIX);
+    } catch (e) {
+      const r = refuse(e, path, record);
+      if (r) files.push(r);
+      continue;
+    }
     if (!existsSync(full)) {
       if (record && !force) {
         events.push({ path, action: "kept-deleted" });
@@ -125,7 +142,13 @@ export function sync({ root, tools, force = false }: SyncOptions): Event[] {
 
   for (const [path, record] of known) {
     if (desired.files.has(path)) continue;
-    const full = join(root, path);
+    let full: string;
+    try {
+      full = guard(root, path);
+    } catch (e) {
+      refuse(e, path);
+      continue;
+    }
     if (!existsSync(full)) continue;
     if (sha256(read(full)) === record.sha256) {
       rmSync(full);
@@ -136,7 +159,14 @@ export function sync({ root, tools, force = false }: SyncOptions): Event[] {
   }
 
   for (const [path, body] of desired.blocks) {
-    const full = join(root, path);
+    let full: string;
+    try {
+      full = guard(root, path);
+    } catch (e) {
+      const r = refuse(e, path, knownBlocks.get(path));
+      if (r) blocks.push(r);
+      continue;
+    }
     const record = knownBlocks.get(path);
     const exists = existsSync(full);
     if (!exists && record && !force) {
@@ -164,8 +194,12 @@ export function sync({ root, tools, force = false }: SyncOptions): Event[] {
     blocks,
   };
   const manifestText = serializeManifest(manifest);
-  const manifestPath = join(root, MANIFEST_PATH);
-  if (!existsSync(manifestPath) || read(manifestPath) !== manifestText) write(manifestPath, manifestText);
+  try {
+    const manifestPath = guard(root, MANIFEST_PATH);
+    if (!existsSync(manifestPath) || read(manifestPath) !== manifestText) write(manifestPath, manifestText);
+  } catch (e) {
+    refuse(e, MANIFEST_PATH);
+  }
   return events;
 }
 

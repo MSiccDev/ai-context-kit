@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { checkRelative, guard } from "./paths.js";
 
 export const MANIFEST_PATH = ".ai-context-kit/manifest.json";
 
@@ -23,10 +24,13 @@ export function sha256(text: string): string {
   return createHash("sha256").update(text, "utf8").digest("hex");
 }
 
+/** Reads the manifest. Throws UnsafePathError for a symlinked manifest or any path that leaves the repository. */
 export function readManifest(root: string): Manifest | undefined {
-  const path = join(root, MANIFEST_PATH);
+  const path = guard(root, MANIFEST_PATH);
   if (!existsSync(path)) return undefined;
-  return JSON.parse(readFileSync(path, "utf8")) as Manifest;
+  const m = JSON.parse(readFileSync(path, "utf8")) as Manifest;
+  for (const f of [...(m.files ?? []), ...(m.blocks ?? [])]) checkRelative(f.path);
+  return m;
 }
 
 export function serializeManifest(m: Manifest): string {

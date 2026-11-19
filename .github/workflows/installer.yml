@@ -35,6 +35,8 @@ jobs:
           cache-dependency-path: installer/package-lock.json
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
+      - name: Audit dependencies
+        run: npm audit --audit-level=moderate
       - name: Type check
         run: npm run typecheck
       - name: Build and test

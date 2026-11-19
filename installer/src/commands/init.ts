@@ -3,6 +3,7 @@ import { join, resolve } from "node:path";
 import { UsageError, type Io } from "../io.js";
 import { readManifest } from "../manifest.js";
 import { TOOLS, findTool, type Tool } from "../registry.js";
+import { UnsafePathError } from "../paths.js";
 import { sync, toolsFrom, type Event } from "../sync.js";
 
 export function targetRoot(io: Io, positionals: string[]): string {
@@ -34,11 +35,25 @@ export function init(io: Io, positionals: string[], values: Record<string, unkno
       throw new UsageError('No supported tool detected. Pass --tools, for example "--tools claude,codex", or "--tools all".');
     }
   }
-  const previous = toolsFrom(readManifest(root)?.tools ?? []);
+  const manifest = loadManifest(io, root);
+  if (manifest === null) return 1;
+  const previous = toolsFrom(manifest?.tools ?? []);
   const tools = TOOLS.filter((t) => previous.includes(t) || requested.includes(t));
-  report(io, sync({ root, tools }));
+  const events = sync({ root, tools });
+  report(io, events);
   io.stdout(`Installed for: ${tools.map((t) => t.id).join(", ") || "no tools"}.`);
-  return 0;
+  return events.some((e) => e.action === "refused") ? 1 : 0;
+}
+
+/** Reads the manifest, or reports an unsafe one and returns null. */
+export function loadManifest(io: Io, root: string): ReturnType<typeof readManifest> | null {
+  try {
+    return readManifest(root);
+  } catch (e) {
+    if (!(e instanceof UnsafePathError)) throw e;
+    io.stderr(`Refusing to run: the manifest is unsafe. ${e.message} Check .ai-context-kit/manifest.json.`);
+    return null;
+  }
 }
 
 export function report(io: Io, events: Event[]): void {
@@ -50,6 +65,7 @@ export function report(io: Io, events: Event[]): void {
     if (e.action === "conflict-copy-kept") {
       io.stdout(`Edited locally, and its conflict copy was edited too; both kept: ${e.path}.ai-context-kit-new`);
     }
+    if (e.action === "refused") io.stderr(`Refused: ${e.reason}`);
     if (e.action === "kept-deleted") io.stdout(`Deleted locally, left deleted: ${e.path}`);
     if (e.action === "kept-edited") io.stdout(`No longer part of the kit but edited locally, kept: ${e.path}`);
   }

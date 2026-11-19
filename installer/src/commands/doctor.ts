@@ -1,14 +1,14 @@
 import { existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
 import { packageVersion } from "../bundle.js";
 import type { Io } from "../io.js";
 import { readManifest, sha256 } from "../manifest.js";
 import { readBlock } from "../markers.js";
+import { guard, UnsafePathError } from "../paths.js";
 import { compareVersions, MIN_NODE } from "../version.js";
 import { targetRoot } from "./init.js";
 
 interface Finding {
-  check: "node" | "manifest" | "missing" | "edited" | "marker-block" | "stale";
+  check: "node" | "manifest" | "missing" | "edited" | "marker-block" | "stale" | "symlink";
   path?: string;
   message: string;
 }
@@ -24,8 +24,17 @@ export function doctor(io: Io, positionals: string[], values: Record<string, unk
     problems.push({ check: "node", message: `Node ${node} is older than ${MIN_NODE}; upgrade Node.` });
   }
 
-  const manifest = readManifest(root);
-  if (!manifest) {
+  let manifest: ReturnType<typeof readManifest>;
+  try {
+    manifest = readManifest(root);
+  } catch (e) {
+    if (!(e instanceof UnsafePathError)) throw e;
+    problems.push({ check: e.reason === "symlink" ? "symlink" : "manifest", path: e.path, message: e.message });
+    manifest = undefined;
+  }
+  if (manifest === undefined && problems.some((p) => p.check === "manifest" || p.check === "symlink")) {
+    // Unsafe manifest: do not read any of its paths.
+  } else if (!manifest) {
     problems.push({ check: "manifest", message: 'No .ai-context-kit/manifest.json; run "ai-context-kit init".' });
   } else {
     if (compareVersions(manifest.kitVersion, version) < 0) {
@@ -36,7 +45,8 @@ export function doctor(io: Io, positionals: string[], values: Record<string, unk
     }
     for (const f of manifest.files) {
       if (f.deleted) continue;
-      const full = join(root, f.path);
+      const full = safe(root, f.path, problems);
+      if (!full) continue;
       if (!existsSync(full)) {
         problems.push({ check: "missing", path: f.path, message: 'Missing. "ai-context-kit update" records it as deleted on purpose; "ai-context-kit update --force" restores it.' });
       } else if (sha256(readFileSync(full, "utf8").replace(/\r\n/g, "\n")) !== f.sha256) {
@@ -45,7 +55,8 @@ export function doctor(io: Io, positionals: string[], values: Record<string, unk
     }
     for (const b of manifest.blocks) {
       if (b.deleted) continue;
-      const full = join(root, b.path);
+      const full = safe(root, b.path, problems);
+      if (!full) continue;
       const text = existsSync(full) ? readFileSync(full, "utf8").replace(/\r\n/g, "\n") : undefined;
       if (text === undefined || readBlock(text) === undefined) {
         problems.push({ check: "marker-block", path: b.path, message: 'The kit block is missing; run "ai-context-kit update".' });
@@ -61,4 +72,14 @@ export function doctor(io: Io, positionals: string[], values: Record<string, unk
     for (const w of warnings) io.stdout(`WARNING ${w.check}${w.path ? ` ${w.path}` : ""}: ${w.message}`);
   }
   return problems.length > 0 ? 1 : 0;
+}
+
+function safe(root: string, path: string, problems: Finding[]): string | undefined {
+  try {
+    return guard(root, path);
+  } catch (e) {
+    if (!(e instanceof UnsafePathError)) throw e;
+    problems.push({ check: e.reason === "symlink" ? "symlink" : "manifest", path, message: e.message });
+    return undefined;
+  }
 }
