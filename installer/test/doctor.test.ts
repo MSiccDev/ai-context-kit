@@ -2,6 +2,9 @@ import { rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { run } from "../src/cli.js";
+import { MIN_NODE } from "../src/version.js";
+const [maj, min] = MIN_NODE.split(".").map(Number);
+const BELOW_MIN = `v${maj}.${min - 1}.99`;
 import { cli, fakeExec, fakeOpenSpec, read, tempRepo } from "./helpers.js";
 
 async function installed(tools = "claude") {
@@ -10,7 +13,7 @@ async function installed(tools = "claude") {
   return repo;
 }
 
-async function doctorJson(repo: string, nodeVersion = "v22.12.0") {
+async function doctorJson(repo: string, nodeVersion = `v${MIN_NODE}`) {
   const out: string[] = [];
   const code = await run(["doctor", "--json"], {
     cwd: repo,
@@ -30,13 +33,13 @@ describe("doctor", () => {
     expect(report.warnings).toEqual([]);
   });
 
-  it.each(["v20.19.0", "v22.11.0"])("reports Node %s as older than 22.12", async (v) => {
+  it.each(["v20.19.0", BELOW_MIN])(`reports Node %s as older than ${MIN_NODE}`, async (v) => {
     const { code, report } = await doctorJson(await installed(), v);
     expect(code).toBe(1);
     expect(report.problems.map((p: { check: string }) => p.check)).toContain("node");
   });
 
-  it.each(["v22.12.0", "v24.1.0"])("accepts Node %s", async (v) => {
+  it.each([`v${MIN_NODE}`, "v24.1.0"])("accepts Node %s", async (v) => {
     const { code } = await doctorJson(await installed(), v);
     expect(code).toBe(0);
   });

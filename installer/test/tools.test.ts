@@ -1,16 +1,12 @@
 import { describe, expect, it } from "vitest";
+import { TOOLS } from "../src/registry.js";
 import { cli, tempRepo } from "./helpers.js";
 
 describe("tools", () => {
   it("lists the four 2.0 tools with skills folder and invocation", async () => {
     const r = await cli(tempRepo(), "tools");
     expect(r.code).toBe(0);
-    for (const line of [
-      "claude  .claude/skills/  /ack-guide",
-      "codex  .agents/skills/  $ack-guide",
-      "github-copilot  .github/skills/  /ack-guide",
-      "agents  .agents/skills/  /ack-guide",
-    ]) {
+    for (const line of TOOLS.map((t) => `${t.id}  ${t.skillsDir}/  ${t.invoke("ack-guide")}`)) {
       expect(r.stdout.replace(/ +/g, " ")).toContain(line.replace(/ +/g, " "));
     }
   });

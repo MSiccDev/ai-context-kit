@@ -1,6 +1,8 @@
 import { mkdtempSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, relative, sep } from "node:path";
+import { MIN_OPENSPEC } from "../src/openspec.js";
+import { MIN_NODE } from "../src/version.js";
 import { run } from "../src/cli.js";
 
 export function tempRepo(): string {
@@ -64,7 +66,7 @@ export const OPENSPEC_DEFAULT_CONFIG = `schema: spec-driven
 `;
 
 export function fakeOpenSpec(opts: Partial<FakeOpenSpec> = {}): FakeOpenSpec {
-  return { version: "2.1.0", calls: [], ...opts };
+  return { version: MIN_OPENSPEC, calls: [], ...opts };
 }
 
 export function fakeExec(fake: FakeOpenSpec) {
@@ -117,7 +119,7 @@ export async function cliWith(
       questions.push(q);
       return answers.shift() ?? "";
     },
-    nodeVersion: opts.nodeVersion ?? "v22.12.0",
+    nodeVersion: opts.nodeVersion ?? `v${MIN_NODE}`,
   });
   return { code, stdout: out.join("\n"), stderr: err.join("\n"), questions, calls: fake.calls };
 }

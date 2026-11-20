@@ -1,5 +1,6 @@
 node_modules/
 dist/
 skills/
+templates/
 LICENSE
 THIRD_PARTY_NOTICES.md
