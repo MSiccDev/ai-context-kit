@@ -18,6 +18,8 @@ export interface Manifest {
   tools: string[];
   files: ManifestFile[];
   blocks: ManifestFile[];
+  /** OpenSpec set-up recorded by init: CLI version and the telemetry answer. */
+  openspec?: { version?: string; telemetry?: "on" | "off" };
 }
 
 export function sha256(text: string): string {
@@ -64,6 +66,12 @@ function validate(data: unknown): Manifest {
       if (typeof e.sha256 !== "string" || !/^[0-9a-f]{64}$/.test(e.sha256)) fail(`${key}[${i}].sha256 must be a sha256 hex digest`);
       if (e.deleted !== undefined && typeof e.deleted !== "boolean") fail(`${key}[${i}].deleted must be true or false`);
     });
+  }
+  if (m.openspec !== undefined) {
+    const o = m.openspec as Record<string, unknown>;
+    if (typeof o !== "object" || o === null || Array.isArray(o)) fail("openspec must be an object");
+    if (o.version !== undefined && typeof o.version !== "string") fail("openspec.version must be a string");
+    if (o.telemetry !== undefined && o.telemetry !== "on" && o.telemetry !== "off") fail('openspec.telemetry must be "on" or "off"');
   }
   return m as unknown as Manifest;
 }

@@ -27,6 +27,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "devDependencies": {
+    "@fission-ai/openspec": "2.1.0",
     "@types/node": "22.20.5",
     "typescript": "6.0.3",
     "vite": "7.3.8",

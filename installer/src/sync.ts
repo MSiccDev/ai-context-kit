@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node
 import { dirname, join } from "node:path";
 import { codexSidecar, loadSkills, packageVersion, stampProvenance } from "./bundle.js";
 import { MANIFEST_PATH, readManifest, serializeManifest, sha256, type Manifest, type ManifestFile } from "./manifest.js";
-import { readBlock, writeBlock } from "./markers.js";
+import { outsideBlock, readBlock, styleFor, writeBlock, YAML } from "./markers.js";
 import { findTool, type Tool } from "./registry.js";
 import { guard, UnsafePathError } from "./paths.js";
 
@@ -31,7 +31,40 @@ export interface Plan {
   blocks: Map<string, string>;
 }
 
-export function plan(tools: Tool[], version: string): Plan {
+export const OPENSPEC_CONFIG = "openspec/config.yaml";
+
+/** The kit's managed context and rules for openspec/config.yaml (pointers, not copies; spec section 11.4). */
+export const OPENSPEC_CONFIG_BLOCK = [
+  "context: |",
+  "  Project context, roles and conventions: AGENTS.md (read it first).",
+  "  Architecture decisions: docs/adr/ when present.",
+  "  Glossary: arc42 section 12 when docs/arc42/ exists, otherwise CONTEXT.md when present.",
+  "rules:",
+  "  proposal:",
+  "    - Name the ADRs the change follows or needs.",
+  "  design:",
+  "    - Confirm the test seams with the user before tasks are written.",
+  "  tasks:",
+  "    - Slice tasks vertically, so each task leaves the repository consistent.",
+].join("\n");
+
+/**
+ * Whether the kit may manage openspec/config.yaml: the file exists, and `context` and `rules`
+ * appear only inside the kit block (or not at all).
+ */
+export function configManaged(root: string): "managed" | "absent" | "user-owned" | "unsafe" {
+  let full: string;
+  try {
+    full = guard(root, OPENSPEC_CONFIG);
+  } catch {
+    return "unsafe";
+  }
+  if (!existsSync(full)) return "absent";
+  const outside = outsideBlock(readFileSync(full, "utf8"), YAML);
+  return /^(context|rules)\s*:/m.test(outside) ? "user-owned" : "managed";
+}
+
+export function plan(tools: Tool[], version: string, root?: string): Plan {
   const files = new Map<string, string>();
   const skills = loadSkills();
   const dirs = new Map<string, Tool[]>();
@@ -50,6 +83,7 @@ export function plan(tools: Tool[], version: string): Plan {
   const blocks = new Map<string, string>();
   blocks.set("AGENTS.md", agentsBlock(tools));
   if (tools.some((t) => t.claudeBridge)) blocks.set("CLAUDE.md", "@AGENTS.md");
+  if (root && configManaged(root) === "managed") blocks.set(OPENSPEC_CONFIG, OPENSPEC_CONFIG_BLOCK);
   return { files, blocks };
 }
 
@@ -76,15 +110,17 @@ export interface SyncOptions {
   root: string;
   tools: Tool[];
   force?: boolean;
+  /** OpenSpec facts to record; kept from the previous manifest when omitted. */
+  openspec?: Manifest["openspec"];
 }
 
 /** Applies the plan with the update rule and writes the manifest. */
-export function sync({ root, tools, force = false }: SyncOptions): Event[] {
+export function sync({ root, tools, force = false, openspec }: SyncOptions): Event[] {
   const version = packageVersion();
   const previous = readManifest(root);
   const known = new Map<string, ManifestFile>((previous?.files ?? []).map((f) => [f.path, f]));
   const knownBlocks = new Map<string, ManifestFile>((previous?.blocks ?? []).map((f) => [f.path, f]));
-  const desired = plan(tools, version);
+  const desired = plan(tools, version, root);
   const events: Event[] = [];
   const files: ManifestFile[] = [];
   const blocks: ManifestFile[] = [];
@@ -176,14 +212,15 @@ export function sync({ root, tools, force = false }: SyncOptions): Event[] {
     }
     // Read raw: text outside the markers keeps its bytes, including CRLF.
     const before = exists ? readFileSync(full, "utf8") : undefined;
-    const after = writeBlock(before, body);
+    const style = styleFor(path);
+    const after = writeBlock(before, body, style);
     if (before === after) {
       events.push({ path, action: "unchanged" });
     } else {
       write(full, after);
       events.push({ path, action: before === undefined ? "written" : "updated" });
     }
-    blocks.push({ path, sha256: sha256(readBlock(after) ?? "") });
+    blocks.push({ path, sha256: sha256(readBlock(after, style) ?? "") });
   }
 
   const manifest: Manifest = {
@@ -192,6 +229,7 @@ export function sync({ root, tools, force = false }: SyncOptions): Event[] {
     tools: tools.map((t) => t.id),
     files,
     blocks,
+    ...((openspec ?? previous?.openspec) ? { openspec: openspec ?? previous?.openspec } : {}),
   };
   const manifestText = serializeManifest(manifest);
   try {

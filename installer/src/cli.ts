@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { realpathSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { createInterface } from "node:readline/promises";
 import { parseArgs } from "node:util";
 import { UsageError, type Io } from "./io.js";
 import { tools } from "./commands/tools.js";
@@ -9,7 +10,7 @@ import { update } from "./commands/update.js";
 import { doctor } from "./commands/doctor.js";
 
 export const HELP = `Usage:
-  ai-context-kit init [path] --tools <ids|all|none> [--yes]
+  ai-context-kit init [path] --tools <ids|all|none> [--openspec-telemetry on|off] [--yes]
   ai-context-kit update [path] [--force]
   ai-context-kit doctor [path] [--json]
   ai-context-kit tools
@@ -29,6 +30,15 @@ export async function run(argv: string[], io: Partial<Io> & { cwd: string }): Pr
   const full: Io = {
     stdout: (l) => process.stdout.write(l + "\n"),
     stderr: (l) => process.stderr.write(l + "\n"),
+    interactive: Boolean(process.stdin.isTTY) && !process.env.CI,
+    ask: async (question) => {
+      const rl = createInterface({ input: process.stdin, output: process.stdout });
+      try {
+        return await rl.question(question);
+      } finally {
+        rl.close();
+      }
+    },
     ...io,
   };
   try {
@@ -37,6 +47,7 @@ export async function run(argv: string[], io: Partial<Io> & { cwd: string }): Pr
       allowPositionals: true,
       options: {
         tools: { type: "string" },
+        "openspec-telemetry": { type: "string" },
         yes: { type: "boolean", short: "y" },
         force: { type: "boolean" },
         json: { type: "boolean" },

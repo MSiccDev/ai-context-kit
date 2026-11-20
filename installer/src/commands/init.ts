@@ -4,7 +4,9 @@ import { UsageError, type Io } from "../io.js";
 import { ManifestError, readManifest } from "../manifest.js";
 import { TOOLS, findTool, type Tool } from "../registry.js";
 import { UnsafePathError } from "../paths.js";
-import { sync, toolsFrom, type Event } from "../sync.js";
+import { cliGuidance, OpenSpec, type Telemetry } from "../openspec.js";
+import { compareVersions, MIN_NODE } from "../version.js";
+import { configManaged, OPENSPEC_CONFIG, sync, toolsFrom, type Event } from "../sync.js";
 
 export function targetRoot(io: Io, positionals: string[]): string {
   const root = resolve(io.cwd, positionals[0] ?? ".");
@@ -25,8 +27,12 @@ function detect(root: string): Tool[] {
   return TOOLS.filter((t) => t.detectionPaths.some((p) => existsSync(join(root, p))));
 }
 
-export function init(io: Io, positionals: string[], values: Record<string, unknown>): number {
+export async function init(io: Io, positionals: string[], values: Record<string, unknown>): Promise<number> {
   const root = targetRoot(io, positionals);
+  const telemetryFlag = values["openspec-telemetry"];
+  if (telemetryFlag !== undefined && telemetryFlag !== "on" && telemetryFlag !== "off") {
+    throw new UsageError('--openspec-telemetry must be "on" or "off".');
+  }
   let requested: Tool[];
   if (typeof values.tools === "string") requested = parseTools(values.tools);
   else {
@@ -42,7 +48,87 @@ export function init(io: Io, positionals: string[], values: Record<string, unkno
   const events = sync({ root, tools });
   report(io, events);
   io.stdout(`Installed for: ${tools.map((t) => t.id).join(", ") || "no tools"}.`);
-  return events.some((e) => e.action === "refused") ? 1 : 0;
+  if (events.some((e) => e.action === "refused")) return 1;
+  return setUpOpenSpec(io, root, tools.map((t) => t.id), {
+    telemetryFlag: telemetryFlag as Telemetry | undefined,
+    previous: manifest?.openspec,
+    yes: values.yes === true,
+  });
+}
+
+/** Plan Part 3, OpenSpec steps 1 to 6. Returns the exit code. */
+async function setUpOpenSpec(
+  io: Io,
+  root: string,
+  toolIds: string[],
+  opts: { telemetryFlag?: Telemetry; previous?: { version?: string; telemetry?: Telemetry }; yes: boolean },
+): Promise<number> {
+  // 1. Node.
+  const node = io.nodeVersion ?? process.version;
+  if (compareVersions(node, MIN_NODE) < 0) {
+    io.stderr(`Node ${node} is older than ${MIN_NODE} (ADR-018). Upgrade Node.js, then run "ai-context-kit init" again to set up OpenSpec.`);
+    return 1;
+  }
+
+  // 2. OpenSpec CLI.
+  const openspec = new OpenSpec(io, root);
+  const status = openspec.status();
+  if (status.state === "missing" || status.state === "old") {
+    for (const line of cliGuidance(status)) io.stderr(line);
+    return 1;
+  }
+  if (status.state === "newer") io.stdout(`OpenSpec ${status.version} is newer than the kit's tested ${"2.1.0"}; continuing.`);
+
+  // 3. Telemetry, asked once.
+  let telemetry = opts.telemetryFlag ?? opts.previous?.telemetry;
+  if (!telemetry) {
+    if (io.interactive && !opts.yes && io.ask) {
+      const answer = await io.ask(
+        "OpenSpec sends anonymous usage statistics by default. Keep them on? This is a machine-wide OpenSpec setting. [y/N] ",
+      );
+      telemetry = /^y(es)?$/i.test(answer.trim()) ? "on" : "off";
+    } else {
+      telemetry = "off";
+      io.stdout('OpenSpec telemetry: off (default for non-interactive runs; pass "--openspec-telemetry on" to keep it).');
+    }
+  }
+  if (telemetry === "off" && opts.previous?.telemetry !== "off") {
+    const r = openspec.telemetryOff();
+    io.stdout(r.status === 0 ? "OpenSpec telemetry turned off (machine-wide: openspec config set telemetry.enabled false)." : "Could not turn OpenSpec telemetry off; run: openspec config set telemetry.enabled false");
+  }
+  openspec.telemetry = telemetry;
+
+  // 4. Root: init when missing, check only when present.
+  if (!openspec.hasRoot()) {
+    const r = openspec.init(toolIds);
+    for (const line of (r.stdout + r.stderr).split("\n").filter((l) => l.trim())) io.stdout(`  ${line}`);
+    if (r.status !== 0 || !openspec.hasRoot()) {
+      io.stderr('"openspec init" did not create an OpenSpec root; see its output above.');
+      return 1;
+    }
+  } else {
+    const stale = openspec.staleFiles();
+    if (stale === undefined) io.stdout('Could not check the OpenSpec files; run "openspec update --dry-run" to see whether they are current.');
+    else if (stale > 0) {
+      io.stdout(`OpenSpec's generated files are older than the CLI (${stale} would change). Review and run:`);
+      io.stdout("  openspec update --dry-run");
+      io.stdout("  openspec update");
+    }
+  }
+
+  // 5. config.yaml, 6. record: a second pass adds the managed block and the OpenSpec facts.
+  const state = configManaged(root);
+  if (state === "user-owned") io.stdout(`${OPENSPEC_CONFIG} already sets context or rules; left unchanged. Point its context to AGENTS.md (spec section 11.4).`);
+  const tools = toolsFrom(toolIds);
+  const events = sync({ root, tools, openspec: { version: status.version, telemetry } });
+  const config = events.find((e) => e.path === OPENSPEC_CONFIG);
+  if (config && config.action !== "unchanged") io.stdout(`${OPENSPEC_CONFIG}: kit context and rules ${config.action}.`);
+  if (events.some((e) => e.action === "refused")) {
+    report(io, events);
+    return 1;
+  }
+  io.stdout(`OpenSpec ${status.version} is set up.`);
+  return 0;
 }
 
 /** Reads the manifest, or reports an unsafe one and returns null. */
