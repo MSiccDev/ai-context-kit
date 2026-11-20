@@ -14,9 +14,13 @@ on:
       - "THIRD_PARTY_NOTICES.md"
       - ".github/workflows/installer.yml"
   push:
-    branches: [main, development]
+    branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  # Cancel superseded pull-request runs; every push to main is a release and runs to the end.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 permissions:
   contents: read
 
