@@ -1,9 +1,10 @@
-import { mkdtempSync } from "node:fs";
+import { mkdtempSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { delimiter, join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { run } from "../src/cli.js";
 import { defaultExec } from "../src/openspec.js";
+import { YAML } from "../src/markers.js";
 import { exists, read, tempRepo } from "./helpers.js";
 
 // Runs the real OpenSpec CLI (dev dependency @fission-ai/openspec 2.1.0) end to end.
@@ -47,10 +48,12 @@ describe("end to end with the real OpenSpec CLI", () => {
 
     const yaml = read(repo, "openspec/config.yaml");
     expect(yaml).toContain("schema: spec-driven");
-    expect(yaml).toMatch(/# ai-context-kit:start\ncontext: \|[\s\S]*AGENTS\.md[\s\S]*# ai-context-kit:end/);
+    const template = readFileSync(join(__dirname, "..", "..", "templates", "openspec_config_block.yaml"), "utf8").replace(/\r\n/g, "\n").trimEnd();
+    expect(yaml.replace(/\r\n/g, "\n")).toContain(`${YAML.start}\n${template}\n${YAML.end}`);
 
     const manifest = JSON.parse(read(repo, ".ai-context-kit/manifest.json"));
-    expect(manifest.openspec).toEqual({ version: "2.1.0", telemetry: "off" });
+    const installed = JSON.parse(readFileSync(join(__dirname, "..", "node_modules", "@fission-ai", "openspec", "package.json"), "utf8")).version;
+    expect(manifest.openspec).toEqual({ version: installed, telemetry: "off" });
 
     const config = JSON.parse(read(process.env.XDG_CONFIG_HOME!, "openspec/config.json"));
     expect(config.telemetry.enabled).toBe(false);

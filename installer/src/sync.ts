@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { codexSidecar, loadSkills, packageVersion, stampProvenance } from "./bundle.js";
+import { codexSidecar, loadSkills, loadTemplate, packageVersion, stampProvenance } from "./bundle.js";
 import { MANIFEST_PATH, readManifest, serializeManifest, sha256, type Manifest, type ManifestFile } from "./manifest.js";
 import { outsideBlock, readBlock, styleFor, writeBlock, YAML } from "./markers.js";
 import { findTool, type Tool } from "./registry.js";
@@ -33,20 +33,6 @@ export interface Plan {
 
 export const OPENSPEC_CONFIG = "openspec/config.yaml";
 
-/** The kit's managed context and rules for openspec/config.yaml (pointers, not copies; spec section 11.4). */
-export const OPENSPEC_CONFIG_BLOCK = [
-  "context: |",
-  "  Project context, roles and conventions: AGENTS.md (read it first).",
-  "  Architecture decisions: docs/adr/ when present.",
-  "  Glossary: arc42 section 12 when docs/arc42/ exists, otherwise CONTEXT.md when present.",
-  "rules:",
-  "  proposal:",
-  "    - Name the ADRs the change follows or needs.",
-  "  design:",
-  "    - Confirm the test seams with the user before tasks are written.",
-  "  tasks:",
-  "    - Slice tasks vertically, so each task leaves the repository consistent.",
-].join("\n");
 
 /**
  * Whether the kit may manage openspec/config.yaml. Without a YAML parser the check is
@@ -91,7 +77,7 @@ export function plan(tools: Tool[], version: string, root?: string): Plan {
   const blocks = new Map<string, string>();
   blocks.set("AGENTS.md", agentsBlock(tools));
   if (tools.some((t) => t.claudeBridge)) blocks.set("CLAUDE.md", "@AGENTS.md");
-  if (root && configManaged(root) === "managed") blocks.set(OPENSPEC_CONFIG, OPENSPEC_CONFIG_BLOCK);
+  if (root && configManaged(root) === "managed") blocks.set(OPENSPEC_CONFIG, loadTemplate("openspec_config_block.yaml"));
   return { files, blocks };
 }
 

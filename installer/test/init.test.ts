@@ -1,6 +1,9 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { END, START } from "../src/markers.js";
+import { findTool } from "../src/registry.js";
+const dirOf = (id: string) => findTool(id)!.skillsDir;
 import { cli, exists, listFiles, read, tempRepo, touch } from "./helpers.js";
 
 const KIT_SKILLS = join(__dirname, "..", "..", "skills");
@@ -30,19 +33,19 @@ const BASE = [".ai-context-kit/manifest.json", "AGENTS.md"];
 
 describe("init", () => {
   it.each([
-    ["claude", [...BASE, "CLAUDE.md", ...skillFiles(".claude/skills")]],
-    ["codex", [...BASE, ...skillFiles(".agents/skills"), ...sidecars(".agents/skills")]],
-    ["github-copilot", [...BASE, ...skillFiles(".github/skills")]],
-    ["agents", [...BASE, ...skillFiles(".agents/skills")]],
+    ["claude", [...BASE, "CLAUDE.md", ...skillFiles(dirOf("claude"))]],
+    ["codex", [...BASE, ...skillFiles(dirOf("codex")), ...sidecars(dirOf("codex"))]],
+    ["github-copilot", [...BASE, ...skillFiles(dirOf("github-copilot"))]],
+    ["agents", [...BASE, ...skillFiles(dirOf("codex"))]],
     [
       "all",
       [
         ...BASE,
         "CLAUDE.md",
-        ...skillFiles(".claude/skills"),
-        ...skillFiles(".agents/skills"),
-        ...sidecars(".agents/skills"),
-        ...skillFiles(".github/skills"),
+        ...skillFiles(dirOf("claude")),
+        ...skillFiles(dirOf("codex")),
+        ...sidecars(dirOf("codex")),
+        ...skillFiles(dirOf("github-copilot")),
       ],
     ],
   ])("writes exactly the expected files for --tools %s", async (tools, expected) => {
@@ -57,7 +60,7 @@ describe("init", () => {
     await cli(repo, "init", "--tools", "claude", "--yes");
     for (const name of skillNames) {
       const source = readFileSync(join(KIT_SKILLS, name, "SKILL.md"), "utf8");
-      const installed = read(repo, `.claude/skills/${name}/SKILL.md`);
+      const installed = read(repo, `${dirOf("claude")}/${name}/SKILL.md`);
       const line = `  generatedBy: "ai-context-kit@${VERSION}"\n`;
       expect(installed).toContain(line);
       expect(installed.replace(line, "")).toBe(source.replace(/\r\n/g, "\n"));
@@ -81,11 +84,11 @@ describe("init", () => {
     await cli(repo, "init", "--tools", "claude", "--yes");
     const agents = read(repo, "AGENTS.md");
     expect(agents.startsWith("# My project\n\nKeep this.\n")).toBe(true);
-    expect(agents).toContain("<!-- AI-CONTEXT-KIT:START -->");
+    expect(agents).toContain(START);
     expect(agents).toContain("/ack-setup");
     const claude = read(repo, "CLAUDE.md");
     expect(claude.startsWith("Claude notes.\n")).toBe(true);
-    expect(claude).toMatch(/<!-- AI-CONTEXT-KIT:START -->\n@AGENTS.md\n<!-- AI-CONTEXT-KIT:END -->/);
+    expect(claude).toContain(`${START}\n@AGENTS.md\n${END}`);
   });
 
   it("records every written file and block in the manifest", async () => {

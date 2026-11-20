@@ -23,8 +23,16 @@ for (const name of readdirSync(source).sort()) {
   });
   count += 1;
 }
+// Templates the installer writes into repositories (one home: templates/).
+const templates = join(here, "..", "templates");
+rmSync(templates, { recursive: true, force: true });
+mkdirSync(templates, { recursive: true });
+for (const file of ["openspec_config_block.yaml"]) {
+  copyFileSync(join(here, "..", "..", "templates", file), join(templates, file));
+}
+
 // The bundled skills adapt third-party MIT work; their notices travel with them.
 for (const file of ["LICENSE", "THIRD_PARTY_NOTICES.md"]) {
   copyFileSync(join(here, "..", "..", file), join(here, "..", file));
 }
-console.log(`bundle-skills: ${count} skills bundled, LICENSE and THIRD_PARTY_NOTICES.md copied`);
+console.log(`bundle-skills: ${count} skills bundled, templates, LICENSE and THIRD_PARTY_NOTICES.md copied`);

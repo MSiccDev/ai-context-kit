@@ -10,6 +10,7 @@
   "files": [
     "dist",
     "skills",
+    "templates",
     "THIRD_PARTY_NOTICES.md"
   ],
   "engines": {

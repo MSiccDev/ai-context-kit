@@ -42,6 +42,16 @@ export function loadSkills(): BundledSkill[] {
     });
 }
 
+/**
+ * A kit template bundled from templates/ (for example the openspec/config.yaml block),
+ * with LF line endings and no trailing newline. The template is the only copy.
+ */
+export function loadTemplate(name: string): string {
+  const path = join(packageRoot, "templates", name);
+  if (!existsSync(path)) throw new Error(`Bundled template not found at ${path}. Run "npm run bundle" first.`);
+  return readFileSync(path, "utf8").replace(/\r\n/g, "\n").trimEnd();
+}
+
 /** Adds `generatedBy` to the frontmatter's metadata block. */
 export function stampProvenance(skillMd: string, version: string): string {
   const line = `  generatedBy: "ai-context-kit@${version}"\n`;

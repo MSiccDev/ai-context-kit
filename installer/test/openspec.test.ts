@@ -1,6 +1,11 @@
-import { writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { INSTALL_COMMAND, MIN_OPENSPEC } from "../src/openspec.js";
+import { MIN_NODE } from "../src/version.js";
+import { YAML } from "../src/markers.js";
+import { findTool } from "../src/registry.js";
+const dirOf = (id: string) => findTool(id)!.skillsDir;
 import { cliWith, exists, fakeOpenSpec, OPENSPEC_DEFAULT_CONFIG, read, tempRepo, touch } from "./helpers.js";
 
 const init = (cwd: string, fake = fakeOpenSpec(), extra: string[] = [], o: { answers?: string[]; interactive?: boolean; nodeVersion?: string } = {}) =>
@@ -13,15 +18,15 @@ describe("init: OpenSpec CLI", () => {
     const repo = tempRepo();
     const r = await init(repo, fakeOpenSpec({ version: null }), ["--yes"]);
     expect(r.code).toBe(1);
-    expect(r.stdout + r.stderr).toContain("npm install -g @fission-ai/openspec@latest");
-    expect(exists(repo, ".claude/skills/ack-guide/SKILL.md")).toBe(true);
+    expect(r.stdout + r.stderr).toContain(INSTALL_COMMAND);
+    expect(exists(repo, `${dirOf("claude")}/ack-guide/SKILL.md`)).toBe(true);
     expect(argsOf(r.calls)).toEqual(["--version"]);
   });
 
-  it("stops with upgrade steps when OpenSpec is older than 2.1.0", async () => {
-    const r = await init(tempRepo(), fakeOpenSpec({ version: "1.13.2" }), ["--yes"]);
+  it("stops with upgrade steps when OpenSpec is older than the minimum", async () => {
+    const r = await init(tempRepo(), fakeOpenSpec({ version: "1.13.2" /* any 1.x */ }), ["--yes"]);
     expect(r.code).toBe(1);
-    expect(r.stdout + r.stderr).toContain("2.1.0");
+    expect(r.stdout + r.stderr).toContain(MIN_OPENSPEC);
     expect(argsOf(r.calls)).toEqual(["--version"]);
   });
 
@@ -31,10 +36,10 @@ describe("init: OpenSpec CLI", () => {
     expect(r.stdout).toContain("3.0.0");
   });
 
-  it("stops before OpenSpec on a Node version older than 22.12", async () => {
+  it("stops before OpenSpec on a Node version older than the minimum", async () => {
     const r = await init(tempRepo(), fakeOpenSpec(), ["--yes"], { nodeVersion: "v20.19.0" });
     expect(r.code).toBe(1);
-    expect(r.stdout + r.stderr).toContain("22.12");
+    expect(r.stdout + r.stderr).toContain(MIN_NODE);
     expect(r.calls).toEqual([]);
   });
 });
@@ -98,7 +103,7 @@ describe("init: OpenSpec root", () => {
     const r = await init(repo, fakeOpenSpec(), ["--yes"]);
     expect(r.code).toBe(0);
     expect(argsOf(r.calls)).toContain("init --tools claude,codex --scope project --no-animation .");
-    expect(JSON.parse(read(repo, ".ai-context-kit/manifest.json")).openspec.version).toBe("2.1.0");
+    expect(JSON.parse(read(repo, ".ai-context-kit/manifest.json")).openspec.version).toBe(MIN_OPENSPEC);
   });
 
   it("only checks an existing root and never runs openspec update", async () => {
@@ -115,12 +120,13 @@ describe("init: OpenSpec root", () => {
 });
 
 describe("init: openspec/config.yaml", () => {
-  it("adds the managed context and rules block to OpenSpec's default file", async () => {
+  it("adds the template's context and rules as a managed block to OpenSpec's default file", async () => {
     const repo = tempRepo();
     await init(repo, fakeOpenSpec(), ["--yes"]);
     const yaml = read(repo, "openspec/config.yaml");
     expect(yaml.startsWith(OPENSPEC_DEFAULT_CONFIG)).toBe(true);
-    expect(yaml).toMatch(/# ai-context-kit:start\ncontext: \|\n[\s\S]*AGENTS\.md[\s\S]*\nrules:\n[\s\S]*# ai-context-kit:end\n$/);
+    const template = readFileSync(join(__dirname, "..", "..", "templates", "openspec_config_block.yaml"), "utf8").replace(/\r\n/g, "\n").trimEnd();
+    expect(yaml.endsWith(`${YAML.start}\n${template}\n${YAML.end}\n`)).toBe(true);
     const m = JSON.parse(read(repo, ".ai-context-kit/manifest.json"));
     expect(m.blocks.map((b: { path: string }) => b.path)).toContain("openspec/config.yaml");
   });
