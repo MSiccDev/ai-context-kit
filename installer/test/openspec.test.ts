@@ -134,6 +134,25 @@ describe("init: openspec/config.yaml", () => {
     expect(r.stdout).toContain("openspec/config.yaml");
   });
 
+  it.each([
+    ['double-quoted key', '"context": |\n  Mine.\n'],
+    ["single-quoted key", "'rules':\n  tasks:\n    - Mine\n"],
+    ["explicit key", "? context\n: Mine.\n"],
+    ["flow mapping", "{schema: spec-driven, context: Mine}\n"],
+    ["document marker", "---\nschema: spec-driven\n"],
+    ["anchor", "base: &base\n  x: 1\n"],
+    ["merge key", "<<: *base\n"],
+  ])("leaves config.yaml with a %s untouched through init and update", async (_name, body) => {
+    const repo = tempRepo();
+    const text = body.startsWith("{") || body.startsWith("---") ? body : `schema: spec-driven\n${body}`;
+    touch(repo, "openspec/config.yaml", text);
+    const r = await init(repo, fakeOpenSpec(), ["--yes"]);
+    expect(read(repo, "openspec/config.yaml")).toBe(text);
+    expect(r.stdout).toContain("openspec/config.yaml");
+    await cliWith({ cwd: repo, openspec: fakeOpenSpec() }, "update");
+    expect(read(repo, "openspec/config.yaml")).toBe(text);
+  });
+
   it("refreshes only the block on update", async () => {
     const repo = tempRepo();
     await init(repo, fakeOpenSpec(), ["--yes"]);

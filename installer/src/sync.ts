@@ -49,10 +49,11 @@ export const OPENSPEC_CONFIG_BLOCK = [
 ].join("\n");
 
 /**
- * Whether the kit may manage openspec/config.yaml: the file exists, and `context` and `rules`
- * appear only inside the kit block (or not at all).
+ * Whether the kit may manage openspec/config.yaml. Without a YAML parser the check is
+ * conservative: the kit writes only into a plain block mapping whose top level has no
+ * `context` or `rules` key in any spelling (bare, quoted, explicit `? `).
  */
-export function configManaged(root: string): "managed" | "absent" | "user-owned" | "unsafe" {
+export function configManaged(root: string): "managed" | "absent" | "user-owned" | "unsupported" | "unsafe" {
   let full: string;
   try {
     full = guard(root, OPENSPEC_CONFIG);
@@ -61,7 +62,14 @@ export function configManaged(root: string): "managed" | "absent" | "user-owned"
   }
   if (!existsSync(full)) return "absent";
   const outside = outsideBlock(readFileSync(full, "utf8"), YAML);
-  return /^(context|rules)\s*:/m.test(outside) ? "user-owned" : "managed";
+  // Top-level key named context or rules: bare, "double" or 'single' quoted, or explicit (? key).
+  if (/^(?:\?[ \t]+)?(["']?)(context|rules)\1[ \t]*(:|\r?$)/m.test(outside)) return "user-owned";
+  // Anything that is not a plain block mapping at the top level: flow collections, document
+  // markers, directives, anchors, aliases, merge keys, explicit keys, tags.
+  if (/^(\{|\[|---|\.\.\.|%|&|\*|<<[ \t]*:|\?|!)/m.test(outside) || /^[^#\s][^#\n]*:[ \t]+[&*!]/m.test(outside)) {
+    return "unsupported";
+  }
+  return "managed";
 }
 
 export function plan(tools: Tool[], version: string, root?: string): Plan {

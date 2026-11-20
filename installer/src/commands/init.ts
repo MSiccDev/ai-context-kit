@@ -119,6 +119,9 @@ async function setUpOpenSpec(
   // 5. config.yaml, 6. record: a second pass adds the managed block and the OpenSpec facts.
   const state = configManaged(root);
   if (state === "user-owned") io.stdout(`${OPENSPEC_CONFIG} already sets context or rules; left unchanged. Point its context to AGENTS.md (spec section 11.4).`);
+  if (state === "unsupported") {
+    io.stdout(`${OPENSPEC_CONFIG} uses YAML the installer does not edit safely (flow style, document markers, anchors, tags or explicit keys); left unchanged. Add context and rules by hand, pointing to AGENTS.md (spec section 11.4).`);
+  }
   const tools = toolsFrom(toolIds);
   const events = sync({ root, tools, openspec: { version: status.version, telemetry } });
   const config = events.find((e) => e.path === OPENSPEC_CONFIG);
