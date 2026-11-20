@@ -2,7 +2,7 @@ import { rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { run } from "../src/cli.js";
-import { cli, read, tempRepo } from "./helpers.js";
+import { cli, fakeExec, fakeOpenSpec, read, tempRepo } from "./helpers.js";
 
 async function installed(tools = "claude") {
   const repo = tempRepo();
@@ -12,7 +12,13 @@ async function installed(tools = "claude") {
 
 async function doctorJson(repo: string, nodeVersion = "v22.12.0") {
   const out: string[] = [];
-  const code = await run(["doctor", "--json"], { cwd: repo, nodeVersion, stdout: (s) => out.push(s), stderr: () => {} });
+  const code = await run(["doctor", "--json"], {
+    cwd: repo,
+    nodeVersion,
+    exec: fakeExec(fakeOpenSpec({ assumeRoot: true })),
+    stdout: (s) => out.push(s),
+    stderr: () => {},
+  });
   return { code, report: JSON.parse(out.join("\n")) };
 }
 

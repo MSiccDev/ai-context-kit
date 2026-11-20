@@ -2,13 +2,14 @@ import { existsSync, readFileSync } from "node:fs";
 import { packageVersion } from "../bundle.js";
 import type { Io } from "../io.js";
 import { ManifestError, readManifest, sha256 } from "../manifest.js";
-import { readBlock } from "../markers.js";
+import { readBlock, styleFor } from "../markers.js";
+import { cliGuidance, OpenSpec } from "../openspec.js";
 import { guard, UnsafePathError } from "../paths.js";
 import { compareVersions, MIN_NODE } from "../version.js";
 import { targetRoot } from "./init.js";
 
 interface Finding {
-  check: "node" | "manifest" | "missing" | "edited" | "marker-block" | "stale" | "symlink";
+  check: "node" | "manifest" | "missing" | "edited" | "marker-block" | "stale" | "symlink" | "openspec" | "openspec-root" | "openspec-files";
   path?: string;
   message: string;
 }
@@ -63,8 +64,30 @@ export function doctor(io: Io, positionals: string[], values: Record<string, unk
       const full = safe(root, b.path, problems);
       if (!full) continue;
       const text = existsSync(full) ? readFileSync(full, "utf8").replace(/\r\n/g, "\n") : undefined;
-      if (text === undefined || readBlock(text) === undefined) {
+      if (text === undefined || readBlock(text, styleFor(b.path)) === undefined) {
         problems.push({ check: "marker-block", path: b.path, message: 'The kit block is missing; run "ai-context-kit update".' });
+      }
+    }
+  }
+
+  // OpenSpec (ADR-016): CLI version, root, generated files. Telemetry stays off for these checks.
+  const openspec = new OpenSpec(io, root);
+  if (manifest?.openspec?.telemetry === "on") openspec.telemetry = "on";
+  const status = openspec.status();
+  if (status.state === "missing" || status.state === "old") {
+    problems.push({ check: "openspec", message: cliGuidance(status).join(" ") });
+  } else {
+    if (status.state === "newer") {
+      warnings.push({ check: "openspec", message: `OpenSpec ${status.version} is newer than the kit's tested 2.1.0.` });
+    }
+    if (!openspec.hasRoot()) {
+      problems.push({ check: "openspec-root", message: 'No OpenSpec root; run "ai-context-kit init" (it runs "openspec init").' });
+    } else {
+      const stale = openspec.staleFiles();
+      if (stale === undefined) {
+        warnings.push({ check: "openspec-files", message: 'Could not check OpenSpec\'s generated files; run "openspec update --dry-run".' });
+      } else if (stale > 0) {
+        warnings.push({ check: "openspec-files", message: `${stale} OpenSpec files are older than the CLI; review "openspec update --dry-run", then run "openspec update".` });
       }
     }
   }
