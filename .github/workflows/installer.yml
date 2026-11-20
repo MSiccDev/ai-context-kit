@@ -5,11 +5,7 @@ on:
     paths:
       - "installer/**"
       - "skills/**"
-      # Drift tests read these homes of the facts the installer depends on.
-      - "specs/**"
-      - "templates/**"
-      - "docs/adr/**"
-      - "openspec/**"
+      # Spec, ADR, template and openspec/ changes run installer-drift.yml instead.
       - "LICENSE"
       - "THIRD_PARTY_NOTICES.md"
       - ".github/workflows/installer.yml"
