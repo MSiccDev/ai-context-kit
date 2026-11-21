@@ -9,6 +9,8 @@ on:
       - "docs/adr/**"
       - "openspec/**"
       - "install.md"
+      - "README.md"
+      - ".agents/skills/**"
       - ".github/workflows/installer-drift.yml"
   push:
     branches: [main]

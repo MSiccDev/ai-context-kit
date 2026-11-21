@@ -47,7 +47,7 @@ Fill each field from discovery phase 6:
 
 Then two subsections:
 - **No Change, No Code**: the template's four rules, unchanged: start implementation only against an apply-ready change (`openspec instructions apply --change <id> --json` reports `state` as `ready`); if none exists, stop and offer to create or complete one; changes with no behavior impact still get a change folder with `skip_specs: true`; archive the change as the last commit on the feature branch, after review approval.
-- **Invoking OpenSpec**: a table with one row per tool and its invocation spelling, followed by the rule that generated `openspec-*` skills and commands are not edited; customisation goes through `openspec/config.yaml`.
+- **Invoking OpenSpec**: a table with one row per tool and its invocation spelling, followed by the rule that generated `openspec-*` skills and commands are not edited; customisation goes through `openspec/config.yaml`. Then the telemetry opt-out as the template words it: `openspec config set telemetry.enabled false` or `OPENSPEC_TELEMETRY=0` (spec section 11.8).
 
 ## Repository Project Context: Required Subsections
 - Overview

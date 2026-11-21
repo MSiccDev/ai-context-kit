@@ -4,9 +4,9 @@
 
 **File:** `AGENTS.md`  
 **Mode:** root  
-**Validated:** 2026-11-18 (full re-run after `openspec init`, rollout step 6); phase 3 re-checked 2026-11-19 for OpenSpec change `require-openspec-2-1`  
+**Validated:** 2026-11-18 (full re-run after `openspec init`, rollout step 6); phase 3 re-checked 2026-11-19 for OpenSpec change `require-openspec-2-1`; phase 4 re-checked 2026-11-21 for OpenSpec change `prerelease-cleanup`  
 **Validator:** `skills/ack-validate-agents-md` 2.2.0  
-**Phase 3 source:** `ack-openspec-check`: `OPENSPEC: OK` (CLI 2.1.0, `openspec update --dry-run --json` lists no changes); `openspec list --json`: `root.path` is the repository root; no active changes; `adr-openspec-scope` archived
+**Phase 3 source:** `ack-openspec-check`: `OPENSPEC: OK` (CLI 2.1.0, `openspec update --dry-run --json` lists no changes); `openspec list --json`: `root.path` is the repository root; no active changes; `prerelease-cleanup` archived
 
 ## Overall Status + Compliance Score
 - **Status:** PASS
@@ -44,6 +44,7 @@
 - **Status:** PASS
 - All twelve Repository Project Context subsections are present with substantive content.
 - Four roles, each with all four role-table columns.
+- The Overview describes the kit as installed per repository with `@msiccdev/ai-context-kit`, matching the retired template path (2026-11-21).
 
 ## Phase 5: Clarity And Conciseness
 - **Score:** 14/15

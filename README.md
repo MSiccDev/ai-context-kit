@@ -64,28 +64,40 @@ The difference is not magic — it is reduced friction. The AI spends zero turns
 ai-context-kit/
 │
 ├── AGENTS.md                                        # Primary agent entrypoint for this repository
-├── README.md                                         # This file
-├── LICENSE                                           # MIT License file
+├── README.md                                        # This file
+├── CHANGELOG.md                                     # Release notes, breaking changes and migration steps
+├── LICENSE                                          # MIT License file
+├── THIRD_PARTY_NOTICES.md                           # Licenses of adapted work and the skills that adapt it
+├── install.md                                       # Agent-executable front door: runs the installer, then ack-setup
 │
+├── .claude-plugin/                                  # Claude Code plugin and marketplace manifests
 ├── .codex-plugin/
-│   └── plugin.json                                   # Codex plugin manifest
+│   └── plugin.json                                  # Codex plugin manifest
 ├── .agents/
 │   ├── plugins/
-│   │   └── marketplace.json                          # Repo-scoped Codex marketplace
-│   └── skills/                                       # Codex skill discovery symlinks
+│   │   └── marketplace.json                         # Repo-scoped Codex marketplace
+│   └── skills/                                      # Codex skill discovery links to skills/
+├── .github/workflows/                               # Installer tests, drift check, version sync, npm release
 │
 ├── specs/
-│   └── context_aware_ai_session_spec.md              # Specification for AI session management
+│   └── context_aware_ai_session_spec.md             # Specification for AI session management
 │
 ├── templates/
-│  ├── usercontext_template.instructions.md           # Canonical v2.0.0-beta.1 user context template (authoritative)
-│  ├── AGENTS_template.md                             # Canonical AGENTS template (authoritative)
-│  └── skill_template/SKILL.md                        # Canonical skill template
+│   ├── usercontext_template.instructions.md         # Canonical v2.0.0-beta.1 user context template (authoritative)
+│   ├── AGENTS_template.md                           # Canonical AGENTS template (authoritative)
+│   ├── openspec_config_block.yaml                   # Kit context and rules the installer adds to openspec/config.yaml
+│   └── skill_template/SKILL.md                      # Canonical skill template
 │
-└── skills/
-   ├── README.md                                      # Canonical location for skill instances
-   ├── ack-*/                                         # Create, validate, checkpoint and governance skills
-   └── ack-loop-01-readiness/ … ack-loop-05-commit/   # Implementation loop, one skill per step (invoke in order)
+├── skills/
+│   ├── README.md                                    # Canonical location for skill instances
+│   ├── ack-*/                                       # Create, validate, checkpoint, governance, session and setup skills
+│   └── ack-loop-01-readiness/ … ack-loop-05-commit/ # Implementation loop, one skill per step (invoke in order)
+│
+├── installer/                                       # @msiccdev/ai-context-kit: the npm installer (TypeScript)
+├── docs/
+│   ├── adr/                                         # Architecture decision records; start with README.md
+│   └── plans/                                       # Adoption plans
+└── openspec/                                        # OpenSpec root for the kit's own changes
 ```
 
 ---
@@ -218,7 +230,7 @@ Operational workflow authority is skill-first:
 Each skill declares who may start it in `metadata.invocation`:
 
 - **`user`** (create, validate, governance and loop skills): only you start it. These skills also carry `disable-model-invocation: true`, so Claude Code never loads them on its own; `/name` still runs them.
-- **`model`** (`ack-create-checkpoint`, `ack-restore-checkpoint`): the assistant may start it, for example to propose a checkpoint at session end.
+- **`model`** (`ack-create-checkpoint`, `ack-restore-checkpoint`, `ack-openspec-check`, `ack-interview`, `ack-tdd`): the assistant may start it, for example to propose a checkpoint at session end or to check the OpenSpec version before relying on it.
 
 `disable-model-invocation` is a Claude Code extension outside the Agent Skills spec. Uploading a skill to claude.ai or the Skills API fails on unknown keys, so delete that one line from a user-invoked skill before uploading it. Pasting a skill into a chat or adding it as project knowledge works unchanged.
 
@@ -281,7 +293,7 @@ It checks Node and OpenSpec, asks before installing anything, runs the installer
 npx @msiccdev/ai-context-kit@latest init --tools claude,codex
 ```
 
-Always use the scoped name: the unscoped `ai-context-kit` on npm is an unrelated package. See [`installer/README.md`](installer/README.md) for `update`, `doctor` and `tools`.
+Always use the scoped name: the unscoped `ai-context-kit` on npm is an unrelated package. The installer sets up OpenSpec, which sends anonymous usage statistics by default; to turn them off, run `openspec config set telemetry.enabled false` (machine-wide) or set `OPENSPEC_TELEMETRY=0`; the installer asks before setting it (spec section 11.8). See [`installer/README.md`](installer/README.md) for `update`, `doctor` and `tools`.
 
 ### For First-Time Users
 
@@ -316,7 +328,7 @@ Prefer to work by hand? Copy `templates/usercontext_template.instructions.md` an
 
 ## Installing as a Plugin
 
-AI Context Kit ships native plugin metadata for Codex and compatibility metadata for Claude Code and GitHub Copilot CLI. Installing registers all 11 skills in the target runtime, with no manual `SKILL.md` loading required.
+AI Context Kit ships native plugin metadata for Codex and compatibility metadata for Claude Code and GitHub Copilot CLI. Installing registers all kit skills in the target runtime, with no manual `SKILL.md` loading required.
 
 ### OpenAI Codex
 
@@ -411,7 +423,7 @@ On Windows, git creates these symlinks only with Developer Mode enabled (or `cor
 
 ### Auto-discovery (no install needed)
 
-If you clone this repo and run Codex from within it, all 11 skills are discovered automatically. No registration or import is required for repo-local use.
+If you clone this repo and run Codex from within it, all kit skills are discovered automatically. No registration or import is required for repo-local use.
 
 ### Invoking skills in Codex
 
@@ -423,7 +435,7 @@ $ack-validate-agents-md
 $ack-drift-control
 ```
 
-Invoke user-invoked skills (every skill except the two checkpoint skills) explicitly. Codex reads invocation policy from a per-skill `agents/openai.yaml` sidecar, which this repository does not ship yet: the 2.0 installer will generate it from `metadata.invocation`. Until then, Codex may select any skill on its own.
+Invoke user-invoked skills (every skill except the five model-invoked ones listed in [Invoking Skills](#invoking-skills)) explicitly. Codex reads invocation policy from a per-skill `agents/openai.yaml` sidecar. The installer generates one for every user-invoked skill it copies (`allow_implicit_invocation: false`). The links in this repository's own `.agents/skills/` carry no sidecar, so Codex running inside this repository may still select any skill on its own.
 
 ### Installing the plugin instead of using repo-local discovery
 

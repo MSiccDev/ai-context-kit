@@ -1,6 +1,6 @@
 // Drift tests: every kit fact the installer depends on has one home outside the code.
 // Each test reads that home and fails when the installer's constant disagrees with it.
-import { readFileSync } from "node:fs";
+import { lstatSync, readdirSync, readFileSync, readlinkSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { codexSidecar, loadSkills } from "../src/bundle.js";
@@ -43,6 +43,17 @@ describe("OpenSpec install command and telemetry opt-out", () => {
     }
     expect(code).toContain('["config", "set", "telemetry.enabled", "false"]');
     expect(code).toContain('OPENSPEC_TELEMETRY = "0"');
+  });
+
+  it.each([
+    ["README", "README.md"],
+    ["AGENTS template", "templates/AGENTS_template.md"],
+    ["ack-openspec-check", "skills/ack-openspec-check/references/upgrade.md"],
+    ["installer README", "installer/README.md"],
+  ])("%s names both telemetry opt-outs (spec 11.8)", (_name, path) => {
+    const text = src(path);
+    expect(text).toContain("openspec config set telemetry.enabled false");
+    expect(text).toContain("OPENSPEC_TELEMETRY=0");
   });
 });
 
@@ -170,5 +181,21 @@ describe("npm publishing (installer-release)", () => {
     expect(job("publish")).toMatch(/npm publish --access public --tag/);
     expect(job("verify")).toMatch(/npm publish --dry-run/);
     expect(pkg.scripts.prepack).toBe("npm run build");
+  });
+});
+
+describe("repo-local Codex skill discovery", () => {
+  // Git checks a symbolic link out as a small text file holding its target when
+  // symlinks are off (the default on Windows), so accept either form.
+  const target = (path: string) =>
+    lstatSync(path).isSymbolicLink() ? readlinkSync(path) : readFileSync(path, "utf8").trim();
+
+  it("links every skills/ack-* folder from .agents/skills", () => {
+    const skills = readdirSync(join(REPO, "skills")).filter((n) => n.startsWith("ack-")).sort();
+    const links = readdirSync(join(REPO, ".agents", "skills")).filter((n) => n.startsWith("ack-")).sort();
+    expect(links).toEqual(skills);
+    for (const name of skills) {
+      expect(target(join(REPO, ".agents", "skills", name)).replace(/\\/g, "/")).toBe(`../../skills/${name}`);
+    }
   });
 });

@@ -118,7 +118,7 @@ Do not edit generated `openspec-*` skills or commands; customise through `opensp
 
 ## Repository Project Context
 ### Overview
-**AI Context Kit** is a template repository for building instruction-based AI collaboration across providers.
+**AI Context Kit** is a kit for instruction-based AI collaboration across providers, installed into each repository with `@msiccdev/ai-context-kit`.
 
 - Current status / phase: **Active Development**
 - Primary objectives:

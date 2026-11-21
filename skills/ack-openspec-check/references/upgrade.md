@@ -28,6 +28,12 @@ npm install -g @fission-ai/openspec@latest
 ```
 If `openspec version --json` reports another `install.packageManager` (for example pnpm, yarn, bun or Homebrew), use that package manager's upgrade command instead, as OpenSpec's installation docs describe. Then run `openspec --version` again and continue with the file check.
 
+**After an install or upgrade: telemetry.** OpenSpec sends anonymous usage statistics by default (spec section 11.8). Ask the user whether to keep them on. To turn them off for every project on the machine:
+```bash
+openspec config set telemetry.enabled false
+```
+Or set `OPENSPEC_TELEMETRY=0` in the environment.
+
 **`UPDATE_FILES` or `UNVERIFIED`: refresh or confirm the repository's OpenSpec files**, from the repository root (for `UNVERIFIED`, the dry run shows whether anything is out of date):
 ```bash
 openspec update --dry-run
