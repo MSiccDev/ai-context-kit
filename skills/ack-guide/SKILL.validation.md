@@ -2,7 +2,7 @@
 
 **File:** skills/ack-guide/SKILL.md
 **Skill:** ack-guide
-**Validated:** 2026-11-19 (re-run for OpenSpec change `require-openspec-2-1`)
+**Validated:** 2026-11-21 (re-run for OpenSpec change `installer-setup`, version 1.2.0)
 **Validator:** `skills/ack-validate-skill`
 
 ---
@@ -48,6 +48,7 @@
 
 ### Findings:
 - Every reference resolves; no deep or circular reference chains.
+- The new Setup rows route a fresh repository to `install.md` (at the kit repository's root, named rather than linked because the user's repository does not contain it) and then to `ack-setup`.
 - The skill writes no files.
 - `references/routes.md` now names workflow step 3 instead of pointing to `references/phase-boundaries.md`, so no reference points to another reference.
 

@@ -1,7 +1,7 @@
 ---
 name: "ack-guide"
 description: "Point to the right kit or OpenSpec skill for what you want to do next, and help choose between continuing, clearing, handing off, delegating or compacting at a phase boundary."
-version: "1.1.0"
+version: "1.2.0"
 allowed-tools: [Read]
 disable-model-invocation: true
 metadata:

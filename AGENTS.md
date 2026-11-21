@@ -26,6 +26,7 @@ Use this order when files differ:
 | `usercontexts/` | User-context instruction examples and validation reports |
 | `docs/adr/` | Architecture decision records for the kit itself; start with `docs/adr/README.md` |
 | `openspec/` | OpenSpec root: `config.yaml` and the active and archived changes |
+| `install.md` | Agent-executable front door: runs the kit installer, then hands over to `ack-setup` |
 | `THIRD_PARTY_NOTICES.md` | Licenses and the list of skills that adapt third-party work |
 
 ## Scope And Precedence For AGENTS.md Files

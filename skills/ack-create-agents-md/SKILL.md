@@ -1,7 +1,7 @@
 ---
 name: "ack-create-agents-md"
 description: "Create AGENTS.md files: the full root file (operational contract, spec-driven change workflow, project context) or a nested file that refines the root for one folder. Use when adding or regenerating any AGENTS.md."
-version: "2.1.0"
+version: "2.2.0"
 allowed-tools: [Read, Write, Edit, Bash]
 disable-model-invocation: true
 metadata:
@@ -64,4 +64,5 @@ This skill replaces `create-agents-md` and `create-project-instructions` (ADR-00
 - Keep canonical paths stable and use relative paths only.
 - Do not run `openspec init` or any other command that changes the repository without explicit user approval.
 - Do not overwrite an existing `AGENTS.md` without showing the diff and getting approval.
+- Keep a `<!-- AI-CONTEXT-KIT:START -->` … `<!-- AI-CONTEXT-KIT:END -->` block exactly as it is: the kit installer owns it and rewrites it on `ai-context-kit update`.
 - Keep wording provider-neutral.

@@ -6,7 +6,7 @@
 **Mode:** root  
 **Validated:** 2026-11-18 (full re-run after `openspec init`, rollout step 6); phase 3 re-checked 2026-11-19 for OpenSpec change `require-openspec-2-1`  
 **Validator:** `skills/ack-validate-agents-md` 2.2.0  
-**Phase 3 source:** `ack-openspec-check`: `OPENSPEC: OK` (CLI 2.1.0, `openspec update --dry-run --json` lists no changes); `openspec list --json`: `root.path` is the repository root; no active changes; `ci-trim` archived
+**Phase 3 source:** `ack-openspec-check`: `OPENSPEC: OK` (CLI 2.1.0, `openspec update --dry-run --json` lists no changes); `openspec list --json`: `root.path` is the repository root; no active changes; `installer-setup` archived
 
 ## Overall Status + Compliance Score
 - **Status:** PASS
@@ -56,7 +56,7 @@
 - **Score:** 15/15
 - **Status:** PASS
 - Provider-neutral wording, with no mandatory single-runtime assumptions. The tool names in the Invoking OpenSpec table are the tools this repository configured.
-- All 23 relative links and all 24 backticked repository paths resolve.
+- All relative links and backticked repository paths resolve, including the new `install.md` row in the Repository Map.
 - Key paths include `docs/adr/` and `openspec/`.
 
 ## Summary (Strengths/Critical/Warnings/Enhancements)

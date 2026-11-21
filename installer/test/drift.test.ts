@@ -3,6 +3,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { codexSidecar, loadSkills } from "../src/bundle.js";
 import { END, START, YAML } from "../src/markers.js";
 import { INSTALL_COMMAND, MIN_OPENSPEC } from "../src/openspec.js";
 import { TOOLS } from "../src/registry.js";
@@ -89,5 +90,45 @@ describe("marker strings (ADR-013)", () => {
     const design = src("openspec/changes/archive/2026-11-20-installer-openspec/design.md");
     expect(design).toContain(`\`${YAML.start}\``);
     expect(design).toContain(`\`${YAML.end}\``);
+  });
+});
+
+describe("install.md, the agent front door (ADR-013)", () => {
+  const md = src("install.md");
+  const pkg = JSON.parse(src("installer/package.json"));
+
+  it("names the Node and OpenSpec minimums", () => {
+    expect(MIN_NODE.split(".").slice(0, 2).join(".")).toBe(one(md, /requires Node ([\d.]+) or later/, "install.md"));
+    expect(MIN_OPENSPEC).toBe(one(md, /requires OpenSpec ([\d.]+) or later/, "install.md"));
+  });
+
+  it("shows the installer's OpenSpec install command", () => {
+    expect(one(md, /```bash\n\s*(npm install -g [^\n]+)\n/, "install.md")).toBe(INSTALL_COMMAND);
+  });
+
+  it("runs the package's init with the CLI's flags", () => {
+    const cli = readFileSync(join(__dirname, "..", "src", "cli.ts"), "utf8");
+    const command = one(md, /```bash\n(npx [^\n]+)\n```/, "install.md");
+    expect(command).toBe(`npx ${pkg.name}@latest init --tools <ids> --openspec-telemetry <on|off> --yes`);
+    for (const flag of ["tools", "openspec-telemetry", "yes"]) expect(cli).toContain(`--${flag}`);
+    expect(Object.keys(pkg.bin)).toEqual(["ai-context-kit"]);
+    expect(md).toContain("`ai-context-kit init`");
+  });
+
+  it("lists every registry tool with its id and how it starts ack-setup", () => {
+    const rows = md
+      .split("\n")
+      .filter((l) => /^\| [^|-]/.test(l) && l.includes("ack-setup`"))
+      .map((l) => l.split("|").map((c) => c.trim().replace(/^`|`$/g, "")));
+    expect(rows.map((r) => [r[2], r[3]])).toEqual(TOOLS.map((t) => [t.id, t.invoke("ack-setup")]));
+    expect(rows.map((r) => r[1].replace(/`/g, ""))).toEqual(TOOLS.map((t) => t.name));
+  });
+});
+
+describe("ack-setup, named by init and install.md", () => {
+  it("is bundled as a user-invoked skill with a Codex sidecar that blocks implicit invocation", () => {
+    const skill = loadSkills().find((s) => s.name === "ack-setup");
+    expect(skill?.invocation).toBe("user");
+    expect(codexSidecar(skill!)).toContain("allow_implicit_invocation: false");
   });
 });

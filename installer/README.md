@@ -4,6 +4,8 @@ Per-repository installer for [AI Context Kit](https://github.com/MSiccDev/ai-con
 
 > Under development for AI Context Kit 2.0; not yet published.
 
+To have an agent run the installer for you, paste the link to [`install.md`](https://github.com/MSiccDev/ai-context-kit/blob/main/install.md) into it; it checks Node and OpenSpec, asks before installing anything, and ends with `ack-setup`.
+
 ## Commands
 
 ```bash
