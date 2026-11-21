@@ -25,5 +25,5 @@ The 2.0 plan adopts or adapts about thirty items, and many of them depend on eac
 ## Consequences
 
 - All breaking changes, including the skill renames ([ADR-008](ADR-008-ack-skill-prefix.md)), land together in 2.0.0, with one migration note.
-- Items such as `diagnosing-bugs`, `research`, handoff, per-skill docs pages and the remaining installer tools (`cursor`, `gemini`, `vibe`) are 2.1 candidates.
+- Items such as `diagnosing-bugs`, `research`, handoff, per-skill docs pages and the remaining installer tools (`cursor`, `gemini`, `vibe`) are 2.1 candidates. [ADR-019](ADR-019-openspec-required-for-the-loop.md) (OpenSpec required only for the implementation loop) is planned for 2.1.
 - [ADR-014](ADR-014-attribution.md) puts attribution in 2.0, even though the plan's release-split row doesn't list it.

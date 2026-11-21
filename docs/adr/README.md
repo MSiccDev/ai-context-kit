@@ -10,7 +10,7 @@ Each ADR has a status, date and source, followed by Context, Decision and Conseq
 
 | ID | Decision | Status |
 | --- | --- | --- |
-| [ADR-001](ADR-001-openspec-is-mandatory.md) | OpenSpec is mandatory for every change | Accepted |
+| [ADR-001](ADR-001-openspec-is-mandatory.md) | OpenSpec is mandatory for every change | Accepted; scope narrowed by ADR-019 from 2.1 |
 | [ADR-002](ADR-002-minimum-openspec-version.md) | Minimum OpenSpec version 1.13.2; newer versions warn, never fail | Superseded by ADR-016 |
 | [ADR-003](ADR-003-manual-mode-is-fully-supported.md) | Manual mode is fully supported on chat-only surfaces | Accepted |
 | [ADR-004](ADR-004-archive-timing.md) | Archive a change as the last commit on its feature branch | Accepted |
@@ -28,3 +28,4 @@ Each ADR has a status, date and source, followed by Context, Decision and Conseq
 | [ADR-016](ADR-016-minimum-openspec-2-1.md) | Minimum OpenSpec version 2.1.0; the kit detects old CLIs and stale generated files | Accepted |
 | [ADR-017](ADR-017-installer-tool-registry.md) | Installer tool registry and layout for 2.0 (`installer/`, TypeScript, copies not symlinks) | Accepted; Node minimum superseded by ADR-018 |
 | [ADR-018](ADR-018-installer-node-22.md) | The installer requires Node 22.12 or later; workflows use Node 24 actions | Accepted |
+| [ADR-019](ADR-019-openspec-required-for-the-loop.md) | OpenSpec is required for the implementation loop, not for every kit repository | Accepted; implementation planned for 2.1 |

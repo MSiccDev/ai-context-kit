@@ -1,6 +1,6 @@
 # ADR-001: OpenSpec is mandatory for every change
 
-- Status: Accepted
+- Status: Accepted; scope narrowed by [ADR-019](ADR-019-openspec-required-for-the-loop.md) from 2.1 (OpenSpec is required where the implementation loop runs)
 - Date: 2026-09-27
 - Source: [2.0 adoption plan, Part 2 and Decisions](../plans/2.0-adoption-plan.md#part-2-making-openspec-mandatory)
 
