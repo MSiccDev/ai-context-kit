@@ -132,3 +132,43 @@ describe("ack-setup, named by init and install.md", () => {
     expect(codexSidecar(skill!)).toContain("allow_implicit_invocation: false");
   });
 });
+
+describe("npm publishing (installer-release)", () => {
+  const pkg = JSON.parse(src("installer/package.json"));
+  const workflow = src(".github/workflows/release.yml");
+  const job = (name: string) => one(workflow, new RegExp(`\\n  ${name}:\\n([\\s\\S]*?)(?=\\n  [a-z]+:\\n|$)`), `release.yml job ${name}`);
+  const atLeast = (v: string, min: string) => {
+    const [a, b] = [v, min].map((x) => x.split(".").map(Number));
+    for (let i = 0; i < 3; i++) if ((a[i] ?? 0) !== (b[i] ?? 0)) return (a[i] ?? 0) > (b[i] ?? 0);
+    return true;
+  };
+
+  it("repository.url matches the plugin manifests' repository", () => {
+    const repo = JSON.parse(src(".claude-plugin/plugin.json")).repository as string;
+    expect(pkg.repository.url).toBe(`git+${repo}.git`);
+    expect(JSON.parse(src(".codex-plugin/plugin.json")).repository).toBe(repo);
+    expect(pkg.repository.directory).toBe("installer");
+  });
+
+  it("runs Node and npm versions that trusted publishing supports", () => {
+    for (const v of workflow.matchAll(/node-version: "([\d.]+)"/g)) expect(atLeast(v[1], "22.14")).toBe(true);
+    expect(atLeast(one(workflow, /NPM_VERSION: "([\d.]+)"/, "release.yml"), "11.5.1")).toBe(true);
+  });
+
+  it("grants id-token: write only to the publish job, in environment npm, on main", () => {
+    const publish = job("publish");
+    expect(workflow.split("id-token: write").length - 1).toBe(1);
+    expect(publish).toContain("id-token: write");
+    expect(publish).toContain("environment: npm");
+    expect(publish).toContain("github.ref == 'refs/heads/main'");
+    expect(publish).toContain("github.event_name != 'pull_request'");
+    expect(job("verify")).not.toContain("id-token");
+  });
+
+  it("publishes from installer/ and builds before packing", () => {
+    for (const name of ["verify", "publish"]) expect(job(name)).toContain("working-directory: installer");
+    expect(job("publish")).toMatch(/npm publish --access public --tag/);
+    expect(job("verify")).toMatch(/npm publish --dry-run/);
+    expect(pkg.scripts.prepack).toBe("npm run build");
+  });
+});

@@ -1,0 +1,95 @@
+name: Release
+
+# Publishes @msiccdev/ai-context-kit to npm with trusted publishing (no token).
+# Every push to main is a release; a version already on npm publishes nothing.
+# Pull requests run only the dry run. See installer/RELEASING.md.
+on:
+  pull_request:
+    paths:
+      - "installer/package.json"
+      - "installer/package-lock.json"
+      - "installer/RELEASING.md"
+      - ".github/workflows/release.yml"
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  # Cancel superseded pull-request runs; a run on main always finishes.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+env:
+  # Trusted publishing needs npm 11.5.1 or later and Node 22.14 or later.
+  NPM_VERSION: "11.6.2"
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: installer
+    outputs:
+      version: ${{ steps.plan.outputs.version }}
+      tag: ${{ steps.plan.outputs.tag }}
+      published: ${{ steps.plan.outputs.published }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: installer/package-lock.json
+      - name: Install npm
+        run: npm install -g "npm@${NPM_VERSION}"
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Audit dependencies
+        run: npm audit --audit-level=moderate
+      - name: Type check
+        run: npm run typecheck
+      - name: Build and test
+        run: npm test
+      - name: Plan the release
+        id: plan
+        run: |
+          name="$(node -p "require('./package.json').name")"
+          version="$(node -p "require('./package.json').version")"
+          case "$version" in *-*) tag=next ;; *) tag=latest ;; esac
+          if npm view "${name}@${version}" version >/dev/null 2>&1; then published=true; else published=false; fi
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          echo "tag=${tag}" >> "$GITHUB_OUTPUT"
+          echo "published=${published}" >> "$GITHUB_OUTPUT"
+          echo "${name}@${version}: dist-tag ${tag}, already on npm: ${published}"
+      - name: Publish (dry run)
+        run: npm publish --dry-run --access public --tag "${{ steps.plan.outputs.tag }}"
+
+  publish:
+    needs: verify
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && needs.verify.outputs.published == 'false'
+    runs-on: ubuntu-latest
+    # Deployments to this environment are limited to main; the npm trusted publisher names it.
+    environment: npm
+    permissions:
+      contents: read
+      id-token: write
+    defaults:
+      run:
+        working-directory: installer
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+          cache: npm
+          cache-dependency-path: installer/package-lock.json
+      - name: Install npm
+        run: npm install -g "npm@${NPM_VERSION}"
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Publish
+        run: npm publish --access public --tag "${{ needs.verify.outputs.tag }}"

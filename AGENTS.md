@@ -97,7 +97,7 @@ To find the right skill for a task, run [`ack-guide`](skills/ack-guide/SKILL.md)
 This repository uses OpenSpec as the contract for what gets built (spec section 11, ADR-001).
 
 - OpenSpec root: `openspec/`
-- Active change: `none`
+- Active change: `installer-release`
 - Minimum OpenSpec version: `2.1.0`
 
 The session spec stays the normative document and is not split into OpenSpec capability specs, so `openspec/specs/` stays empty and every change sets `skip_specs: true`. `openspec/config.yaml` points back to this file.
@@ -156,7 +156,7 @@ Do not edit generated `openspec-*` skills or commands; customise through `opensp
 - Default branch: `main`. It is the production release branch: every commit on `main` is a release, so releases are not tagged.
 - Branch flow (git flow):
   - Features: start from `development` and open pull requests into `development`.
-  - Releases: when the maintainer decides to release, start `release/<version>` from `development`. Only release preparation goes there (version bump, changelog heading, last fixes). Open a pull request into `main`. After it merges, bring it into `development` with a pull request from `main` into `development`.
+  - Releases: when the maintainer decides to release, start `release/<version>` from `development`. Only release preparation goes there (version bump, changelog heading, last fixes). Open a pull request into `main`; merging it publishes the installer to npm (`installer/RELEASING.md`). After it merges, bring it into `development` with a pull request from `main` into `development`.
   - Hotfixes: start `hotfix/<version>` from `main` and open a pull request into `main`. After it merges, bring the fix into `development` with a pull request from `main` into `development`.
   - `main` changes only through `release/*` and `hotfix/*` pull requests. Pull requests from `main` into `development` happen only after one of those merges.
 - Key paths:

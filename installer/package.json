@@ -24,6 +24,7 @@
   "scripts": {
     "bundle": "node scripts/bundle-skills.mjs",
     "build": "npm run bundle && tsc -p tsconfig.json",
+    "prepack": "npm run build",
     "test": "npm run build && vitest run",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
