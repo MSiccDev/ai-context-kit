@@ -26,6 +26,7 @@ Use this order when files differ:
 | `usercontexts/` | User-context instruction examples and validation reports |
 | `docs/adr/` | Architecture decision records for the kit itself; start with `docs/adr/README.md` |
 | `openspec/` | OpenSpec root: `config.yaml` and the active and archived changes |
+| `install.md` | Agent-executable front door: runs the kit installer, then hands over to `ack-setup` |
 | `THIRD_PARTY_NOTICES.md` | Licenses and the list of skills that adapt third-party work |
 
 ## Scope And Precedence For AGENTS.md Files
@@ -96,7 +97,7 @@ To find the right skill for a task, run [`ack-guide`](skills/ack-guide/SKILL.md)
 This repository uses OpenSpec as the contract for what gets built (spec section 11, ADR-001).
 
 - OpenSpec root: `openspec/`
-- Active change: `none`
+- Active change: `installer-setup`
 - Minimum OpenSpec version: `2.1.0`
 
 The session spec stays the normative document and is not split into OpenSpec capability specs, so `openspec/specs/` stays empty and every change sets `skip_specs: true`. `openspec/config.yaml` points back to this file.

@@ -8,6 +8,7 @@ on:
       - "templates/**"
       - "docs/adr/**"
       - "openspec/**"
+      - "install.md"
       - ".github/workflows/installer-drift.yml"
   push:
     branches: [main]

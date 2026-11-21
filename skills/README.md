@@ -34,6 +34,7 @@ This directory is the canonical location for repository skill instances.
 ### Session And Navigation Workflows
 - `ack-session` (`references/commands.md`)
 - `ack-guide` (`references/routes.md`, `references/phase-boundaries.md`)
+- `ack-setup` (`references/areas.md`)
 
 ### Interview And Implementation Workflows
 - `ack-interview` (`references/method.md`; model-invoked)

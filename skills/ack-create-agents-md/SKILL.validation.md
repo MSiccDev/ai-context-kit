@@ -2,7 +2,7 @@
 
 **File:** skills/ack-create-agents-md/SKILL.md
 **Skill:** ack-create-agents-md
-**Validated:** 2026-11-19 (re-run for OpenSpec change `require-openspec-2-1`)
+**Validated:** 2026-11-21 (re-run for OpenSpec change `installer-setup`, version 2.2.0)
 **Validator:** `skills/ack-validate-skill`
 
 ---
@@ -53,6 +53,7 @@
 ### Findings:
 - All seven references and both repository links resolve; no deep or circular reference chains.
 - Risky operations are gated: no `openspec init` and no overwrite of an existing `AGENTS.md` without explicit approval.
+- New in 2.2.0: the installer's `AI-CONTEXT-KIT` marker block is kept exactly as it is, so `ai-context-kit update` can still rewrite it.
 
 ---
 

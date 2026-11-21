@@ -19,6 +19,8 @@ Kit skills are named `ack-*`. OpenSpec skills are installed by `openspec init` a
 
 | Goal | Skill |
 | --- | --- |
+| Install the kit in a repository | Follow `install.md` at the kit repository's root; it runs `ai-context-kit init` |
+| Finish setup after installing: OpenSpec, project context, user context | `ack-setup` |
 | Write your user context file | `ack-create-user-context` |
 | Write or refresh a root or nested `AGENTS.md` | `ack-create-agents-md` |
 | Set up OpenSpec in the repository | Run `openspec init` (spec section 11.1); then refresh `AGENTS.md` with `ack-create-agents-md` |
