@@ -7,11 +7,17 @@ The package is published by `.github/workflows/release.yml` with npm trusted pub
 Do these in order. npm only lets you add a trusted publisher to a package that already exists, so the first version is published by hand.
 
 1. **GitHub environment.** In the repository settings, under Environments, create `npm`. Under Deployment branches and tags, allow only `main`.
-2. **First publish, by hand.** On the approved `release/2.0.0` branch, before merging it, run this from `installer/` with npm 11.5.1 or later, logged in as an owner of the `@msiccdev` organisation:
+2. **First publish, by hand.** On the approved `release/2.0.0` branch, before merging it, publish from your own machine with Node.js 22.12 or later (the npm that comes with it is enough; the npm 11.5.1 minimum applies only to trusted publishing in the workflow). Log in as an owner of the `@msiccdev` organisation, then from `installer/`:
+   ```bash
+   npm ci
+   ```
+   ```bash
+   npm login
+   ```
    ```bash
    npm publish --access public
    ```
-   `prepack` builds the package first. npm asks for your two-factor code.
+   `prepack` builds the package first. npm asks for your two-factor code; if it fails with "OTP required" instead, add `--otp <code>` from your authenticator app. `npm view @msiccdev/ai-context-kit version` then prints `2.0.0`.
 3. **Trusted publisher.** On npmjs.com, open the package, then Settings, Trusted publishing, and add GitHub Actions with these values (all case-sensitive):
    - Organization or user: `MSiccDev`
    - Repository: `ai-context-kit`
