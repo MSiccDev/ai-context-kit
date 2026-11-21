@@ -156,7 +156,7 @@ Do not edit generated `openspec-*` skills or commands; customise through `opensp
 - Default branch: `main`. It is the production release branch: every commit on `main` is a release, so releases are not tagged.
 - Branch flow (git flow):
   - Features: start from `development` and open pull requests into `development`.
-  - Releases: when the maintainer decides to release, start `release/<version>` from `development`. Only release preparation goes there (version bump, changelog heading, last fixes). Open a pull request into `main`. After it merges, bring it into `development` with a pull request from `main` into `development`.
+  - Releases: when the maintainer decides to release, start `release/<version>` from `development`. Only release preparation goes there (version bump, changelog heading, last fixes). Open a pull request into `main`; merging it publishes the installer to npm (`installer/RELEASING.md`). After it merges, bring it into `development` with a pull request from `main` into `development`.
   - Hotfixes: start `hotfix/<version>` from `main` and open a pull request into `main`. After it merges, bring the fix into `development` with a pull request from `main` into `development`.
   - `main` changes only through `release/*` and `hotfix/*` pull requests. Pull requests from `main` into `development` happen only after one of those merges.
 - Key paths:

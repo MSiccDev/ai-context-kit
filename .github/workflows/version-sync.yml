@@ -6,6 +6,8 @@ on:
       - ".claude-plugin/**"
       - ".codex-plugin/**"
       - "CHANGELOG.md"
+      - "installer/package.json"
+      - "installer/package-lock.json"
       - "scripts/check-version-sync.sh"
       - "scripts/test-check-version-sync.sh"
       - ".github/workflows/version-sync.yml"

@@ -105,6 +105,11 @@ When a new version is released:
 - Neither AGENTS.md creator wrote the `Spec-Driven Change Workflow` section the template requires, and neither validator checked it. Closed by the merged `ack-create-agents-md` and `ack-validate-agents-md` (see Breaking)
 
 ### Added
+- Installer step 6, publishing (OpenSpec change `installer-release`; plan Part 3, ADR-013):
+  - `.github/workflows/release.yml` publishes `@msiccdev/ai-context-kit` to npm with trusted publishing, so no npm token is stored. Every push to `main` publishes `installer/package.json`'s version if it is new: pre-releases to the `next` dist-tag, others to `latest`, with provenance. The publish job runs only on `main` in the `npm` environment; pull requests run a dry run
+  - The first version is published by hand, because npm only accepts a trusted publisher for an existing package; `installer/RELEASING.md` has the one-time and per-release steps
+  - `scripts/check-version-sync.sh` also checks `installer/package.json` and `installer/package-lock.json`
+  - README: Quick Start starts with the install block (`install.md` for agents, `npx @msiccdev/ai-context-kit@latest init` for people). The template-repository section is retired; a short note tells existing template users how to move to the installer
 - Installer step 4, the agentic half (OpenSpec change `installer-setup`; plan Part 3, ADR-013):
   - New user-invoked skill **`ack-setup`** 1.0.0: run once after `ai-context-kit init`. It explores the repository, recommends the next skill for OpenSpec, project context and your user context, in that order, and agrees the list with you. It writes nothing itself and never copies your user context into the repository. Adapts Matt Pocock's `setup-matt-pocock-skills` (MIT)
   - New **`install.md`** at the repository root: paste its link into an agent and it checks Node and OpenSpec (installing only with your consent, no sudo, no shell-profile edits), confirms the folder and tools, asks about OpenSpec telemetry, runs `npx @msiccdev/ai-context-kit@latest init`, and tells you how to start `ack-setup`. Drift tests keep its versions, command, flags and tool table in line with the installer

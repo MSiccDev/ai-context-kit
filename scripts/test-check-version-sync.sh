@@ -10,21 +10,24 @@ trap 'rm -rf "$work"' EXIT
 
 failures=0
 
-# make_fixture <dir> <claude-version> <marketplace-version> <codex-version> <changelog-version>
+# make_fixture <dir> <claude> <marketplace> <codex> <changelog> [package] [lock] [lock-root]
+# The installer versions default to the Claude manifest's version.
 make_fixture() {
   local dir="$1"
-  mkdir -p "$dir/.claude-plugin" "$dir/.codex-plugin"
+  mkdir -p "$dir/.claude-plugin" "$dir/.codex-plugin" "$dir/installer"
   printf '{"name":"ai-context-kit","version":"%s"}\n' "$2" > "$dir/.claude-plugin/plugin.json"
   printf '{"plugins":[{"name":"other","version":"9.9.9"},{"name":"ai-context-kit","version":"%s"}]}\n' "$3" > "$dir/.claude-plugin/marketplace.json"
   printf '{"name":"ai-context-kit","version":"%s"}\n' "$4" > "$dir/.codex-plugin/plugin.json"
   printf '# Changelog\n\n## [Unreleased]\n\n## [%s] - 2026-01-01\n\n## [0.0.1] - 2025-01-01\n' "$5" > "$dir/CHANGELOG.md"
+  printf '{"name":"@msiccdev/ai-context-kit","version":"%s"}\n' "${6:-$2}" > "$dir/installer/package.json"
+  printf '{"name":"@msiccdev/ai-context-kit","version":"%s","packages":{"":{"version":"%s"}}}\n' "${7:-$2}" "${8:-$2}" > "$dir/installer/package-lock.json"
 }
 
-# expect <name> <expected-exit> <claude> <marketplace> <codex> <changelog>
+# expect <name> <expected-exit> <claude> <marketplace> <codex> <changelog> [package] [lock] [lock-root]
 expect() {
   local name="$1" want="$2" got=0
   local dir="$work/$name"
-  make_fixture "$dir" "$3" "$4" "$5" "$6"
+  make_fixture "$dir" "${@:3}"
   bash "$check" "$dir" >/dev/null 2>&1 || got=$?
   if [[ "$got" == "$want" ]]; then
     echo "pass  $name"
@@ -67,6 +70,9 @@ expect "claude manifest drift" 1 "1.5.4" "1.5.3" "1.5.3" "1.5.3"
 expect "marketplace drift" 1 "1.5.3" "1.5.4" "1.5.3" "1.5.3"
 expect "codex manifest drift" 1 "1.5.3" "1.5.3" "1.5.4" "1.5.3"
 expect "changelog drift" 1 "1.5.3" "1.5.3" "1.5.3" "1.5.4"
+expect "installer package drift" 1 "1.5.3" "1.5.3" "1.5.3" "1.5.3" "1.5.4"
+expect "installer lockfile drift" 1 "1.5.3" "1.5.3" "1.5.3" "1.5.3" "1.5.3" "1.5.4"
+expect "installer lockfile root drift" 1 "1.5.3" "1.5.3" "1.5.3" "1.5.3" "1.5.3" "1.5.3" "1.5.4"
 
 # Missing file
 mkdir -p "$work/missing"

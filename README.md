@@ -263,23 +263,35 @@ If paths must change, update the specification and README first, then adjust ski
 
 ## Quick Start
 
+### Install In A Repository
+
+Install the kit into each repository you work in. The installer copies the `ack-*` skills into every tool's skills folder, adds a short kit block to `AGENTS.md` (and a `CLAUDE.md` that imports it for Claude Code), sets up OpenSpec, and records what it wrote so updates never overwrite your edits. It needs Node.js 22.12 or later.
+
+**Let your agent do it.** Paste this into your coding agent:
+
+```text
+Follow https://github.com/MSiccDev/ai-context-kit/blob/main/install.md
+```
+
+It checks Node and OpenSpec, asks before installing anything, runs the installer, and tells you how to start `ack-setup`.
+
+**Or run it yourself** from the repository root, naming your tools (`claude`, `codex`, `github-copilot`, `agents`):
+
+```bash
+npx @msiccdev/ai-context-kit@latest init --tools claude,codex
+```
+
+Always use the scoped name: the unscoped `ai-context-kit` on npm is an unrelated package. See [`installer/README.md`](installer/README.md) for `update`, `doctor` and `tools`.
+
 ### For First-Time Users
 
-1. **Create Your User Context Artifact**
-   - **Manual (canonical):** Copy `templates/usercontext_template.instructions.md`, fill in your details, and save as `yourname_usercontext.instructions.md`
-   - **Skill:** Use `skills/ack-create-user-context/SKILL.md` to generate your user context file
+1. **Install the kit** in your repository, as above.
+2. **Run `ack-setup`** (`/ack-setup` in Claude Code and GitHub Copilot, `$ack-setup` in Codex). It checks OpenSpec, your project's `AGENTS.md` and your user context, and tells you which skill to run next:
+   - `ack-create-agents-md` writes the project context (`AGENTS.md`); `ack-validate-agents-md` checks it.
+   - `ack-create-user-context` writes your personal user context file, kept outside the repository; `ack-validate-user-context` checks it.
+3. **Load your user context** into your AI environment; see [Loading Context in Different AI Platforms](#loading-context-in-different-ai-platforms).
 
-2. **Create Project AGENTS Context**
-   - **Manual (canonical):** Copy `templates/AGENTS_template.md` and define your project context
-   - **Skill:** Use `skills/ack-create-agents-md/SKILL.md` (root mode for the repository root, nested mode for a folder)
-   - Save as `AGENTS.md` in your project root (or scoped nested `AGENTS.md` where needed)
-
-3. **Validate Artifacts**
-   - Use `skills/ack-validate-user-context/SKILL.md` for user context files
-   - Use `skills/ack-validate-agents-md/SKILL.md` for root and nested `AGENTS.md` files
-
-4. **Load Context Into Your AI Environment**
-   - See platform-specific instructions below
+Prefer to work by hand? Copy `templates/usercontext_template.instructions.md` and `templates/AGENTS_template.md` and fill them in.
 
 ### For Returning Users
 
@@ -534,87 +546,17 @@ Each project `AGENTS.md` should define:
 
 ---
 
-## Getting Started with This Template Repository
+## Coming From The Template Repository
 
-> **Recommended: install the plugin** (see [Installing as a Plugin](#installing-as-a-plugin) above). The template repository path below is being phased out — new users should install via plugin instead.
+Earlier versions were used as a GitHub template repository. That path is retired: install the kit into each project with the installer instead (see [Install In A Repository](#install-in-a-repository)).
 
-This is a **GitHub template repository**. Here's how to use it:
+- Keep your `*_usercontext.instructions.md` where it is, outside your projects.
+- In each project, run the installer, then `ack-setup`; `ack-create-agents-md` rewrites an older `AGENTS.md` after showing you the diff.
+- [`CHANGELOG.md`](CHANGELOG.md) lists every breaking change and its migration step under each release.
 
-### Creating Your Own Instance
+## Contributing
 
-1. **Use the Template:**
-   - Click the green **"Use this template"** button on GitHub
-   - Choose **"Create a new repository"**
-   - Give it a name (e.g., `my-ai-instructions` or `ai-workspace-config`)
-   - **Make it Private** (recommended - it will contain personal information!)
-   - GitHub will create a fresh copy for you
-
-2. **Customize Your Instance:**
-   - Clone your new repository locally
-   - Start with `templates/usercontext_template.instructions.md`
-   - Fill in your professional details, skills, and preferences
-   - Save as `yourname_usercontext.instructions.md` in the root
-   - Create project context from `templates/AGENTS_template.md`
-   - Save as `AGENTS.md` in your project root
-
-3. **Keep It Updated:**
-   - Update your user context as your skills evolve
-   - Version control tracks your AI workspace evolution
-
-### Why Use Template Instead of Fork?
-
-- **Clean history:** Your repository starts fresh without this template's history
-- **Private by default:** Easily make your instance private (recommended)
-- **No upstream confusion:** It's your repository, not a fork
-- **Your data, your control:** Personal instructions stay in your private repo
-
-### Keeping Your Instance Up-to-Date
-
-When the template repository gets improvements, check [CHANGELOG.md](CHANGELOG.md) to see what changed and which files are safe to update.
-
-**Recommended approach — copy files manually:**
-1. Open `CHANGELOG.md` in the template repository (browse the upstream source or your local copy if already synced)
-2. Read what changed in the new version
-3. Copy the updated files listed under **Safe to update** into your instance
-4. Commit the changes
-
-**What to update:**
-- ✅ Template files in `templates/`
-- ✅ Specification documents in `specs/`
-- ✅ Skill updates and additions in `skills/`
-- ✅ README improvements
-- ✅ `CHANGELOG.md` itself
-
-**What to protect (never overwrite):**
-- ❌ Your personal `*_usercontext.instructions.md`
-- ❌ Your project `AGENTS.md`
-- ❌ Any custom skills you have created
-
-**Advanced: pull specific changes via git**
-```bash
-# Add the template as a remote (one-time setup)
-git remote add template https://github.com/MSiccDev/ai-context-kit.git
-git fetch template
-
-# Copy a specific file from the template
-git checkout template/main -- specs/context_aware_ai_session_spec.md
-
-# Or cherry-pick a specific commit
-git cherry-pick <commit-hash>
-```
-
-### Contributing Back
-
-Found a bug or have an improvement to the **template itself**?
-
-1. Create an issue in the [original template repository](https://github.com/MSiccDev/ai-context-kit)
-2. Submit a pull request with improvements to:
-   - Template structure
-   - Documentation clarity
-   - Specification enhancements
-   - Example improvements
-
-**Note:** Never contribute your personal user context or project files - keep those private!
+Found a bug or have an improvement to the kit itself? Open an issue or a pull request in [MSiccDev/ai-context-kit](https://github.com/MSiccDev/ai-context-kit). Never include your personal user context or project files.
 
 ---
 

@@ -2,8 +2,6 @@
 
 Per-repository installer for [AI Context Kit](https://github.com/MSiccDev/ai-context-kit) skills. It copies the kit's `ack-*` skills into each tool's skills folder, adds a short kit section to `AGENTS.md` (and a `CLAUDE.md` that imports it for Claude Code), and records what it wrote so updates never overwrite your edits.
 
-> Under development for AI Context Kit 2.0; not yet published.
-
 To have an agent run the installer for you, paste the link to [`install.md`](https://github.com/MSiccDev/ai-context-kit/blob/main/install.md) into it; it checks Node and OpenSpec, asks before installing anything, and ends with `ack-setup`.
 
 ## Commands
