@@ -96,7 +96,7 @@ This repository uses OpenSpec as the contract for what gets built (spec section 
 | `<tool 1>` | `<invocation spelling>` |
 | `<tool 2>` | `<invocation spelling>` |
 
-Do not edit generated `openspec-*` skills or commands; customise through `openspec/config.yaml`.
+Do not edit generated `openspec-*` skills or commands; customise through `openspec/config.yaml`. OpenSpec sends anonymous usage statistics by default; to turn them off, run `openspec config set telemetry.enabled false` (machine-wide) or set `OPENSPEC_TELEMETRY=0` (spec section 11.8).
 
 ## Repository Project Context
 ### Overview

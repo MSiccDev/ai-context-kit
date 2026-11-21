@@ -1,7 +1,7 @@
 ---
 name: "ack-openspec-check"
 description: "Check that the OpenSpec CLI is 2.1.0 or later and that the OpenSpec files in the repository match it, and give the upgrade steps when they do not. Use before relying on OpenSpec, when an openspec command fails or behaves unexpectedly, or when someone asks which OpenSpec version is set up."
-version: "1.0.0"
+version: "1.1.0"
 allowed-tools: [Read, Bash]
 metadata:
   workflow_type: "governance"
@@ -31,7 +31,7 @@ Detect an OpenSpec set-up older than the kit supports, and say exactly how to up
 ## Output Expectations
 - The status line first, so the calling skill can act on it: `OK` and `NEWER` continue; `UPDATE_FILES` and `UNVERIFIED` continue only after the user runs `openspec update` (for `UNVERIFIED`, at least its dry run) or says to proceed; `UPGRADE_CLI` and `NO_CLI` stop (manual mode still allows planning).
 - The CLI version, and for `UPDATE_FILES` how many generated files would change and whether any are 1.x `/opsx:*` command files.
-- The upgrade steps, copied from `references/upgrade.md` and filled in for this machine.
+- The upgrade steps, copied from `references/upgrade.md` and filled in for this machine. After an install or upgrade they include the telemetry opt-out and the question whether to keep telemetry on.
 
 ## Resources
 - Version rule, classification and upgrade steps: `references/upgrade.md`

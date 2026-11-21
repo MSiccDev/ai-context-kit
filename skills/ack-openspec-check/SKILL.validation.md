@@ -2,7 +2,7 @@
 
 **File:** skills/ack-openspec-check/SKILL.md
 **Skill:** ack-openspec-check
-**Validated:** 2026-11-19 (first validation, OpenSpec change `require-openspec-2-1`)
+**Validated:** 2026-11-21 (re-run for OpenSpec change `prerelease-cleanup`, version 1.1.0)
 **Validator:** `skills/ack-validate-skill`
 
 ---
@@ -43,6 +43,7 @@
 - No no-ops or sediment. The status contract for callers is stated once, in Output Expectations; each caller adds only its own handling (for example manual mode in `ack-create-agents-md`).
 - Enhancement: "Never use sudo or edit shell profiles" is a prohibition without a positive target; it is a hard guardrail, so it stays.
 - The fallback never certifies files it cannot check: with no 1.x markers it reports `UNVERIFIED`, which callers treat like `UPDATE_FILES` (added after Codex review).
+- New in 1.1.0: after an install or upgrade, the upgrade steps name both telemetry opt-outs and ask whether to keep telemetry on (spec section 11.8). The skill still changes nothing itself; the user runs the command.
 
 ---
 
@@ -77,7 +78,7 @@
 - None.
 
 ### Enhancements (Optional):
-- Add the telemetry question (spec section 11.8) here when that change lands.
+- None. (The telemetry question from spec section 11.8 was added in 1.1.0.)
 
 ---
 

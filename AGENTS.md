@@ -97,7 +97,7 @@ To find the right skill for a task, run [`ack-guide`](skills/ack-guide/SKILL.md)
 This repository uses OpenSpec as the contract for what gets built (spec section 11, ADR-001).
 
 - OpenSpec root: `openspec/`
-- Active change: `none`
+- Active change: `prerelease-cleanup`
 - Minimum OpenSpec version: `2.1.0`
 
 The session spec stays the normative document and is not split into OpenSpec capability specs, so `openspec/specs/` stays empty and every change sets `skip_specs: true`. `openspec/config.yaml` points back to this file.
@@ -118,7 +118,7 @@ Do not edit generated `openspec-*` skills or commands; customise through `opensp
 
 ## Repository Project Context
 ### Overview
-**AI Context Kit** is a template repository for building instruction-based AI collaboration across providers.
+**AI Context Kit** is a kit for instruction-based AI collaboration across providers, installed into each repository with `@msiccdev/ai-context-kit`.
 
 - Current status / phase: **Active Development**
 - Primary objectives:
