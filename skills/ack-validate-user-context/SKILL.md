@@ -26,7 +26,7 @@ Validate user-context instruction files and produce structured reports with issu
 
 ## Workflow
 1. Run the five phases in `references/phase-checks.md`. A phase is done when every check in it has a result.
-2. Check for the `spec_version` field in the YAML frontmatter: flag a WARNING if it is absent (older files may predate it) or older than `2.0.0-beta.1`.
+2. Check for the `spec_version` field in the YAML frontmatter: flag a WARNING if it is absent (older files may predate it) or older than `2.0.0`.
 3. Score each phase with `references/scoring.md`. The phase scores must add up to the reported total; state the sum in the report.
 4. Classify every finding as Critical, Warning or Enhancement, each with a concrete fix.
 5. Write the report next to the target, as `references/report-contract.md` describes.

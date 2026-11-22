@@ -2,7 +2,7 @@
 
 ## Both modes
 - [ ] The mode matches the target path, or the user chose it explicitly.
-- [ ] `<!-- spec_version: 2.0.0-beta.1 -->` is at the top.
+- [ ] `<!-- spec_version: 2.0.0 -->` is at the top.
 - [ ] Every relative link and path resolves.
 - [ ] Wording is provider-neutral, with no copied specification text.
 - [ ] The artifact block and completion summary are present.

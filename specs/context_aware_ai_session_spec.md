@@ -1,17 +1,17 @@
 ---
-version: 2.0.0-beta.1
+version: 2.0.0
 context_type: specification
 document_type: technical_specification
 created: 2025-10-20
-last_updated: 2026-11-16
-status: beta
+last_updated: 2026-11-22
+status: active
 intended_audience: AI-assisted developers, system designers, prompt engineers, LLM-based tooling architects
 license: Open for adaptation and refinement
 ---
 
-# Context-Aware AI Session Flow Specification (v2.0.0-beta.1)
+# Context-Aware AI Session Flow Specification (v2.0.0)
 
-**Version:** 2.0.0-beta.1 | **Updated:** 2026-11-16 | **Status:** Beta
+**Version:** 2.0.0 | **Updated:** 2026-11-22 | **Status:** Active
 
 > This document contains the normative rules. For background reasoning, extended examples, end-to-end scenarios, and future enhancement notes, see [`docs/spec-rationale.md`](../docs/spec-rationale.md).
 

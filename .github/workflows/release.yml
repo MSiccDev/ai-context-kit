@@ -65,7 +65,12 @@ jobs:
           echo "published=${published}" >> "$GITHUB_OUTPUT"
           echo "${name}@${version}: dist-tag ${tag}, already on npm: ${published}"
       - name: Publish (dry run)
+        if: steps.plan.outputs.published == 'false'
         run: npm publish --dry-run --access public --tag "${{ steps.plan.outputs.tag }}"
+      # npm refuses even a dry run for a version that is already on npm, so pack instead.
+      - name: Pack (dry run, version already on npm)
+        if: steps.plan.outputs.published == 'true'
+        run: npm pack --dry-run
 
   publish:
     needs: verify
