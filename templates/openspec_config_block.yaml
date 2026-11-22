@@ -1,0 +1,11 @@
+context: |
+  Project context, roles and conventions: AGENTS.md (read it first).
+  Architecture decisions: docs/adr/ when present.
+  Glossary: arc42 section 12 when docs/arc42/ exists, otherwise CONTEXT.md when present.
+rules:
+  proposal:
+    - Name the ADRs the change follows or needs.
+  design:
+    - Confirm the test seams with the user before tasks are written.
+  tasks:
+    - Slice tasks vertically, so each task leaves the repository consistent.

@@ -4,8 +4,7 @@ This directory is the canonical location for repository skill instances.
 
 ## Authority Model
 - `skills/` is the canonical source for operational create/validate/governance workflow logic.
-- `prompts/` remains available as compatibility wrappers and should defer detailed workflow logic to skills.
-- Keep wrappers concise; do not reintroduce full checklists/rubrics already defined in skills.
+- Skills are the only workflow entrypoint; there are no separate prompt files (ADR-010).
 
 ## Scope
 - Store concrete skill folders here, each containing a `SKILL.md` file.
@@ -15,23 +14,39 @@ This directory is the canonical location for repository skill instances.
 
 ## Current Skill Inventory
 ### Create Workflows
-- `create-usercontext-instructions` (`references/`)
-- `create-project-instructions` (`references/`)
-- `create-agents-md` (`references/`)
-- `create-skill` (`references/`)
+- `ack-create-user-context` (`references/`)
+- `ack-create-agents-md` (`references/`; root and nested modes)
+- `ack-create-skill` (`references/`)
 
 ### Validate Workflows
-- `validate-usercontext-instructions` (`references/`)
-- `validate-project-instructions` (`references/`)
-- `validate-agents-md` (`references/`)
-- `validate-skill` (`references/`)
+- `ack-validate-user-context` (`references/`)
+- `ack-validate-agents-md` (`references/`; root and nested modes)
+- `ack-validate-skill` (`references/`)
 
 ### Checkpoint Workflows
-- `create-checkpoint` (`references/`)
-- `restore-checkpoint` (`references/`)
+- `ack-create-checkpoint` (`references/`)
+- `ack-restore-checkpoint` (`references/`)
 
 ### Governance Workflows
-- `repository-drift-control` (no `references/` directory)
+- `ack-drift-control` (no `references/` directory)
+- `ack-openspec-check` (`references/upgrade.md`; model-invoked)
+
+### Session And Navigation Workflows
+- `ack-session` (`references/commands.md`)
+- `ack-guide` (`references/routes.md`, `references/phase-boundaries.md`)
+- `ack-setup` (`references/areas.md`)
+
+### Interview And Implementation Workflows
+- `ack-interview` (`references/method.md`; model-invoked)
+- `ack-interview-with-context` (`references/glossary.md`)
+- `ack-tdd` (`references/cycle.md`; model-invoked)
+
+### Loop Workflows (invoke in order; 04 is optional)
+- `ack-loop-01-readiness` (`references/procedure.md`)
+- `ack-loop-02-implement` (`references/procedure.md`)
+- `ack-loop-03-review` (`references/procedure.md`)
+- `ack-loop-04-learnings` (`references/procedure.md`)
+- `ack-loop-05-commit` (`references/procedure.md`)
 
 All current skills include:
 - `SKILL.md`
@@ -43,4 +58,4 @@ All current skills include:
 
 ## Validation
 - Validate skills using the canonical skill validation workflow.
-- Keep validation status current whenever source prompts or governance rules change.
+- Keep validation status current whenever a skill's workflow or the governance rules change.

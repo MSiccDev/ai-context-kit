@@ -1,4 +1,4 @@
-<!-- spec_version: 2.0.0-beta.1 -->
+<!-- spec_version: 2.0.0 -->
 
 # AI Context Kit Agent Guide
 
@@ -11,11 +11,10 @@ This repository distinguishes:
 
 ## Source Of Truth And Precedence
 Use this order when files differ:
-1. **Specification (authoritative, v2.0.0-beta.1):** `specs/context_aware_ai_session_spec.md`
+1. **Specification (authoritative, v2.0.0):** `specs/context_aware_ai_session_spec.md`
 2. **Templates (canonical structures):** `templates/*.instructions.md` and `templates/skill_template/SKILL.md`
-3. **Skills (canonical operational workflows):** `skills/*/SKILL.md` and skill-local references
-4. **Prompts:** `prompts/skills/*.prompt.md` (compatibility wrappers — must defer detailed logic to skills); `prompts/loop/*.prompt.md` (implementation loop steps — self-contained workflow prompts)
-5. **Samples and validation artifacts (illustrative records):** `usercontexts/*.instructions.md`, related `*.validation.md`
+3. **Skills (canonical operational workflows, including the implementation loop):** `skills/*/SKILL.md` and skill-local references
+4. **Samples and validation artifacts (illustrative records):** `usercontexts/*.instructions.md`, related `*.validation.md`
 
 ## Repository Map
 | Path | Purpose |
@@ -23,10 +22,12 @@ Use this order when files differ:
 | `specs/` | Normative session-model specification and terminology |
 | `templates/` | Canonical instruction templates aligned to the spec |
 | `skills/` | Canonical workflow skills (`SKILL.md` folders) and skill-local resources |
-| `prompts/skills/` | Compatibility wrappers that route workflows to canonical skills |
-| `prompts/loop/` | Numbered step prompts for the implementation loop (readiness-check → implementation → self-review → learnings → human-in-the-loop); invoke in order, learnings is optional |
+| `skills/ack-loop-*/` | The implementation loop as five numbered skills (readiness → implement → review → learnings → commit); invoke in order, learnings is optional |
 | `usercontexts/` | User-context instruction examples and validation reports |
 | `docs/adr/` | Architecture decision records for the kit itself; start with `docs/adr/README.md` |
+| `openspec/` | OpenSpec root: `config.yaml` and the active and archived changes |
+| `install.md` | Agent-executable front door: runs the kit installer, then hands over to `ack-setup` |
+| `THIRD_PARTY_NOTICES.md` | Licenses and the list of skills that adapt third-party work |
 
 ## Scope And Precedence For AGENTS.md Files
 - An `AGENTS.md` file applies to the directory it is in and all subdirectories.
@@ -50,14 +51,14 @@ Active session state includes:
 - If a task implies a context shift, ask for confirmation before switching.
 
 ### Cross-Session Persistence (spec section 4.4)
-- When the user signals session end or explicitly requests one, propose creating a checkpoint artifact using the `create-checkpoint` skill.
+- When the user signals session end or explicitly requests one, propose creating a checkpoint artifact using the `ack-create-checkpoint` skill.
 - Never create a checkpoint silently. User approval is required before writing.
-- When a checkpoint artifact is provided at session start, apply the `restore-checkpoint` skill to restore state and surface any conflicts with active instruction files before proceeding.
+- When a checkpoint artifact is provided at session start, apply the `ack-restore-checkpoint` skill to restore state and surface any conflicts with active instruction files before proceeding.
 
 ### Context Compression (spec section 4.5)
 - When context window saturation is evident, propose compression explicitly — describe what will be retained and what will be dropped before asking for confirmation.
 - Never apply compression silently. The user must confirm before any context is dropped.
-- Before applying compression, offer to export the current state to a checkpoint file using the `create-checkpoint` skill.
+- Before applying compression, offer to export the current state to a checkpoint file using the `ack-create-checkpoint` skill.
 - After compression, do not imply that dropped context is recoverable.
 
 ### Ambiguity Rule
@@ -75,35 +76,49 @@ Defaults are defined directly in this `AGENTS.md` to keep project context self-c
 | Tone | `direct` |
 | Interaction Mode | `advisory` |
 
-## Command Namespace Policy
-Use namespaced commands for explicit state control.
+## Session Commands
+Change session state explicitly with the user-invoked [`ack-session`](skills/ack-session/SKILL.md) skill (spec section 8.2): `ack-session <command> [value]`. Plain-language requests ("switch to Reviewer") also work and follow the same confirmation rules.
 
 | Command | Description |
 | --- | --- |
-| `/ack.context` | Show active session state summary |
-| `/ack.mode <role>` | Change assistant role/mode |
-| `/ack.phase <phase>` | Change current work phase |
-| `/ack.style <style>` | Change output style/verbosity |
-| `/ack.tone <tone>` | Change communication tone |
-| `/ack.interact <mode>` | Change interaction mode (`advisory`, `pair`, `driver`) |
-| `/ack.reset` | Reset session state (keep user context and project context unless user says otherwise) |
+| `ack-session context` | Show active session state summary |
+| `ack-session mode <role>` | Change assistant role/mode |
+| `ack-session phase <phase>` | Change current work phase |
+| `ack-session style <style>` | Change output style/verbosity |
+| `ack-session tone <tone>` | Change communication tone |
+| `ack-session interact <mode>` | Change interaction mode (`advisory`, `pair`, `driver`) |
+| `ack-session reset` | Reset session state to the defaults above (keep user context and project context unless the user says otherwise) |
 
-Alias policy:
-- Namespaced `/ack.*` commands are the default.
-- Unprefixed aliases are allowed only when no command conflict exists.
+Invocation: `/ack-session` in Claude Code (`/ai-context-kit:ack-session` with the plugin), `$ack-session` in Codex.
+
+To find the right skill for a task, run [`ack-guide`](skills/ack-guide/SKILL.md).
 
 ## Spec-Driven Change Workflow
-Spec section 11 makes OpenSpec mandatory for kit-managed repositories (ADR-001).
+This repository uses OpenSpec as the contract for what gets built (spec section 11, ADR-001).
 
-- OpenSpec root: not yet initialised in this repository
-- Active change: none
-- Minimum OpenSpec version: `1.13.2`
+- OpenSpec root: `openspec/`
+- Active change: `none`
+- Minimum OpenSpec version: `2.1.0`
 
-This repository adopts the workflow in 2.0 rollout step 6 (dogfood), when `openspec init` runs here and every later change becomes an OpenSpec change. Until then, changes follow the pull-request workflow, and the session spec stays the normative document rather than being split into capability specs.
+The session spec stays the normative document and is not split into OpenSpec capability specs, so `openspec/specs/` stays empty and every change sets `skip_specs: true`. `openspec/config.yaml` points back to this file.
+
+### No Change, No Code
+- Start implementation only against an apply-ready change: `openspec instructions apply --change <id> --json` reports `state` as `ready`.
+- If no apply-ready change exists, stop and offer to create or complete one.
+- Changes with no behavior impact still get a change folder with `skip_specs: true`.
+- Archive the change as the last commit on the feature branch, after review approval.
+
+### Invoking OpenSpec
+| Tool | How to invoke |
+| --- | --- |
+| Claude Code | `/openspec-propose`, `/openspec-apply-change`, `/openspec-archive-change` (skills in `.claude/skills/`) |
+| Codex | `$openspec-propose`, `$openspec-apply-change`, `$openspec-archive-change` (skills in `.agents/skills/`) |
+
+Do not edit generated `openspec-*` skills or commands; customise through `openspec/config.yaml`. OpenSpec telemetry is off for kit work: run `openspec config set telemetry.enabled false` or set `OPENSPEC_TELEMETRY=0`.
 
 ## Repository Project Context
 ### Overview
-**AI Context Kit** is a template repository for building instruction-based AI collaboration across providers.
+**AI Context Kit** is a kit for instruction-based AI collaboration across providers, installed into each repository with `@msiccdev/ai-context-kit`.
 
 - Current status / phase: **Active Development**
 - Primary objectives:
@@ -115,18 +130,18 @@ This repository adopts the workflow in 2.0 rollout step 6 (dogfood), when `opens
 | Role | When To Use | Assistant Behavior | Typical Outputs |
 | --- | --- | --- | --- |
 | `Architect` | Defining structure, spec alignment, repository direction | Emphasize clarity, constraints, and tradeoffs | Plans, governance changes, architecture decisions |
-| `Prompt Engineer` | Refining create/validate wrappers and instruction workflows | Optimize flow, quality gates, and determinism | Prompt wrappers, workflow rules, validation criteria |
+| `Prompt Engineer` | Refining skills and instruction workflows | Optimize flow, quality gates, and determinism | Skills, workflow rules, validation criteria |
 | `Technical Writer` | Improving docs, onboarding, and migration clarity | Prioritize readability, consistency, and usability | README/AGENTS/template updates |
 | `Reviewer` | Verifying quality, regressions, and policy compliance | Surface gaps and actionable remediations | Findings, fixes, acceptance notes |
 
 ### Tech Stack
 - Languages: Markdown, shell scripts
 - Runtime/tooling: provider-agnostic instruction workflows
-- Architecture: specification + templates + skills + wrappers
+- Architecture: specification + templates + skills (including the implementation loop)
 - Validation: skill-based validation workflows and reports
 
 ### Current Objectives
-- Keep templates and skills aligned with spec `v2.0.0-beta.1`.
+- Keep templates and skills aligned with spec `v2.0.0`.
 - Maintain the AGENTS-first project-context model.
 - Preserve deterministic behavior and path stability.
 - Reduce duplication and migration noise.
@@ -138,13 +153,19 @@ This repository adopts the workflow in 2.0 rollout step 6 (dogfood), when `opens
 - Avoid silent context shifts and undocumented conventions.
 
 ### Repository Context
-- Default branch: `main`
+- Default branch: `main`. It is the production release branch: every commit on `main` is a release, so releases are not tagged.
+- Branch flow (git flow):
+  - Features: start from `development` and open pull requests into `development`.
+  - Releases: when the maintainer decides to release, start `release/<version>` from `development`. Only release preparation goes there (version bump, changelog heading, last fixes). Open a pull request into `main`; merging it publishes the installer to npm (`installer/RELEASING.md`). After it merges, bring it into `development` with a pull request from `main` into `development`.
+  - Hotfixes: start `hotfix/<version>` from `main` and open a pull request into `main`. After it merges, bring the fix into `development` with a pull request from `main` into `development`.
+  - `main` changes only through `release/*` and `hotfix/*` pull requests. Pull requests from `main` into `development` happen only after one of those merges.
 - Key paths:
   - `specs/`
   - `templates/`
   - `skills/`
-  - `prompts/`
   - `usercontexts/`
+  - `docs/adr/`
+  - `openspec/`
 
 ### Working Together
 **Architect**
@@ -152,7 +173,7 @@ This repository adopts the workflow in 2.0 rollout step 6 (dogfood), when `opens
 - "Propose a migration path with clear review gates."
 
 **Prompt Engineer**
-- "Keep wrappers thin and move logic into skills."
+- "Keep each skill focused and move detail into its references."
 - "Preserve quality gates while reducing duplication."
 
 **Technical Writer**
@@ -167,7 +188,7 @@ This repository adopts the workflow in 2.0 rollout step 6 (dogfood), when `opens
 - Specification: `specs/context_aware_ai_session_spec.md`
 - Templates: `templates/`
 - Skills: `skills/`
-- Prompt wrappers: `prompts/`
+- Implementation loop: `skills/ack-loop-01-readiness/` to `skills/ack-loop-05-commit/`
 - User context samples: `usercontexts/`
 
 ### Testing Strategy
@@ -177,23 +198,21 @@ This repository adopts the workflow in 2.0 rollout step 6 (dogfood), when `opens
 
 ### Documentation Standards
 - Markdown-first documentation.
-- Relative repository paths for cross-references.
-- No decorative emojis/icons in headings.
 - Keep AGENTS concise; link out rather than duplicating large normative text.
+- Headings and paths follow Formatting And Path Stability Rules below.
 
 ### Testing Commands
 ```bash
-rg -n "<pattern>" AGENTS.md README.md skills prompts templates specs usercontexts
+rg -n "<pattern>" AGENTS.md README.md skills templates specs usercontexts docs
 ```
 
 ### Future Roadmap
 - Maintain AGENTS-only project-context governance.
-- Continue reducing legacy prompt-era artifacts.
 - Strengthen skill validation and drift-control automation.
 
 ## Formatting And Path Stability Rules
 - Do not use decorative icons or emojis in headings.
-- Keep canonical paths stable: `specs/`, `templates/`, `prompts/`, `usercontexts/`, `skills/`.
+- Keep canonical paths stable: `specs/`, `templates/`, `skills/`, `usercontexts/`, `docs/adr/`.
 - Use relative repository paths for cross-references.
 - Keep language provider-agnostic.
 
@@ -201,31 +220,24 @@ rg -n "<pattern>" AGENTS.md README.md skills prompts templates specs usercontext
 When `specs/context_aware_ai_session_spec.md` changes, audit and update all impacted artifacts:
 - `templates/`
 - `skills/`
-- `prompts/` wrappers (keep thin; do not duplicate full workflow logic)
 - sample files in `usercontexts/`
 - `README.md`
 - `AGENTS.md`
 
 ## Key References
-- Specification (v2.0.0-beta.1): [`specs/context_aware_ai_session_spec.md`](specs/context_aware_ai_session_spec.md)
+- Specification (v2.0.0): [`specs/context_aware_ai_session_spec.md`](specs/context_aware_ai_session_spec.md)
 - Project operational defaults: this root `AGENTS.md` (Default State For This Repo)
 - User context template: [`templates/usercontext_template.instructions.md`](templates/usercontext_template.instructions.md)
 - Skill template: [`templates/skill_template/SKILL.md`](templates/skill_template/SKILL.md)
-- Create prompts:
-  - [`prompts/skills/create-agents-md.prompt.md`](prompts/skills/create-agents-md.prompt.md)
-  - [`prompts/skills/create-usercontext-instructions.prompt.md`](prompts/skills/create-usercontext-instructions.prompt.md)
-  - [`prompts/skills/create-project-instructions.prompt.md`](prompts/skills/create-project-instructions.prompt.md)
-  - [`prompts/skills/create-skill.prompt.md`](prompts/skills/create-skill.prompt.md)
-- Validate prompts:
-  - [`prompts/skills/validate-agents-md.prompt.md`](prompts/skills/validate-agents-md.prompt.md)
-  - [`prompts/skills/validate-usercontext-instructions.prompt.md`](prompts/skills/validate-usercontext-instructions.prompt.md)
-  - [`prompts/skills/validate-project-instructions.prompt.md`](prompts/skills/validate-project-instructions.prompt.md)
-  - [`prompts/skills/validate-skill.prompt.md`](prompts/skills/validate-skill.prompt.md)
-- Loop prompts:
-  - [`prompts/loop/01-readiness-check.prompt.md`](prompts/loop/01-readiness-check.prompt.md)
-  - [`prompts/loop/02-implementation.prompt.md`](prompts/loop/02-implementation.prompt.md)
-  - [`prompts/loop/03-self-review.prompt.md`](prompts/loop/03-self-review.prompt.md)
-  - [`prompts/loop/04-learnings.prompt.md`](prompts/loop/04-learnings.prompt.md) _(optional)_
-  - [`prompts/loop/05-human-in-the-loop.prompt.md`](prompts/loop/05-human-in-the-loop.prompt.md)
-- Extracted skills index: [`skills/README.md`](skills/README.md)
+- Create skills: [`ack-create-agents-md`](skills/ack-create-agents-md/SKILL.md), [`ack-create-user-context`](skills/ack-create-user-context/SKILL.md), [`ack-create-skill`](skills/ack-create-skill/SKILL.md)
+- Validate skills: [`ack-validate-agents-md`](skills/ack-validate-agents-md/SKILL.md), [`ack-validate-user-context`](skills/ack-validate-user-context/SKILL.md), [`ack-validate-skill`](skills/ack-validate-skill/SKILL.md)
+- Session and navigation: [`ack-session`](skills/ack-session/SKILL.md), [`ack-guide`](skills/ack-guide/SKILL.md)
+- Interview and implementation: [`ack-interview`](skills/ack-interview/SKILL.md), [`ack-interview-with-context`](skills/ack-interview-with-context/SKILL.md), [`ack-tdd`](skills/ack-tdd/SKILL.md)
+- Loop skills:
+  - [`ack-loop-01-readiness`](skills/ack-loop-01-readiness/SKILL.md)
+  - [`ack-loop-02-implement`](skills/ack-loop-02-implement/SKILL.md)
+  - [`ack-loop-03-review`](skills/ack-loop-03-review/SKILL.md)
+  - [`ack-loop-04-learnings`](skills/ack-loop-04-learnings/SKILL.md) _(optional)_
+  - [`ack-loop-05-commit`](skills/ack-loop-05-commit/SKILL.md)
+- Skills index: [`skills/README.md`](skills/README.md)
 - Sample user context instructions: [`usercontexts/sample_usercontext.instructions.md`](usercontexts/sample_usercontext.instructions.md)

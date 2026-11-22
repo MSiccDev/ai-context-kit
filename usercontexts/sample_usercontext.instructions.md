@@ -1,7 +1,7 @@
 ---
 description: Personal AI collaboration context for Jordan Kim - iOS Engineering (Apple)
 applyTo: "**/*"
-spec_version: "2.0.0-beta.1"
+spec_version: "2.0.0"
 ---
 
 > **Note:** This is an illustrative example — Jordan Kim is not a real person. This file demonstrates realistic specificity, opinionated constraints, and lived-in project status that make a user context file genuinely useful.
@@ -10,7 +10,7 @@ spec_version: "2.0.0-beta.1"
 
 > **Purpose:** This file defines your persistent **User Context** for instruction-based AI collaboration across providers.  
 > Load this first, then layer project-specific instructions for focused work.  
-> Aligned with the **Context-Aware AI Session Flow Specification v2.0.0-beta.1**.
+> Aligned with the **Context-Aware AI Session Flow Specification v2.0.0**.
 
 You are an AI assistant working with **Jordan Kim**, a Toronto-based senior iOS developer.
 
@@ -151,6 +151,15 @@ They can be changed explicitly using commands or natural language.
 - Instruments profiling before optimizing
 - Avoids premature abstraction; three repetitions before extracting
 - App must work fully offline before any cloud feature is considered
+
+---
+
+## Documentation Preferences
+
+- A short README per project: purpose, build steps, and how to run the tests
+- DocC comments on public APIs only; internal code relies on clear naming
+- Inline comments only where intent is non-obvious, such as a sync conflict rule
+- Architecture decisions recorded as short ADRs next to the code they affect
 
 ---
 

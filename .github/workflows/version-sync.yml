@@ -6,13 +6,19 @@ on:
       - ".claude-plugin/**"
       - ".codex-plugin/**"
       - "CHANGELOG.md"
+      - "installer/package.json"
+      - "installer/package-lock.json"
       - "scripts/check-version-sync.sh"
       - "scripts/test-check-version-sync.sh"
       - ".github/workflows/version-sync.yml"
   push:
-    branches: [main, development]
+    branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  # Cancel superseded pull-request runs; every push to main is a release and runs to the end.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 permissions:
   contents: read
 
@@ -20,7 +26,7 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Test the version check
         run: bash scripts/test-check-version-sync.sh
       - name: Check manifest and changelog versions match

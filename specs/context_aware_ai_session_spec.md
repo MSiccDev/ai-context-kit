@@ -1,17 +1,17 @@
 ---
-version: 2.0.0-beta.1
+version: 2.0.0
 context_type: specification
 document_type: technical_specification
 created: 2025-10-20
-last_updated: 2026-11-16
-status: beta
+last_updated: 2026-11-22
+status: active
 intended_audience: AI-assisted developers, system designers, prompt engineers, LLM-based tooling architects
 license: Open for adaptation and refinement
 ---
 
-# Context-Aware AI Session Flow Specification (v2.0.0-beta.1)
+# Context-Aware AI Session Flow Specification (v2.0.0)
 
-**Version:** 2.0.0-beta.1 | **Updated:** 2026-11-16 | **Status:** Beta
+**Version:** 2.0.0 | **Updated:** 2026-11-22 | **Status:** Active
 
 > This document contains the normative rules. For background reasoning, extended examples, end-to-end scenarios, and future enhancement notes, see [`docs/spec-rationale.md`](../docs/spec-rationale.md).
 
@@ -31,7 +31,7 @@ This specification defines how an AI assistant should maintain and adapt context
 |------|-----------|---------|
 | **Instructions** | Persistent context files (user context, project `AGENTS.md`) | Define WHO the user is, WHAT they're working on, HOW the AI should behave |
 | **Skills** | Reusable workflow artifacts (`skills/*/SKILL.md` + references) | Centralize create/validate/governance operational logic |
-| **Prompts/Queries** | Day-to-day requests within the instructed environment | Express user intent; prompt files may serve as composition entrypoints |
+| **Prompts/Queries** | Day-to-day requests within the instructed environment | Express user intent |
 | **Change specifications** | OpenSpec artifacts in the project repository (`openspec/specs/`, `openspec/changes/<id>/`) | Define WHAT the system must do and WHAT is changing now; see section 11 |
 
 Instructions create the **environment**. Skills provide canonical **workflow behavior**. Prompts express **immediate intent**. Change specifications define the **contract** that implementation works against.
@@ -42,9 +42,8 @@ When guidance conflicts across repository artifacts, apply this order:
 
 1. Specification (this document — authoritative model and normative rules)
 2. Templates (canonical artifact structures)
-3. Skills (canonical operational workflows)
-4. Prompts (composition entrypoints)
-5. Samples and validation artifacts (illustrative examples)
+3. Skills (canonical operational workflows, including the implementation loop)
+4. Samples and validation artifacts (illustrative examples)
 
 ### 2.3 AGENTS.md Bootstrap and Scope
 
@@ -170,6 +169,18 @@ A compression checkpoint must preserve:
 - A compression checkpoint may serve as a session restore point per section 4.4.
 - The assistant must not imply that dropped context is recoverable after compression has been applied.
 
+#### 4.5.4 Phase Boundary Choices
+
+At a phase boundary (a task group committed, a change archived, a switch of topic) or when context pressure builds, the assistant **SHOULD** consider these options in order and propose the first that fits:
+
+1. **Continue:** the current context is still relevant and there is room left. Carry on in the same session.
+2. **Clear:** the finished work's detail is no longer needed. Start a fresh session; instructions and session state are reloaded from `AGENTS.md` and user context.
+3. **Handoff:** the work continues elsewhere (a new session, another tool or a colleague). Create a checkpoint (section 4.4) and resume from it.
+4. **Subagent:** a self-contained sub-task would flood the current context. Delegate it where the tool supports sub-agents, and keep only its result.
+5. **Compact:** none of the above fits. Propose compression under sections 4.5.1 to 4.5.3.
+
+Compression is the last option because it is the only one that loses context irreversibly. Every option except Continue requires the user's confirmation.
+
 ---
 
 ## 5. Context Initialization
@@ -242,7 +253,7 @@ The assistant should infer whether context is established or missing. If no proj
 
 ### 5.5 When Confirmation May Be Skipped
 
-If a valid session state is already established, the task aligns with current context, and no conflicts are detected, the assistant may proceed without re-confirming. The user may always request a recap via the project's context command (e.g., `/namespace.context`).
+If a valid session state is already established, the task aligns with current context, and no conflicts are detected, the assistant may proceed without re-confirming. The user may always request a recap with the session skill (`ack-session context`, section 8.2).
 
 ### 5.6 Recommended Context Summary Format
 
@@ -289,7 +300,7 @@ Active Context:
 
 ### 6.3 User-Initiated Context Recall
 
-Users may request active context at any time via natural language ("What mode are we in?") or the project's namespaced context command. The assistant responds with the user's preferred summary format.
+Users may request active context at any time via natural language ("What mode are we in?") or `ack-session context` (section 8.2). The assistant responds with the user's preferred summary format.
 
 ### 6.4 Silent Internal Checks
 
@@ -351,26 +362,23 @@ The assistant must recognize clearly expressed state changes via natural languag
 | "Be more concise and direct." | Adjust Tone = Direct |
 | "Let's pair-program this step by step." | Set Interaction Mode = Pair-Programming |
 
-### 8.2 Structured Command Interface
+### 8.2 Session Skill
 
-| Command | Parameters | Description |
-|---------|------------|-------------|
-| `/namespace.mode [role]` | architect, developer, reviewer, … | Changes assistant role |
-| `/namespace.phase [name]` | planning, implementation, debugging, review | Updates work phase |
-| `/namespace.style [name]` | step-by-step, minimal, annotated | Sets verbosity and formatting |
-| `/namespace.tone [style]` | formal, direct, encouraging, neutral | Changes communication tone |
-| `/namespace.interact [mode]` | advisory, pair, driver | Adjusts assistant initiative |
-| `/namespace.context` | — | Displays current session state |
-| `/namespace.reset` | — | Clears session state (user context retained) |
+Explicit state control goes through one user-invoked skill, **`ack-session`**, which takes a command and, where needed, a value: `ack-session <command> [value]`.
 
-Optional extensions:
+| Command | Value | Description |
+|---------|-------|-------------|
+| `context` | — | Displays the current session state (section 6.2 format) |
+| `mode` | architect, developer, reviewer, … | Changes the assistant role |
+| `phase` | planning, implementation, debugging, review | Updates the work phase |
+| `style` | step-by-step, minimal, annotated | Sets verbosity and formatting |
+| `tone` | formal, direct, encouraging, neutral | Changes communication tone |
+| `interact` | advisory, pair, driver | Adjusts assistant initiative |
+| `reset` | — | Clears session state back to the project defaults (user context retained) |
 
-| Command | Description |
-|---------|-------------|
-| `/namespace.project [name]` | Switches active project (when explicit project routing is enabled) |
-| `/namespace.help` | Lists available commands |
+How a user starts the skill depends on the tool, for example `/ack-session phase implementation` in Claude Code or `$ack-session phase implementation` in Codex. Where skills cannot be invoked by name, the user pastes the skill and states the command.
 
-Commands may be combined if unambiguous: `/namespace.mode developer /namespace.phase implementation`
+Because `ack-session` is user-invoked (`metadata.invocation: "user"`), the assistant cannot run it on its own. This enforces the no-silent-transitions rule (section 7.1) in tools that honour invocation settings. Natural-language control (section 8.1) remains available and still requires confirmation where section 7.2 says so.
 
 ### 8.3 Error Handling
 
@@ -378,9 +386,9 @@ Commands may be combined if unambiguous: `/namespace.mode developer /namespace.p
 - **Conflict**: Assistant flags the conflict and asks for confirmation before proceeding
 - **Unrecognized value**: Assistant lists available options
 
-### 8.4 Command Namespacing
+### 8.4 Session Commands In AGENTS.md
 
-Projects must define a command namespace prefix to avoid collisions across tooling. Format: `/namespace.command` (e.g., `/ack.context` for AI Context Kit). The namespace must be documented in the project `AGENTS.md`.
+The project `AGENTS.md` **MUST** name `ack-session` and its commands in a `Session Commands` section. Projects no longer define their own command prefix: the `ack-` skill prefix (ADR-008) already avoids collisions across tooling.
 
 ---
 
@@ -425,18 +433,17 @@ The following paths are stable by policy:
 | `specs/context_aware_ai_session_spec.md` | Authoritative specification |
 | `templates/` | Canonical artifact structures |
 | `skills/` | Canonical workflow skill artifacts |
-| `prompts/` | Composition entrypoints |
 | `docs/spec-rationale.md` | Spec companion (rationale, examples, future notes) |
 | `docs/adr/` | Architecture decision records, one file per decision |
 | Root `AGENTS.md` | Primary repository operational entrypoint |
 | Root `README.md` | Human-facing documentation |
 
-If paths must change, update the specification and README first, then adjust AGENTS, skills, prompts, and validators.
+If paths must change, update the specification and README first, then adjust AGENTS, skills, and validators.
 
 ### 10.3 Workflow Authority and Entrypoint Discipline
 
 - Detailed workflow logic for create/validate/governance tasks **MUST** be canonicalized in skills.
-- Prompt files **MAY** remain as composition entrypoints but **MUST NOT** reintroduce logic already defined in skills.
+- Workflows **MUST NOT** be shipped as separate prompt files that duplicate or route to skills; the skill is the only entrypoint.
 - When workflow behavior changes, skill artifacts **MUST** be updated first.
 
 ### 10.4 Skill Integration Contract
@@ -454,15 +461,9 @@ If paths must change, update the specification and README first, then adjust AGE
 
 ### 10.6 Drift-Control Trigger Policy
 
-When authoritative guidance changes, maintainers must audit all dependent artifacts including templates, canonical skills, prompt entrypoints, sample artifacts, and repository-facing docs. Apply related updates in a coordinated change set to avoid partial drift.
+When authoritative guidance changes, maintainers must audit all dependent artifacts including templates, canonical skills, sample artifacts, and repository-facing docs. Apply related updates in a coordinated change set to avoid partial drift.
 
-### 10.7 Prompt Composition Entrypoint Contract
-
-- Entrypoints must remain concise and non-authoritative.
-- Each entrypoint must reference the canonical skill that owns its workflow logic.
-- If entrypoint and skill guidance diverge, the skill is the source of truth.
-
-### 10.8 Workflow Family Mapping
+### 10.7 Workflow Family Mapping
 
 Skill-first repositories should group canonical skills into clear operational families:
 
@@ -471,6 +472,7 @@ Skill-first repositories should group canonical skills into clear operational fa
 | Creation workflows | Generate or regenerate instruction artifacts |
 | Validation workflows | Evaluate artifacts and produce consistent and predictable findings |
 | Governance workflows | Coordinate repository-level policy, lifecycle, and drift control |
+| Loop workflows | Run the implementation loop as numbered steps, one skill per step, invoked in order |
 
 ---
 
@@ -485,7 +487,7 @@ Kit-managed repositories use [OpenSpec](https://github.com/Fission-AI/OpenSpec) 
 
 ### 11.2 Implementation Gate
 
-- The Implementation phase **MUST** start only against an OpenSpec change that `openspec status --change <id> --json` reports as apply-ready.
+- The Implementation phase **MUST** start only against an apply-ready OpenSpec change: one for which `openspec instructions apply --change <id> --json` reports `state` as `ready`. (`blocked` means planning artifacts are missing; `all_done` means every task is ticked.)
 - If no apply-ready change exists for the requested work, the assistant **MUST** stop and offer to create or complete one instead of writing code. This is the no-change-no-code rule.
 - Work proceeds task by task from the change's `tasks.md`; a task is ticked only after its build and tests pass.
 
@@ -506,8 +508,11 @@ Kit-managed repositories use [OpenSpec](https://github.com/Fission-AI/OpenSpec) 
 
 ### 11.6 Minimum Version
 
-- The minimum supported OpenSpec version is **1.13.2**.
-- Older versions **MUST** be reported as unsupported. Newer versions **SHOULD** produce a warning and **MUST NOT** fail a check.
+- The minimum supported OpenSpec version is **2.1.0** (ADR-016).
+- Before relying on OpenSpec, kit tooling **MUST** check two things: the CLI version (`openspec --version`), and whether the files OpenSpec generated into the repository match that CLI (`openspec update --dry-run --json` lists no changes).
+- A CLI older than the minimum **MUST** stop implementation and AGENTS.md generation until the user upgrades. Without a CLI, the session is in manual mode (11.5): planning and AGENTS.md generation may continue from the files in `openspec/`, implementation may not. Generated files older than the CLI **MUST** be reported with `openspec update` as the fix, and work continues only after the user runs it or says to proceed.
+- Kit tooling **MUST NOT** install, upgrade or update OpenSpec without the user's approval.
+- Newer versions **SHOULD** produce a warning and **MUST NOT** fail a check.
 - The minimum is reviewed every three months.
 
 ### 11.7 Archive Timing
@@ -537,6 +542,6 @@ Kit-managed repositories use [OpenSpec](https://github.com/Fission-AI/OpenSpec) 
 | **Default Profile** | A set of recommended initial values (role, phase, style, tone) for a specific project. |
 | **State Confirmation** | A summary communicated by the assistant verifying the active session context. |
 | **OpenSpec change** | A folder under `openspec/changes/<id>/` holding a proposal, spec deltas, design and tasks for one unit of work. |
-| **Apply-ready** | The state in which `openspec status --change <id> --json` reports that a change may be implemented. |
+| **Apply-ready** | The state in which `openspec instructions apply --change <id> --json` reports `state: "ready"`: every artifact the change needs for apply is done, so its tasks may be implemented. |
 | **Manual mode** | Using OpenSpec planning templates on a surface without the CLI, then validating, applying and archiving in a repository that has it. |
 | **Reduced variance** | The property of producing consistent conventions, reasoning patterns, and response structure under the same session context. LLMs are probabilistic; this principle targets predictable, comparable outputs rather than guaranteed identical ones. |

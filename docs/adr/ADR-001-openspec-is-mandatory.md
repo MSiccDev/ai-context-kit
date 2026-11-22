@@ -1,6 +1,6 @@
 # ADR-001: OpenSpec is mandatory for every change
 
-- Status: Accepted
+- Status: Accepted; scope narrowed by [ADR-019](ADR-019-openspec-required-for-the-loop.md) from 2.1 (OpenSpec is required where the implementation loop runs)
 - Date: 2026-09-27
 - Source: [2.0 adoption plan, Part 2 and Decisions](../plans/2.0-adoption-plan.md#part-2-making-openspec-mandatory)
 
@@ -28,6 +28,10 @@ Every change in a kit-managed repo goes through OpenSpec, with no exemptions.
 - Node 20.19 or later becomes a prerequisite for every kit repo, which the installer ([ADR-013](ADR-013-installer-package-and-binary.md)) relies on.
 - Chat-only surfaces cannot run the CLI; [ADR-003](ADR-003-manual-mode-is-fully-supported.md) covers them.
 - Kit docs name OpenSpec's telemetry opt-out, and the installer asks about it.
+
+## Correction (2026-11-16)
+
+The Decision names `openspec status --change <id> --json` as the apply-ready check. Testing against OpenSpec 1.13.2 and 2.0.0 showed that `status` has no apply-ready field: it reports per-artifact status and `applyRequires`. The command that reports it is `openspec instructions apply --change <id> --json`, whose `state` is `blocked`, `ready` or `all_done`. The decision itself is unchanged; spec section 11.2 and the loop prompts use the correct command.
 
 ## Alternatives considered
 

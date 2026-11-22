@@ -1,4 +1,4 @@
-<!-- spec_version: 2.0.0-beta.1 -->
+<!-- spec_version: 2.0.0 -->
 
 # AGENTS.md Template
 
@@ -16,17 +16,15 @@ This repository distinguishes:
 Use this order when files differ:
 1. **Specification (authoritative):** `<path to spec>`
 2. **Templates (canonical structures):** `<path(s) to templates>`
-3. **Skills (canonical operational workflows):** `<path(s) to skills>`
-4. **Prompts (compatibility wrappers):** `<path(s) to create/validate wrappers>`
-5. **Samples (illustrative examples):** `<path(s) to sample instructions and validations>`
+3. **Skills (canonical operational workflows, including the implementation loop):** `<path(s) to skills>`
+4. **Samples (illustrative examples):** `<path(s) to sample instructions and validations>`
 
 ## Repository Map
 | Path | Purpose |
 | --- | --- |
 | `specs/` | Normative specification and terminology |
 | `templates/` | Canonical templates |
-| `skills/` | Canonical workflow skills |
-| `prompts/` | Creation and validation workflows |
+| `skills/` | Canonical workflow skills, including the `ack-loop-*` implementation loop |
 | `usercontexts/` | User-context instruction examples |
 | `<additional path>` | `<purpose>` |
 
@@ -64,35 +62,30 @@ Track and expose:
 | Tone | `<default tone>` |
 | Interaction Mode | `<default mode>` |
 
-## Command Namespace Policy
-Use namespaced commands as the default control surface.
-
-Set namespace prefix: `<tag>`  
-Recommended command format: `/<tag>.<command>`
+## Session Commands
+Change session state explicitly with the user-invoked `ack-session` skill (spec section 8.2): `ack-session <command> [value]`. Plain-language requests ("switch to Reviewer") also work and follow the same confirmation rules.
 
 | Command | Description |
 | --- | --- |
-| `/<tag>.context` | Show active session state |
-| `/<tag>.mode <role>` | Change role/mode |
-| `/<tag>.phase <phase>` | Change phase |
-| `/<tag>.style <style>` | Change output style |
-| `/<tag>.tone <tone>` | Change communication tone |
-| `/<tag>.interact <mode>` | Change interaction mode |
-| `/<tag>.reset` | Reset session state |
+| `ack-session context` | Show active session state |
+| `ack-session mode <role>` | Change role/mode |
+| `ack-session phase <phase>` | Change phase |
+| `ack-session style <style>` | Change output style |
+| `ack-session tone <tone>` | Change communication tone |
+| `ack-session interact <mode>` | Change interaction mode |
+| `ack-session reset` | Reset session state to the defaults above |
 
-Alias policy:
-- Namespaced commands are default.
-- Unprefixed aliases are allowed only when no conflict exists.
+Invocation: `<how each tool starts a skill, e.g. /ack-session in Claude Code, $ack-session in Codex>`
 
 ## Spec-Driven Change Workflow
 This repository uses OpenSpec as the contract for what gets built (spec section 11).
 
-- OpenSpec root: `<path, usually openspec/>`
+- OpenSpec root: `<OpenSpec folder, usually openspec/>`
 - Active change: `<change id, or "none">`
-- Minimum OpenSpec version: `1.13.2`
+- Minimum OpenSpec version: `2.1.0`
 
 ### No Change, No Code
-- Start implementation only against a change that `openspec status --change <id> --json` reports as apply-ready.
+- Start implementation only against an apply-ready change: `openspec instructions apply --change <id> --json` reports `state` as `ready`.
 - If no apply-ready change exists, stop and offer to create or complete one.
 - Changes with no behavior impact still get a change folder with `skip_specs: true`.
 - Archive the change as the last commit on the feature branch, after review approval.
@@ -103,7 +96,7 @@ This repository uses OpenSpec as the contract for what gets built (spec section 
 | `<tool 1>` | `<invocation spelling>` |
 | `<tool 2>` | `<invocation spelling>` |
 
-Do not edit generated `openspec-*` skills or commands; customise through `openspec/config.yaml`.
+Do not edit generated `openspec-*` skills or commands; customise through `openspec/config.yaml`. OpenSpec sends anonymous usage statistics by default; to turn them off, run `openspec config set telemetry.enabled false` (machine-wide) or set `OPENSPEC_TELEMETRY=0` (spec section 11.8).
 
 ## Repository Project Context
 ### Overview
@@ -186,7 +179,6 @@ Current status/phase: `<phase>`
 When the specification changes, audit and update all impacted artifacts:
 - `templates/`
 - `skills/`
-- `prompts/`
 - sample files (`usercontexts/`)
 - `README.md`
 - `AGENTS.md` files
@@ -194,6 +186,5 @@ When the specification changes, audit and update all impacted artifacts:
 ## Key References
 - Specification: `<relative path to spec>`
 - Templates: `<relative path(s)>`
-- Create prompts: `<relative path(s)>`
-- Validate prompts: `<relative path(s)>`
+- Skills: `<relative path(s)>`
 - Samples: `<relative path(s)>`

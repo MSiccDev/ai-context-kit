@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Checks that every plugin manifest carries the same release version and that
-# CHANGELOG.md has a matching release entry.
+# Checks that every plugin manifest and the npm installer package carry the same
+# release version and that CHANGELOG.md has a matching release entry.
 #
 # Usage: scripts/check-version-sync.sh [repo-root]
 #   repo-root defaults to the repository that contains this script.
@@ -20,6 +20,9 @@ manifests=(
   ".claude-plugin/plugin.json|.version"
   ".claude-plugin/marketplace.json|.plugins[] | select(.name == \"ai-context-kit\") | .version"
   ".codex-plugin/plugin.json|.version"
+  "installer/package.json|.version"
+  "installer/package-lock.json|.version"
+  "installer/package-lock.json|.packages[\"\"].version"
 )
 
 # SemVer 2.0.0 (semver.org), rewritten for POSIX ERE (no non-capturing groups):
@@ -35,25 +38,27 @@ expected=""
 for entry in "${manifests[@]}"; do
   file="${entry%%|*}"
   path="${entry#*|}"
+  label="$file"
+  [[ "$path" == ".version" ]] || label="$file ($path)"
   if [[ ! -f "$file" ]]; then
     echo "error: $file not found" >&2
     exit 2
   fi
   version="$(jq -r "$path // empty" "$file")"
   if [[ -z "$version" ]]; then
-    echo "FAIL $file: no version at '$path'"
+    echo "FAIL $label: no version at '$path'"
     status=1
     continue
   fi
   if [[ ! "$version" =~ $semver ]]; then
-    echo "FAIL $file: '$version' is not a semantic version"
+    echo "FAIL $label: '$version' is not a semantic version"
     status=1
   fi
-  echo "     $file: $version"
+  echo "     $label: $version"
   if [[ -z "$expected" ]]; then
     expected="$version"
   elif [[ "$version" != "$expected" ]]; then
-    echo "FAIL $file: $version does not match $expected"
+    echo "FAIL $label: $version does not match $expected"
     status=1
   fi
 done
