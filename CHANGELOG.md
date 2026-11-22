@@ -13,6 +13,22 @@ When a new version is released:
 
 ## [Unreleased]
 
+## [2.0.1] - 2026-11-22
+
+Hotfix for two findings from the review of the 2.0.0 release (OpenSpec change `hotfix-2-0-1`). Update with `npx @msiccdev/ai-context-kit@latest update`.
+
+### Fixed
+- `ack-loop-03-review` 1.0.1: the Spec axis no longer reports a behavior change as a finding when a change sets `skip_specs: true` because the project's `AGENTS.md` sets it for every change (the normative spec lives outside `openspec/specs/`); it checks the behavior against that spec instead
+- The installer now copies the kit's license and the third-party notices next to the installed skills, as ADR-014 requires: `ai-context-kit-LICENSE` and `ai-context-kit-THIRD_PARTY_NOTICES.md` in each tool's skills folder, managed like the skills (ADR-014 gains a dated clarification naming them)
+
+### Changed
+- The release workflow stages each version with `npm stage publish` (npm 11.21.3) instead of publishing it; a maintainer approves the staged version with their second factor. The trusted publisher allows `npm stage publish` only. `installer/RELEASING.md` describes the steps
+
+### Safe to update
+- Run `npx @msiccdev/ai-context-kit@latest update` in each project; edited files are kept and the new versions are written beside them as `.ai-context-kit-new`
+
+---
+
 ## [2.0.0] - 2026-11-22
 
 ### Breaking

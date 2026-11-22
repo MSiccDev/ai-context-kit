@@ -1,7 +1,7 @@
 ---
 name: "ack-loop-03-review"
 description: "Implementation loop step 03: review the implemented task group on two separate axes, Spec (openspec validate --strict, task and scenario coverage) and Standards (bugs, boundaries, tests, docs), and open the report with STATUS: PASS or STATUS: BLOCKED. Use after every implementation step."
-version: "1.0.0"
+version: "1.0.1"
 allowed-tools: [Read, Bash]
 disable-model-invocation: true
 metadata:

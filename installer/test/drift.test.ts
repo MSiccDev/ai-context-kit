@@ -3,7 +3,7 @@
 import { lstatSync, readdirSync, readFileSync, readlinkSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { codexSidecar, loadSkills } from "../src/bundle.js";
+import { codexSidecar, loadSkills, NOTICE_FILES } from "../src/bundle.js";
 import { END, START, YAML } from "../src/markers.js";
 import { INSTALL_COMMAND, MIN_OPENSPEC } from "../src/openspec.js";
 import { TOOLS } from "../src/registry.js";
@@ -163,7 +163,7 @@ describe("npm publishing (installer-release)", () => {
 
   it("runs Node and npm versions that trusted publishing supports", () => {
     for (const v of workflow.matchAll(/node-version: "([\d.]+)"/g)) expect(atLeast(v[1], "22.14")).toBe(true);
-    expect(atLeast(one(workflow, /NPM_VERSION: "([\d.]+)"/, "release.yml"), "11.5.1")).toBe(true);
+    expect(atLeast(one(workflow, /NPM_VERSION: "([\d.]+)"/, "release.yml"), "11.15.0")).toBe(true);
   });
 
   it("grants id-token: write only to the publish job, in environment npm, on main", () => {
@@ -178,8 +178,10 @@ describe("npm publishing (installer-release)", () => {
 
   it("publishes from installer/ and builds before packing", () => {
     for (const name of ["verify", "publish"]) expect(job(name)).toContain("working-directory: installer");
-    expect(job("publish")).toMatch(/npm publish --access public --tag/);
-    expect(job("verify")).toMatch(/npm publish --dry-run/);
+    expect(job("publish")).toMatch(/npm stage publish --access public --tag/);
+    expect(job("verify")).toMatch(/npm stage publish --dry-run/);
+    // The trusted publisher allows staging only; a plain publish would be refused.
+    expect(workflow).not.toMatch(/run: npm publish/);
     expect(pkg.scripts.prepack).toBe("npm run build");
   });
 });
@@ -196,6 +198,17 @@ describe("repo-local Codex skill discovery", () => {
     expect(links).toEqual(skills);
     for (const name of skills) {
       expect(target(join(REPO, ".agents", "skills", name)).replace(/\\/g, "/")).toBe(`../../skills/${name}`);
+    }
+  });
+});
+
+describe("notices next to installed skills (ADR-014)", () => {
+  it("ADR-014 names the files the installer writes, and their bundled sources exist", () => {
+    const adr = readdirSync(join(REPO, "docs", "adr")).find((n) => n.startsWith("ADR-014"))!;
+    const text = src(`docs/adr/${adr}`);
+    for (const [installed, bundled] of NOTICE_FILES) {
+      expect(text).toContain(`\`${installed}\``);
+      expect(() => src(bundled)).not.toThrow();
     }
   });
 });

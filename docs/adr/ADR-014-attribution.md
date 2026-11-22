@@ -24,3 +24,7 @@ Every adapted idea is credited where it lands and once centrally:
 - Attribution is part of 2.0, not a follow-up.
 - The skill template gains the `credits` metadata field.
 - Generated manual-mode templates ([ADR-003](ADR-003-manual-mode-is-fully-supported.md)) carry OpenSpec's license header.
+
+## Clarification (2026-11-22)
+
+Point 4's "the installer copies it next to installed skills" was not implemented in 2.0.0 (found in review of the 2.0.0 release). From 2.0.1 the installer writes two files once into each tool's skills folder, as managed files recorded in the manifest: `ai-context-kit-LICENSE` (the kit's MIT license) and `ai-context-kit-THIRD_PARTY_NOTICES.md` (this repository's `THIRD_PARTY_NOTICES.md`). The names carry the kit's prefix because skills folders are shared with OpenSpec and other kits. The decision itself is unchanged.

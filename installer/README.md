@@ -33,6 +33,7 @@ OpenSpec sends anonymous usage statistics by default. `init` asks before any Ope
 
 - `.ai-context-kit/manifest.json`: every file the installer wrote, with its hash.
 - `ack-*` folders in each tool's skills folder. Other folders, such as OpenSpec's `openspec-*`, are never touched.
+- `ai-context-kit-LICENSE` and `ai-context-kit-THIRD_PARTY_NOTICES.md` in each tool's skills folder: the kit's license and the licenses of the work its skills adapt.
 - The text between `<!-- AI-CONTEXT-KIT:START -->` and `<!-- AI-CONTEXT-KIT:END -->` in `AGENTS.md` and `CLAUDE.md`, and between `# ai-context-kit:start` and `# ai-context-kit:end` in `openspec/config.yaml`.
 
 ## License
