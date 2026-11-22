@@ -1,7 +1,8 @@
 name: Release
 
-# Publishes @msiccdev/ai-context-kit to npm with trusted publishing (no token).
-# Every push to main is a release; a version already on npm publishes nothing.
+# Stages @msiccdev/ai-context-kit on npm with trusted publishing (no token); a
+# maintainer approves the staged version with their second factor.
+# Every push to main is a release; a version already on npm stages nothing.
 # Pull requests run only the dry run. See installer/RELEASING.md.
 on:
   pull_request:
@@ -23,8 +24,8 @@ permissions:
   contents: read
 
 env:
-  # Trusted publishing needs npm 11.5.1 or later and Node 22.14 or later.
-  NPM_VERSION: "11.6.2"
+  # Trusted publishing needs Node 22.14 or later; `npm stage` needs npm 11.15.0 or later.
+  NPM_VERSION: "11.21.3"
 
 jobs:
   verify:
@@ -64,9 +65,9 @@ jobs:
           echo "tag=${tag}" >> "$GITHUB_OUTPUT"
           echo "published=${published}" >> "$GITHUB_OUTPUT"
           echo "${name}@${version}: dist-tag ${tag}, already on npm: ${published}"
-      - name: Publish (dry run)
+      - name: Stage (dry run)
         if: steps.plan.outputs.published == 'false'
-        run: npm publish --dry-run --access public --tag "${{ steps.plan.outputs.tag }}"
+        run: npm stage publish --dry-run --access public --tag "${{ steps.plan.outputs.tag }}"
       # npm refuses even a dry run for a version that is already on npm, so pack instead.
       - name: Pack (dry run, version already on npm)
         if: steps.plan.outputs.published == 'true'
@@ -96,5 +97,7 @@ jobs:
         run: npm install -g "npm@${NPM_VERSION}"
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
-      - name: Publish
-        run: npm publish --access public --tag "${{ needs.verify.outputs.tag }}"
+      # The trusted publisher allows `npm stage publish` only; approve the staged
+      # version on npmjs.com (Staged Packages) or with `npm stage approve`.
+      - name: Stage
+        run: npm stage publish --access public --tag "${{ needs.verify.outputs.tag }}"

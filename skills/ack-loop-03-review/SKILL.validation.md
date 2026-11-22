@@ -2,7 +2,7 @@
 
 **File:** skills/ack-loop-03-review/SKILL.md
 **Skill:** ack-loop-03-review
-**Validated:** 2026-11-18 (rollout step 5 re-run, with the writing checks)
+**Validated:** 2026-11-22 (re-run for OpenSpec change `hotfix-2-0-1`, version 1.0.1)
 **Validator:** `skills/ack-validate-skill`
 
 ---
@@ -41,6 +41,7 @@
 - The full procedure lives in `references/procedure.md`, moved unchanged from the former loop prompt (progressive disclosure).
 - `metadata.invocation` is `"user"`, with `disable-model-invocation: true` to match, so Claude Code never loads the skill on its own.
 - Writing checks: every workflow step ends on a completion criterion; no no-ops, sediment or duplicated rules found.
+- New in 1.0.1: the Spec axis's `skip_specs` check no longer reports a behavior change as a finding when the project's AGENTS.md sets `skip_specs: true` for every change; it checks the behavior against the normative spec that AGENTS.md names (found in review of the 2.0.0 release).
 
 ---
 

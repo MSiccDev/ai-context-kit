@@ -52,6 +52,23 @@ export function loadTemplate(name: string): string {
   return readFileSync(path, "utf8").replace(/\r\n/g, "\n").trimEnd();
 }
 
+/**
+ * License files installed once into each skills folder, next to the skills (ADR-014):
+ * installed name mapped to the bundled file. Namespaced, because skills folders are
+ * shared with OpenSpec and other kits.
+ */
+export const NOTICE_FILES: ReadonlyArray<readonly [installed: string, bundled: string]> = [
+  ["ai-context-kit-LICENSE", "LICENSE"],
+  ["ai-context-kit-THIRD_PARTY_NOTICES.md", "THIRD_PARTY_NOTICES.md"],
+];
+
+/** A bundled license file, with LF line endings. */
+export function loadNotice(bundled: string): string {
+  const path = join(packageRoot, bundled);
+  if (!existsSync(path)) throw new Error(`Bundled ${bundled} not found at ${path}. Run "npm run bundle" first.`);
+  return readFileSync(path, "utf8").replace(/\r\n/g, "\n");
+}
+
 /** Adds `generatedBy` to the frontmatter's metadata block. */
 export function stampProvenance(skillMd: string, version: string): string {
   const line = `  generatedBy: "ai-context-kit@${version}"\n`;

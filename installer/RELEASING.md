@@ -1,10 +1,8 @@
 # Releasing @msiccdev/ai-context-kit
 
-The package is published by `.github/workflows/release.yml` with npm trusted publishing: no npm token is stored anywhere. Every push to `main` runs it, and it publishes `installer/package.json`'s version when that version is not on npm yet. A pre-release version (for example `2.1.0-beta.1`) goes to the `next` dist-tag, any other version to `latest`. Provenance is added automatically.
+The package is published by `.github/workflows/release.yml` with npm trusted publishing: no npm token is stored anywhere. Every push to `main` runs it, and it stages `installer/package.json`'s version with `npm stage publish` when that version is not on npm yet. A pre-release version (for example `2.1.0-beta.1`) goes to the `next` dist-tag, any other version to `latest`. Provenance is added automatically.
 
 The package uses staged publishing: a release lands in npm's staging area, and a maintainer approves it with their second factor before it becomes public.
-
-> `release.yml` still runs `npm publish`, which a stage-only trusted publisher refuses. Switching the workflow to `npm stage publish` (with npm 11.15.0 or later) is planned on `development` before the next release; until it lands, publish by hand as in the one-time setup.
 
 Commands that need npm 11.15.0 or later (`npm trust`, `npm stage`) run with Node 22 through `npx -y npm@11 <command>`.
 

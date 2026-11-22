@@ -29,14 +29,16 @@ function skillFiles(dir: string): string[] {
 }
 
 const sidecars = (dir: string) => USER_INVOKED.map((n) => `${dir}/${n}/agents/openai.yaml`);
+const NOTICES = ["ai-context-kit-LICENSE", "ai-context-kit-THIRD_PARTY_NOTICES.md"];
+const notices = (dir: string) => NOTICES.map((n) => `${dir}/${n}`);
 const BASE = [".ai-context-kit/manifest.json", "AGENTS.md"];
 
 describe("init", () => {
   it.each([
-    ["claude", [...BASE, "CLAUDE.md", ...skillFiles(dirOf("claude"))]],
-    ["codex", [...BASE, ...skillFiles(dirOf("codex")), ...sidecars(dirOf("codex"))]],
-    ["github-copilot", [...BASE, ...skillFiles(dirOf("github-copilot"))]],
-    ["agents", [...BASE, ...skillFiles(dirOf("codex"))]],
+    ["claude", [...BASE, "CLAUDE.md", ...skillFiles(dirOf("claude")), ...notices(dirOf("claude"))]],
+    ["codex", [...BASE, ...skillFiles(dirOf("codex")), ...sidecars(dirOf("codex")), ...notices(dirOf("codex"))]],
+    ["github-copilot", [...BASE, ...skillFiles(dirOf("github-copilot")), ...notices(dirOf("github-copilot"))]],
+    ["agents", [...BASE, ...skillFiles(dirOf("codex")), ...notices(dirOf("codex"))]],
     [
       "all",
       [
@@ -46,6 +48,9 @@ describe("init", () => {
         ...skillFiles(dirOf("codex")),
         ...sidecars(dirOf("codex")),
         ...skillFiles(dirOf("github-copilot")),
+        ...notices(dirOf("claude")),
+        ...notices(dirOf("codex")),
+        ...notices(dirOf("github-copilot")),
       ],
     ],
   ])("writes exactly the expected files for --tools %s", async (tools, expected) => {
@@ -53,6 +58,21 @@ describe("init", () => {
     const r = await cli(repo, "init", "--tools", tools, "--yes");
     expect(r.code).toBe(0);
     expect(listFiles(repo)).toEqual([...new Set(expected)].sort());
+  });
+
+  it("copies the kit's LICENSE and THIRD_PARTY_NOTICES.md once into each skills folder (ADR-014)", async () => {
+    const repo = tempRepo();
+    expect((await cli(repo, "init", "--tools", "all", "--yes")).code).toBe(0);
+    const ROOT = join(__dirname, "..", "..");
+    const lf = (t: string) => t.replace(/\r\n/g, "\n");
+    const manifest = JSON.parse(read(repo, ".ai-context-kit/manifest.json"));
+    for (const dir of new Set(["claude", "codex", "github-copilot"].map(dirOf))) {
+      expect(read(repo, `${dir}/ai-context-kit-LICENSE`)).toBe(lf(readFileSync(join(ROOT, "LICENSE"), "utf8")));
+      expect(read(repo, `${dir}/ai-context-kit-THIRD_PARTY_NOTICES.md`)).toBe(
+        lf(readFileSync(join(ROOT, "THIRD_PARTY_NOTICES.md"), "utf8")),
+      );
+      for (const n of NOTICES) expect(manifest.files.map((f: { path: string }) => f.path)).toContain(`${dir}/${n}`);
+    }
   });
 
   it("copies each SKILL.md unchanged except for the generatedBy line", async () => {

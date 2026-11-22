@@ -39,6 +39,17 @@ describe("update", () => {
     expect(r.stdout).toContain(SKILL + ".ai-context-kit-new");
   });
 
+  it("treats the installed notices like any managed file: an edited copy is kept", async () => {
+    const repo = await installed();
+    const notice = `${SKILL.split("/").slice(0, 2).join("/")}/ai-context-kit-THIRD_PARTY_NOTICES.md`;
+    const edited = read(repo, notice) + "\nLocal note.\n";
+    writeFileSync(join(repo, notice), edited);
+    const r = await cli(repo, "update");
+    expect(r.code).toBe(0);
+    expect(read(repo, notice)).toBe(edited);
+    expect(exists(repo, notice + ".ai-context-kit-new")).toBe(true);
+  });
+
   it("overwrites an edited file with --force", async () => {
     const repo = await installed();
     const original = read(repo, SKILL);
