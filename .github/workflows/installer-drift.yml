@@ -30,8 +30,8 @@ permissions:
 
 jobs:
   drift:
-    # Skip drafts, and pull requests from main into development: main was tested before it merged.
-    if: github.event_name != 'pull_request' || (!github.event.pull_request.draft && github.head_ref != 'main')
+    # Skip drafts, and this repository's back-merges from main into development: main was tested before it merged.
+    if: github.event_name != 'pull_request' || (!github.event.pull_request.draft && !(github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'main' && github.base_ref == 'development'))
     runs-on: ubuntu-latest
     defaults:
       run:

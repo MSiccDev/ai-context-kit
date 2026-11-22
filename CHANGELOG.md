@@ -16,7 +16,7 @@ When a new version is released:
 ### Changed
 - CI runs fewer and smaller jobs (OpenSpec change `ci-trim-2`):
   - Draft pull requests run nothing; CI starts when a pull request is marked ready.
-  - Pull requests from `main` into `development` skip every workflow, because `main` was tested before it merged.
+  - Pull requests from this repository's `main` into `development` skip every workflow, because `main` was tested before it merged; a fork's `main` still runs everything.
   - Only the release workflow runs on pushes to `main`.
   - Skill, spec, template, ADR and license changes run the one-job drift workflow; the cross-platform matrix runs only for installer code. The matrix shrinks from 6 to 4 jobs (Linux on Node 22.12 and 24; Windows and macOS on Node 24) and audits dependencies once.
   - Version sync runs only for pull requests into `main`.

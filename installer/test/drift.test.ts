@@ -248,8 +248,12 @@ describe("CI shape (OpenSpec change ci-trim-2)", () => {
     expect(text).toContain("!github.event.pull_request.draft");
   });
 
-  it.each(names.filter((n) => n !== "version-sync.yml"))("%s skips pull requests from main", (name) => {
-    expect(wf(name)).toContain("github.head_ref != 'main'");
+  it.each(names.filter((n) => n !== "version-sync.yml"))("%s skips only this repository's back-merges from main", (name) => {
+    // A fork's branch named main has not been tested here, so the skip needs all three conditions.
+    expect(wf(name)).toContain(
+      "!(github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'main' && github.base_ref == 'development')",
+    );
+    expect(wf(name)).not.toContain("github.head_ref != 'main'");
   });
 
   it("keeps the release verify job to build and dry run", () => {
