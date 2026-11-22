@@ -10,5 +10,5 @@
 ## 2. Checks and records
 
 - [x] 2.1 Contract drift test; mutation check; installer tests; `openspec validate ci-trim-2 --strict`
-- [ ] 2.2 Observe on the pull request: no jobs as draft; the selected workflows once ready
+- [x] 2.2 Observe on the pull request: no jobs as draft (installer, drift and release verify skipped; version sync not started); once ready, drift, the 4-job matrix and release verify ran and passed, version sync did not run
 - [x] 2.3 `CHANGELOG.md` under [Unreleased] (no skill changed, so no `SKILL.validation.md` re-run)
