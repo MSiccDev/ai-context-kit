@@ -6,7 +6,7 @@
 **Mode:** root  
 **Validated:** 2026-11-18 (full re-run after `openspec init`, rollout step 6); phase 3 re-checked 2026-11-19 for OpenSpec change `require-openspec-2-1`; phase 4 re-checked 2026-11-21 for OpenSpec change `prerelease-cleanup`  
 **Validator:** `skills/ack-validate-agents-md` 2.2.0  
-**Phase 3 source:** `ack-openspec-check`: `OPENSPEC: OK` (CLI 2.1.0, `openspec update --dry-run --json` lists no changes); `openspec list --json`: `root.path` is the repository root; no active changes; `hotfix-2-0-1` archived
+**Phase 3 source:** `ack-openspec-check`: `OPENSPEC: OK` (CLI 2.1.0, `openspec update --dry-run --json` lists no changes); `openspec list --json`: `root.path` is the repository root; no active changes; `ci-trim-2` archived
 
 ## Overall Status + Compliance Score
 - **Status:** PASS

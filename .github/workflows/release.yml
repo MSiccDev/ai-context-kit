@@ -6,6 +6,8 @@ name: Release
 # Pull requests run only the dry run. See installer/RELEASING.md.
 on:
   pull_request:
+    # Draft pull requests run nothing; CI starts when the pull request is ready.
+    types: [opened, synchronize, reopened, ready_for_review]
     paths:
       - "installer/package.json"
       - "installer/package-lock.json"
@@ -29,6 +31,8 @@ env:
 
 jobs:
   verify:
+    # Skip drafts, and this repository's back-merges from main into development: main was tested before it merged.
+    if: github.event_name != 'pull_request' || (!github.event.pull_request.draft && !(github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'main' && github.base_ref == 'development'))
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -46,14 +50,10 @@ jobs:
           cache-dependency-path: installer/package-lock.json
       - name: Install npm
         run: npm install -g "npm@${NPM_VERSION}"
+      # The pull request's installer workflows ran the tests, audit and type check;
+      # verify only builds the package (prepack) and dry-runs the release.
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
-      - name: Audit dependencies
-        run: npm audit --audit-level=moderate
-      - name: Type check
-        run: npm run typecheck
-      - name: Build and test
-        run: npm test
       - name: Plan the release
         id: plan
         run: |

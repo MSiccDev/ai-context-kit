@@ -1,7 +1,10 @@
 name: Version sync
 
 on:
+  # Versions only have to agree when a release or hotfix goes into main.
   pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
     paths:
       - ".claude-plugin/**"
       - ".codex-plugin/**"
@@ -11,19 +14,18 @@ on:
       - "scripts/check-version-sync.sh"
       - "scripts/test-check-version-sync.sh"
       - ".github/workflows/version-sync.yml"
-  push:
-    branches: [main]
   workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  # Cancel superseded pull-request runs; every push to main is a release and runs to the end.
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
 jobs:
   check:
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
