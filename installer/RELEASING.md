@@ -17,12 +17,17 @@ Do these in order. npm only lets you add a trusted publisher to a package that a
    ```bash
    npm publish --access public
    ```
-   `prepack` builds the package first. npm asks for your two-factor code; if it fails with "OTP required" instead, add `--otp <code>` from your authenticator app. `npm view @msiccdev/ai-context-kit version` then prints `2.0.0`.
+   `prepack` builds the package first. With a passkey or security key, `npm login` and the publish confirm your second factor in the browser (npm prints an "Authenticate your account at" link). With an authenticator app, add `--otp <code>` if npm reports "OTP required".
+
+   npm may stage the first version instead of publishing it: npmjs.com then shows only a placeholder, `0.0.0-stage`. Open the package's **Staged Packages** tab, check that the entry is `2.0.0` with the tag `latest`, and choose **Approve**; npm asks for your second factor. From the CLI (npm 11.15.0 or later): `npm stage list @msiccdev/ai-context-kit`, then `npm stage approve <stage-id>`. A staged tag cannot be changed: for a wrong tag, `npm stage reject <stage-id>` and publish again. The `0.0.0-stage` placeholder stays listed; `latest` points to the approved version.
+
+   `npm view @msiccdev/ai-context-kit version` then prints `2.0.0`.
 3. **Trusted publisher.** On npmjs.com, open the package, then Settings, Trusted publishing, and add GitHub Actions with these values (all case-sensitive):
    - Organization or user: `MSiccDev`
    - Repository: `ai-context-kit`
    - Workflow filename: `release.yml`
    - Environment name: `npm`
+   - Allowed actions: `npm publish`, the command `release.yml` runs. With only `npm stage publish` allowed (npm's stricter recommendation), the workflow's publish is refused; that mode needs the workflow to run `npm stage publish` and you to approve each release.
 4. **Lock it down.** In the package's Settings, under Publishing access, choose "Require two-factor authentication and disallow tokens".
 5. Merge `release/2.0.0`. The workflow on `main` finds 2.0.0 on npm and publishes nothing.
 
