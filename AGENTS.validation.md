@@ -16,7 +16,7 @@
 - **Score:** 15/15
 - **Status:** PASS
 - All eleven template sections are present, in template order.
-- `<!-- spec_version: 2.0.0-beta.1 -->` is present and current.
+- `<!-- spec_version: 2.0.0 -->` is present and current.
 - Headings are scannable.
 
 ## Phase 2: Operational Contract

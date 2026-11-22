@@ -1,7 +1,7 @@
 # Quality Checklist: ack-create-user-context
 
 Before finalizing:
-- [ ] Frontmatter includes `description`, `applyTo`, and `spec_version: "2.0.0-beta.1"`.
+- [ ] Frontmatter includes `description`, `applyTo`, and `spec_version: "2.0.0"`.
 - [ ] All 15 required sections exist in correct order.
 - [ ] No unresolved placeholders remain unless user requested placeholders.
 - [ ] Privacy-sensitive fields respect user constraints.

@@ -83,7 +83,7 @@ ai-context-kit/
 │   └── context_aware_ai_session_spec.md             # Specification for AI session management
 │
 ├── templates/
-│   ├── usercontext_template.instructions.md         # Canonical v2.0.0-beta.1 user context template (authoritative)
+│   ├── usercontext_template.instructions.md         # Canonical v2.0.0 user context template (authoritative)
 │   ├── AGENTS_template.md                           # Canonical AGENTS template (authoritative)
 │   ├── openspec_config_block.yaml                   # Kit context and rules the installer adds to openspec/config.yaml
 │   └── skill_template/SKILL.md                      # Canonical skill template
@@ -125,7 +125,7 @@ All workflow logic lives in `skills/`, including the implementation loop: `ack-l
 
 ---
 
-## Canonical Authority (Spec v2.0.0-beta.1)
+## Canonical Authority (Spec v2.0.0)
 
 When guidance differs across files, use this authority order:
 
@@ -263,11 +263,11 @@ The following paths are considered **canonical**:
 - `AGENTS.md`
   - Primary agent entrypoint (repo-specific operational contract)
 - `templates/`
-  - Canonical instruction templates (spec v2.0.0-beta.1)
+  - Canonical instruction templates (spec v2.0.0)
 - `skills/`
   - Canonical workflow skills (`SKILL.md`-based folders)
 - `specs/context_aware_ai_session_spec.md`
-  - Authoritative specification (v2.0.0-beta.1)
+  - Authoritative specification (v2.0.0)
 - Root `README.md`
   - Human-facing entry point and workflow documentation
 
@@ -510,7 +510,7 @@ Each project `AGENTS.md` should define:
 - **Languages:** LLMs work best when instructions are in English, but you can include multilingual content in user context if needed (just be aware of potential comprehension issues)
 - **Versioning:** Update user context when skills/preferences evolve; update project `AGENTS.md` when phases/objectives change. Ideally, these should live in the same repository as your codebase once they are created.
 - **Discoverability:** Semantic file extensions help AI tools identify and load the appropriate instructions automatically
-- **Canonical structure:** The templates in `/templates` define the only supported artifact structures for spec v2.0.0-beta.1
+- **Canonical structure:** The templates in `/templates` define the only supported artifact structures for spec v2.0.0
 
 ---
 

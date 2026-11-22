@@ -30,7 +30,7 @@ Validate an `AGENTS.md` file in **root** or **nested** mode with one combined ru
 ## Workflow
 1. Determine the mode.
 2. Run the six phases in `references/phase-checks.md` for that mode. For phase 3 in root mode, start `ack-openspec-check`, then run `openspec list --json`; if the CLI is unavailable, check against the files under `openspec/` and say so in the report.
-3. Check for `<!-- spec_version: ... -->`: flag a WARNING if it is absent, or if it is older than `2.0.0-beta.1`.
+3. Check for `<!-- spec_version: ... -->`: flag a WARNING if it is absent, or if it is older than `2.0.0`.
 4. Score each phase with `references/scoring.md`. The phase scores must add up to the reported total; state the sum in the report.
 5. Classify findings as Critical, Warning or Enhancement. Any critical finding in `references/scoring.md` makes the status FAIL, whatever the score.
 6. Write the report described in `references/report-contract.md`, with concrete fixes.

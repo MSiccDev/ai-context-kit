@@ -1,6 +1,6 @@
 {
   "name": "@msiccdev/ai-context-kit",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0",
   "description": "Per-repository installer for AI Context Kit skills across Claude Code, Codex, GitHub Copilot and other agents",
   "license": "MIT",
   "type": "module",

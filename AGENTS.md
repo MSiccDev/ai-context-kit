@@ -1,4 +1,4 @@
-<!-- spec_version: 2.0.0-beta.1 -->
+<!-- spec_version: 2.0.0 -->
 
 # AI Context Kit Agent Guide
 
@@ -11,7 +11,7 @@ This repository distinguishes:
 
 ## Source Of Truth And Precedence
 Use this order when files differ:
-1. **Specification (authoritative, v2.0.0-beta.1):** `specs/context_aware_ai_session_spec.md`
+1. **Specification (authoritative, v2.0.0):** `specs/context_aware_ai_session_spec.md`
 2. **Templates (canonical structures):** `templates/*.instructions.md` and `templates/skill_template/SKILL.md`
 3. **Skills (canonical operational workflows, including the implementation loop):** `skills/*/SKILL.md` and skill-local references
 4. **Samples and validation artifacts (illustrative records):** `usercontexts/*.instructions.md`, related `*.validation.md`
@@ -141,7 +141,7 @@ Do not edit generated `openspec-*` skills or commands; customise through `opensp
 - Validation: skill-based validation workflows and reports
 
 ### Current Objectives
-- Keep templates and skills aligned with spec `v2.0.0-beta.1`.
+- Keep templates and skills aligned with spec `v2.0.0`.
 - Maintain the AGENTS-first project-context model.
 - Preserve deterministic behavior and path stability.
 - Reduce duplication and migration noise.
@@ -225,7 +225,7 @@ When `specs/context_aware_ai_session_spec.md` changes, audit and update all impa
 - `AGENTS.md`
 
 ## Key References
-- Specification (v2.0.0-beta.1): [`specs/context_aware_ai_session_spec.md`](specs/context_aware_ai_session_spec.md)
+- Specification (v2.0.0): [`specs/context_aware_ai_session_spec.md`](specs/context_aware_ai_session_spec.md)
 - Project operational defaults: this root `AGENTS.md` (Default State For This Repo)
 - User context template: [`templates/usercontext_template.instructions.md`](templates/usercontext_template.instructions.md)
 - Skill template: [`templates/skill_template/SKILL.md`](templates/skill_template/SKILL.md)

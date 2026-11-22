@@ -28,7 +28,7 @@ Generate a complete user-context instruction file with required sections, privac
 ## Workflow
 1. Run the discovery phases in `references/discovery-phases.md`. Done when no required field is left open.
 2. Map the findings onto the sections in `references/output-schema.md`. Done when all 15 sections have content in order.
-3. Apply the format contract in `references/output-format.md`, and stamp `spec_version: "2.0.0-beta.1"` in the YAML frontmatter.
+3. Apply the format contract in `references/output-format.md`, and stamp `spec_version: "2.0.0"` in the YAML frontmatter.
 4. If the user asks for structured metadata, add it with `references/json-metadata-schema.md`. Done when the JSON is valid and states nothing the markdown does not.
 5. Check the draft against `references/quality-checklist.md` and fix any unchecked item.
 6. Return the artifact and completion summary described in `references/output-format.md`.

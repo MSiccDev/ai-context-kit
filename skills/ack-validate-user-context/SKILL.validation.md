@@ -64,7 +64,7 @@
 ## Summary
 
 ### Strengths:
-- Checks the `spec_version` stamp against `2.0.0-beta.1`.
+- Checks the `spec_version` stamp against `2.0.0`.
 - Deterministic scoring with listed critical findings, and a phase sum that explains the total.
 
 ### Critical Issues (Must Fix):

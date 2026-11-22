@@ -1,17 +1,19 @@
 # Changelog
 
-All notable changes to AI Context Kit are documented here. This changelog helps you decide what to pull into your own instance when the template is updated.
+All notable changes to AI Context Kit are documented here.
 
 ## How to use this changelog
 
 When a new version is released:
-1. Check what changed in the version entry below
-2. Copy the files listed under **Safe to update** from the template into your instance
-3. Never overwrite files listed under **Protect** — those are your personal artifacts
+1. Check what changed in the version entry below, starting with **Breaking** and **Migration**
+2. Update each project with `npx @msiccdev/ai-context-kit@latest update`; it never overwrites files you edited and writes `<file>.ai-context-kit-new` beside them instead
+3. Entries up to 2.0.0-beta.1 describe the retired template-repository path in their **Safe to update** and **Protect** sections
 
 ---
 
 ## [Unreleased]
+
+## [2.0.0] - 2026-11-22
 
 ### Breaking
 - The minimum OpenSpec version is **2.1.0** (ADR-016, superseding ADR-002; spec section 11.6; OpenSpec change `require-openspec-2-1`). OpenSpec 2.x installs its workflows as skills (`/openspec-propose`, `$openspec-propose`) and `openspec update` removes the 1.x `/opsx:*` commands, so the kit now names only 2.x skills
@@ -73,6 +75,7 @@ When a new version is released:
   Invoke them by the new names, for example `/ai-context-kit:ack-create-user-context` in Claude Code or `$ack-drift-control` in Codex. The four AGENTS.md skills keep their names until they are merged into `ack-create-agents-md` and `ack-validate-agents-md` (ADR-009). The `prompts/skills/` wrapper files keep their names until the wrappers are removed (ADR-010)
 
 ### Changed
+- Version `2.0.0-beta.1` → `2.0.0` everywhere it is stamped or cited: the spec (status Active) and `docs/spec-rationale.md`, both templates, the sample user context and its report, the skills that stamp or check `spec_version`, `README.md`, `AGENTS.md`, the plugin manifests and the installer package. Files stamped `2.0.0-beta.1` now get the validators' outdated-stamp warning
 - Pre-release cleanup (OpenSpec change `prerelease-cleanup`): the OpenSpec telemetry opt-out (spec section 11.8) is now named in the README, `templates/AGENTS_template.md` (written by `ack-create-agents-md` 2.3.0) and `ack-openspec-check` 1.1.0, which asks about it after an install or upgrade. The README lists all five model-invoked skills, no longer counts skills, describes the installer's Codex sidecars and shows the current repository tree; `AGENTS.md` describes the kit as installed per repository
 - New ADR-019 (OpenSpec change `adr-openspec-scope`): from 2.1, OpenSpec is required where the implementation loop runs, not in every kit repository. Documentation, content and skill or prompt libraries will be able to declare "Spec-driven workflow: not used" in `AGENTS.md`; the loop skills then stop. Nothing changes in 2.0.0: OpenSpec stays mandatory
 - CI runs less often (OpenSpec change `ci-trim`): a newer push to a pull request cancels the older run; merges into `development` no longer rerun the workflows its pull request already passed (`main` still runs them); changes to the spec, ADRs, templates or `openspec/` run one Linux drift job (`installer-drift.yml`) instead of the six-job installer matrix

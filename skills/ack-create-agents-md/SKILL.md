@@ -37,7 +37,7 @@ This skill replaces `create-agents-md` and `create-project-instructions` (ADR-00
 2. Run discovery from `references/discovery-phases.md`: all eight phases in root mode; phases 1, 2, 7 and 8, scoped to the folder, in nested mode. Look up facts in the repository before asking; ask each remaining question with a recommended answer.
 3. In root mode, discovery phase 6 starts `ack-openspec-check`, then runs `openspec list --json`. An old CLI stops the skill until the user upgrades; without a CLI, read `openspec/` directly and note that in the completion summary.
 4. Build the file from `references/root-schema.md` (root) or `references/nested-schema.md` (nested). In root mode, build the command reference from `references/command-template.md` and the roles from `references/role-template.md`.
-5. Root mode: stamp `<!-- spec_version: 2.0.0-beta.1 -->` as an HTML comment at the top of the file. Nested files carry the same stamp.
+5. Root mode: stamp `<!-- spec_version: 2.0.0 -->` as an HTML comment at the top of the file. Nested files carry the same stamp.
 6. Check the result against `references/quality-checklist.md` for the chosen mode.
 7. Return the artifact and completion summary as described in `references/output-format.md`.
 

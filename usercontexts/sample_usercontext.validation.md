@@ -4,7 +4,7 @@
 
 **File:** `usercontexts/sample_usercontext.instructions.md`
 **Validated:** 2026-11-18 (re-run for OpenSpec change `sample-documentation-preferences`)
-**Spec Version:** v2.0.0-beta.1
+**Spec Version:** v2.0.0
 **Validator:** `skills/ack-validate-user-context`
 
 ---
@@ -22,7 +22,7 @@
 ### Findings
 - Valid YAML frontmatter detected.
 - Required attributes `description` and `applyTo` are present.
-- `spec_version: "2.0.0-beta.1"` is present and current — no version warning.
+- `spec_version: "2.0.0"` is present and current — no version warning.
 - No unsupported frontmatter attributes detected.
 
 ### Recommendations
@@ -86,7 +86,7 @@
 - Instruction-based architecture is explicit (WHO/WHAT/HOW) — assistant is told who Jordan Kim is, what the working constraints are, and how to behave in sessions.
 - Provider-neutral and portable wording is preserved throughout.
 - Content is complete for context-aware collaboration use across hosted, local, and API-based runtimes.
-- `spec_version: "2.0.0-beta.1"` is present in YAML frontmatter, meeting the stamping requirement introduced in spec v1.3.1.
+- `spec_version: "2.0.0"` is present in YAML frontmatter, meeting the stamping requirement introduced in spec v1.3.1.
 - Session state defaults (role, phase, output style, tone, interaction mode) are explicitly defined.
 
 ### Recommendations
@@ -123,4 +123,4 @@
 1. Re-run validation whenever the canonical usercontext template or spec version changes.
 
 ### Migration Path (when relevant)
-1. Not applicable; artifact is aligned with spec v2.0.0-beta.1. The 2.0.0-beta.1 changes (spec section 11, OpenSpec) apply to project repositories and do not change user context requirements.
+1. Not applicable; artifact is aligned with spec v2.0.0. The 2.0.0 changes (spec section 11, OpenSpec) apply to project repositories and do not change user context requirements.
