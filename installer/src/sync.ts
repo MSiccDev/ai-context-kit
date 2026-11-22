@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { codexSidecar, loadSkills, loadTemplate, packageVersion, stampProvenance } from "./bundle.js";
+import { codexSidecar, loadSkills, loadTemplate, packageVersion, stampProvenance, NOTICE_FILES, loadNotice } from "./bundle.js";
 import { MANIFEST_PATH, readManifest, serializeManifest, sha256, type Manifest, type ManifestFile } from "./manifest.js";
 import { outsideBlock, readBlock, styleFor, writeBlock, YAML } from "./markers.js";
 import { findTool, type Tool } from "./registry.js";
@@ -73,6 +73,7 @@ export function plan(tools: Tool[], version: string, root?: string): Plan {
         files.set(`${dir}/${skill.name}/agents/openai.yaml`, codexSidecar(skill));
       }
     }
+    for (const [installed, bundled] of NOTICE_FILES) files.set(`${dir}/${installed}`, loadNotice(bundled));
   }
   const blocks = new Map<string, string>();
   blocks.set("AGENTS.md", agentsBlock(tools));

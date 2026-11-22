@@ -40,7 +40,10 @@ re-rank findings across axes.
 - Every requirement and scenario in the spec deltas that this task group covers
   is implemented and has a test that would fail without it.
 - Nothing was implemented outside the change's scope.
-- A change with `skip_specs: true` has no behavior change in the diff.
+- A change with `skip_specs: true` has no behavior change in the diff, unless
+  the project's AGENTS.md sets `skip_specs: true` for every change because its
+  normative spec lives outside `openspec/specs/`. Then check the behavior
+  change against that normative spec instead.
 
 ### Standards axis: is the code sound?
 
