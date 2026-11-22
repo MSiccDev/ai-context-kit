@@ -113,6 +113,7 @@ When a new version is released:
 ### Added
 - Installer step 6, publishing (OpenSpec change `installer-release`; plan Part 3, ADR-013):
   - `.github/workflows/release.yml` publishes `@msiccdev/ai-context-kit` to npm with trusted publishing, so no npm token is stored. Every push to `main` publishes `installer/package.json`'s version if it is new: pre-releases to the `next` dist-tag, others to `latest`, with provenance. The publish job runs only on `main` in the `npm` environment; pull requests run a dry run
+  - When the version is already on npm, `verify` runs `npm pack --dry-run` instead of the publish dry run, which npm refuses for a published version
   - The first version is published by hand, because npm only accepts a trusted publisher for an existing package; `installer/RELEASING.md` has the one-time and per-release steps
   - `scripts/check-version-sync.sh` also checks `installer/package.json` and `installer/package-lock.json`
   - README: Quick Start starts with the install block (`install.md` for agents, `npx @msiccdev/ai-context-kit@latest init` for people). The template-repository section is retired; a short note tells existing template users how to move to the installer
