@@ -212,3 +212,48 @@ describe("notices next to installed skills (ADR-014)", () => {
     }
   });
 });
+
+describe("CI shape (OpenSpec change ci-trim-2)", () => {
+  const wf = (name: string) => src(`.github/workflows/${name}`);
+  const names = ["installer.yml", "installer-drift.yml", "version-sync.yml", "release.yml"];
+
+  it("runs the installer matrix as four jobs, auditing once", () => {
+    const text = wf("installer.yml");
+    const rows = [...text.matchAll(/- \{ os: ([\w-]+), node: "([\d.]+)" \}/g)].map((m) => `${m[1]}/${m[2]}`);
+    expect(rows.sort()).toEqual(["macos-latest/24", "ubuntu-latest/22.12.0", "ubuntu-latest/24", "windows-latest/24"]);
+    expect(text).not.toMatch(/^\s+os: \[/m);
+    expect(text.split("npm audit").length - 1).toBe(1);
+    expect(text).toContain("if: matrix.os == 'ubuntu-latest' && matrix.node == '24'");
+  });
+
+  it("routes skill, spec and license changes to the one-job drift workflow", () => {
+    for (const path of ['"skills/**"', '"LICENSE"', '"THIRD_PARTY_NOTICES.md"']) {
+      expect(wf("installer-drift.yml")).toContain(path);
+      expect(wf("installer.yml")).not.toContain(path);
+    }
+  });
+
+  it("runs only the release workflow on pushes to main", () => {
+    for (const name of names.filter((n) => n !== "release.yml")) expect(wf(name)).not.toMatch(/^  push:/m);
+    expect(wf("release.yml")).toMatch(/^  push:\n    branches: \[main\]/m);
+  });
+
+  it("runs version sync only for pull requests into main", () => {
+    expect(wf("version-sync.yml")).toMatch(/^  pull_request:\n(?:\s+#.*\n)*    branches: \[main\]/m);
+  });
+
+  it.each(names)("%s skips drafts and starts when a pull request is ready", (name) => {
+    const text = wf(name);
+    expect(text).toContain("types: [opened, synchronize, reopened, ready_for_review]");
+    expect(text).toContain("!github.event.pull_request.draft");
+  });
+
+  it.each(names.filter((n) => n !== "version-sync.yml"))("%s skips pull requests from main", (name) => {
+    expect(wf(name)).toContain("github.head_ref != 'main'");
+  });
+
+  it("keeps the release verify job to build and dry run", () => {
+    const verify = one(wf("release.yml"), /\n  verify:\n([\s\S]*?)\n  publish:/, "release.yml verify");
+    for (const step of ["npm test", "npm audit", "typecheck"]) expect(verify).not.toContain(step);
+  });
+});

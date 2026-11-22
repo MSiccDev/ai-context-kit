@@ -1,28 +1,37 @@
 name: Installer drift
+
+# One Linux job for changes outside the installer code: the drift tests read these
+# homes of the facts the installer depends on, and the full suite checks the
+# bundled skills, templates and licenses. Installer code runs the matrix in installer.yml.
 on:
   pull_request:
+    # Draft pull requests run nothing; CI starts when the pull request is ready.
+    types: [opened, synchronize, reopened, ready_for_review]
     paths:
-      # Homes of the facts the installer depends on; the drift tests read them.
-      # Installer, skill and license changes run the full matrix in installer.yml.
+      - "skills/**"
       - "specs/**"
       - "templates/**"
       - "docs/adr/**"
       - "openspec/**"
       - "install.md"
       - "README.md"
+      - "LICENSE"
+      - "THIRD_PARTY_NOTICES.md"
       - ".agents/skills/**"
       - ".github/workflows/installer-drift.yml"
-  push:
-    branches: [main]
   workflow_dispatch:
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  # Cancel superseded pull-request runs; every push to main is a release and runs to the end.
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
+
 jobs:
   drift:
+    # Skip drafts, and pull requests from main into development: main was tested before it merged.
+    if: github.event_name != 'pull_request' || (!github.event.pull_request.draft && github.head_ref != 'main')
     runs-on: ubuntu-latest
     defaults:
       run:
