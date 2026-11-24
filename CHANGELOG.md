@@ -14,6 +14,7 @@ When a new version is released:
 ## [Unreleased]
 
 ### Changed
+- The 2.0 adoption plan records the release and the onboarding results (OpenSpec change `close-2-0`): TwistReader and SmartMealWeek onboarded, the readiness gate checked, a full loop run in the MAUI project left for the next feature work, and the symbolic-link finding filed as MSiccDev/ai-context-kit#111
 - CI runs fewer and smaller jobs (OpenSpec change `ci-trim-2`):
   - Draft pull requests run nothing; CI starts when a pull request is marked ready.
   - Pull requests from this repository's `main` into `development` skip every workflow, because `main` was tested before it merged; a fork's `main` still runs everything.
